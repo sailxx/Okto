@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f8f8f6" />
-    <meta name="description" content="Okto — простой счётчик с настройкой цели и светлой или тёмной темой." />
+    <meta name="description" content="Okto — простой счётчик с шагом, целью и светлой или тёмной темой." />
     <title>Okto — счётчик</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,63 +15,81 @@
   <body>
     <main class="app-shell" id="home">
       <header class="topbar">
-        <a class="brand" href="#home" aria-label="Okto — на главную">
+        <a class="brand" href="#home" aria-label="Okto — главная">
           <span class="brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name">okto<span>.</span></span>
         </a>
         <div class="top-actions">
-          <button class="icon-button theme-trigger" id="themeButton" aria-label="Включить тёмную тему" title="Переключить тему">
+          <button class="icon-button" id="themeButton" aria-label="Включить тёмную тему" title="Переключить тему">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.8 8.8 0 1 0 20.2 15.2Z"/><path d="M17.5 3v5M15 5.5h5"/></svg>
           </button>
-          <button class="avatar-button" id="settingsButton" aria-label="Открыть настройки" title="Настройки">О</button>
+          <button class="avatar-button" id="settingsButton" aria-label="Настроить цель и тему" title="Настройки">О</button>
         </div>
       </header>
 
       <section class="counter-card" aria-label="Счётчик">
-        <div class="counter-card-head">
-          <span class="card-kicker">СЧЁТЧИК</span>
+        <div class="card-heading">
+          <span class="section-label">СЧЁТЧИК</span>
           <button class="settings-button" id="cardSettingsButton" aria-label="Настроить цель" title="Настроить цель">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.3 1-1.4 2.4-1.6-.6a7.9 7.9 0 0 1-1.5.9l-.3 1.7h-2.8l-.3-1.7a7.9 7.9 0 0 1-1.5-.9l-1.6.6-1.4-2.4 1.3-1a7.5 7.5 0 0 1 0-1.8l-1.3-1 1.4-2.4 1.6.6a7.9 7.9 0 0 1 1.5-.9l.3-1.7h2.8l.3 1.7a7.9 7.9 0 0 1 1.5.9l1.6-.6 1.4 2.4-1.3 1a7.5 7.5 0 0 1 0 1.8Z"/></svg>
           </button>
         </div>
 
         <div class="count-layout">
-          <button class="count-display" id="countButton" aria-label="Нажмите, чтобы увеличить счётчик">
-            <span class="count-number" id="countValue" aria-live="polite">0</span>
-          </button>
-          <div class="goal-panel">
+          <div class="count-column">
+            <button class="count-display" id="countButton" aria-label="Нажмите, чтобы увеличить счётчик">
+              <span class="count-number" id="countValue" aria-live="polite">0</span>
+            </button>
+            <div class="step-selector" role="group" aria-label="Шаг счётчика">
+              <span class="step-label">ШАГ</span>
+              <button class="step-button selected" type="button" data-step="1" aria-pressed="true">+1</button>
+              <button class="step-button" type="button" data-step="5" aria-pressed="false">+5</button>
+              <button class="step-button" type="button" data-step="10" aria-pressed="false">+10</button>
+            </div>
+          </div>
+
+          <aside class="goal-panel" aria-label="Цель и управление">
             <div class="goal-copy">
-              <span class="goal-label">ВАША ЦЕЛЬ</span>
+              <span class="goal-label">ЦЕЛЬ</span>
               <strong><span id="targetValue">75</span><small> нажатий</small></strong>
             </div>
             <div class="progress-track" id="progressTrack" role="img" aria-label="Прогресс: 0 процентов">
               <span class="progress-fill" id="progressFill"></span>
             </div>
-            <div class="progress-caption"><span id="progressPercent">0%</span><span>к цели</span></div>
+            <div class="progress-caption"><span id="progressPercent">0%</span><span>выполнено</span></div>
             <div class="control-row">
-              <button class="control-button" id="undoButton" aria-label="Уменьшить на один" title="Уменьшить на один">
+              <button class="control-button" id="undoButton" aria-label="Отменить последнее изменение" title="Отменить последнее изменение">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 0 1 0 14h-2"/></svg>
               </button>
               <button class="control-button" id="resetButton" aria-label="Сбросить счётчик" title="Сбросить счётчик">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg>
               </button>
-              <span class="control-divider"></span>
-              <button class="control-button" id="shareButton" aria-label="Поделиться" title="Поделиться счётом">
+              <span class="control-divider" aria-hidden="true"></span>
+              <button class="control-button" id="shareButton" aria-label="Поделиться счётом" title="Поделиться счётом">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.6 6.6-4.2m-6.6 7 6.6 4.2"/></svg>
               </button>
             </div>
-          </div>
+          </aside>
         </div>
       </section>
     </main>
 
     <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
       <form method="dialog" class="dialog-content" id="settingsForm">
-        <div class="dialog-heading"><span class="dialog-mark">О</span><div><p class="dialog-eyebrow">ВАШ РИТМ</p><h2 id="settingsTitle">Настройки</h2></div><button class="close-button" value="cancel" aria-label="Закрыть настройки">×</button></div>
-        <label class="setting-row" for="targetInput"><span><strong>Цель</strong><small>Сколько нажатий вы планируете</small></span><input id="targetInput" type="number" min="1" max="999999" value="75" inputmode="numeric" /></label>
-        <button class="setting-row theme-setting" id="themeSetting" type="button"><span><strong>Оформление</strong><small id="themeDescription">Светлая тема</small></span><span class="theme-pill" id="themePill">☼</span></button>
-        <p class="dialog-note"><span>✦</span> Ваш счёт и настройки остаются в этом браузере.</p>
-        <button class="save-button" value="save">Сохранить настройки <span>↗</span></button>
+        <div class="dialog-heading">
+          <span class="dialog-mark">О</span>
+          <div><p class="dialog-eyebrow">OKTO</p><h2 id="settingsTitle">Настройки</h2></div>
+          <button class="close-button" value="cancel" aria-label="Закрыть настройки">×</button>
+        </div>
+        <label class="setting-row" for="targetInput">
+          <span><strong>Цель</strong><small>Количество нажатий</small></span>
+          <input id="targetInput" type="number" min="1" max="999999" value="75" inputmode="numeric" />
+        </label>
+        <button class="setting-row theme-setting" id="themeSetting" type="button">
+          <span><strong>Оформление</strong><small id="themeDescription">Светлая тема</small></span>
+          <span class="theme-pill" id="themePill">☼</span>
+        </button>
+        <button class="save-button" value="save">Сохранить <span>↗</span></button>
       </form>
     </dialog>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
