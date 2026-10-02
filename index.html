@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f8f8f6" />
-    <meta name="description" content="Okto — красивый и простой счётчик с целями и светлой или тёмной темой." />
-    <title>Okto — счётчик для ваших целей</title>
+    <meta name="description" content="Okto — простой счётчик с настройкой цели и светлой или тёмной темой." />
+    <title>Okto — счётчик</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,16 +13,13 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="page-glow glow-one" aria-hidden="true"></div>
-    <div class="page-glow glow-two" aria-hidden="true"></div>
-    <main class="app-shell">
+    <main class="app-shell" id="home">
       <header class="topbar">
         <a class="brand" href="#home" aria-label="Okto — на главную">
           <span class="brand-mark" aria-hidden="true"><span></span></span>
           <span class="brand-name">okto<span>.</span></span>
         </a>
         <div class="top-actions">
-          <span class="saved-status"><span class="status-dot"></span> Счёт сохранён</span>
           <button class="icon-button theme-trigger" id="themeButton" aria-label="Включить тёмную тему" title="Переключить тему">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.8 8.8 0 1 0 20.2 15.2Z"/><path d="M17.5 3v5M15 5.5h5"/></svg>
           </button>
@@ -30,27 +27,9 @@
         </div>
       </header>
 
-      <section class="hero" id="home">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-star">✳</span> МАЛЕНЬКИЙ ШАГ. БОЛЬШОЙ ПРОГРЕСС.</p>
-          <h1>Считайте<br /><span>важное.</span></h1>
-          <p class="hero-description">Одно нажатие за раз. Держите фокус на цели и наблюдайте, как растёт ваш результат.</p>
-          <div class="hero-meta"><span class="meta-icon">↗</span> Просто начать — легко продолжать</div>
-        </div>
-        <div class="hero-art" aria-hidden="true">
-          <img src="assets/okto-orbit.svg" alt="" />
-          <span class="art-note note-top">маленькие победы</span>
-          <span class="art-note note-bottom">× 1</span>
-        </div>
-      </section>
-
       <section class="counter-card" aria-label="Счётчик">
-        <div class="card-glow" aria-hidden="true"></div>
         <div class="counter-card-head">
-          <div>
-            <span class="card-kicker"><span class="live-dot"></span> ВАШ СЕГОДНЯШНИЙ ПРОГРЕСС</span>
-            <p class="card-caption">Каждый шаг имеет значение</p>
-          </div>
+          <span class="card-kicker">СЧЁТЧИК</span>
           <button class="settings-button" id="cardSettingsButton" aria-label="Настроить цель" title="Настроить цель">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.3 1-1.4 2.4-1.6-.6a7.9 7.9 0 0 1-1.5.9l-.3 1.7h-2.8l-.3-1.7a7.9 7.9 0 0 1-1.5-.9l-1.6.6-1.4-2.4 1.3-1a7.5 7.5 0 0 1 0-1.8l-1.3-1 1.4-2.4 1.6.6a7.9 7.9 0 0 1 1.5-.9l.3-1.7h2.8l.3 1.7a7.9 7.9 0 0 1 1.5.9l1.6-.6 1.4 2.4-1.3 1a7.5 7.5 0 0 1 0 1.8Z"/></svg>
           </button>
@@ -59,7 +38,6 @@
         <div class="count-layout">
           <button class="count-display" id="countButton" aria-label="Нажмите, чтобы увеличить счётчик">
             <span class="count-number" id="countValue" aria-live="polite">0</span>
-            <span class="tap-hint"><span class="tap-pulse"></span> НАЖМИТЕ, ЧТОБЫ ДОБАВИТЬ ОДИН</span>
           </button>
           <div class="goal-panel">
             <div class="goal-copy">
@@ -84,16 +62,7 @@
             </div>
           </div>
         </div>
-        <div class="card-footer"><span><span class="footer-spark">✦</span> Продолжайте в своём ритме</span><span class="keyboard-hint"><kbd>Пробел</kbd> или <kbd>Enter</kbd> — считать</span></div>
       </section>
-
-      <section class="benefits" aria-label="Преимущества Okto">
-        <div class="benefit"><span class="benefit-icon icon-lilac"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></span><span><strong>Без лишнего</strong><small>Сразу к делу</small></span></div>
-        <div class="benefit"><span class="benefit-icon icon-mint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9.2 18 20 6"/></svg></span><span><strong>Цель перед глазами</strong><small>Следите за прогрессом</small></span></div>
-        <div class="benefit"><span class="benefit-icon icon-peach"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><path d="m5.6 5.6 12.8 12.8m0-12.8L5.6 18.4"/></svg></span><span><strong>Ваш стиль</strong><small>Светлая и тёмная темы</small></span></div>
-      </section>
-
-      <footer class="app-footer"><a class="footer-brand" href="#home">okto<span>.</span></a><span>Создано для маленьких побед.</span><button id="footerSettingsButton">Настройки</button></footer>
     </main>
 
     <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
