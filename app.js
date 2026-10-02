@@ -12,14 +12,16 @@
   } catch { /* Start fresh if storage is unavailable or invalid. */ }
 
   const root = document.documentElement;
+  const countButton = document.querySelector('#countButton');
   const countValue = document.querySelector('#countValue');
   const targetValue = document.querySelector('#targetValue');
-  const progressRing = document.querySelector('#progressRing');
+  const progressTrack = document.querySelector('#progressTrack');
+  const progressFill = document.querySelector('#progressFill');
   const progressPercent = document.querySelector('#progressPercent');
   const targetInput = document.querySelector('#targetInput');
   const themeDescription = document.querySelector('#themeDescription');
+  const themePill = document.querySelector('#themePill');
   const themeButton = document.querySelector('#themeButton');
-  const themeSetting = document.querySelector('#themeSetting');
   const settingsDialog = document.querySelector('#settingsDialog');
   const toast = document.querySelector('#toast');
   let toastTimer;
@@ -30,70 +32,93 @@
 
   function render() {
     root.dataset.theme = state.theme;
-    document.querySelector('meta[name="theme-color"]').content = state.theme === 'dark' ? '#09090b' : '#f7f7f8';
+    document.querySelector('meta[name="theme-color"]').content = state.theme === 'dark' ? '#0d0e11' : '#f8f8f6';
     countValue.textContent = new Intl.NumberFormat('ru-RU').format(state.count);
     targetValue.textContent = new Intl.NumberFormat('ru-RU').format(state.target);
     targetInput.value = String(state.target);
     const percent = Math.min(100, Math.round((state.count / state.target) * 100));
-    progressRing.style.setProperty('--progress', `${percent}%`);
+    progressFill.style.width = `${percent}%`;
     progressPercent.textContent = `${percent}%`;
-    progressRing.setAttribute('aria-label', `Прогресс: ${percent} процентов`);
-    const nextTheme = state.theme === 'light' ? 'dark' : 'light';
-    themeButton.setAttribute('aria-label', `Включить ${nextTheme === 'dark' ? 'тёмную' : 'светлую'} тему`);
+    progressTrack.setAttribute('aria-label', `Прогресс: ${percent} процентов`);
+    const nextTheme = state.theme === 'light' ? 'тёмную' : 'светлую';
+    themeButton.setAttribute('aria-label', `Включить ${nextTheme} тему`);
     themeDescription.textContent = state.theme === 'dark' ? 'Тёмная тема' : 'Светлая тема';
-    themeButton.querySelector('svg').innerHTML = state.theme === 'dark'
-      ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>'
-      : '<path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.8 8.8 0 1 0 20.2 15.2Z"/><path d="M17.5 3v5M15 5.5h5"/>';
+    themePill.textContent = state.theme === 'dark' ? '☾' : '☼';
   }
 
   function announce(message) {
     toast.textContent = message;
     toast.classList.add('visible');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1900);
   }
 
   function changeCount(amount) {
+    const previous = state.count;
     state.count = Math.max(0, state.count + amount);
     save();
     render();
-    if (amount > 0 && state.count === state.target) announce('Цель достигнута!');
+    if (amount > 0 && previous < state.target && state.count >= state.target) announce('Цель достигнута — отличная работа!');
   }
 
-  document.querySelector('#countButton').addEventListener('click', () => changeCount(1));
+  function openSettings() {
+    if (!settingsDialog.open) settingsDialog.showModal();
+  }
+
+  countButton.addEventListener('click', () => changeCount(1));
   document.querySelector('#undoButton').addEventListener('click', () => changeCount(-1));
   document.querySelector('#resetButton').addEventListener('click', () => {
     if (state.count === 0) return announce('Счёт уже равен нулю');
-    if (window.confirm('Сбросить счёт до нуля?')) { state.count = 0; save(); render(); announce('Счёт сброшен'); }
-  });
-  const toggleTheme = () => { state.theme = state.theme === 'light' ? 'dark' : 'light'; save(); render(); };
-  themeButton.addEventListener('click', toggleTheme);
-  themeSetting.addEventListener('click', toggleTheme);
-  document.querySelector('#settingsButton').addEventListener('click', () => settingsDialog.showModal());
-  document.querySelector('#settingsForm').addEventListener('submit', (event) => {
-    if (event.submitter?.value === 'save') {
-      const target = Number.parseInt(targetInput.value, 10);
-      if (!Number.isInteger(target) || target < 1 || target > 999999) {
-        event.preventDefault();
-        targetInput.setCustomValidity('Укажите число от 1 до 999 999');
-        targetInput.reportValidity();
-        return;
-      }
-      targetInput.setCustomValidity('');
-      state.target = target;
+    if (window.confirm('Сбросить счёт до нуля?')) {
+      state.count = 0;
       save();
       render();
+      announce('Счёт сброшен');
     }
   });
+
+  const toggleTheme = () => {
+    state.theme = state.theme === 'light' ? 'dark' : 'light';
+    save();
+    render();
+  };
+  themeButton.addEventListener('click', toggleTheme);
+  document.querySelector('#themeSetting').addEventListener('click', toggleTheme);
+  document.querySelector('#settingsButton').addEventListener('click', openSettings);
+  document.querySelector('#cardSettingsButton').addEventListener('click', openSettings);
+  document.querySelector('#footerSettingsButton').addEventListener('click', openSettings);
+
+  document.querySelector('#settingsForm').addEventListener('submit', (event) => {
+    if (event.submitter?.value !== 'save') return;
+    const target = Number.parseInt(targetInput.value, 10);
+    if (!Number.isInteger(target) || target < 1 || target > 999999) {
+      event.preventDefault();
+      targetInput.setCustomValidity('Укажите число от 1 до 999 999');
+      targetInput.reportValidity();
+      return;
+    }
+    targetInput.setCustomValidity('');
+    state.target = target;
+    save();
+    render();
+  });
   targetInput.addEventListener('input', () => targetInput.setCustomValidity(''));
-  document.querySelector('#moreButton').addEventListener('click', async () => {
-    const shareData = { title: 'Okto — счётчик', text: 'Попробуйте мой счётчик Okto!' };
+
+  document.querySelector('#shareButton').addEventListener('click', async () => {
+    const shareData = { title: 'Okto — счётчик', text: `Мой счёт в Okto: ${state.count}. Маленький шаг — большой прогресс!` };
     if (navigator.share) {
-      try { await navigator.share(shareData); } catch { /* User closed the share sheet. */ }
+      try { await navigator.share(shareData); } catch { /* The share sheet was closed. */ }
     } else if (navigator.clipboard?.writeText) {
-      try { await navigator.clipboard.writeText(`${shareData.text} Счёт: ${state.count}`); announce('Текст скопирован'); }
-      catch { announce('Поделиться можно через меню браузера'); }
-    } else announce(`Мой счёт в Okto: ${state.count}`);
+      try { await navigator.clipboard.writeText(shareData.text); announce('Текст скопирован'); }
+      catch { announce('Мой счёт в Okto: ' + state.count); }
+    } else announce('Мой счёт в Okto: ' + state.count);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code !== 'Space' && event.code !== 'Enter') return;
+    if (settingsDialog.open || event.repeat || event.target.matches('input, textarea, select, button, a')) return;
+    event.preventDefault();
+    changeCount(1);
   });
 
   render();
