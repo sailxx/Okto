@@ -86,7 +86,6 @@
   document.querySelector('#themeSetting').addEventListener('click', toggleTheme);
   document.querySelector('#settingsButton').addEventListener('click', openSettings);
   document.querySelector('#cardSettingsButton').addEventListener('click', openSettings);
-  document.querySelector('#footerSettingsButton').addEventListener('click', openSettings);
 
   document.querySelector('#settingsForm').addEventListener('submit', (event) => {
     if (event.submitter?.value !== 'save') return;
