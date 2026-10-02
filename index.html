@@ -2,12 +2,12 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#fafafa" />
-    <title>Okto — счётчик в один тап</title>
-    <meta name="description" content="Okto — минималистичный онлайн‑счётчик: тап по экрану, цель, секундомер, отмена и тёмная тема. Без регистрации, рекламы и трекеров." />
-    <meta property="og:title" content="Okto — счётчик в один тап" />
-    <meta property="og:description" content="Минималистичный счётчик в браузере: тап — плюс один. Цель, секундомер, отмена, тёмная тема. Без регистрации." />
+    <title>Okto — счётчик и Pomodoro</title>
+    <meta name="description" content="Okto — минималистичный счётчик в один тап и Pomodoro‑таймер. Теги‑заготовки с целями, темы, уведомления, русский и английский. Без регистрации и рекламы." />
+    <meta property="og:title" content="Okto — счётчик и Pomodoro" />
+    <meta property="og:description" content="Тап — плюс один. Заготовки с целями, Pomodoro, темы и уведомления. Прямо в браузере, без регистрации." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sailxx.github.io/Okto/" />
     <meta property="og:image" content="https://sailxx.github.io/Okto/assets/social-preview.png" />
@@ -19,9 +19,11 @@
     <link rel="stylesheet" href="style.css" />
     <script>
       try {
-        const s = JSON.parse(localStorage.getItem('okto-counter-v1') || '{}');
-        document.documentElement.dataset.theme = s.theme === 'dark' || s.theme === 'light'
-          ? s.theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const s = JSON.parse(localStorage.getItem('okto-v2') || localStorage.getItem('okto-counter-v1') || '{}');
+        const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+        const t = s.theme && s.theme !== 'system' ? s.theme : (dark ? 'dark' : 'light');
+        document.documentElement.dataset.theme = t;
+        if (s.mode === 'pomodoro') document.documentElement.dataset.mode = 'pomodoro';
       } catch { /* ignore */ }
     </script>
   </head>
@@ -32,64 +34,146 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/></svg>
           <span>okto</span>
         </a>
-        <button class="icon-btn" id="settingsButton" type="button" aria-label="Настройки" title="Настройки">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
-        </button>
+        <div class="top-actions">
+          <button class="icon-btn lang" id="langButton" type="button">EN</button>
+          <button class="icon-btn" id="settingsButton" type="button" data-i18n-aria="settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+          </button>
+        </div>
       </header>
 
+      <div class="modes" role="tablist">
+        <span class="modes-thumb" aria-hidden="true"></span>
+        <button type="button" role="tab" data-mode="counter" data-i18n="modeCounter">Счётчик</button>
+        <button type="button" role="tab" data-mode="pomodoro">Pomodoro</button>
+      </div>
+
       <section class="heading">
-        <button class="name" id="nameButton" type="button" aria-label="Переименовать счётчик">Счётчик</button>
-        <p class="meta" id="meta">Цель 75</p>
+        <button class="name" id="nameButton" type="button">Счётчик</button>
+        <p class="meta" id="meta"></p>
       </section>
+
+      <div class="tags" id="tags" role="listbox"></div>
 
       <main class="zone" id="zone">
         <div class="block">
-          <button class="count" id="countButton" type="button" aria-label="Прибавить 1"><span id="digits">0</span></button>
+          <button class="count" id="countButton" type="button"><span id="display">0</span></button>
           <div class="progress" aria-hidden="true"><span id="progressFill"></span></div>
           <div class="progress-line">
-            <span id="progressText">0 из 75</span>
-            <span id="progressPercent">0%</span>
+            <span id="progressText"></span>
+            <span id="progressRight"></span>
           </div>
         </div>
       </main>
 
       <footer class="bottom">
-        <p class="hint" id="hint">Тап — счёт · удержание — сброс</p>
-        <nav class="toolbar" aria-label="Управление">
-          <button class="tool" id="lockButton" type="button" aria-pressed="false" aria-label="Заблокировать счёт" title="Блокировка">
+        <p class="hint" id="hint"></p>
+
+        <div class="circles" id="counterControls">
+          <button class="circle" id="lockButton" type="button" aria-pressed="false" data-i18n-aria="lock">
             <svg class="i-open" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 6.8-1.2"/></svg>
             <svg class="i-closed" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>
           </button>
-          <button class="tool" id="undoButton" type="button" aria-label="Отменить" title="Отменить">
+          <button class="circle" id="undoButton" type="button" data-i18n-aria="undo">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
           </button>
-          <button class="tool timer" id="timerButton" type="button" aria-label="Запустить секундомер" title="Секундомер">
-            <span class="dot" aria-hidden="true"></span><span id="timerValue">00:00</span>
+          <button class="circle" id="minusButton" type="button" data-i18n-aria="minus">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg>
           </button>
-          <button class="tool text" id="stepButton" type="button" aria-label="Шаг: 1" title="Шаг">+1</button>
-          <button class="tool" id="themeButton" type="button" aria-label="Тёмная тема" title="Тема">
-            <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></svg>
-            <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+          <button class="circle text" id="stepButton" type="button">+1</button>
+          <button class="circle" id="stopwatchButton" type="button" aria-pressed="false" data-i18n-aria="stopwatch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V10M10 3h4"/></svg>
           </button>
-        </nav>
+          <button class="circle wake" type="button" aria-pressed="false" data-i18n-aria="wake">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="M10 9.5l1.5 1.5 3-3"/></svg>
+          </button>
+        </div>
+
+        <div class="circles" id="pomoControls" hidden>
+          <button class="circle" id="pomoReset" type="button" data-i18n-aria="pomoReset">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
+          </button>
+          <button class="circle big" id="pomoPlay" type="button" data-i18n-aria="start">
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13M15 5.5v13" stroke-width="3"/></svg>
+          </button>
+          <button class="circle" id="pomoSkip" type="button" data-i18n-aria="skip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5v13l9-6.5z"/><path d="M18.5 5.5v13"/></svg>
+          </button>
+          <button class="circle" id="soundButton" type="button" aria-pressed="true" data-i18n-aria="sound">
+            <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+            <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+          </button>
+          <button class="circle wake" type="button" aria-pressed="false" data-i18n-aria="wake">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="M10 9.5l1.5 1.5 3-3"/></svg>
+          </button>
+        </div>
       </footer>
     </div>
 
     <dialog class="sheet" id="settingsDialog" aria-labelledby="settingsTitle">
       <form method="dialog" id="settingsForm">
         <div class="sheet-head">
-          <h2 id="settingsTitle">Настройки</h2>
-          <button class="icon-btn" value="cancel" aria-label="Закрыть">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-          </button>
+          <h2 id="settingsTitle" data-i18n="settings">Настройки</h2>
+          <button class="icon-btn" value="cancel" data-i18n-aria="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </div>
-        <label class="field"><span>Название</span><input id="nameInput" type="text" maxlength="32" placeholder="Например, отжимания" autocomplete="off" /></label>
-        <label class="field"><span>Цель</span><input id="targetInput" type="number" min="1" max="999999" inputmode="numeric" /></label>
-        <div class="sheet-links">
-          <button class="link-btn" id="timerReset" type="button">Сбросить секундомер</button>
-          <button class="link-btn" id="shareButton" type="button">Поделиться</button>
+
+        <div class="group">
+          <span class="label" data-i18n="language">Язык</span>
+          <div class="seg" id="langSeg">
+            <button type="button" data-lang="ru">Русский</button>
+            <button type="button" data-lang="en">English</button>
+          </div>
         </div>
-        <button class="solid-btn" value="save">Готово</button>
+
+        <div class="group">
+          <span class="label" data-i18n="theme">Тема</span>
+          <div class="themes" id="themeList"></div>
+        </div>
+
+        <div class="group">
+          <span class="label" data-i18n="alerts">Оповещения</span>
+          <label class="switch"><span data-i18n="notifications">Уведомления в браузере</span><input type="checkbox" id="notifyToggle" /><i></i></label>
+          <label class="switch"><span data-i18n="soundLabel">Звук</span><input type="checkbox" id="soundToggle" /><i></i></label>
+          <label class="switch"><span data-i18n="vibration">Вибрация</span><input type="checkbox" id="vibrateToggle" /><i></i></label>
+        </div>
+
+        <div class="group">
+          <span class="label">Pomodoro</span>
+          <label class="switch"><span data-i18n="autoStart">Автозапуск следующего этапа</span><input type="checkbox" id="autoToggle" /><i></i></label>
+          <p class="sub" data-i18n="customTitle">Режим «Свой», минуты</p>
+          <div class="nums">
+            <label><span data-i18n="focus">Фокус</span><input type="number" id="cWork" min="1" max="180" inputmode="numeric" /></label>
+            <label><span data-i18n="shortBreak">Перерыв</span><input type="number" id="cShort" min="1" max="60" inputmode="numeric" /></label>
+            <label><span data-i18n="longBreak">Длинный</span><input type="number" id="cLong" min="1" max="90" inputmode="numeric" /></label>
+            <label><span data-i18n="every">Каждые</span><input type="number" id="cEvery" min="2" max="12" inputmode="numeric" /></label>
+          </div>
+        </div>
+
+        <div class="links">
+          <button class="link-btn" id="stopwatchReset" type="button" data-i18n="resetStopwatch">Сбросить секундомер</button>
+          <button class="link-btn" id="shareButton" type="button" data-i18n="share">Поделиться</button>
+        </div>
+        <button class="solid-btn" value="save" data-i18n="done">Готово</button>
+      </form>
+    </dialog>
+
+    <dialog class="sheet" id="presetDialog" aria-labelledby="presetTitle">
+      <form method="dialog" id="presetForm">
+        <div class="sheet-head">
+          <h2 id="presetTitle">Тег</h2>
+          <button class="icon-btn" value="cancel" data-i18n-aria="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        </div>
+        <label class="field"><span data-i18n="name">Название</span><input id="presetName" type="text" maxlength="24" autocomplete="off" /></label>
+        <label class="field"><span data-i18n="goal">Цель</span><input id="presetTarget" type="number" min="1" max="999999" inputmode="numeric" /></label>
+        <div class="group">
+          <span class="label" data-i18n="color">Цвет</span>
+          <div class="colors" id="colorList"></div>
+        </div>
+        <div class="row-btns">
+          <button class="line-btn danger" id="presetDelete" type="button" data-i18n="delete">Удалить</button>
+          <button class="solid-btn" value="save" data-i18n="save">Сохранить</button>
+        </div>
       </form>
     </dialog>
 
