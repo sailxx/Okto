@@ -8,6 +8,7 @@
   import Home from './screens/Home.svelte';
   import Tasks from './screens/Tasks.svelte';
   import Calendar from './screens/Calendar.svelte';
+  import Calls from './screens/Calls.svelte';
   import Focus from './screens/Focus.svelte';
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
@@ -52,14 +53,14 @@
     boot.start();
     // First launch: ask for a name once the power-on animation has played.
     if (!store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
-    // Keyboard: 1–4 switch sections, N adds a task.
+    // Keyboard: 1–5 switch sections, N adds a task.
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
-      const routes = ['home', 'tasks', 'calendar', 'focus'] as const;
+      const routes = ['home', 'tasks', 'calls', 'calendar', 'focus'] as const;
       const n = Number(e.key);
-      if (n >= 1 && n <= 4) { e.preventDefault(); router.go(routes[n - 1]); }
-      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); store.openNewTask(); }
+      if (n >= 1 && n <= 5) { e.preventDefault(); router.go(routes[n - 1]); }
+      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
     return () => { clearInterval(timer); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
@@ -72,6 +73,7 @@
   <div class="main">
     {#if router.route === 'home'}<Home />
     {:else if router.route === 'tasks'}<Tasks />
+    {:else if router.route === 'calls'}<Calls />
     {:else if router.route === 'calendar'}<Calendar />
     {:else}<Focus />{/if}
   </div>

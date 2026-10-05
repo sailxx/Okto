@@ -154,6 +154,13 @@ class Store {
     const date = p.date !== undefined ? p.date : this.device.taskFilter === 'nodate' ? null : this.today;
     this.editor = { task: newTask({ listId, ...p, date }), occurrence: null, isNew: true };
   }
+  /** A call starts at the next half hour, today, for 30 minutes. */
+  openNewCall() {
+    const next = Math.ceil((this.now.getHours() * 60 + this.now.getMinutes() + 1) / 30) * 30;
+    const date = next >= 24 * 60 ? addDays(this.today, 1) : this.today;
+    const start = `${String(Math.floor((next % 1440) / 60)).padStart(2, '0')}:${String(next % 60).padStart(2, '0')}`;
+    this.editor = { task: newTask({ listId: this.lists[0]?.id ?? '', kind: 'call', date, start, duration: 30, reminder: 5 }), occurrence: null, isNew: true };
+  }
   openTask(task: Task, occurrence: string | null = null) {
     this.editor = { task: $state.snapshot(task) as Task, occurrence: occurrence ?? task.date, isNew: false };
   }
