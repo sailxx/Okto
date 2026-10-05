@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick, untrack } from 'svelte';
   import { store } from '../lib/store.svelte';
   import { fromMin, minutesNow, toMin } from '../lib/date';
   import { fmtWeekdayShort } from '../lib/i18n';
@@ -8,17 +8,29 @@
   import { buzz } from '../lib/alerts';
   import type { Task } from '../lib/model';
 
-  let { days, tasks, onmove, onday }: {
+  let { days, tasks, onmove, onday, hour = 52 }: {
     days: string[];
+    /** px per hour: the calendar zoom. */
+    hour?: number;
     tasks: Task[];
     onmove: (inst: Instance, patch: Partial<Task>) => void;
     onday?: (key: string) => void;
   } = $props();
 
-  const H = 52; // px per hour
+  const H = $derived(hour);
   const SNAP = 15;
   let scroller: HTMLDivElement;
   let cols: HTMLDivElement[] = $state([]);
+
+  // Zooming keeps the time in the middle of the view where it was.
+  let lastH = untrack(() => hour);
+  $effect(() => {
+    const h = H;
+    if (!scroller || h === lastH) return;
+    const mid = (scroller.scrollTop + scroller.clientHeight / 2) / lastH;
+    lastH = h;
+    tick().then(() => { scroller.scrollTop = mid * h - scroller.clientHeight / 2; });
+  });
 
   const insts = $derived(instancesInRange(tasks, days[0], days[days.length - 1]));
   const timed = $derived(insts.filter((i) => i.task.start));
