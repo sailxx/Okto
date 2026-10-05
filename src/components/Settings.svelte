@@ -1,12 +1,14 @@
 <script lang="ts">
   import Sheet from './Sheet.svelte';
   import Account from './Account.svelte';
+  import ProfileSheet from './ProfileSheet.svelte';
   import { FLAGS } from './Nav.svelte';
   import { store } from '../lib/store.svelte';
   import { THEMES, type Theme, type PomoCfg } from '../lib/model';
   import { buzz, chime, notifyGranted, requestNotify, systemNotify, unlockAudio } from '../lib/alerts';
 
   let { onclose }: { onclose: () => void } = $props();
+  let profile = $state(false);
   const s = $derived(store.data.settings);
   const themes = Object.entries(THEMES) as [Theme, [string, string]][];
   const vibrateSupported = 'vibrate' in navigator;
@@ -38,6 +40,11 @@
 
 <Sheet title={store.t('settings')} {onclose}>
   <Account />
+
+  <div class="group">
+    <span class="label">{store.t('profile')}</span>
+    <button class="line-btn wide" type="button" onclick={() => (profile = true)}>{s.name || store.t('namePh')} · {store.t('editGreeting')}</button>
+  </div>
 
   <div class="group">
     <span class="label">{store.t('language')}</span>
@@ -84,3 +91,8 @@
   </div>
   <form method="dialog"><button class="solid-btn">{store.t('done')}</button></form>
 </Sheet>
+{#if profile}<ProfileSheet onclose={() => (profile = false)} />{/if}
+
+<style>
+  .wide { width: 100%; justify-items: start; padding: 0 16px; font-weight: 500; }
+</style>

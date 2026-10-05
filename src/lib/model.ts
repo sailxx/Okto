@@ -45,6 +45,8 @@ export interface Block { type: BlockType; counterId?: string }
 export interface Settings {
   id: 'main';
   lang: Lang; theme: Theme; notify: boolean; sound: boolean; vibrate: boolean;
+  /** Profile: shown on Home. Empty greeting = greet by time of day. */
+  name: string; greeting: string; onboarded: boolean;
   pomo: { preset: PomoPreset; custom: PomoCfg; autoStart: boolean };
   dashboard: Block[];
   hiddenLists: string[];
@@ -169,6 +171,7 @@ const normPomoCfg = (c: any, def: PomoCfg): PomoCfg => ({
 export function defaultSettings(lang: Lang): Settings {
   return {
     id: 'main', lang, theme: 'system', notify: false, sound: true, vibrate: true,
+    name: '', greeting: '', onboarded: false,
     pomo: { preset: 'classic', custom: { ...POMO.classic }, autoStart: true },
     dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], updatedAt: 0,
   };
@@ -187,6 +190,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
     lang: raw.lang === 'ru' || raw.lang === 'en' ? raw.lang : d.lang,
     theme: raw.theme in THEMES ? raw.theme : d.theme,
     notify: raw.notify === true, sound: raw.sound !== false, vibrate: raw.vibrate !== false,
+    name: str(raw.name, 40).trim(), greeting: str(raw.greeting, 80).trim(), onboarded: raw.onboarded === true,
     pomo: {
       preset: ['classic', 'short', 'deep', 'custom'].includes(p.preset) ? p.preset : 'classic',
       custom: normPomoCfg(p.custom, POMO.classic),

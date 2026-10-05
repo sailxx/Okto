@@ -6,11 +6,11 @@
 :root {
   color-scheme: light;
   /* casing */
-  --bg: #e9e9e7; --ink: #161616; --muted: #5a5a57; --line: #d0d0cd; --soft: #dededb;
+  --bg: #ffffff; --ink: #141414; --muted: #5f5f5c; --line: #e4e4e1; --soft: #f3f3f1;
   /* keys */
-  --key: #f7f7f5; --key-ink: #161616; --key-edge: #bababa; --key-hi: rgb(255 255 255 / 90%);
+  --key: #ffffff; --key-ink: #141414; --key-edge: #cfcfcc; --key-hi: rgb(255 255 255 / 100%);
   /* display well */
-  --well: #d5d5d2; --well-ink: #121212; --well-dim: #4d4d4a; --well-ghost: rgb(0 0 0 / 7%); --well-edge: rgb(0 0 0 / 22%);
+  --well: #f1f1ef; --well-ink: #111111; --well-dim: #5a5a57; --well-ghost: rgb(0 0 0 / 6%); --well-edge: rgb(0 0 0 / 13%);
   /* signals: the primary key is ink on casing; red only for alarms */
   --primary: var(--ink); --on-primary: var(--bg);
   --red: #d33a3f;
@@ -301,3 +301,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Pomodoro: the running time reads in red, like an alarm clock display. */
+[data-mode='pomodoro'] .count { color: var(--red); }
+[data-mode='pomodoro'] .progress span.on { background: var(--red); }
