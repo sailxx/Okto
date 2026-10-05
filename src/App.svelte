@@ -12,6 +12,7 @@
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
   import { unlockAudio } from './lib/alerts';
+  import { boot } from './lib/boot.svelte';
   import './styles/shell.css';
 
   let settingsOpen = $state(false);
@@ -46,12 +47,23 @@
     if (!store.storageOk) store.toast(store.t('storageFail'));
     store.tick();
     sync.start();
-    return () => { clearInterval(timer); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); };
+    boot.start();
+    // Keyboard: 1–4 switch sections, N adds a task.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+      if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
+      const routes = ['home', 'tasks', 'calendar', 'focus'] as const;
+      const n = Number(e.key);
+      if (n >= 1 && n <= 4) { e.preventDefault(); router.go(routes[n - 1]); }
+      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); store.openNewTask(); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => { clearInterval(timer); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
   });
 
 </script>
 
-<div class="shell">
+<div class="shell" class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
     {#if router.route === 'home'}<Home />

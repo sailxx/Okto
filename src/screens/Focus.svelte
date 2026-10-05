@@ -2,6 +2,7 @@
   import { onMount, tick } from 'svelte';
   import Icon from '../components/Icon.svelte';
   import CounterEditor from '../components/CounterEditor.svelte';
+  import Digits from '../components/Digits.svelte';
   import { store } from '../lib/store.svelte';
   import { POMO, STEPS, type Counter, type PomoPreset } from '../lib/model';
   import { buzz, unlockAudio } from '../lib/alerts';
@@ -245,13 +246,13 @@
     oncontextmenu={(e) => e.preventDefault()}
     onclick={click}
   >
-    <div class="block">
+    <div class="block well" style:--accent={isPomo ? undefined : counter.color}>
       <button class="count" class:tick={tickAnim} type="button" bind:this={countEl}
         aria-label={isPomo ? `${store.t('phase')[phase]} ${display}` : `${counterName(counter)}: ${counter.count}`}>
-        <span>{display}</span>
+        <Digits text={display} />
       </button>
       <div class="progress" aria-hidden="true">
-        <span style:width="{isPomo ? Math.min(100, Math.max(0, (1 - left / total) * 100)) : percent}%"></span>
+        {#each Array(24) as _, s}<span class:on={s < Math.round((isPomo ? Math.min(1, Math.max(0, 1 - left / total)) : Math.min(1, counter.count / counter.target)) * 24)}></span>{/each}
       </div>
       <div class="progress-line">
         {#if isPomo}
@@ -342,5 +343,5 @@
   .ltitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .linked button { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); }
   .linked button:hover { background: var(--soft); color: var(--ink); }
-  .sound[aria-pressed='true'] { background: none; color: inherit; }
+  .circle.sound[aria-pressed='true'] { --k-bg: var(--key); --k-ink: var(--key-ink); transform: none; box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%); }
 </style>

@@ -65,7 +65,7 @@ const ru = {
   streakDays: (n: number) => `${plural(n, 'день', 'дня', 'дней')} подряд`,
   nothingNext: 'Ничего не запланировано', hm: (h: number, m: number) => (h ? `${h} ч ${m} м` : `${m} мин`),
   last7: 'За 7 дней', last30: (v: string) => `За 30 дней: ${v}`, allAdded: 'Все блоки уже на главной',
-  tasksDone: 'выполнено задач', focusMin: 'минут фокуса',
+  tasksDone: 'выполнено задач', focusMin: 'минут фокуса', plan: 'план',
   // account
   account: 'Аккаунт', signIn: 'Войти через Google', signOut: 'Выйти',
   syncOff: 'Синхронизация не настроена — данные хранятся на этом устройстве',
@@ -126,7 +126,7 @@ const en: typeof ru = {
   streakDays: (n) => `${n === 1 ? 'day' : 'days'} in a row`,
   nothingNext: 'Nothing scheduled', hm: (h, m) => (h ? `${h} h ${m} m` : `${m} min`),
   last7: 'Last 7 days', last30: (v) => `Last 30 days: ${v}`, allAdded: 'All blocks are already on Home',
-  tasksDone: 'tasks completed', focusMin: 'focus minutes',
+  tasksDone: 'tasks completed', focusMin: 'focus minutes', plan: 'plan',
   account: 'Account', signIn: 'Sign in with Google', signOut: 'Sign out',
   syncOff: 'Sync is not configured — data stays on this device',
   syncSignedOut: 'Sign in to sync your phone and computer',

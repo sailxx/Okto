@@ -64,13 +64,13 @@
     text-align: left;
   }
   .compact .cell { min-height: 52px; }
-  .num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .out .num { color: var(--muted); opacity: .5; }
   .today .num { color: var(--accent); font-weight: 700; }
   .sel .num { background: var(--ink); color: var(--bg); font-weight: 600; opacity: 1; }
   .today.sel .num { background: var(--accent); color: var(--on-accent); }
   .dots { display: flex; gap: 3px; height: 6px; }
-  .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+  .dots i { width: 6px; height: 6px; border-radius: 2px; background: var(--c); }
   .dots i.done { opacity: .35; }
 
   .mg:not(.compact) .cell { align-items: stretch; padding: 6px 4px; border-left: 1px solid var(--line); min-height: 110px; }
@@ -84,7 +84,7 @@
     display: flex; align-items: center; gap: 5px; min-width: 0;
     font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .ln::before { content: ''; flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+  .ln::before { content: ''; flex: 0 0 auto; width: 7px; height: 7px; border-radius: 2px; background: var(--c); }
   .ln em { font-style: normal; color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
   .ln.done { opacity: .45; text-decoration: line-through; }
   .more { color: var(--muted); font-size: 12px; font-weight: 600; padding-left: 12px; }

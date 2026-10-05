@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-05T12:00:00Z",
+  "title": "Design System: Okto",
+  "extensions": {
+    "colorMeta": {
+      "ochre": { "role": "primary", "displayName": "ET66 Ochre", "canonical": "#d39a12", "tonalRamp": ["oklch(25% 0.06 78)", "oklch(35% 0.09 78)", "oklch(46% 0.12 78)", "oklch(58% 0.14 78)", "oklch(72% 0.15 78)", "oklch(80% 0.13 80)", "oklch(88% 0.09 82)", "oklch(95% 0.04 85)"] },
+      "on-ochre": { "role": "primary", "displayName": "Ochre Ink", "canonical": "#1b1608" },
+      "hp-blue": { "role": "secondary", "displayName": "HP Blue", "canonical": "#2c64c8", "tonalRamp": ["oklch(22% 0.08 262)", "oklch(32% 0.12 262)", "oklch(43% 0.15 262)", "oklch(53% 0.17 262)", "oklch(64% 0.15 262)", "oklch(74% 0.11 262)", "oklch(85% 0.07 262)", "oklch(95% 0.025 262)"] },
+      "signal-red": { "role": "tertiary", "displayName": "Signal Red", "canonical": "#d93a3f", "tonalRamp": ["oklch(25% 0.09 22)", "oklch(35% 0.13 22)", "oklch(47% 0.17 22)", "oklch(59% 0.19 22)", "oklch(68% 0.16 22)", "oklch(77% 0.11 22)", "oklch(87% 0.06 22)", "oklch(95% 0.025 22)"] },
+      "casing": { "role": "neutral", "displayName": "Casing", "canonical": "#e8e7e1", "tonalRamp": ["oklch(18% 0.006 105)", "oklch(28% 0.006 105)", "oklch(40% 0.007 105)", "oklch(52% 0.007 105)", "oklch(65% 0.007 105)", "oklch(78% 0.007 105)", "oklch(88% 0.007 105)", "oklch(95% 0.006 105)"] },
+      "casing-soft": { "role": "neutral", "displayName": "Casing Soft", "canonical": "#dddcd5" },
+      "casing-line": { "role": "neutral", "displayName": "Casing Line", "canonical": "#d0cec6" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1b1c19" },
+      "muted": { "role": "neutral", "displayName": "Muted", "canonical": "#5a5b54" },
+      "key": { "role": "neutral", "displayName": "Key Face", "canonical": "#f5f4ef" },
+      "key-edge": { "role": "neutral", "displayName": "Key Edge", "canonical": "#bdbbb2" },
+      "well": { "role": "neutral", "displayName": "Display Well", "canonical": "#d3d8c8", "tonalRamp": ["oklch(18% 0.02 125)", "oklch(28% 0.02 125)", "oklch(40% 0.02 125)", "oklch(52% 0.02 125)", "oklch(65% 0.02 125)", "oklch(77% 0.02 125)", "oklch(87% 0.02 125)", "oklch(95% 0.012 125)"] },
+      "well-ink": { "role": "neutral", "displayName": "Well Ink", "canonical": "#1d2318" },
+      "well-dim": { "role": "neutral", "displayName": "Well Dim", "canonical": "#4c5443" }
+    },
+    "themes": {
+      "note": "Frontmatter colours are the Light theme. 'System' follows prefers-color-scheme between Light and Dark. Omitted signal colours inherit Light.",
+      "tokens": ["--bg", "--ink", "--muted", "--line", "--soft", "--key", "--key-ink", "--key-edge", "--key-hi", "--well", "--well-ink", "--well-dim", "--well-ghost", "--well-edge", "--ochre", "--blue", "--red"],
+      "light": { "--bg": "#e8e7e1", "--ink": "#1b1c19", "--muted": "#5a5b54", "--line": "#d0cec6", "--soft": "#dddcd5", "--key": "#f5f4ef", "--key-edge": "#bdbbb2", "--key-hi": "rgb(255 255 255 / 85%)", "--well": "#d3d8c8", "--well-ink": "#1d2318", "--well-dim": "#4c5443", "--well-ghost": "rgb(29 35 24 / 7%)", "--well-edge": "rgb(0 0 0 / 22%)", "--ochre": "#d39a12", "--blue": "#2c64c8", "--red": "#d93a3f" },
+      "dark": { "--bg": "#171815", "--ink": "#ecebe4", "--muted": "#8f9088", "--line": "#2b2c28", "--soft": "#20211d", "--key": "#262723", "--key-edge": "#0b0b0a", "--key-hi": "rgb(255 255 255 / 7%)", "--well": "#0c0d0b", "--well-ink": "#efe9d8", "--well-dim": "#8a8577", "--well-ghost": "rgb(239 233 216 / 6%)", "--well-edge": "rgb(0 0 0 / 60%)", "--ochre": "#e3a823", "--blue": "#5b8ef0", "--red": "#ef5a5f" },
+      "paper": { "--bg": "#e9e2d1", "--ink": "#2a251b", "--muted": "#645a49", "--line": "#d6ccb6", "--soft": "#dfd6c2", "--key": "#f6f0e1", "--key-edge": "#c2b69c", "--key-hi": "rgb(255 255 255 / 80%)", "--well": "#2b2820", "--well-ink": "#f1e6c8", "--well-dim": "#a69b80", "--well-ghost": "rgb(241 230 200 / 7%)", "--well-edge": "rgb(0 0 0 / 45%)", "--ochre": "#c98d0c" },
+      "mint": { "--bg": "#e1eae3", "--ink": "#14241a", "--muted": "#4a5f52", "--line": "#c9d8cd", "--soft": "#d6e2d9", "--key": "#f1f6f2", "--key-edge": "#b2c4b6", "--key-hi": "rgb(255 255 255 / 80%)", "--well": "#cbd9c4", "--well-ink": "#142313", "--well-dim": "#415539", "--well-ghost": "rgb(20 35 19 / 8%)", "--well-edge": "rgb(0 0 0 / 20%)" },
+      "midnight": { "--bg": "#0f141d", "--ink": "#e2e7f0", "--muted": "#8590a6", "--line": "#212a39", "--soft": "#161d29", "--key": "#1b2331", "--key-edge": "#060a10", "--key-hi": "rgb(255 255 255 / 6%)", "--well": "#070a0f", "--well-ink": "#dfe7f5", "--well-dim": "#7a879c", "--well-ghost": "rgb(223 231 245 / 6%)", "--well-edge": "rgb(0 0 0 / 65%)", "--ochre": "#e7ad2b", "--blue": "#6a9cf5", "--red": "#f0646a" },
+      "oled": { "--bg": "#000", "--ink": "#f4f4f4", "--muted": "#8d8d8d", "--line": "#1d1d1d", "--soft": "#0d0d0d", "--key": "#111", "--key-edge": "#000", "--key-hi": "rgb(255 255 255 / 9%)", "--well": "#000", "--well-ink": "#fff", "--well-dim": "#8d8d8d", "--well-ghost": "rgb(255 255 255 / 6%)", "--well-edge": "#262626", "--ochre": "#f0b429", "--blue": "#6a9cf5", "--red": "#ff5a5f" },
+      "pomodoroMode": { "--accent": "var(--red)", "--on-accent": "#fff" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Focus counter / timer inside the display well; right-aligned, tabular." },
+      "readout": { "displayName": "Readout", "purpose": "Value in each Home display well; wide wells use clamp(44px, 13vw, 72px)." },
+      "headline": { "displayName": "Headline", "purpose": "One page title per screen, Golos Text." },
+      "title": { "displayName": "Title", "purpose": "Sheet headings." },
+      "body": { "displayName": "Body", "purpose": "All prose and task titles (16.5px/500)." },
+      "label": { "displayName": "Silk-screen Legend", "purpose": "Uppercase mono labels naming a field or reading." },
+      "key-legend": { "displayName": "Key Legend", "purpose": "Uppercase mono text printed on tabs, segmented strips, text keys." }
+    },
+    "shadows": [
+      { "name": "key-raised", "value": "inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%)", "purpose": "Every key at rest; selected chip, active segment, mode thumb." },
+      { "name": "key-pressed", "value": "inset 0 1px 2px rgb(0 0 0 / 18%)", "purpose": "Active, latched and current-tab keys, paired with translateY(1px)." },
+      { "name": "well-recess", "value": "inset 0 2px 3px var(--well-edge), inset 0 0 0 1px var(--well-edge), 0 1px 0 var(--key-hi)", "purpose": "Display wells, inputs, switch tracks." },
+      { "name": "primary-key-drop", "value": "inset 0 1px 0 rgb(255 255 255 / 35%), 0 2px 0 color-mix(in srgb, var(--ochre) 55%, #000), 0 10px 22px -8px rgb(0 0 0 / 45%)", "purpose": "FAB only." },
+      { "name": "sheet-lift", "value": "inset 0 1px 0 var(--key-hi), 0 0 0 1px var(--line), 0 30px 60px -20px rgb(0 0 0 / 45%)", "purpose": "Dialogs / bottom sheets." },
+      { "name": "led-halo", "value": "0 0 0 3px color-mix(in srgb, var(--ochre) 22%, transparent)", "purpose": "Lit LED dots (power LED, selected chip LED with item colour)." }
+    ],
+    "motion": [
+      { "name": "ease-instrument", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "Key press, mode thumb, sheet entry, screen settle." },
+      { "name": "key-press", "value": "90ms", "purpose": "Key sink/raise transform and shadow." },
+      { "name": "boot-sequence", "value": "off 0-90ms, test 90-420ms, settle 420-1150ms, on", "purpose": "Power-on self-test every launch; digits settle 70ms apart, wells stagger 90ms; skipped under reduced motion." },
+      { "name": "display-tick", "value": "140ms ease-out", "purpose": "Count increment dim." },
+      { "name": "paused-blink", "value": "1.1s steps(1) infinite", "purpose": "Live digits while timer paused." },
+      { "name": "sheet-in", "value": "260ms, translateY(18px) + fade", "purpose": "Dialog entry." },
+      { "name": "focus-dim", "value": "600ms to opacity .3-.35", "purpose": "Chrome dims while Pomodoro runs." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "max-width: 380px" },
+      { "name": "bottom-sheet", "value": "max-width: 560px" },
+      { "name": "short", "value": "max-height: 700px" },
+      { "name": "desktop", "value": "min-width: 900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Key",
+      "kind": "button",
+      "refersTo": "key-primary",
+      "description": "The single ochre '=' key per view; full width in sheets.",
+      "html": "<button class=\"ds-key ds-key-primary\">Save</button>",
+      "css": ".ds-key { display: inline-grid; place-items: center; height: 50px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--key, #f5f4ef); color: var(--key-ink, #1b1c19); font-family: 'Golos Text', system-ui, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1px 0 var(--key-edge, #bdbbb2), 0 2px 3px -1px rgb(0 0 0 / 22%); transition: transform 90ms cubic-bezier(.16,1,.3,1), box-shadow 90ms cubic-bezier(.16,1,.3,1); } .ds-key-primary { width: 100%; background: var(--ochre, #d39a12); color: var(--on-ochre, #1b1608); } .ds-key:hover { filter: brightness(1.04); } .ds-key:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-key:active { transform: translateY(1px); box-shadow: inset 0 1px 2px rgb(0 0 0 / 18%); }"
+    },
+    {
+      "name": "Secondary Key",
+      "kind": "button",
+      "refersTo": "key",
+      "description": "Key-face button for secondary actions; danger variant swaps legend to red.",
+      "html": "<button class=\"ds-key2\">Cancel</button> <button class=\"ds-key2 ds-key2-danger\">Delete</button>",
+      "css": ".ds-key2 { display: inline-grid; place-items: center; height: 50px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--key, #f5f4ef); color: var(--key-ink, #1b1c19); font-family: 'Golos Text', system-ui, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1px 0 var(--key-edge, #bdbbb2), 0 2px 3px -1px rgb(0 0 0 / 22%); transition: transform 90ms cubic-bezier(.16,1,.3,1), background-color 150ms ease; } .ds-key2:hover { background: color-mix(in srgb, var(--key, #f5f4ef) 90%, var(--ink, #1b1c19)); } .ds-key2:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-key2:active { transform: translateY(1px); box-shadow: inset 0 1px 2px rgb(0 0 0 / 18%); } .ds-key2-danger { color: var(--red, #d93a3f); }"
+    },
+    {
+      "name": "Display Well",
+      "kind": "card",
+      "refersTo": "display-well",
+      "description": "Recessed LCD window: legend row, ghost-8 readout, segment meter.",
+      "html": "<div class=\"ds-well\"><div class=\"ds-legend\"><span>TASKS</span><span>PLAN 4:30/8:00</span></div><div class=\"ds-read\"><span class=\"ds-ghost\">88/88</span><span class=\"ds-live\">03/07</span></div><div class=\"ds-segs\"><i class=\"on\"></i><i class=\"on\"></i><i class=\"on\"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>",
+      "css": ".ds-well { width: 280px; min-height: 136px; padding: 14px; display: flex; flex-direction: column; gap: 10px; border-radius: 8px; background: var(--well, #d3d8c8); color: var(--well-ink, #1d2318); box-shadow: inset 0 2px 3px rgb(0 0 0 / 22%), inset 0 0 0 1px rgb(0 0 0 / 22%), 0 1px 0 rgb(255 255 255 / 85%); } .ds-legend { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--well-dim, #4c5443); } .ds-read { position: relative; margin-top: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: .95; } .ds-ghost { color: rgb(29 35 24 / 7%); } .ds-live { position: absolute; inset: 0; } .ds-segs { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; height: 10px; } .ds-segs i { border-radius: 1.5px; background: rgb(29 35 24 / 7%); } .ds-segs i.on { background: var(--ochre, #d39a12); }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Input as a small display well with a silk-screen legend.",
+      "html": "<label class=\"ds-field\"><span>TITLE</span><input placeholder=\"Task name\"></label>",
+      "css": ".ds-field { display: block; width: 280px; } .ds-field span { display: block; margin: 0 0 8px 2px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: .12em; color: var(--muted, #5a5b54); } .ds-field input { width: 100%; height: 48px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--well, #d3d8c8); color: var(--well-ink, #1d2318); caret-color: var(--ochre, #d39a12); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 17px; font-weight: 500; box-shadow: inset 0 2px 3px rgb(0 0 0 / 22%), inset 0 0 0 1px rgb(0 0 0 / 22%); } .ds-field input::placeholder { color: var(--well-dim, #4c5443); opacity: .8; } .ds-field input:focus { outline: none; box-shadow: inset 0 2px 3px rgb(0 0 0 / 22%), inset 0 0 0 2px var(--ochre, #d39a12); }"
+    },
+    {
+      "name": "LED Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Small key with a square LED in the item colour; selected = raised key, lit LED.",
+      "html": "<button class=\"ds-chip\" style=\"--c:#2c64c8\">Work <small>12</small></button> <button class=\"ds-chip\" aria-pressed=\"true\" style=\"--c:#d39a12\">Reps <small>40</small></button>",
+      "css": ".ds-chip { --c: var(--muted, #5a5b54); display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px 0 10px; border: 0; border-radius: 8px; background: transparent; color: var(--ink, #1b1c19); box-shadow: inset 0 0 0 1px var(--line, #d0cec6); font-family: 'Golos Text', system-ui, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 150ms ease, box-shadow 150ms ease; } .ds-chip::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--c); opacity: .55; } .ds-chip small { font-family: 'JetBrains Mono', ui-monospace, monospace; color: var(--muted, #5a5b54); font-size: 12px; } .ds-chip:hover { background: var(--soft, #dddcd5); } .ds-chip:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-chip[aria-pressed='true'] { background: var(--key, #f5f4ef); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1px 0 var(--key-edge, #bdbbb2), 0 2px 3px -1px rgb(0 0 0 / 20%); } .ds-chip[aria-pressed='true']::before { opacity: 1; box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent); }"
+    },
+    {
+      "name": "Key-row Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-key",
+      "description": "Phone navigation: four keys; current key pressed in with an ochre LED.",
+      "html": "<nav class=\"ds-tabbar\"><a class=\"ds-tab\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"4\" y=\"13\" width=\"16\" height=\"7\" rx=\"1.5\"/></svg>Home</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 7h14M5 12h14M5 17h9\"/></svg>Tasks</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"15\" rx=\"2\"/><path d=\"M4 10h16M9 3v4M15 3v4\"/></svg>Calendar</a><a class=\"ds-tab\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"13\" r=\"7\"/><path d=\"M12 9v4l2 2M10 3h4\"/></svg>Focus</a></nav>",
+      "css": ".ds-tabbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px 12px; width: 360px; background: var(--soft, #dddcd5); box-shadow: inset 0 1px 0 var(--line, #d0cec6); } .ds-tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 56px; border-radius: 10px; background: var(--key, #f5f4ef); color: var(--muted, #5a5b54); cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1px 0 var(--key-edge, #bdbbb2), 0 2px 3px -1px rgb(0 0 0 / 18%); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; transition: transform 90ms cubic-bezier(.16,1,.3,1), color 150ms ease; } .ds-tab svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; } .ds-tab:hover { color: var(--ink, #1b1c19); } .ds-tab:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-tab:active { transform: translateY(1px); } .ds-tab[aria-current='page'] { color: var(--ink, #1b1c19); transform: translateY(1px); box-shadow: inset 0 1px 3px rgb(0 0 0 / 18%); background: color-mix(in srgb, var(--key, #f5f4ef) 80%, var(--soft, #dddcd5)); } .ds-tab[aria-current='page']::after { content: ''; position: absolute; top: 7px; right: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ochre, #d39a12); }"
+    },
+    {
+      "name": "FAB Key",
+      "kind": "button",
+      "refersTo": "fab",
+      "description": "Phone primary action: 60px ochre key with a hard 2px drop.",
+      "html": "<button class=\"ds-fab\" aria-label=\"New task\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 5v14M5 12h14\"/></svg></button>",
+      "css": ".ds-fab { width: 60px; height: 60px; border: 0; border-radius: 14px; display: grid; place-items: center; cursor: pointer; background: var(--ochre, #d39a12); color: var(--on-ochre, #1b1608); box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 2px 0 color-mix(in srgb, var(--ochre, #d39a12) 55%, #000), 0 10px 22px -8px rgb(0 0 0 / 45%); transition: transform 90ms cubic-bezier(.16,1,.3,1), box-shadow 90ms cubic-bezier(.16,1,.3,1); } .ds-fab svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; } .ds-fab:hover { filter: brightness(1.06); } .ds-fab:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-fab:active { transform: translateY(2px); box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 0 0 transparent; }"
+    },
+    {
+      "name": "Mode Switch",
+      "kind": "custom",
+      "refersTo": "key",
+      "description": "Recessed two-way strip with a sliding raised thumb and an accent LED.",
+      "html": "<div class=\"ds-modes\" style=\"--i:0\"><span class=\"ds-thumb\"></span><button aria-selected=\"true\">Counter</button><button>Pomodoro</button></div>",
+      "css": ".ds-modes { position: relative; display: grid; grid-template-columns: 1fr 1fr; width: 320px; padding: 4px; border-radius: 12px; background: var(--soft, #dddcd5); box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%); } .ds-thumb { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 8px; background: var(--key, #f5f4ef); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1px 0 var(--key-edge, #bdbbb2), 0 2px 3px -1px rgb(0 0 0 / 20%); transform: translateX(calc(100% * var(--i))); transition: transform 260ms cubic-bezier(.16,1,.3,1); } .ds-modes button { position: relative; height: 40px; border: 0; background: none; border-radius: 8px; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted, #5a5b54); transition: color 200ms ease; } .ds-modes button:hover { color: var(--ink, #1b1c19); } .ds-modes button:focus-visible { outline: 2px solid var(--ochre, #d39a12); outline-offset: 3px; } .ds-modes button[aria-selected='true'] { color: var(--ink, #1b1c19); } .ds-modes button[aria-selected='true']::after { content: ''; position: absolute; top: 8px; right: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--ochre, #d39a12); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ochre, #d39a12) 25%, transparent); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Pocket Instrument",
+    "overview": "Okto is an engineering calculator in the Braun ET66 / HP-15C lineage, used as a planner. The page background is the instrument's casing. Every metric lives in a recessed display well, set in tabular JetBrains Mono with unlit \"8\" segments behind the live digits. Every control is a key: a rounded rectangle with a hairline top highlight and a 1px drop that sinks 1px when pressed. Prose (greetings, task titles, sheet headings) is set in Golos Text, so the instrument stays readable and never turns into a terminal costume.\n\nIt is built for Operate mode: many short visits a day, one-handed on a phone. Density is moderate and the shell never moves. Colour does orientation work. Ochre marks the one action you are meant to press, blue is the second data series, and red is the alarm. Motion follows the instrument's own behaviour: the power-on self-test at launch, the key press, and the display tick. It is not decorative.\n\nThe system rejects both the soft-card productivity app and hacker neon / terminal styling. Depth comes from physical metaphor (raised keys, sunken wells), not from floating cards.",
+    "keyCharacteristics": [
+      "Casing ground, raised keys, recessed display wells: three material layers, each with its own tokens.",
+      "JetBrains Mono for every numeral and every silk-screen legend; Golos Text for every sentence.",
+      "A single ochre primary action per view; red is reserved for alarm and Pomodoro states.",
+      "Ghost \"8\" segments behind live numerals; power-on self-test on every launch (about 1.1 s, skipped under reduced motion).",
+      "Seven themes re-tint the casing, keys and well without changing the structure."
+    ],
+    "rules": [
+      { "name": "The One Ochre Key Rule", "body": "Each view has at most one ochre key face (FAB on phone, \"new\" key in the desktop sidebar, or the sheet's full-width primary key). Elsewhere, ochre appears only as an LED dot, caret, focus ring or selection.", "section": "colors" },
+      { "name": "The Alarm Rule", "body": "Red means time pressure or loss: Pomodoro, overdue, now, over capacity, delete, error. Never use it for emphasis or decoration.", "section": "colors" },
+      { "name": "The Theme Contract Rule", "body": "New surfaces may only use the shared theme tokens. Never hard-code a hex in a component, so all seven themes keep working.", "section": "colors" },
+      { "name": "The Numerals Are Mono Rule", "body": "Every number a user reads (time, count, date, task number, duration) is set in JetBrains Mono with tabular figures. Sentences never are.", "section": "typography" },
+      { "name": "The Legend Is Printed Rule", "body": "Uppercase letter-spaced mono is a legend printed on the casing or a key. It names the thing under or beside it, and it is never a headline or a decorative kicker.", "section": "typography" },
+      { "name": "The Three Planes Rule", "body": "Every element is casing, key, or well. If it is pressable it is a key, and if it shows a reading it is a well. Nothing sits on an in-between \"card\" plane.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put every reading inside a display well and render its numerals through the Digits component, so they get ghost segments and the power-on test.",
+      "Do make every pressable control a key: raised shadow at rest, a 1px sink on press with the cubic-bezier(.16, 1, .3, 1) ease over 90ms.",
+      "Do keep one ochre key face per view and show state with LED dots (5-9px) rather than fills.",
+      "Do use HP blue for the second data series in any new chart or meter before reaching for another hue.",
+      "Do set every number in JetBrains Mono with tabular figures and every sentence in Golos Text.",
+      "Do define new colours as theme tokens in all seven themes, and check Paper, where the well is dark on a light body.",
+      "Do keep entry motion at about one second and reduce it to nothing under prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't introduce soft floating cards, glassmorphism, or ambient-shadow tiles. Readings are recessed, not lifted.",
+      "Don't use green-on-black, scanlines, glow, or a terminal prompt aesthetic. This is a calculator, not a console.",
+      "Don't use red for emphasis, branding, or decoration. It means Pomodoro, overdue, now, over capacity, delete, or error.",
+      "Don't use uppercase mono for headlines, section intros, or kickers. Legends name a control or reading and nothing else.",
+      "Don't use pill shapes or circular buttons. Circles are reserved for LEDs.",
+      "Don't hard-code hex values in components. They break the theme contract."
+    ]
+  }
+}

@@ -66,6 +66,8 @@ class Store {
     return def ? { ...l, name: def.name } : l;
   }));
   sessions = $derived(live(this.data.sessions));
+  /** Catalog numbers: every task keeps its creation order, like a factory catalog. */
+  taskNo = $derived(new Map(Object.values(this.data.tasks).sort((a, b) => a.createdAt - b.createdAt || a.id.localeCompare(b.id)).map((t, i) => [t.id, i + 1])));
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
 
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
