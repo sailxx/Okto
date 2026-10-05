@@ -1,6 +1,6 @@
-@font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('assets/fonts/Inter-Medium.woff') format('woff'); }
-@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('assets/fonts/Inter-SemiBold.woff') format('woff'); }
-@font-face { font-family: 'Inter Display'; font-weight: 700; font-display: swap; src: url('assets/fonts/InterDisplay-Bold.woff') format('woff'); }
+@font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('/assets/fonts/Inter-Medium.woff') format('woff'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('/assets/fonts/Inter-SemiBold.woff') format('woff'); }
+@font-face { font-family: 'Inter Display'; font-weight: 700; font-display: swap; src: url('/assets/fonts/InterDisplay-Bold.woff') format('woff'); }
 
 /* ---------- Themes ---------- */
 :root {
