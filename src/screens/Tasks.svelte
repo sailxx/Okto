@@ -14,7 +14,9 @@
   let listEdit = $state<{ id: string | null } | null>(null);
   const filter = $derived(store.device.taskFilter);
   const setFilter = (f: string) => store.setDevice({ taskFilter: f });
-  const stats = $derived(dayTaskStats(store.tasks, store.today));
+  // Calls have their own section.
+  const all = $derived(store.tasks.filter((t) => t.kind !== 'call'));
+  const stats = $derived(dayTaskStats(all, store.today));
 
   const byTime = (a: Instance, b: Instance) => {
     const da = isDoneOn(a.task, a.date) ? 1 : 0, db = isDoneOn(b.task, b.date) ? 1 : 0;
@@ -50,7 +52,7 @@
   }
 
   const groups = $derived.by((): Group[] => {
-    const tasks = store.tasks;
+    const tasks = all;
     const today = store.today;
     if (filter === 'today') {
       const late = overdue(tasks, today);

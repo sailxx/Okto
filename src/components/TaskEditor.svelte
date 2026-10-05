@@ -7,7 +7,7 @@
   import { router } from '../lib/router.svelte';
   import { addDays, monthStart, toMin, fromMin } from '../lib/date';
   import { relDay } from '../lib/i18n';
-  import { COLORS, DURATIONS, PRIORITY_COLORS, REMINDERS, uid, type Freq, type Task } from '../lib/model';
+  import { COLORS, DURATIONS, PRIORITY_COLORS, REMINDERS, normLink, uid, type Freq, type Task } from '../lib/model';
 
   const ed = untrack(() => store.editor!);
   const original = $state.snapshot(ed.task) as Task;
@@ -19,6 +19,8 @@
   let month = $state(monthStart(draft.date ?? store.today));
   let titleEl: HTMLTextAreaElement;
   let newSub = $state('');
+  let linkText = $state(draft.link);
+  const isCall = $derived(draft.kind === 'call');
 
   const close = () => { store.editor = null; };
   const toggle = (p: Panel) => { panel = panel === p ? null : p; };
@@ -48,7 +50,7 @@
   }
 
   /* ---------- save / delete ---------- */
-  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'color', 'date', 'start', 'duration', 'subtasks', 'repeat', 'reminder'];
+  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'color', 'kind', 'link', 'date', 'start', 'duration', 'subtasks', 'repeat', 'reminder'];
   function patch(): Partial<Task> {
     const out: Partial<Task> = {};
     const base = { ...original, date: ed.occurrence ?? original.date };
@@ -59,6 +61,8 @@
 
   function save(): string | null {
     draft.title = draft.title.trim();
+    draft.link = normLink(linkText);
+    if (linkText.trim() && !draft.link) { store.toast(store.t('badLink')); return null; }
     if (!draft.title) { titleEl?.focus(); store.toast(store.t('titleRequired')); return null; }
     if (ed.isNew) { store.saveTask(draft); return draft.id; }
     const p = patch();
@@ -87,7 +91,7 @@
   }
 </script>
 
-<Sheet title={ed.isNew ? store.t('newTask') : store.t('task')} onclose={close}>
+<Sheet title={ed.isNew ? store.t(isCall ? 'newCall' : 'newTask') : store.t(isCall ? 'call' : 'task')} onclose={close}>
   {#snippet head()}
     <button class="icon-btn" type="button" aria-label={store.t('focusOn')} title={store.t('focusOn')} onclick={focusOnTask}><Icon name="tomato" /></button>
   {/snippet}
@@ -102,8 +106,14 @@
       ></textarea>
     </div>
     <textarea class="note" rows="2" maxlength="4000" placeholder={store.t('note')} bind:value={draft.note}></textarea>
+    {#if isCall}
+      <label class="field link-field"><span>{store.t('link')}</span>
+        <input type="url" inputmode="url" maxlength="500" autocomplete="off" placeholder={store.t('linkPh')} bind:value={linkText} />
+      </label>
+    {/if}
 
     <div class="chips">
+      <button type="button" class="chip" class:set={isCall} aria-pressed={isCall} onclick={() => { draft.kind = isCall ? 'task' : 'call'; if (draft.kind === 'call' && !draft.date) draft.date = store.today; }}><Icon name="call" size={18} />{store.t('call')}</button>
       <button type="button" class="chip" class:on={panel === 'date'} class:set={draft.date} onclick={() => toggle('date')}><Icon name="calendar" size={18} />{dateLabel}</button>
       <button type="button" class="chip" class:on={panel === 'time'} class:set={draft.start} onclick={() => toggle('time')}><Icon name="clock" size={18} />{timeLabel}</button>
       <button type="button" class="chip" class:on={panel === 'repeat'} class:set={draft.repeat} onclick={() => toggle('repeat')}><Icon name="repeat" size={18} />{repeatLabel}</button>
@@ -253,6 +263,7 @@
   .chip :global(svg) { stroke-width: 2; }
   .chip.set[style] :global(svg) { color: var(--p); }
   .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+  .link-field { margin: 0; }
   .task-colors { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .tc { width: 34px; height: 34px; border-radius: 10px; background: var(--c); box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 1px 0 rgb(0 0 0 / 25%); }
   .tc[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--c); }

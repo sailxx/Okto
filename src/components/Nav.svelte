@@ -12,9 +12,10 @@
 
   let { onSettings }: { onSettings: () => void } = $props();
 
-  const items: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalendar' | 'navFocus' }[] = [
+  const items: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navFocus' }[] = [
     { route: 'home', icon: 'home', label: 'navHome' },
     { route: 'tasks', icon: 'tasks', label: 'navTasks' },
+    { route: 'calls', icon: 'call', label: 'navCalls' },
     { route: 'calendar', icon: 'calendar', label: 'navCalendar' },
     { route: 'focus', icon: 'focus', label: 'navFocus' },
   ];
@@ -56,7 +57,7 @@
   {/each}
 </nav>
 
-<!-- Home stays clean; Tasks has its own add button. -->
+<!-- Home stays clean; Tasks and Calls have their own add buttons. -->
 {#if router.route === 'calendar'}
   <button class="fab" type="button" aria-label={store.t('newTask')} onclick={() => store.openNewTask()}><Icon name="plus" /></button>
 {/if}

@@ -11,8 +11,10 @@ export function plural(n: number, one: string, few: string, many: string) {
 
 const ru = {
   // navigation
-  navHome: 'Главная', navTasks: 'Задачи', navCalendar: 'Календарь', navFocus: 'Фокус',
-  newTask: 'Новая задача', settings: 'Настройки', close: 'Закрыть',
+  navHome: 'Главная', navTasks: 'Задачи', navCalls: 'Созвоны', navCalendar: 'Календарь', navFocus: 'Фокус',
+  newTask: 'Новая задача', newCall: 'Новый созвон', call: 'Созвон', calls: 'Созвоны', join: 'Подключиться', link: 'Ссылка на встречу', linkPh: 'meet.google.com/…', noLink: 'Без ссылки', badLink: 'Не похоже на ссылку',
+  callNow: 'Идёт сейчас', callNext: 'Следующий', callsToday: (n: number) => `Сегодня ${n} ${plural(n, 'созвон', 'созвона', 'созвонов')}`, callIn: (m: number) => (m < 60 ? `через ${m} мин` : `через ${Math.floor(m / 60)} ч ${m % 60 ? `${m % 60} мин` : ''}`.trim()),
+  callsPast: 'Прошедшие', callsEmpty: 'Созвонов нет', callsEmptyHint: 'Добавьте встречу — она появится и в календаре.', callLeft: (m: number) => `ещё ${m} мин`, settings: 'Настройки', close: 'Закрыть',
   // focus (from Okto 1.0)
   modeCounter: 'Счётчик', counter: 'Счётчик',
   lock: 'Блокировка', unlock: 'Снять блокировку', undo: 'Отменить', minus: 'Минус шаг', stopwatch: 'Секундомер',
@@ -79,8 +81,10 @@ const ru = {
 };
 
 const en: typeof ru = {
-  navHome: 'Home', navTasks: 'Tasks', navCalendar: 'Calendar', navFocus: 'Focus',
-  newTask: 'New task', settings: 'Settings', close: 'Close',
+  navHome: 'Home', navTasks: 'Tasks', navCalls: 'Calls', navCalendar: 'Calendar', navFocus: 'Focus',
+  newTask: 'New task', newCall: 'New call', call: 'Call', calls: 'Calls', join: 'Join', link: 'Meeting link', linkPh: 'meet.google.com/…', noLink: 'No link', badLink: 'Not a valid link',
+  callNow: 'Happening now', callNext: 'Next up', callsToday: (n) => `${n} ${n === 1 ? 'call' : 'calls'} today`, callIn: (m) => (m < 60 ? `in ${m} min` : `in ${Math.floor(m / 60)} h ${m % 60 ? `${m % 60} min` : ''}`.trim()),
+  callsPast: 'Past', callsEmpty: 'No calls', callsEmptyHint: 'Add a meeting — it shows up in the calendar too.', callLeft: (m) => `${m} min left`, settings: 'Settings', close: 'Close',
   modeCounter: 'Counter', counter: 'Counter',
   lock: 'Lock', unlock: 'Unlock', undo: 'Undo', minus: 'Minus step', stopwatch: 'Stopwatch',
   wake: 'Keep screen on', pomoReset: 'Reset phase', start: 'Start', pause: 'Pause', skip: 'Skip phase', sound: 'Sound',

@@ -1,5 +1,5 @@
-export type Route = 'home' | 'tasks' | 'calendar' | 'focus';
-const ROUTES: Route[] = ['home', 'tasks', 'calendar', 'focus'];
+export type Route = 'home' | 'tasks' | 'calls' | 'calendar' | 'focus';
+const ROUTES: Route[] = ['home', 'tasks', 'calls', 'calendar', 'focus'];
 
 const parse = (): Route => {
   const r = location.hash.replace(/^#\/?/, '') as Route;

@@ -20,6 +20,9 @@ export interface Task {
   priority: 0 | 1 | 2 | 3;
   /** Own colour; null = the list's colour. */
   color: string | null;
+  /** A call lives in its own section and carries a meeting link. */
+  kind: 'task' | 'call';
+  link: string;
   date: string | null;
   start: string | null;
   duration: number;
@@ -114,6 +117,14 @@ const ts = (v: unknown, def = 0) => int(v, 0, Number.MAX_SAFE_INTEGER, def);
 const keys = (v: unknown) => (Array.isArray(v) ? [...new Set(v.filter(isKey))] : []);
 const id = (v: unknown) => (typeof v === 'string' && v ? v.slice(0, 40) : uid());
 
+/** Meeting links: http(s) only, so a stored link can never run script. A bare host gets https://. */
+export function normLink(v: unknown): string {
+  const s = str(v, 500).trim();
+  if (!s) return '';
+  const url = /^[a-z][a-z0-9+.-]*:/i.test(s) ? s : `https://${s}`;
+  try { const u = new URL(url); return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : ''; } catch { return ''; }
+}
+
 /* ================= Factories / normalizers ================= */
 export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
   const r = p as Record<string, any>;
@@ -128,6 +139,8 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
     listId: str(r.listId, 40),
     priority: int(r.priority, 0, 3, 0) as Task['priority'],
     color: COLORS.includes(r.color) ? r.color : null,
+    kind: r.kind === 'call' ? 'call' : 'task',
+    link: normLink(r.link),
     date: r.date === null ? null : isKey(r.date) ? r.date : null,
     start: isHm(r.start) ? r.start : null,
     duration: int(r.duration, 5, 24 * 60, 30),
