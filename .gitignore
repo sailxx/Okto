@@ -9,3 +9,4 @@ dist/
 .impeccable/detect.json
 .impeccable/decision-direction.json
 .impeccable/brief-body.md
+tools/readme/.font/
