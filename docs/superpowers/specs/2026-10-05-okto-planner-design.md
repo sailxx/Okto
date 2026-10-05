@@ -63,6 +63,7 @@ Task {
   repeat: null | { freq: 'day'|'weekday'|'week'|'month', interval: number, until: string|null },
   reminder: number|null,      // минут до начала
   done: boolean,              // для обычных
+  doneAt: number|null,        // когда выполнена (для статистики)
   doneDates: string[],        // для повторяющихся
   skipDates: string[],        // исключённые дни серии
   focusMinutes: number,
