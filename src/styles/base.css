@@ -103,7 +103,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .tag::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
 .tag small { color: var(--muted); font-size: 13px; font-weight: 500; }
 .tag:hover { border-color: var(--muted); }
-.tag[aria-selected='true'] { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); }
+.tag[aria-selected='true'], .tag[aria-pressed='true'] { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); }
 .tag.add { padding: 0 14px; color: var(--muted); }
 .tag.add::before { display: none; }
 

@@ -2,7 +2,7 @@ import { addDays, toKey, toMin, fromKey } from './date';
 import { DICT, weekStartOf, type Key } from './i18n';
 import { migrateLegacy } from './migrate';
 import {
-  defaultData, defaultDevice, live, newCounter, newList, newSession, newTask, normData, normDevice, POMO,
+  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newSession, newTask, normData, normDevice, POMO,
   type Collection, type Counter, type Data, type Device, type Lang, type List, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
@@ -59,13 +59,17 @@ class Store {
   today = $derived(toKey(this.now));
   weekStart = $derived(weekStartOf(this.data.settings.lang));
   tasks = $derived(live(this.data.tasks));
-  lists = $derived(live(this.data.lists).sort((a, b) => a.order - b.order));
+  // Untouched default lists follow the interface language.
+  lists = $derived(live(this.data.lists).sort((a, b) => a.order - b.order).map((l) => {
+    const def = l.updatedAt === 0 ? defaultLists(this.data.settings.lang).find((d) => d.id === l.id) : undefined;
+    return def ? { ...l, name: def.name } : l;
+  }));
   sessions = $derived(live(this.data.sessions));
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
 
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
 
-  listOf(task: Task): List | undefined { return this.data.lists[task.listId] ?? this.lists[0]; }
+  listOf(task: Task): List | undefined { return this.lists.find((l) => l.id === task.listId) ?? this.lists[0]; }
   colorOf(task: Task) { return this.listOf(task)?.color ?? '#0090ff'; }
 
   /* ---------- persistence ---------- */

@@ -38,7 +38,7 @@ const ru = {
   stepLabel: (s: number) => `Шаг: ${s}`, invalidGoal: 'Укажите число от 1 до 999 999', min: 'мин',
   focusOn: 'Фокус на задаче', unlinkTask: 'Отвязать задачу',
   // tasks
-  tasks: 'Задачи', todayOf: (a: number, b: number) => `Сегодня ${a} из ${b}`,
+  task: 'Задача', tasks: 'Задачи', todayOf: (a: number, b: number) => `Сегодня ${a} из ${b}`,
   fToday: 'Сегодня', fUpcoming: 'Предстоящие', fAll: 'Все', fNoDate: 'Без даты', fDone: 'Выполненные',
   addList: 'Список', newList: 'Новый список', editList: 'Список', overdue: 'Просрочено',
   emptyToday: 'На сегодня всё', emptyHint: 'Нажмите +, чтобы добавить задачу', emptyList: 'Здесь пока пусто',
@@ -101,7 +101,7 @@ const en: typeof ru = {
   notifyOn: 'Notifications on', wakeOn: 'Screen will stay on', wakeOff: 'Screen may turn off', wakeFail: 'Could not keep the screen on',
   stepLabel: (s) => `Step: ${s}`, invalidGoal: 'Enter a number from 1 to 999,999', min: 'min',
   focusOn: 'Focus on task', unlinkTask: 'Unlink task',
-  tasks: 'Tasks', todayOf: (a, b) => `Today ${a} of ${b}`,
+  task: 'Task', tasks: 'Tasks', todayOf: (a, b) => `Today ${a} of ${b}`,
   fToday: 'Today', fUpcoming: 'Upcoming', fAll: 'All', fNoDate: 'No date', fDone: 'Completed',
   addList: 'List', newList: 'New list', editList: 'List', overdue: 'Overdue',
   emptyToday: 'All done for today', emptyHint: 'Tap + to add a task', emptyList: 'Nothing here yet',
