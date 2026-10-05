@@ -3,3 +3,4 @@ dist/
 .env.local
 .superpowers/
 .vite/
+tools/readme/.font/
