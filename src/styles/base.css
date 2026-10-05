@@ -1,6 +1,6 @@
-@font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('assets/fonts/Inter-Medium.woff') format('woff'); }
-@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('assets/fonts/Inter-SemiBold.woff') format('woff'); }
-@font-face { font-family: 'Inter Display'; font-weight: 700; font-display: swap; src: url('assets/fonts/InterDisplay-Bold.woff') format('woff'); }
+@font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('/assets/fonts/Inter-Medium.woff') format('woff'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('/assets/fonts/Inter-SemiBold.woff') format('woff'); }
+@font-face { font-family: 'Inter Display'; font-weight: 700; font-display: swap; src: url('/assets/fonts/InterDisplay-Bold.woff') format('woff'); }
 
 /* ---------- Themes ---------- */
 :root {
@@ -36,16 +36,17 @@ button { -webkit-tap-highlight-color: transparent; cursor: pointer; background: 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.app {
+/* Page column: the Okto 1.0 `.app` container, now one per screen. */
+.page {
   width: min(100% - 40px, 560px);
-  min-height: 100svh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding: max(20px, env(safe-area-inset-top)) 0 max(20px, env(safe-area-inset-bottom));
-  user-select: none;
-  -webkit-user-select: none;
+  padding-bottom: 24px;
 }
+.page.wide { width: min(100% - 40px, 760px); }
+.page.full { width: calc(100% - 40px); max-width: none; }
+.focus-page { min-height: calc(100svh - var(--chrome, 0px)); user-select: none; -webkit-user-select: none; padding-bottom: 20px; }
 
 /* ---------- Top ---------- */
 .top { display: flex; justify-content: space-between; align-items: center; height: 44px; }
@@ -102,7 +103,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .tag::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
 .tag small { color: var(--muted); font-size: 13px; font-weight: 500; }
 .tag:hover { border-color: var(--muted); }
-.tag[aria-selected='true'] { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); }
+.tag[aria-selected='true'], .tag[aria-pressed='true'] { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); }
 .tag.add { padding: 0 14px; color: var(--muted); }
 .tag.add::before { display: none; }
 

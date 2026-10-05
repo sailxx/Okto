@@ -1,7 +1,7 @@
 {
-  "name": "Okto — счётчик и Pomodoro",
+  "name": "Okto — планер, задачи и фокус",
   "short_name": "Okto",
-  "description": "Минималистичный счётчик в один тап и Pomodoro-таймер. Без регистрации.",
+  "description": "Минималистичный планер: задачи, календарь, Pomodoro и счётчик. Бесплатно и без рекламы.",
   "lang": "ru",
   "start_url": "./",
   "scope": "./",
@@ -12,5 +12,10 @@
     { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Задачи", "url": "./#/tasks" },
+    { "name": "Календарь", "url": "./#/calendar" },
+    { "name": "Фокус", "url": "./#/focus" }
   ]
 }

@@ -1,0 +1,104 @@
+/* ---------- Shell: mobile header + tab bar, desktop sidebar ---------- */
+:root { --tabbar: 64px; --side: 232px; }
+.shell { min-height: 100svh; }
+.main { min-width: 0; }
+
+.mobile-top {
+  position: sticky; top: 0; z-index: 3;
+  display: flex; justify-content: space-between; align-items: center;
+  width: min(100% - 40px, 760px); margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 0 6px;
+  background: var(--bg);
+  transition: background-color 300ms ease;
+}
+[data-mode='pomodoro'] .mobile-top { background: color-mix(in srgb, var(--bg) 93%, var(--red)); }
+
+.tabbar {
+  position: fixed; z-index: 4; left: 0; right: 0; bottom: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  height: calc(var(--tabbar) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.6) blur(16px); -webkit-backdrop-filter: saturate(1.6) blur(16px);
+  border-top: 1px solid var(--line);
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .01em;
+  transition: color 150ms ease;
+}
+.tab svg { width: 24px; height: 24px; }
+.tab[aria-current='page'] { color: var(--ink); }
+.tab[aria-current='page'] svg { stroke-width: 2.2; }
+.main { padding-bottom: calc(var(--tabbar) + env(safe-area-inset-bottom)); }
+:root { --chrome: calc(66px + var(--tabbar) + env(safe-area-inset-bottom) + env(safe-area-inset-top)); }
+
+.fab {
+  position: fixed; z-index: 4;
+  right: max(20px, calc((100% - 760px) / 2));
+  bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 16px);
+  width: 60px; height: 60px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--ink); color: var(--bg);
+  box-shadow: 0 10px 24px -8px rgb(0 0 0 / 40%);
+  transition: transform 120ms ease;
+}
+.fab:active { transform: scale(.93); }
+.fab svg { width: 28px; height: 28px; stroke-width: 2.2; }
+
+.side { display: none; }
+
+@media (min-width: 900px) {
+  .shell { display: grid; grid-template-columns: var(--side) 1fr; }
+  .mobile-top, .tabbar, .fab { display: none; }
+  .main { padding-bottom: 0; }
+  :root { --chrome: 0px; }
+  .side {
+    position: sticky; top: 0; height: 100svh;
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 24px 14px 20px;
+    border-right: 1px solid var(--line);
+  }
+  .side .brand { padding: 0 10px; height: 44px; margin-bottom: 18px; }
+  .side-link {
+    display: flex; align-items: center; gap: 12px;
+    height: 44px; padding: 0 12px; border-radius: 12px;
+    color: var(--muted); font-size: 15px; font-weight: 600; text-align: left;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+  .side-link:hover { background: var(--soft); color: var(--ink); }
+  .side-link[aria-current='page'] { background: var(--soft); color: var(--ink); }
+  .side-new { margin-top: 14px; height: 46px; border-radius: 99px; background: var(--ink); color: var(--bg); display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+  .side-new svg { width: 20px; height: 20px; stroke-width: 2.2; }
+  .side-foot { margin-top: auto; display: flex; gap: 4px; align-items: center; }
+  .page { padding-top: 28px; }
+}
+
+/* ---------- Shared page heading ---------- */
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-top: 14px; }
+.page-title { margin: 0; font-family: 'Inter Display', 'Inter', sans-serif; font-size: clamp(30px, 8vw, 40px); font-weight: 700; letter-spacing: -.035em; line-height: 1.1; }
+.page-sub { margin: 6px 0 0; color: var(--muted); font-size: 16px; font-weight: 500; }
+.text-btn { height: 36px; padding: 0 14px; border-radius: 99px; color: var(--ink); font-size: 15px; font-weight: 600; transition: background-color 150ms ease; }
+.text-btn:hover { background: var(--soft); }
+.text-btn.accent { color: var(--accent); }
+
+/* Toast with an action */
+.toast { display: flex; align-items: center; gap: 14px; pointer-events: none; }
+.toast.visible { pointer-events: auto; }
+.toast button { color: inherit; opacity: .7; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 899px) {
+  .toast { top: auto; bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 90px); }
+}
+
+/* Sheets: bottom sheet on phones */
+@media (max-width: 560px) {
+  .sheet { margin: auto auto 0; width: 100%; max-width: 100%; border-radius: 24px 24px 0 0; padding-bottom: max(22px, env(safe-area-inset-bottom)); max-height: 92svh; }
+}
+.sheet { overflow-y: auto; }
+.sheet[open] { animation: sheet-in 220ms cubic-bezier(.2,.8,.2,1); }
+@keyframes sheet-in { from { transform: translateY(16px); opacity: 0; } }
+
+textarea { font: inherit; color: inherit; }
+.empty { padding: 56px 0; text-align: center; }
+.empty .hint { margin-bottom: 8px; }
+.empty p { margin: 0; color: var(--muted); font-size: 15px; }
