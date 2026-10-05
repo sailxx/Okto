@@ -75,6 +75,9 @@ export interface Device {
   focusTask: string | null;
   calView: 'day' | 'week' | 'month' | null;
   taskFilter: string;
+  /** Calendar: hour-height step and the full-screen view. */
+  calZoom: number;
+  calExpanded: boolean;
 }
 
 /* ================= Constants ================= */
@@ -99,6 +102,8 @@ export const POMO: Record<Exclude<PomoPreset, 'custom'>, PomoCfg> = {
   deep: { work: 50, short: 10, long: 30, every: 2 },
 };
 export const STEPS = [1, 5, 10];
+/** Calendar hour heights, px. */
+export const CAL_ZOOM = [36, 52, 72, 100, 140];
 export const PRIORITY_COLORS = ['var(--ink)', '#0090ff', '#f76b15', '#e5484d'];
 export const REMINDERS = [0, 5, 15, 30, 60, 1440];
 export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
@@ -274,7 +279,7 @@ export function defaultDevice(): Device {
     focusMode: 'counter', activeCounter: null, locked: false,
     stopwatch: { elapsed: 0, startedAt: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today',
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false,
   };
 }
 
@@ -296,6 +301,8 @@ export function normDevice(raw: unknown): Device {
     focusTask: typeof raw.focusTask === 'string' ? raw.focusTask : null,
     calView: ['day', 'week', 'month'].includes(raw.calView) ? raw.calView : null,
     taskFilter: typeof raw.taskFilter === 'string' ? raw.taskFilter : 'today',
+    calZoom: int(raw.calZoom, 0, CAL_ZOOM.length - 1, 1),
+    calExpanded: raw.calExpanded === true,
   };
 }
 

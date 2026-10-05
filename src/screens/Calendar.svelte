@@ -10,7 +10,7 @@
   import { addDays, addMonths, monthStart, startOfWeek, toMin } from '../lib/date';
   import { fmtLongDay, fmtMonth, fmtWeekdayNarrow } from '../lib/i18n';
   import { instancesInRange, isDoneOn, type Instance } from '../lib/recurrence';
-  import type { Task } from '../lib/model';
+  import { CAL_ZOOM, type Task } from '../lib/model';
 
   type View = 'day' | 'week' | 'month';
   const mq = matchMedia('(min-width: 900px)');
@@ -19,6 +19,34 @@
     const on = () => { desktop = mq.matches; };
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
+  });
+
+  /* ---------- size: hour zoom and the full-screen view ---------- */
+  const zoom = $derived(store.device.calZoom);
+  const expanded = $derived(store.device.calExpanded);
+  const setZoom = (z: number) => store.setDevice({ calZoom: Math.max(0, Math.min(CAL_ZOOM.length - 1, z)) });
+  const toggleExpanded = () => store.setDevice({ calExpanded: !expanded });
+  let bodyEl = $state<HTMLDivElement>();
+  // Ctrl/⌘ + wheel (and trackpad pinch, which arrives as ctrl+wheel) zooms the hours.
+  $effect(() => {
+    if (!bodyEl) return;
+    let acc = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (!(e.ctrlKey || e.metaKey) || view === 'month') return;
+      e.preventDefault();
+      acc += e.deltaY;
+      if (Math.abs(acc) < 40) return;
+      setZoom(store.device.calZoom + (acc < 0 ? 1 : -1));
+      acc = 0;
+    };
+    bodyEl.addEventListener('wheel', onWheel, { passive: false });
+    return () => bodyEl!.removeEventListener('wheel', onWheel);
+  });
+  $effect(() => {
+    if (!expanded) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) store.setDevice({ calExpanded: false }); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   });
 
   const view = $derived<View>(store.device.calView ?? (desktop ? 'week' : 'month'));
@@ -84,8 +112,8 @@
   }
 </script>
 
-<div class="page full cal" class:desktop>
-  {#if desktop}
+<div class="page full cal" class:desktop class:expanded>
+  {#if desktop && !expanded}
     <aside class="cal-side">
       <MiniMonth value={cursor} bind:month={miniMonth} onpick={(k) => { cursor = k; }} />
       <div class="lists">
@@ -104,6 +132,13 @@
     <header class="cal-head">
       <h1 class="page-title">{fmtMonth(store.lang, titleKey)} <span>{titleKey.slice(0, 4)}</span></h1>
       <div class="nav">
+        {#if view !== 'month'}
+          <span class="zoom">
+            <button type="button" class="icon-btn" aria-label={store.t('zoomOut')} title={store.t('zoomOut')} disabled={zoom === 0} onclick={() => setZoom(zoom - 1)}><Icon name="zoomOut" size={20} /></button>
+            <button type="button" class="icon-btn" aria-label={store.t('zoomIn')} title={store.t('zoomIn')} disabled={zoom === CAL_ZOOM.length - 1} onclick={() => setZoom(zoom + 1)}><Icon name="zoomIn" size={20} /></button>
+          </span>
+        {/if}
+        <button type="button" class="icon-btn" aria-pressed={expanded} aria-label={store.t(expanded ? 'collapse' : 'expand')} title={store.t(expanded ? 'collapse' : 'expand')} onclick={toggleExpanded}><Icon name={expanded ? 'shrink' : 'expand'} size={20} /></button>
         <button type="button" class="text-btn" onclick={goToday}>{store.t('today')}</button>
         <button type="button" class="icon-btn" aria-label={store.t('prev')} onclick={() => step(-1)}><Icon name="left" /></button>
         <button type="button" class="icon-btn" aria-label={store.t('nextP')} onclick={() => step(1)}><Icon name="right" /></button>
@@ -116,7 +151,7 @@
       {/each}
     </div>
 
-    <div class="cal-body" onpointerdown={tDown} onpointerup={tUp} onpointercancel={() => (swiping = false)} role="presentation">
+    <div class="cal-body" bind:this={bodyEl} onpointerdown={tDown} onpointerup={tUp} onpointercancel={() => (swiping = false)} role="presentation">
       {#if view === 'month'}
         <MonthGrid month={cursor} tasks={visible} selected={cursor} compact={!desktop} onpick={pickMonthDay} />
         {#if !desktop}
@@ -140,7 +175,7 @@
           </div>
         {/if}
         {#key days.join()}
-          <TimeGrid {days} tasks={visible} {onmove} onday={openDay} />
+          <TimeGrid {days} tasks={visible} {onmove} onday={openDay} hour={CAL_ZOOM[zoom]} />
         {/key}
       {/if}
     </div>
@@ -162,6 +197,12 @@
   .cal-head .page-title { font-size: clamp(26px, 7vw, 40px); white-space: nowrap; }
   .page-title span { color: var(--muted); }
   .nav { display: flex; align-items: center; }
+  .zoom { display: inline-flex; margin-right: 4px; padding-right: 4px; border-right: 1px solid var(--line); }
+  .nav .icon-btn:disabled { opacity: .35; cursor: default; background: none; }
+  .nav .icon-btn[aria-pressed='true'] { background: var(--soft); }
+  .cal.desktop.expanded { padding-top: 16px; }
+  .cal.desktop.expanded .cal-main { height: calc(100svh - 16px); }
+  @media (max-width: 420px) { .cal-head .page-title span { display: none; } }
   .views { margin: 12px 0 10px; }
   .views { grid-template-columns: repeat(3, 1fr); }
   .cal-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }

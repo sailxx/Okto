@@ -136,3 +136,9 @@ textarea { font: inherit; color: inherit; }
 [data-boot='off'] .main { opacity: 0; transform: translateY(6px); }
 .main { transition: opacity 420ms var(--ease), transform 520ms var(--ease); }
 .shell.focusing .focus-page .modes, .shell.focusing .focus-page .tags, .shell.focusing .focus-page .heading, .shell.focusing .focus-page .linked, .shell.focusing .focus-page .hint { opacity: .3; transition: opacity 600ms var(--ease); }
+
+/* Calendar expanded: the calendar takes the whole window, chrome steps aside. */
+.shell.cal-full { grid-template-columns: 1fr; --chrome: 0px; }
+.shell.cal-full .side, .shell.cal-full .tabbar, .shell.cal-full .mobile-top, .shell.cal-full .fab { display: none; }
+.shell.cal-full .main { padding-bottom: 0; }
+.shell.cal-full .page { padding-top: 12px; }

@@ -68,7 +68,7 @@
 
 </script>
 
-<div class="shell" class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
+<div class="shell" class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
     {#if router.route === 'home'}<Home />
