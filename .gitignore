@@ -2,10 +2,4 @@ node_modules/
 dist/
 .env.local
 .superpowers/
-.impeccable/*.log
-.impeccable/questions/
-.impeccable/review/
-.impeccable/mocks/
-.impeccable/detect.json
-.impeccable/decision-direction.json
-.impeccable/brief-body.md
+.vite/
