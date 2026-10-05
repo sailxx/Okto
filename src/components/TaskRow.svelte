@@ -56,7 +56,7 @@
   }
 </script>
 
-<div class="row-wrap">
+<div class="row-wrap" class:tinted={task.color} style:--tc={store.colorOf(task)}>
   <div class="swipe-actions" class:show={dx < 0} aria-hidden={!open}>
     <button type="button" class="sa later" onclick={tomorrow}>{store.t('moveTomorrow')}</button>
     <button type="button" class="sa del" onclick={remove}><Icon name="trash" size={20} /></button>
@@ -97,7 +97,10 @@
 </div>
 
 <style>
-  .row-wrap { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  /* Each task is a card with a colour bar: its own colour, or its list's. */
+  .row-wrap { position: relative; overflow: hidden; border-radius: 12px; background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); }
+  .row-wrap::before { content: ''; position: absolute; z-index: 1; left: 0; top: 0; bottom: 0; width: 5px; background: var(--tc); pointer-events: none; }
+  .row-wrap.tinted { background: color-mix(in srgb, var(--tc) 14%, var(--bg)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tc) 30%, transparent); }
   .swipe-actions { position: absolute; inset: 0 0 0 auto; display: flex; visibility: hidden; }
   .swipe-actions.show { visibility: visible; }
   .sa { width: 74px; height: 100%; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 600; }
@@ -105,14 +108,14 @@
   .sa.del { background: var(--red); }
   .row {
     position: relative; display: flex; align-items: flex-start; gap: 14px;
-    padding: 14px 2px; background: var(--bg); cursor: pointer;
+    padding: 18px 18px 18px 22px; background: inherit; cursor: pointer;
     transition: transform 220ms cubic-bezier(.2,.8,.2,1);
     touch-action: pan-y;
   }
   .check {
-    flex: 0 0 auto; width: 24px; height: 24px; margin-top: 1px;
+    flex: 0 0 auto; width: 28px; height: 28px; margin-top: 0;
     display: grid; place-items: center;
-    border: 2px solid var(--p); border-radius: 7px;
+    border: 2px solid var(--p); border-radius: 8px;
     color: var(--bg);
     transition: background-color 150ms ease, transform 120ms ease;
   }
@@ -121,15 +124,16 @@
   .check :global(svg) { stroke-width: 3; }
   .body { flex: 1; min-width: 0; }
   .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-  .title { font-size: 16.5px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
-  .when { flex: 0 0 auto; color: var(--muted); font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .title { font-size: 19px; font-weight: 600; line-height: 1.35; letter-spacing: -.01em; overflow-wrap: anywhere; }
+  .when { flex: 0 0 auto; color: var(--muted); font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
   .no { font-family: var(--mono); font-size: 12px; color: var(--muted); opacity: .75; letter-spacing: .02em; }
   .when.late { color: var(--red); }
-  .line2 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 3px; color: var(--muted); font-size: 13px; font-weight: 500; }
+  .line2 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 6px; color: var(--muted); font-size: 14px; font-weight: 500; }
   .line2:empty { display: none; }
   .lst { display: inline-flex; align-items: center; gap: 6px; }
   .lst::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--c); }
   .ic { display: inline-flex; align-items: center; gap: 4px; }
   .ic :global(svg) { stroke-width: 2; }
+  .row.done { opacity: .6; }
   .done .title { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
 </style>

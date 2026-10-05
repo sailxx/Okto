@@ -1,5 +1,6 @@
 <script lang="ts">
   import TaskRow from '../components/TaskRow.svelte';
+  import Icon from '../components/Icon.svelte';
   import ListEditor from '../components/ListEditor.svelte';
   import { store } from '../lib/store.svelte';
   import { addDays, toMin } from '../lib/date';
@@ -85,6 +86,7 @@
       <h1 class="page-title">{store.t('tasks')}</h1>
       <p class="page-sub">{store.t('todayOf')(stats.done, stats.total)}</p>
     </div>
+    <button type="button" class="add-task" onclick={() => store.openNewTask()}><Icon name="plus" size={18} /><span>{store.t('newTask')}</span></button>
   </div>
 
   <div class="tags" role="listbox">
@@ -124,7 +126,17 @@
   .tag.plain::before { display: none; }
   .tag.plain { padding: 0 14px; }
   .sep { flex: 0 0 1px; align-self: stretch; margin: 6px 2px; background: var(--line); }
-  .group-sec { margin-top: 22px; }
+  .add-task {
+    display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto;
+    height: 44px; padding: 0 16px 0 12px; border-radius: var(--r-key);
+    background: var(--primary); color: var(--on-primary); font-weight: 600; font-size: 15px;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 2px 0 var(--key-edge);
+    transition: transform 90ms var(--ease), filter 150ms ease;
+  }
+  .add-task:hover { filter: brightness(1.08); }
+  .add-task:active { transform: translateY(2px); }
+  .add-task :global(svg) { stroke-width: 2.4; }
+  .group-sec { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
   .group-sec .label { margin: 0 0 2px 2px; }
   .label.late { color: var(--red); }
 </style>

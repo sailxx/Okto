@@ -7,13 +7,13 @@
   import { router } from '../lib/router.svelte';
   import { addDays, monthStart, toMin, fromMin } from '../lib/date';
   import { relDay } from '../lib/i18n';
-  import { DURATIONS, PRIORITY_COLORS, REMINDERS, uid, type Freq, type Task } from '../lib/model';
+  import { COLORS, DURATIONS, PRIORITY_COLORS, REMINDERS, uid, type Freq, type Task } from '../lib/model';
 
   const ed = untrack(() => store.editor!);
   const original = $state.snapshot(ed.task) as Task;
   let draft = $state<Task>({ ...$state.snapshot(ed.task) as Task, date: ed.isNew ? original.date : ed.occurrence ?? original.date });
 
-  type Panel = 'date' | 'time' | 'repeat' | 'reminder' | 'list' | 'priority' | null;
+  type Panel = 'date' | 'time' | 'repeat' | 'reminder' | 'list' | 'priority' | 'color' | null;
   let panel = $state<Panel>(null);
   let scopeFor = $state<'save' | 'delete' | null>(null);
   let month = $state(monthStart(draft.date ?? store.today));
@@ -48,7 +48,7 @@
   }
 
   /* ---------- save / delete ---------- */
-  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'date', 'start', 'duration', 'subtasks', 'repeat', 'reminder'];
+  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'color', 'date', 'start', 'duration', 'subtasks', 'repeat', 'reminder'];
   function patch(): Partial<Task> {
     const out: Partial<Task> = {};
     const base = { ...original, date: ed.occurrence ?? original.date };
@@ -112,6 +112,7 @@
       {/if}
       <button type="button" class="chip" class:on={panel === 'list'} onclick={() => toggle('list')}><span class="dot" style:--c={list?.color}></span>{list?.name}</button>
       <button type="button" class="chip" class:on={panel === 'priority'} class:set={draft.priority} style:--p={PRIORITY_COLORS[draft.priority]} onclick={() => toggle('priority')}><Icon name="flag" size={18} />{store.t('prio')[draft.priority]}</button>
+      <button type="button" class="chip" class:on={panel === 'color'} class:set={draft.color} onclick={() => toggle('color')}><span class="dot" style:--c={draft.color ?? list?.color}></span>{store.t('color')}</button>
     </div>
 
     {#if panel === 'date'}
@@ -175,6 +176,13 @@
       <div class="panel quick">
         {#each [0, 1, 2, 3] as p}
           <button type="button" class="tag" style:--c={PRIORITY_COLORS[p]} aria-pressed={draft.priority === p} onclick={() => { draft.priority = p as Task['priority']; panel = null; }}>{store.t('prio')[p]}</button>
+        {/each}
+      </div>
+    {:else if panel === 'color'}
+      <div class="panel task-colors">
+        <button type="button" class="tc none" style:--c={list?.color} aria-pressed={!draft.color} title={store.t('noColor')} onclick={() => { draft.color = null; panel = null; }}><span>{store.t('noColor')}</span></button>
+        {#each COLORS as c}
+          <button type="button" class="tc" style:--c={c} aria-label={c} aria-pressed={draft.color === c} onclick={() => { draft.color = c; panel = null; }}></button>
         {/each}
       </div>
     {/if}
@@ -245,6 +253,12 @@
   .chip :global(svg) { stroke-width: 2; }
   .chip.set[style] :global(svg) { color: var(--p); }
   .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+  .task-colors { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .tc { width: 34px; height: 34px; border-radius: 10px; background: var(--c); box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 1px 0 rgb(0 0 0 / 25%); }
+  .tc[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--c); }
+  .tc.none { width: auto; padding: 0 12px; background: transparent; box-shadow: inset 0 0 0 1px var(--line); font-size: 13px; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+  .tc.none::before { content: ''; width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+  .tc.none[aria-pressed='true'] { color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
 
   .panel { padding: 14px; border-radius: var(--r-well); background: var(--soft); box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%); }
   .panel.quick, .quick { display: flex; flex-wrap: wrap; gap: 8px; }

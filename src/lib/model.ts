@@ -2,7 +2,7 @@ import { isHm, isKey } from './date';
 
 /* ================= Types ================= */
 export type Lang = 'ru' | 'en';
-export type Theme = 'system' | 'light' | 'dark' | 'paper' | 'mint' | 'midnight' | 'oled';
+export type Theme = 'system' | 'light' | 'dark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord';
 export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type Phase = 'work' | 'short' | 'long';
@@ -18,6 +18,8 @@ export interface Task {
   note: string;
   listId: string;
   priority: 0 | 1 | 2 | 3;
+  /** Own colour; null = the list's colour. */
+  color: string | null;
   date: string | null;
   start: string | null;
   duration: number;
@@ -41,7 +43,8 @@ export interface Counter {
   history: number[]; daily: Record<string, number>; order: number; updatedAt: number; deleted: boolean;
 }
 export interface PomoCfg { work: number; short: number; long: number; every: number }
-export interface Block { type: BlockType; counterId?: string }
+/** w/h: footprint in Home grid columns and rows. */
+export interface Block { type: BlockType; counterId?: string; w?: number; h?: number }
 export interface Settings {
   id: 'main';
   lang: Lang; theme: Theme; notify: boolean; sound: boolean; vibrate: boolean;
@@ -81,6 +84,11 @@ export const THEMES: Record<Theme, [string, string]> = {
   mint: ['#edf5f0', '#13241a'],
   midnight: ['#0f1522', '#e8edf7'],
   oled: ['#000000', '#ffffff'],
+  crimson: ['#0a0a0a', '#e5262d'],
+  amber: ['#0d0b07', '#ffb000'],
+  ocean: ['#0b1a22', '#2ec4d6'],
+  sakura: ['#fbeff1', '#d6336c'],
+  nord: ['#2e3440', '#88c0d0'],
 };
 export const POMO: Record<Exclude<PomoPreset, 'custom'>, PomoCfg> = {
   classic: { work: 25, short: 5, long: 15, every: 4 },
@@ -91,7 +99,10 @@ export const STEPS = [1, 5, 10];
 export const PRIORITY_COLORS = ['var(--ink)', '#0090ff', '#f76b15', '#e5484d'];
 export const REMINDERS = [0, 5, 15, 30, 60, 1440];
 export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
-export const DEFAULT_DASHBOARD: Block[] = [{ type: 'tasks' }, { type: 'focus' }, { type: 'streak' }, { type: 'next' }];
+export const DEFAULT_DASHBOARD: Block[] = [{ type: 'tasks', w: 3, h: 2 }, { type: 'focus', w: 3, h: 2 }, { type: 'streak', w: 2, h: 2 }, { type: 'next', w: 4, h: 2 }];
+export const GRID_MAX_W = 6, GRID_MAX_H = 4;
+/** Footprint of a block, with defaults for blocks saved before sizes existed. */
+export const blockSize = (b: Block) => ({ w: b.w ?? (b.type === 'streak' ? 2 : b.type === 'next' ? 4 : 3), h: b.h ?? 2 });
 
 /* ================= Validators ================= */
 export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3);
@@ -116,6 +127,7 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
     note: str(r.note, 4000),
     listId: str(r.listId, 40),
     priority: int(r.priority, 0, 3, 0) as Task['priority'],
+    color: COLORS.includes(r.color) ? r.color : null,
     date: r.date === null ? null : isKey(r.date) ? r.date : null,
     start: isHm(r.start) ? r.start : null,
     duration: int(r.duration, 5, 24 * 60, 30),
@@ -183,7 +195,12 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
   const p = isObj(raw.pomo) ? raw.pomo : {};
   const dashboard = Array.isArray(raw.dashboard)
     ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
-      .map((b: any) => (b.type === 'counter' ? { type: 'counter' as const, counterId: b.counterId } : { type: b.type as BlockType }))
+      .map((b: any) => {
+        const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
+        if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
+        if (typeof b.h === 'number') out.h = int(b.h, 1, GRID_MAX_H, 2);
+        return out;
+      })
     : d.dashboard;
   return {
     id: 'main',
