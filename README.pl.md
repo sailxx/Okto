@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-en.webp" width="100%" alt="Sekcje Okto: Start, Zadania, Kalendarz, Skupienie">
+
+<br>
+
 <img src="assets/readme/sections-pl.svg" width="100%" alt="Sekcje Okto: Start, Zadania, Kalendarz, Skupienie">
 
 <details>
@@ -37,6 +41,14 @@ W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bież
 Licznik jednym dotknięciem i Pomodoro: gotowe tagi z celami, kroki +1/+5/+10, przytrzymanie — reset, cztery tryby Pomodoro, stoper i „nie wygaszaj ekranu”.
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-pl.svg" width="100%" alt="JAKOŚĆ W LICZBACH">
+
+<br>
+
+<img src="assets/readme/design-pl.svg" width="100%" alt="KOD DESIGNU">
 
 <br>
 
@@ -80,7 +92,7 @@ Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij k
 
 ## ⚖️ Licencje
 
-Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).
+Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
 
 <div align="center">
 <br>

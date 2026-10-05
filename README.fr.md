@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-en.webp" width="100%" alt="Sections d’Okto : Accueil, Tâches, Calendrier, Concentration">
+
+<br>
+
 <img src="assets/readme/sections-fr.svg" width="100%" alt="Sections d’Okto : Accueil, Tâches, Calendrier, Concentration">
 
 <details>
@@ -37,6 +41,14 @@ Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure 
 Compteur en un geste et Pomodoro : tags prédéfinis avec objectifs, pas +1/+5/+10, appui long pour remettre à zéro, quatre modes de Pomodoro, chronomètre et « garder l’écran allumé ».
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-fr.svg" width="100%" alt="LA QUALITÉ EN CHIFFRES">
+
+<br>
+
+<img src="assets/readme/design-fr.svg" width="100%" alt="CODE DE DESIGN">
 
 <br>
 
@@ -80,7 +92,7 @@ Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remp
 
 ## ⚖️ Licences
 
-La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).
+La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
 
 <div align="center">
 <br>

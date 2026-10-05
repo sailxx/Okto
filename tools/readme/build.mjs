@@ -215,11 +215,167 @@ function ctaSvg() {
 </svg>`;
 }
 
+// ── Качество в цифрах: настоящие данные из npm test и npm run build (версия 2.0) ──
+// Тесты по файлам tests/*.test.ts: recurrence 9, merge 7, migrate 5, stats 5, layout 3, settings 2
+const TESTS = [9, 7, 5, 5, 3, 2];
+// gzip из vite build: index.js 63,5 КБ, index.css 10,65 КБ; чанки Firebase грузятся только при синхронизации — 165,3 КБ
+const SIZES = [63.5, 10.65, 165.3];
+const num = (v, lang) => (lang === "en" ? String(v) : String(v).replace(".", ","));
+
+function qualitySvg(c, lang) {
+  const q = c.q;
+  let b = `<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#ffffff" fill-opacity=".06"/><line x1="0" y1="0" x2="0" y2="6" stroke="#ffffff" stroke-opacity=".35" stroke-width="2"/></pattern></defs>`;
+  b += `<g class="r"><rect x="${P}" y="38" width="9" height="9" rx="2" fill="${RED}"/><text x="${P + 18}" y="47" class="lb" fill="${DIM}">${esc(q.label)}</text></g>`;
+  const tl = richLines(q.title, 58, WHITE);
+  b += `<g class="r" font-weight="800" letter-spacing="-.5"${delay(0.1)}>${textBlock(P, 84, tl, 22, 30, WHITE)}</g>`;
+  let y = 84 + (tl.length - 1) * 30 + 30;
+  const PW = (W - 2 * P - 16) / 2, PH = 300;
+  const panel = (x, inner, d) => `<g class="r"${delay(d)}><rect x="${x}" y="${y}" width="${PW}" height="${PH}" rx="14" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>${inner}</g>`;
+
+  // Тесты по модулям
+  let L = `<text x="${P + 20}" y="${y + 30}" class="lb" fill="${DIM}">${esc(q.tests.toUpperCase())}</text>` +
+    `<text x="${P + 20}" y="${y + 76}" font-size="40" font-weight="800" letter-spacing="-1.5" fill="${WHITE}">31<tspan fill="${DIM}">/</tspan>31</text>` +
+    `<text x="${P + 152}" y="${y + 72}" font-size="13" fill="#bdbdb8">${esc(q.pass)} · <tspan fill="${RED}" font-weight="800">100%</tspan></text>`;
+  const bw = PW - 40 - 34;
+  TESTS.forEach((v, i) => {
+    const ry = y + 106 + i * 31;
+    const w = bw * v / 9;
+    L += `<text x="${P + 20}" y="${ry}" font-size="11" fill="#bdbdb8">${esc(q.mods[i])}</text>` +
+      `<rect x="${P + 20}" y="${ry + 6}" width="${w.toFixed(1)}" height="9" rx="2" fill="#ffffff" fill-opacity="${i === 0 ? 1 : 0.55}"/>` +
+      `<text x="${(P + 27 + w).toFixed(1)}" y="${ry + 14.5}" font-size="11" font-weight="700" fill="${WHITE}">${v}</text>`;
+  });
+  b += panel(P, L, 0.2);
+
+  // Вес приложения
+  const X2 = P + PW + 16;
+  const first = wrap(q.first, 28).map((w) => esc(w.join(" ")));
+  let R = `<text x="${X2 + 20}" y="${y + 30}" class="lb" fill="${DIM}">${esc(q.weight.toUpperCase())}</text>` +
+    `<text x="${X2 + 20}" y="${y + 76}" font-size="40" font-weight="800" letter-spacing="-1.5" fill="${RED}">74<tspan font-size="18" fill="${WHITE}"> ${esc(q.kb)}</tspan></text>` +
+    first.map((l, i) => `<text x="${X2 + 152}" y="${y + 58 + i * 15}" font-size="11" fill="#bdbdb8">${l}</text>`).join("");
+  const bw2 = PW - 40 - 84;
+  SIZES.forEach((v, i) => {
+    const ry = y + 122 + i * 54;
+    const w = Math.max(6, bw2 * v / 165.3);
+    const lazy = i === 2;
+    const fill = lazy ? `fill="url(#hatch)" stroke="#ffffff" stroke-opacity=".35"` : `fill="#ffffff" fill-opacity="${i === 0 ? 1 : 0.55}"`;
+    R += `<text x="${X2 + 20}" y="${ry}" font-size="11" fill="#bdbdb8">${esc(q.parts[i])}</text>` +
+      `<rect x="${X2 + 20}" y="${ry + 8}" width="${w.toFixed(1)}" height="16" rx="3" ${fill}/>` +
+      `<text x="${(X2 + 28 + w).toFixed(1)}" y="${ry + 20.5}" font-size="11" font-weight="700" fill="${lazy ? DIM : WHITE}">${num(v, lang)} ${esc(q.kb)}</text>`;
+  });
+  b += panel(X2, R, 0.3);
+  y += PH + 16;
+
+  // Плитки: что умеет приложение
+  const TW = (W - 2 * P - 48) / 5;
+  const tiles = q.tiles.map(([n, t]) => ({ n, t: wrap(t, 15).map((w) => esc(w.join(" "))) }));
+  const th = Math.max(...tiles.map((x) => 62 + x.t.length * 15 + 10));
+  tiles.forEach((x, i) => {
+    const X = P + i * (TW + 12);
+    b += `<g class="r"${delay(0.4 + i * 0.08)}><rect x="${X}" y="${y}" width="${TW}" height="${th}" rx="12" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>` +
+      `<text x="${X + 16}" y="${y + 46}" font-size="32" font-weight="800" letter-spacing="-1" fill="${x.n === "0" ? RED : WHITE}">${esc(x.n)}</text>` +
+      x.t.map((l, k) => `<text x="${X + 16}" y="${y + 68 + k * 15}" font-size="11" fill="#bdbdb8">${l}</text>`).join("") + `</g>`;
+  });
+  y += th + 24;
+  b += `<text x="${P}" y="${y}" font-size="10" fill="${DIM}">${esc(q.src)}</text>`;
+  return svg(y + 28, q.label + " — " + plain(q.title), b, true);
+}
+
+// ── Дизайн-код: значения из DESIGN.md ──
+const GOLOS_CYR = fs.readFileSync(dir + ".font/golos-cyr-700.woff2").toString("base64");
+const GOLOS_LAT = fs.readFileSync(dir + ".font/golos-lat-700.woff2").toString("base64");
+const GOLOS = `@font-face{font-family:"Golos";src:url(data:font/woff2;base64,${GOLOS_CYR}) format("woff2");font-weight:700;unicode-range:U+0400-045F,U+0490-0491,U+2116}` +
+  `@font-face{font-family:"Golos";src:url(data:font/woff2;base64,${GOLOS_LAT}) format("woff2");font-weight:700;unicode-range:U+0000-00FF}`;
+const PALETTE = ["#FFFFFF", "#141414", "#F1F1EF", "#E4E4E1", "#D33A3F"];
+const THEME_SW = [["#ffffff", "#141414"], ["#ffffff", "#141414"], ["#141414", "#ededed"], ["#e9e2d1", "#2a251b"], ["#e1eae3", "#14241a"], ["#0f141d", "#e2e7f0"], ["#000000", "#f4f4f4"]];
+const THEME_NAMES = { ru: ["Системная", "Светлая", "Тёмная", "Бумага", "Мята", "Полночь", "OLED"], en: ["System", "Light", "Dark", "Paper", "Mint", "Midnight", "OLED"] };
+
+function designSvg(c, lang) {
+  const d = c.d;
+  let b = `<defs><linearGradient id="half" x1="0" y1="0" x2="1" y2="1"><stop offset=".5" stop-color="#ffffff"/><stop offset=".5" stop-color="#141414"/></linearGradient></defs>`;
+  b += `<g class="r"><rect x="${P}" y="38" width="9" height="9" rx="2" fill="${RED}"/><text x="${P + 18}" y="47" class="lb" fill="${MUTED}">${esc(d.label)}</text></g>`;
+  const tl = richLines(d.title, 50, INK);
+  b += `<g class="r" font-weight="800" letter-spacing="-.6"${delay(0.1)}>${textBlock(P, 88, tl, 26, 34, INK)}</g>`;
+  let y = 88 + (tl.length - 1) * 34 + 28;
+  const sub = wrap(d.sub, 88).map((w) => esc(w.join(" ")));
+  b += `<g class="r"${delay(0.15)}>` + sub.map((l, i) => `<text x="${P}" y="${y + i * 20}" font-size="13" fill="#3a3a38">${l}</text>`).join("") + `</g>`;
+  y += (sub.length - 1) * 20 + 28;
+  const box = (x, yy, w, h, inner, dl) => `<g class="r"${delay(dl)}><rect x="${x}" y="${yy}" width="${w}" height="${h}" rx="14" fill="${SOFT}" stroke="${LINE}"/>${inner}</g>`;
+  const LW = 476, RW = W - 2 * P - LW - 16, RX = P + LW + 16;
+
+  // Палитра
+  let pal = `<text x="${P + 20}" y="${y + 28}" class="lb" fill="${MUTED}">${esc(d.palette)}</text>`;
+  const sw = (LW - 40 - 4 * 10) / 5;
+  PALETTE.forEach((hex, k) => {
+    const x = P + 20 + k * (sw + 10);
+    pal += `<rect x="${x}" y="${y + 42}" width="${sw}" height="58" rx="8" fill="${hex}" stroke="${INK}" stroke-opacity=".14"/>` +
+      `<text x="${x}" y="${y + 118}" font-size="11" font-weight="700" fill="${k === 4 ? RED : INK}">${esc(d.colors[k])}</text>` +
+      `<text x="${x}" y="${y + 133}" font-size="9.5" fill="${MUTED}">${hex}</text>`;
+  });
+  b += box(P, y, LW, 152, pal, 0.2);
+
+  // Шрифты
+  const ty = `<text x="${RX + 20}" y="${y + 28}" class="lb" fill="${MUTED}">${esc(d.type)}</text>` +
+    `<text x="${RX + 20}" y="${y + 74}" font-size="34" font-weight="800" letter-spacing="-1.2" fill="${INK}">25:00</text>` +
+    `<text x="${RX + 140}" y="${y + 58}" font-size="10.5" font-weight="700" fill="${INK}">JetBrains Mono</text>` +
+    wrap(d.mono, 20).map((w, i) => `<text x="${RX + 140}" y="${y + 73 + i * 13}" font-size="10" fill="${MUTED}">${esc(w.join(" "))}</text>`).join("") +
+    `<text x="${RX + 20}" y="${y + 128}" font-size="34" font-weight="700" letter-spacing="-1" fill="${INK}" style="font-family:Golos,system-ui,sans-serif">Аа Bb</text>` +
+    `<text x="${RX + 140}" y="${y + 112}" font-size="10.5" font-weight="700" fill="${INK}">Golos Text</text>` +
+    wrap(d.sans, 20).map((w, i) => `<text x="${RX + 140}" y="${y + 127 + i * 13}" font-size="10" fill="${MUTED}">${esc(w.join(" "))}</text>`).join("");
+  b += box(RX, y, RW, 152, ty, 0.3);
+  y += 168;
+
+  // Материалы: корпус, клавиша, утопленное табло с «призрачными» восьмёрками
+  let mt = `<text x="${P + 20}" y="${y + 28}" class="lb" fill="${MUTED}">${esc(d.mat)}</text>`;
+  const mw = (LW - 40 - 2 * 14) / 3, my = y + 44;
+  const mx = (k) => P + 20 + k * (mw + 14);
+  mt += `<rect x="${mx(0)}" y="${my}" width="${mw}" height="74" rx="10" fill="#ffffff" stroke="${LINE}"/>` +
+    `<circle cx="${mx(0) + 16}" cy="${my + 16}" r="4" fill="${INK}"/><text x="${mx(0) + 26}" y="${my + 20}" font-size="11" font-weight="800" fill="${INK}">okto</text>`;
+  mt += `<rect x="${mx(1)}" y="${my}" width="${mw}" height="74" rx="10" fill="${LINE}" fill-opacity=".55"/>` +
+    `<rect x="${mx(1) + 22}" y="${my + 14}" width="${mw - 44}" height="46" rx="10" fill="#cfcfcc"/>` +
+    `<rect x="${mx(1) + 22}" y="${my + 11}" width="${mw - 44}" height="46" rx="10" fill="#ffffff"/>` +
+    `<line x1="${mx(1) + 30}" y1="${my + 11.6}" x2="${mx(1) + mw - 30}" y2="${my + 11.6}" stroke="#ffffff"/>` +
+    `<text x="${mx(1) + mw / 2}" y="${my + 41}" text-anchor="middle" font-size="20" font-weight="700" fill="${INK}">+</text>`;
+  mt += `<rect x="${mx(2)}" y="${my}" width="${mw}" height="74" rx="10" fill="#f1f1ef" stroke="${INK}" stroke-opacity=".13"/>` +
+    `<rect x="${mx(2) + 1}" y="${my + 1}" width="${mw - 2}" height="6" rx="9" fill="${INK}" fill-opacity=".05"/>` +
+    `<text x="${mx(2) + 14}" y="${my + 54}" font-size="34" font-weight="800" letter-spacing="-1" fill="${INK}" fill-opacity=".07">88</text>` +
+    `<text x="${mx(2) + 14}" y="${my + 54}" font-size="34" font-weight="800" letter-spacing="-1" fill="#111111">25</text>`;
+  d.mats.forEach((m, k) => { mt += `<text x="${mx(k)}" y="${my + 94}" font-size="11" font-weight="700" fill="${INK}">${esc(m)}</text>`; });
+
+  // Правила
+  let rl = `<text x="${RX + 20}" y="${y + 28}" class="lb" fill="${MUTED}">${esc(d.rules)}</text>`;
+  let ry = y + 52;
+  d.rule.forEach((r) => {
+    const lines = richLines(r, 30, INK);
+    rl += `<text x="${RX + 20}" y="${ry}" font-size="11.5" font-weight="800" fill="${RED}">›</text>` + textBlock(RX + 33, ry, lines, 11.5, 16, INK);
+    ry += lines.length * 16 + 8;
+  });
+  const rh = Math.max(152, ry - y + 4);
+  b += box(P, y, LW, rh, mt, 0.4) + box(RX, y, RW, rh, rl, 0.5);
+  y += rh + 16;
+
+  // 7 тем
+  const names = THEME_NAMES[lang === "ru" || lang === "uk" ? "ru" : "en"];
+  let th = `<text x="${P + 20}" y="${y + 28}" class="lb" fill="${MUTED}">${esc(d.themes)}</text>`;
+  const tw = (W - 2 * P - 40 - 6 * 10) / 7;
+  THEME_SW.forEach(([bg, ink], k) => {
+    const x = P + 20 + k * (tw + 10);
+    th += `<rect x="${x}" y="${y + 42}" width="${tw}" height="44" rx="8" fill="${k === 0 ? "url(#half)" : bg}" stroke="${INK}" stroke-opacity=".14"/>` +
+      (k === 0 ? "" : `<text x="${x + 10}" y="${y + 71}" font-size="17" font-weight="800" fill="${ink}">Aa</text>`) +
+      `<text x="${x}" y="${y + 104}" font-size="10.5" fill="${INK}">${esc(names[k])}</text>`;
+  });
+  b += box(P, y, W - 2 * P, 120, th, 0.6);
+  y += 120 + P - 4;
+  return svg(y, d.label + " — " + plain(d.title), b, false).replace("</style>", GOLOS + "\n</style>");
+}
+
 const strings = JSON.parse(fs.readFileSync(dir + "strings.json", "utf8"));
+const cards2 = JSON.parse(fs.readFileSync(dir + "cards2.json", "utf8"));
 for (const [lang, s] of Object.entries(strings)) {
   fs.writeFileSync(`${out}hero-${lang}.svg`, heroSvg(s));
   fs.writeFileSync(`${out}sections-${lang}.svg`, sectionsSvg(s));
   fs.writeFileSync(`${out}more-${lang}.svg`, moreSvg(s));
+  fs.writeFileSync(`${out}quality-${lang}.svg`, qualitySvg(cards2[lang], lang));
+  fs.writeFileSync(`${out}design-${lang}.svg`, designSvg(cards2[lang], lang));
 }
 fs.writeFileSync(out + "cta.svg", ctaSvg());
 console.log(Object.keys(strings).length + " языков, " + fs.readdirSync(out).length + " файлов");
@@ -245,6 +401,10 @@ ${sw}
 ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <br>
 
+<img src="assets/readme/screens-${lang === "ru" || lang === "uk" ? "ru" : "en"}.webp" width="100%" alt="${m.alt[2]}">
+
+<br>
+
 <img src="assets/readme/sections-${lang}.svg" width="100%" alt="${m.alt[2]}">
 
 <details>
@@ -252,6 +412,14 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 
 ${["home", "tasks", "calendar", "focus"].map(sec).join("\n")}
 </details>
+
+<br>
+
+<img src="assets/readme/quality-${lang}.svg" width="100%" alt="${cards2[lang].q.label}">
+
+<br>
+
+<img src="assets/readme/design-${lang}.svg" width="100%" alt="${cards2[lang].d.label}">
 
 <br>
 

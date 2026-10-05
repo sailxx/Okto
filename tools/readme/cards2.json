@@ -1,0 +1,762 @@
+{
+  "ru": {
+    "q": {
+      "label": "КАЧЕСТВО В ЦИФРАХ",
+      "title": "Проверено *автотестами*, код — *меньше 80 КБ*",
+      "tests": "Автотесты по модулям",
+      "pass": "проходят",
+      "mods": [
+        "Повторы задач",
+        "Синхронизация",
+        "Перенос данных",
+        "Статистика",
+        "Раскладка календаря",
+        "Настройки"
+      ],
+      "weight": "Вес приложения, gzip",
+      "kb": "КБ",
+      "first": "код и стили до первого экрана",
+      "parts": [
+        "Код приложения",
+        "Стили",
+        "Firebase — только при синхронизации"
+      ],
+      "tiles": [
+        [
+          "4",
+          "инструмента в одном приложении"
+        ],
+        [
+          "7",
+          "тем оформления"
+        ],
+        [
+          "4",
+          "режима Pomodoro"
+        ],
+        [
+          "3",
+          "вида календаря"
+        ],
+        [
+          "0",
+          "рекламы и трекеров"
+        ]
+      ],
+      "src": "Данные: npm test (Vitest) и npm run build, версия 2.0"
+    },
+    "d": {
+      "label": "ДИЗАЙН-КОД",
+      "title": "Карманный *прибор*",
+      "sub": "Okto устроен как инженерный калькулятор в духе Braun ET66 и HP-15C: корпус, клавиши и утопленные табло.",
+      "palette": "ПАЛИТРА",
+      "colors": [
+        "Корпус",
+        "Чернила",
+        "Табло",
+        "Линия",
+        "Сигнал"
+      ],
+      "type": "ШРИФТЫ",
+      "mono": "цифры и подписи",
+      "sans": "заголовки и текст",
+      "mat": "МАТЕРИАЛЫ",
+      "mats": [
+        "Корпус",
+        "Клавиша",
+        "Табло"
+      ],
+      "rules": "ПРАВИЛА",
+      "rule": [
+        "*Одна* инвертированная клавиша на экран",
+        "*Без фирменного цвета*: иерархия из инверсии и веса",
+        "*Красный значит время*: таймер, «сейчас», просрочка"
+      ],
+      "themes": "7 ТЕМ — ОДНА СТРУКТУРА"
+    }
+  },
+  "en": {
+    "q": {
+      "label": "QUALITY IN NUMBERS",
+      "title": "Covered by *automated tests*, code *under 80 KB*",
+      "tests": "Automated tests by module",
+      "pass": "passing",
+      "mods": [
+        "Task repeats",
+        "Sync",
+        "Data migration",
+        "Statistics",
+        "Calendar layout",
+        "Settings"
+      ],
+      "weight": "App size, gzip",
+      "kb": "KB",
+      "first": "code and styles for the first screen",
+      "parts": [
+        "App code",
+        "Styles",
+        "Firebase — only when sync is on"
+      ],
+      "tiles": [
+        [
+          "4",
+          "tools in one app"
+        ],
+        [
+          "7",
+          "themes"
+        ],
+        [
+          "4",
+          "Pomodoro modes"
+        ],
+        [
+          "3",
+          "calendar views"
+        ],
+        [
+          "0",
+          "ads and trackers"
+        ]
+      ],
+      "src": "Source: npm test (Vitest) and npm run build, version 2.0"
+    },
+    "d": {
+      "label": "DESIGN CODE",
+      "title": "A pocket *instrument*",
+      "sub": "Okto is built like an engineering calculator in the spirit of the Braun ET66 and HP-15C: casing, keys and recessed displays.",
+      "palette": "PALETTE",
+      "colors": [
+        "Casing",
+        "Ink",
+        "Display",
+        "Line",
+        "Signal"
+      ],
+      "type": "TYPEFACES",
+      "mono": "numerals and labels",
+      "sans": "headings and text",
+      "mat": "MATERIALS",
+      "mats": [
+        "Casing",
+        "Key",
+        "Display"
+      ],
+      "rules": "RULES",
+      "rule": [
+        "*One* inverted key per screen",
+        "*No brand hue*: hierarchy from inversion and weight",
+        "*Red means time*: timer, “now”, overdue"
+      ],
+      "themes": "7 THEMES — ONE STRUCTURE"
+    }
+  },
+  "es": {
+    "q": {
+      "label": "CALIDAD EN CIFRAS",
+      "title": "Con *tests automáticos*, código de *menos de 80 KB*",
+      "tests": "Tests automáticos por módulo",
+      "pass": "pasan",
+      "mods": [
+        "Repeticiones",
+        "Sincronización",
+        "Migración de datos",
+        "Estadísticas",
+        "Diseño del calendario",
+        "Ajustes"
+      ],
+      "weight": "Tamaño de la app, gzip",
+      "kb": "KB",
+      "first": "código y estilos de la primera pantalla",
+      "parts": [
+        "Código de la app",
+        "Estilos",
+        "Firebase — solo con sincronización"
+      ],
+      "tiles": [
+        [
+          "4",
+          "herramientas en una app"
+        ],
+        [
+          "7",
+          "temas"
+        ],
+        [
+          "4",
+          "modos Pomodoro"
+        ],
+        [
+          "3",
+          "vistas de calendario"
+        ],
+        [
+          "0",
+          "anuncios y rastreadores"
+        ]
+      ],
+      "src": "Fuente: npm test (Vitest) y npm run build, versión 2.0"
+    },
+    "d": {
+      "label": "CÓDIGO DE DISEÑO",
+      "title": "Un *instrumento* de bolsillo",
+      "sub": "Okto está hecho como una calculadora de ingeniería al estilo de la Braun ET66 y la HP-15C: carcasa, teclas y pantallas hundidas.",
+      "palette": "PALETA",
+      "colors": [
+        "Carcasa",
+        "Tinta",
+        "Pantalla",
+        "Línea",
+        "Señal"
+      ],
+      "type": "TIPOGRAFÍAS",
+      "mono": "cifras y etiquetas",
+      "sans": "títulos y texto",
+      "mat": "MATERIALES",
+      "mats": [
+        "Carcasa",
+        "Tecla",
+        "Pantalla"
+      ],
+      "rules": "REGLAS",
+      "rule": [
+        "*Una* tecla invertida por pantalla",
+        "*Sin color de marca*: jerarquía por inversión y peso",
+        "*El rojo es tiempo*: temporizador, «ahora», vencido"
+      ],
+      "themes": "7 TEMAS — UNA ESTRUCTURA"
+    }
+  },
+  "pt": {
+    "q": {
+      "label": "QUALIDADE EM NÚMEROS",
+      "title": "Com *testes automáticos*, código com *menos de 80 KB*",
+      "tests": "Testes automáticos por módulo",
+      "pass": "passam",
+      "mods": [
+        "Repetições",
+        "Sincronização",
+        "Migração de dados",
+        "Estatísticas",
+        "Layout do calendário",
+        "Configurações"
+      ],
+      "weight": "Tamanho do app, gzip",
+      "kb": "KB",
+      "first": "código e estilos da primeira tela",
+      "parts": [
+        "Código do app",
+        "Estilos",
+        "Firebase — só com sincronização"
+      ],
+      "tiles": [
+        [
+          "4",
+          "ferramentas em um app"
+        ],
+        [
+          "7",
+          "temas"
+        ],
+        [
+          "4",
+          "modos Pomodoro"
+        ],
+        [
+          "3",
+          "visões de calendário"
+        ],
+        [
+          "0",
+          "anúncios e rastreadores"
+        ]
+      ],
+      "src": "Fonte: npm test (Vitest) e npm run build, versão 2.0"
+    },
+    "d": {
+      "label": "CÓDIGO DE DESIGN",
+      "title": "Um *instrumento* de bolso",
+      "sub": "O Okto é feito como uma calculadora de engenharia no espírito da Braun ET66 e da HP-15C: carcaça, teclas e visores rebaixados.",
+      "palette": "PALETA",
+      "colors": [
+        "Carcaça",
+        "Tinta",
+        "Visor",
+        "Linha",
+        "Sinal"
+      ],
+      "type": "FONTES",
+      "mono": "números e rótulos",
+      "sans": "títulos e texto",
+      "mat": "MATERIAIS",
+      "mats": [
+        "Carcaça",
+        "Tecla",
+        "Visor"
+      ],
+      "rules": "REGRAS",
+      "rule": [
+        "*Uma* tecla invertida por tela",
+        "*Sem cor de marca*: hierarquia por inversão e peso",
+        "*Vermelho é tempo*: timer, «agora», atraso"
+      ],
+      "themes": "7 TEMAS — UMA ESTRUTURA"
+    }
+  },
+  "de": {
+    "q": {
+      "label": "QUALITÄT IN ZAHLEN",
+      "title": "Mit *automatischen Tests*, Code *unter 80 KB*",
+      "tests": "Automatische Tests nach Modul",
+      "pass": "bestanden",
+      "mods": [
+        "Wiederholungen",
+        "Synchronisierung",
+        "Datenmigration",
+        "Statistik",
+        "Kalender-Layout",
+        "Einstellungen"
+      ],
+      "weight": "App-Größe, gzip",
+      "kb": "KB",
+      "first": "Code und Styles für den ersten Bildschirm",
+      "parts": [
+        "App-Code",
+        "Styles",
+        "Firebase — nur mit Synchronisierung"
+      ],
+      "tiles": [
+        [
+          "4",
+          "Werkzeuge in einer App"
+        ],
+        [
+          "7",
+          "Designs"
+        ],
+        [
+          "4",
+          "Pomodoro-Modi"
+        ],
+        [
+          "3",
+          "Kalenderansichten"
+        ],
+        [
+          "0",
+          "Werbung und Tracker"
+        ]
+      ],
+      "src": "Quelle: npm test (Vitest) und npm run build, Version 2.0"
+    },
+    "d": {
+      "label": "DESIGN-CODE",
+      "title": "Ein *Instrument* für die Tasche",
+      "sub": "Okto ist gebaut wie ein technischer Rechner im Geist von Braun ET66 und HP-15C: Gehäuse, Tasten und versenkte Displays.",
+      "palette": "FARBEN",
+      "colors": [
+        "Gehäuse",
+        "Tinte",
+        "Display",
+        "Linie",
+        "Signal"
+      ],
+      "type": "SCHRIFTEN",
+      "mono": "Ziffern und Beschriftungen",
+      "sans": "Überschriften und Text",
+      "mat": "MATERIALIEN",
+      "mats": [
+        "Gehäuse",
+        "Taste",
+        "Display"
+      ],
+      "rules": "REGELN",
+      "rule": [
+        "*Eine* invertierte Taste pro Bildschirm",
+        "*Keine Markenfarbe*: Hierarchie durch Inversion und Gewicht",
+        "*Rot heißt Zeit*: Timer, „jetzt“, überfällig"
+      ],
+      "themes": "7 DESIGNS — EINE STRUKTUR"
+    }
+  },
+  "fr": {
+    "q": {
+      "label": "LA QUALITÉ EN CHIFFRES",
+      "title": "Couvert par des *tests automatiques*, code *sous 80 Ko*",
+      "tests": "Tests automatiques par module",
+      "pass": "réussis",
+      "mods": [
+        "Répétitions",
+        "Synchronisation",
+        "Migration des données",
+        "Statistiques",
+        "Mise en page du calendrier",
+        "Réglages"
+      ],
+      "weight": "Poids de l’app, gzip",
+      "kb": "Ko",
+      "first": "code et styles du premier écran",
+      "parts": [
+        "Code de l’app",
+        "Styles",
+        "Firebase — seulement avec la synchro"
+      ],
+      "tiles": [
+        [
+          "4",
+          "outils dans une app"
+        ],
+        [
+          "7",
+          "thèmes"
+        ],
+        [
+          "4",
+          "modes Pomodoro"
+        ],
+        [
+          "3",
+          "vues du calendrier"
+        ],
+        [
+          "0",
+          "pub et traceurs"
+        ]
+      ],
+      "src": "Source : npm test (Vitest) et npm run build, version 2.0"
+    },
+    "d": {
+      "label": "CODE DE DESIGN",
+      "title": "Un *instrument* de poche",
+      "sub": "Okto est conçu comme une calculatrice d’ingénieur dans l’esprit de la Braun ET66 et de la HP-15C : boîtier, touches et écrans en creux.",
+      "palette": "PALETTE",
+      "colors": [
+        "Boîtier",
+        "Encre",
+        "Écran",
+        "Ligne",
+        "Signal"
+      ],
+      "type": "POLICES",
+      "mono": "chiffres et légendes",
+      "sans": "titres et texte",
+      "mat": "MATIÈRES",
+      "mats": [
+        "Boîtier",
+        "Touche",
+        "Écran"
+      ],
+      "rules": "RÈGLES",
+      "rule": [
+        "*Une seule* touche inversée par écran",
+        "*Pas de couleur de marque* : hiérarchie par inversion et graisse",
+        "*Le rouge, c’est le temps* : minuteur, « maintenant », retard"
+      ],
+      "themes": "7 THÈMES — UNE STRUCTURE"
+    }
+  },
+  "it": {
+    "q": {
+      "label": "LA QUALITÀ IN NUMERI",
+      "title": "Coperta da *test automatici*, codice *sotto gli 80 KB*",
+      "tests": "Test automatici per modulo",
+      "pass": "superati",
+      "mods": [
+        "Ripetizioni",
+        "Sincronizzazione",
+        "Migrazione dati",
+        "Statistiche",
+        "Layout del calendario",
+        "Impostazioni"
+      ],
+      "weight": "Peso dell’app, gzip",
+      "kb": "KB",
+      "first": "codice e stili della prima schermata",
+      "parts": [
+        "Codice dell’app",
+        "Stili",
+        "Firebase — solo con la sincronizzazione"
+      ],
+      "tiles": [
+        [
+          "4",
+          "strumenti in un’app"
+        ],
+        [
+          "7",
+          "temi"
+        ],
+        [
+          "4",
+          "modalità Pomodoro"
+        ],
+        [
+          "3",
+          "viste del calendario"
+        ],
+        [
+          "0",
+          "pubblicità e tracker"
+        ]
+      ],
+      "src": "Fonte: npm test (Vitest) e npm run build, versione 2.0"
+    },
+    "d": {
+      "label": "CODICE DI DESIGN",
+      "title": "Uno *strumento* tascabile",
+      "sub": "Okto è costruita come una calcolatrice da ingegnere nello spirito della Braun ET66 e della HP-15C: scocca, tasti e display incassati.",
+      "palette": "PALETTE",
+      "colors": [
+        "Scocca",
+        "Inchiostro",
+        "Display",
+        "Linea",
+        "Segnale"
+      ],
+      "type": "CARATTERI",
+      "mono": "cifre ed etichette",
+      "sans": "titoli e testo",
+      "mat": "MATERIALI",
+      "mats": [
+        "Scocca",
+        "Tasto",
+        "Display"
+      ],
+      "rules": "REGOLE",
+      "rule": [
+        "*Un solo* tasto invertito per schermata",
+        "*Nessun colore di marca*: gerarchia da inversione e peso",
+        "*Il rosso è tempo*: timer, «adesso», in ritardo"
+      ],
+      "themes": "7 TEMI — UNA STRUTTURA"
+    }
+  },
+  "tr": {
+    "q": {
+      "label": "RAKAMLARLA KALİTE",
+      "title": "*Otomatik testlerle* korunur, kod *80 KB’tan küçük*",
+      "tests": "Modüllere göre otomatik testler",
+      "pass": "geçiyor",
+      "mods": [
+        "Görev tekrarları",
+        "Senkronizasyon",
+        "Veri taşıma",
+        "İstatistik",
+        "Takvim yerleşimi",
+        "Ayarlar"
+      ],
+      "weight": "Uygulama boyutu, gzip",
+      "kb": "KB",
+      "first": "ilk ekran için kod ve stiller",
+      "parts": [
+        "Uygulama kodu",
+        "Stiller",
+        "Firebase — yalnızca senkronizasyonda"
+      ],
+      "tiles": [
+        [
+          "4",
+          "araç tek uygulamada"
+        ],
+        [
+          "7",
+          "tema"
+        ],
+        [
+          "4",
+          "Pomodoro modu"
+        ],
+        [
+          "3",
+          "takvim görünümü"
+        ],
+        [
+          "0",
+          "reklam ve izleyici"
+        ]
+      ],
+      "src": "Kaynak: npm test (Vitest) ve npm run build, sürüm 2.0"
+    },
+    "d": {
+      "label": "TASARIM KODU",
+      "title": "Cep *aleti*",
+      "sub": "Okto, Braun ET66 ve HP-15C ruhunda bir mühendis hesap makinesi gibi tasarlandı: gövde, tuşlar ve gömme ekranlar.",
+      "palette": "PALET",
+      "colors": [
+        "Gövde",
+        "Mürekkep",
+        "Ekran",
+        "Çizgi",
+        "Sinyal"
+      ],
+      "type": "YAZI TİPLERİ",
+      "mono": "rakamlar ve etiketler",
+      "sans": "başlıklar ve metin",
+      "mat": "MALZEMELER",
+      "mats": [
+        "Gövde",
+        "Tuş",
+        "Ekran"
+      ],
+      "rules": "KURALLAR",
+      "rule": [
+        "Ekran başına *tek* ters tuş",
+        "*Marka rengi yok*: hiyerarşi ters renk ve ağırlıkla",
+        "*Kırmızı zaman demek*: zamanlayıcı, «şimdi», gecikme"
+      ],
+      "themes": "7 TEMA — TEK YAPI"
+    }
+  },
+  "uk": {
+    "q": {
+      "label": "ЯКІСТЬ У ЦИФРАХ",
+      "title": "Перевірено *автотестами*, код — *менше 80 КБ*",
+      "tests": "Автотести за модулями",
+      "pass": "проходять",
+      "mods": [
+        "Повтори завдань",
+        "Синхронізація",
+        "Перенесення даних",
+        "Статистика",
+        "Розкладка календаря",
+        "Налаштування"
+      ],
+      "weight": "Вага застосунку, gzip",
+      "kb": "КБ",
+      "first": "код і стилі до першого екрана",
+      "parts": [
+        "Код застосунку",
+        "Стилі",
+        "Firebase — лише при синхронізації"
+      ],
+      "tiles": [
+        [
+          "4",
+          "інструменти в одному застосунку"
+        ],
+        [
+          "7",
+          "тем оформлення"
+        ],
+        [
+          "4",
+          "режими Pomodoro"
+        ],
+        [
+          "3",
+          "види календаря"
+        ],
+        [
+          "0",
+          "реклами й трекерів"
+        ]
+      ],
+      "src": "Дані: npm test (Vitest) і npm run build, версія 2.0"
+    },
+    "d": {
+      "label": "ДИЗАЙН-КОД",
+      "title": "Кишеньковий *прилад*",
+      "sub": "Okto влаштований як інженерний калькулятор у дусі Braun ET66 і HP-15C: корпус, клавіші та заглиблені табло.",
+      "palette": "ПАЛІТРА",
+      "colors": [
+        "Корпус",
+        "Чорнило",
+        "Табло",
+        "Лінія",
+        "Сигнал"
+      ],
+      "type": "ШРИФТИ",
+      "mono": "цифри й підписи",
+      "sans": "заголовки й текст",
+      "mat": "МАТЕРІАЛИ",
+      "mats": [
+        "Корпус",
+        "Клавіша",
+        "Табло"
+      ],
+      "rules": "ПРАВИЛА",
+      "rule": [
+        "*Одна* інвертована клавіша на екран",
+        "*Без фірмового кольору*: ієрархія з інверсії та ваги",
+        "*Червоний означає час*: таймер, «зараз», прострочення"
+      ],
+      "themes": "7 ТЕМ — ОДНА СТРУКТУРА"
+    }
+  },
+  "pl": {
+    "q": {
+      "label": "JAKOŚĆ W LICZBACH",
+      "title": "Sprawdzony *testami automatycznymi*, kod *poniżej 80 KB*",
+      "tests": "Testy automatyczne według modułów",
+      "pass": "przechodzi",
+      "mods": [
+        "Powtórki zadań",
+        "Synchronizacja",
+        "Migracja danych",
+        "Statystyki",
+        "Układ kalendarza",
+        "Ustawienia"
+      ],
+      "weight": "Rozmiar aplikacji, gzip",
+      "kb": "KB",
+      "first": "kod i style do pierwszego ekranu",
+      "parts": [
+        "Kod aplikacji",
+        "Style",
+        "Firebase — tylko z synchronizacją"
+      ],
+      "tiles": [
+        [
+          "4",
+          "narzędzia w jednej aplikacji"
+        ],
+        [
+          "7",
+          "motywów"
+        ],
+        [
+          "4",
+          "tryby Pomodoro"
+        ],
+        [
+          "3",
+          "widoki kalendarza"
+        ],
+        [
+          "0",
+          "reklam i trackerów"
+        ]
+      ],
+      "src": "Źródło: npm test (Vitest) i npm run build, wersja 2.0"
+    },
+    "d": {
+      "label": "KOD DESIGNU",
+      "title": "Kieszonkowy *przyrząd*",
+      "sub": "Okto jest zbudowany jak kalkulator inżynierski w duchu Braun ET66 i HP-15C: obudowa, klawisze i wpuszczone wyświetlacze.",
+      "palette": "PALETA",
+      "colors": [
+        "Obudowa",
+        "Atrament",
+        "Wyświetlacz",
+        "Linia",
+        "Sygnał"
+      ],
+      "type": "KROJE",
+      "mono": "cyfry i etykiety",
+      "sans": "nagłówki i tekst",
+      "mat": "MATERIAŁY",
+      "mats": [
+        "Obudowa",
+        "Klawisz",
+        "Wyświetlacz"
+      ],
+      "rules": "ZASADY",
+      "rule": [
+        "*Jeden* odwrócony klawisz na ekran",
+        "*Bez koloru marki*: hierarchia z inwersji i grubości",
+        "*Czerwony oznacza czas*: minutnik, „teraz”, zaległe"
+      ],
+      "themes": "7 MOTYWÓW — JEDNA STRUKTURA"
+    }
+  }
+}

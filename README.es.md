@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-en.webp" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque">
+
+<br>
+
 <img src="assets/readme/sections-es.svg" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque">
 
 <details>
@@ -37,6 +41,14 @@ Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actu
 Contador de un toque y Pomodoro: etiquetas con metas, pasos +1/+5/+10, mantener para reiniciar, cuatro modos de Pomodoro, cronómetro y «no apagar la pantalla».
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-es.svg" width="100%" alt="CALIDAD EN CIFRAS">
+
+<br>
+
+<img src="assets/readme/design-es.svg" width="100%" alt="CÓDIGO DE DISEÑO">
 
 <br>
 
@@ -80,7 +92,7 @@ Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las cla
 
 ## ⚖️ Licencias
 
-La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).
+La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
 
 <div align="center">
 <br>
