@@ -2,6 +2,7 @@
   import { onMount, tick } from 'svelte';
   import Icon from '../components/Icon.svelte';
   import CounterEditor from '../components/CounterEditor.svelte';
+  import Digits from '../components/Digits.svelte';
   import { store } from '../lib/store.svelte';
   import { POMO, STEPS, type Counter, type PomoPreset } from '../lib/model';
   import { buzz, unlockAudio } from '../lib/alerts';
@@ -220,7 +221,7 @@
   <div class="tags" role="listbox">
     {#if isPomo}
       {#each presets as key}
-        <button type="button" class="tag" role="option" aria-selected={store.data.settings.pomo.preset === key} style:--c="var(--red)" onclick={() => pickPreset(key)}>
+        <button type="button" class="tag" role="option" aria-selected={store.data.settings.pomo.preset === key} style:--c="var(--ink)" onclick={() => pickPreset(key)}>
           {store.t('pomo')[key]}<small>{presetCfg(key).work}/{presetCfg(key).short}</small>
         </button>
       {/each}
@@ -245,13 +246,13 @@
     oncontextmenu={(e) => e.preventDefault()}
     onclick={click}
   >
-    <div class="block">
+    <div class="block well">
       <button class="count" class:tick={tickAnim} type="button" bind:this={countEl}
         aria-label={isPomo ? `${store.t('phase')[phase]} ${display}` : `${counterName(counter)}: ${counter.count}`}>
-        <span>{display}</span>
+        <Digits text={display} />
       </button>
       <div class="progress" aria-hidden="true">
-        <span style:width="{isPomo ? Math.min(100, Math.max(0, (1 - left / total) * 100)) : percent}%"></span>
+        {#each Array(24) as _, s}<span class:on={s < Math.round((isPomo ? Math.min(1, Math.max(0, 1 - left / total)) : Math.min(1, counter.count / counter.target)) * 24)}></span>{/each}
       </div>
       <div class="progress-line">
         {#if isPomo}
@@ -335,12 +336,12 @@
   .linked {
     display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
     max-width: 100%; margin-top: 12px; height: 34px; padding: 0 6px 0 12px;
-    border-radius: 99px; background: color-mix(in srgb, var(--c) 14%, transparent);
+    border-radius: 8px; background: color-mix(in srgb, var(--c) 14%, transparent);
     font-size: 14px; font-weight: 600;
   }
   .ldot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: var(--c); }
   .ltitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .linked button { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); }
+  .linked button { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; color: var(--muted); }
   .linked button:hover { background: var(--soft); color: var(--ink); }
-  .sound[aria-pressed='true'] { background: none; color: inherit; }
+  .circle.sound[aria-pressed='true'] { --k-bg: var(--key); --k-ink: var(--key-ink); transform: none; box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%); }
 </style>

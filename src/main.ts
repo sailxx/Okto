@@ -1,4 +1,20 @@
 import { mount } from 'svelte';
+import '@fontsource/golos-text/cyrillic-400.css';
+import '@fontsource/golos-text/cyrillic-500.css';
+import '@fontsource/golos-text/cyrillic-600.css';
+import '@fontsource/golos-text/cyrillic-700.css';
+import '@fontsource/golos-text/latin-400.css';
+import '@fontsource/golos-text/latin-500.css';
+import '@fontsource/golos-text/latin-600.css';
+import '@fontsource/golos-text/latin-700.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
+import '@fontsource/jetbrains-mono/latin-600.css';
+import '@fontsource/jetbrains-mono/latin-700.css';
+import '@fontsource/jetbrains-mono/cyrillic-400.css';
+import '@fontsource/jetbrains-mono/cyrillic-500.css';
+import '@fontsource/jetbrains-mono/cyrillic-600.css';
+import '@fontsource/jetbrains-mono/cyrillic-700.css';
 import App from './App.svelte';
 import './styles/base.css';
 

@@ -52,7 +52,7 @@
   .wd { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; padding: 4px 0; }
   .d {
     position: relative; justify-self: center;
-    width: 34px; height: 34px; border-radius: 50%;
+    width: 34px; height: 34px; border-radius: 8px;
     font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums;
     transition: background-color 120ms ease;
   }

@@ -20,11 +20,14 @@
   ];
   const other = $derived(store.lang === 'ru' ? 'en' : 'ru');
   const toggleLang = () => store.updateSettings({ lang: other });
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const clock = $derived(`${pad(store.now.getHours())}:${pad(store.now.getMinutes())}`);
+  const stamp = $derived(`${new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'short' }).format(store.now).replace('.', '').toUpperCase()} ${pad(store.now.getDate())}.${pad(store.now.getMonth() + 1)}`);
 </script>
 
 {#snippet brand()}
   <a class="brand" href="#/" aria-label="Okto">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" /></svg>
+    <i class="led" aria-hidden="true"></i>
     <span>okto</span>
   </a>
 {/snippet}
@@ -38,8 +41,9 @@
 <header class="mobile-top">
   {@render brand()}
   <div class="top-actions">
+    <span class="clock">{stamp} · {clock}</span>
     {@render langBtn()}
-    <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" size={24} /></button>
+    <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
   </div>
 </header>
 
@@ -58,15 +62,22 @@
 
 <aside class="side">
   {@render brand()}
-  {#each items as it}
+  <div class="side-clock">{stamp} · {clock}</div>
+  {#each items as it, i}
     <button class="side-link" type="button" aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
       <Icon name={it.icon} />
       <span>{store.t(it.label)}</span>
+      <kbd>{i + 1}</kbd>
     </button>
   {/each}
-  <button class="side-new" type="button" onclick={() => store.openNewTask()}><Icon name="plus" />{store.t('newTask')}</button>
+  <button class="side-new" type="button" onclick={() => store.openNewTask()}><Icon name="plus" />{store.t('newTask')}<kbd class="nk">N</kbd></button>
   <div class="side-foot">
     {@render langBtn()}
-    <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" size={24} /></button>
+    <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
   </div>
 </aside>
+
+<style>
+  .nk { font-family: var(--mono); font-size: 11px; opacity: .6; margin-left: 4px; }
+  @media (max-width: 400px) { .top-actions :global(.lang span) { display: none; } .clock { margin-right: 2px; } }
+</style>

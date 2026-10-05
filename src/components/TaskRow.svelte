@@ -84,6 +84,7 @@
         </span>
       </div>
       <div class="line2">
+        <span class="no">№{String(store.taskNo.get(task.id) ?? 0).padStart(3, "0")}</span>
         {#if list}<span class="lst" style:--c={list.color}>{list.name}</span>{/if}
         {#if task.subtasks.length}<span>{subDone}/{task.subtasks.length}</span>{/if}
         {#if task.focusMinutes}<span class="ic"><Icon name="tomato" size={14} />{store.t('durMin')(task.focusMinutes)}</span>{/if}
@@ -111,7 +112,7 @@
   .check {
     flex: 0 0 auto; width: 24px; height: 24px; margin-top: 1px;
     display: grid; place-items: center;
-    border: 2px solid var(--p); border-radius: 50%;
+    border: 2px solid var(--p); border-radius: 7px;
     color: var(--bg);
     transition: background-color 150ms ease, transform 120ms ease;
   }
@@ -120,13 +121,14 @@
   .check :global(svg) { stroke-width: 3; }
   .body { flex: 1; min-width: 0; }
   .line1 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-  .title { font-size: 17px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
-  .when { flex: 0 0 auto; color: var(--muted); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .title { font-size: 16.5px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+  .when { flex: 0 0 auto; color: var(--muted); font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .no { font-family: var(--mono); font-size: 12px; color: var(--muted); opacity: .75; letter-spacing: .02em; }
   .when.late { color: var(--red); }
   .line2 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 3px; color: var(--muted); font-size: 13px; font-weight: 500; }
   .line2:empty { display: none; }
   .lst { display: inline-flex; align-items: center; gap: 6px; }
-  .lst::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .lst::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--c); }
   .ic { display: inline-flex; align-items: center; gap: 4px; }
   .ic :global(svg) { stroke-width: 2; }
   .done .title { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }

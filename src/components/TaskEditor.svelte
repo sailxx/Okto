@@ -221,20 +221,20 @@
   .check {
     flex: 0 0 auto; width: 24px; height: 24px; margin-top: 6px;
     display: grid; place-items: center;
-    border: 2px solid var(--p, var(--ink)); border-radius: 50%; color: var(--bg);
+    border: 2px solid var(--p, var(--ink)); border-radius: 7px; color: var(--bg);
   }
   .check.sm { width: 20px; height: 20px; margin-top: 0; --p: var(--muted); }
   .check[aria-pressed='true'] { background: var(--p, var(--ink)); }
   .check :global(svg) { stroke-width: 3; }
   textarea { width: 100%; border: 0; background: none; resize: none; outline: none; padding: 0; }
-  .title { font-family: 'Inter Display', 'Inter', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.3; field-sizing: content; min-height: 34px; }
+  .title { font-family: var(--sans); font-size: 23px; font-weight: 700; letter-spacing: -.02em; line-height: 1.3; field-sizing: content; min-height: 34px; }
   .note { font-size: 16px; color: var(--muted); field-sizing: content; min-height: 44px; padding-left: 36px; }
   .title::placeholder, .note::placeholder { color: var(--muted); opacity: .7; }
 
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
     display: inline-flex; align-items: center; gap: 7px;
-    height: 36px; padding: 0 12px; border-radius: 99px;
+    height: 36px; padding: 0 12px; border-radius: 8px;
     background: var(--soft); color: var(--muted);
     font-size: 14px; font-weight: 600; white-space: nowrap;
     border: 1.5px solid transparent;
@@ -244,15 +244,14 @@
   .chip.on { border-color: var(--ink); color: var(--ink); }
   .chip :global(svg) { stroke-width: 2; }
   .chip.set[style] :global(svg) { color: var(--p); }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
 
-  .panel { padding: 14px; border-radius: 18px; background: var(--soft); }
+  .panel { padding: 14px; border-radius: var(--r-well); background: var(--soft); box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%); }
   .panel.quick, .quick { display: flex; flex-wrap: wrap; gap: 8px; }
   .panel .quick { margin-bottom: 12px; }
   .panel .tag { background: var(--bg); }
   .tag.plain::before { display: none; }
   .tag.plain { padding: 0 14px; }
-  .tag.plain[aria-pressed='true'] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
   .time-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 12px; }
   .rep-opts { display: flex; gap: 10px; flex-wrap: wrap; }
   .field.inline { margin: 0; flex: 1; min-width: 130px; }

@@ -173,7 +173,7 @@
   .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
   .strip button { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0; }
   .strip span { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; }
-  .strip b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .strip b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; font-family: var(--mono); font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .strip .today b { color: var(--accent); }
   .strip .sel b { background: var(--ink); color: var(--bg); }
   .strip .today.sel b { background: var(--accent); color: var(--on-accent); }

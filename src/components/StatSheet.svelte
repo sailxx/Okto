@@ -60,8 +60,8 @@
 
 <style>
   .label { margin-bottom: 12px; }
-  .big { margin: 0 0 18px; font-family: 'Inter Display', 'Inter', sans-serif; font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
-  .big span { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+  .big { margin: 0 0 18px; font-family: var(--mono); font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+  .big span { font-family: var(--sans); font-size: 16px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
   .dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-bottom: 20px; }
   .dots i { aspect-ratio: 1; border-radius: 6px; background: var(--soft); }
   .dots i.on { background: var(--accent); }

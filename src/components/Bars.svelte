@@ -26,12 +26,12 @@
 <style>
   .bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; height: 168px; }
   .col { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; cursor: default; }
-  .val { height: 16px; color: var(--muted); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 120ms ease; white-space: nowrap; }
+  .val { height: 16px; font-family: var(--mono); color: var(--muted); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 120ms ease; white-space: nowrap; }
   .val.show { opacity: 1; color: var(--ink); }
   .track { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; border-bottom: 1px solid var(--line); }
-  .track i { width: min(26px, 70%); border-radius: 4px 4px 0 0; background: color-mix(in srgb, var(--accent) 45%, var(--bg)); transition: height 300ms ease; }
+  .track i { width: min(26px, 70%); border-radius: 4px 4px 0 0; background: color-mix(in srgb, var(--accent) 45%, var(--bg)); }
   .track i.today { background: var(--accent); }
   .col:hover .track i { background: var(--accent); }
-  .day { color: var(--muted); font-size: 12px; font-weight: 600; }
+  .day { color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
   .day.today { color: var(--ink); }
 </style>

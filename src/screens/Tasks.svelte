@@ -123,7 +123,6 @@
   .tags { margin-top: 18px; }
   .tag.plain::before { display: none; }
   .tag.plain { padding: 0 14px; }
-  .tag.plain[aria-selected='true'] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
   .sep { flex: 0 0 1px; align-self: stretch; margin: 6px 2px; background: var(--line); }
   .group-sec { margin-top: 22px; }
   .group-sec .label { margin: 0 0 2px 2px; }

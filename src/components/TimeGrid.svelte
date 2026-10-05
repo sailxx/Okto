@@ -191,7 +191,7 @@
   .tg-head, .allday { display: grid; grid-template-columns: var(--gut) repeat(var(--cols), 1fr); }
   .tg-head { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
   .dh { display: flex; align-items: center; justify-content: center; gap: 6px; height: 40px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--muted); }
-  .dh b { display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 4px; border-radius: 99px; color: var(--ink); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .dh b { display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 4px; border-radius: 8px; font-family: var(--mono); color: var(--ink); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .dh.today b { background: var(--accent); color: var(--on-accent); }
   .dh:hover { background: var(--soft); }
   .allday { border-bottom: 1px solid var(--line); padding: 4px 0; }
@@ -201,7 +201,7 @@
     height: 22px; padding: 0 6px; border-radius: 6px; text-align: left;
     background: color-mix(in srgb, var(--c) 18%, var(--bg)); color: var(--ink);
     font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    box-shadow: inset 3px 0 0 var(--c);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent);
   }
   .ad.done { opacity: .5; text-decoration: line-through; }
 
@@ -214,12 +214,12 @@
   .hours { position: relative; }
   .hours span { position: absolute; right: 8px; transform: translateY(-50%); color: var(--muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .col { position: relative; border-left: 1px solid var(--line); cursor: copy; min-width: 0; }
-  .ev {
+  .ev { font-family: var(--sans);
     position: absolute; z-index: 1; overflow: hidden;
     display: flex; flex-direction: column; gap: 1px;
     padding: 3px 6px 3px 8px; border-radius: 6px;
     background: color-mix(in srgb, var(--c) 16%, var(--bg));
-    box-shadow: inset 3px 0 0 var(--c);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent);
     color: var(--ink); font-size: 12px; line-height: 1.25; cursor: pointer;
     touch-action: auto; user-select: none; -webkit-user-select: none;
   }
@@ -227,8 +227,9 @@
   .ev span { color: color-mix(in srgb, var(--c) 70%, var(--ink)); font-weight: 500; font-variant-numeric: tabular-nums; }
   .ev.done { opacity: .5; }
   .ev.done b { text-decoration: line-through; }
-  .ev.ghost { z-index: 3; box-shadow: inset 3px 0 0 var(--c), 0 8px 20px -8px rgb(0 0 0 / 40%); background: color-mix(in srgb, var(--c) 28%, var(--bg)); cursor: grabbing; }
+  .ev.ghost { z-index: 3; box-shadow: inset 0 0 0 1px var(--c), 0 8px 20px -8px rgb(0 0 0 / 40%); background: color-mix(in srgb, var(--c) 28%, var(--bg)); cursor: grabbing; }
   .grip { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; cursor: ns-resize; }
   .now { position: absolute; z-index: 2; left: -1px; right: 0; height: 2px; margin-top: -1px; background: var(--red); pointer-events: none; }
+  .hours span { font-family: var(--mono); }
   .now i { position: absolute; left: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--red); }
 </style>
