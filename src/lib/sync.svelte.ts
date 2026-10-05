@@ -1,5 +1,5 @@
 // Optional cloud sync through Firebase (free Spark plan). Without VITE_FIREBASE_* the app stays local-only.
-import { mergeRecords } from './merge';
+import { initialMerge } from './merge';
 import type { Collection } from './model';
 import { store } from './store.svelte';
 
@@ -74,8 +74,9 @@ class Sync {
         const remote: Record<string, any> = {};
         snap.forEach((d: any) => { remote[d.id] = { ...d.data(), id: d.id }; });
         const mine: Record<string, any> = c === 'settings' ? { main: local.settings } : local[c];
-        const { merged, upload } = mergeRecords(mine, remote);
+        const { merged, upload, drop } = initialMerge(mine, remote);
         store.applyRemote(c, Object.values(merged));
+        if (c !== 'settings' && drop.length) store.dropLocal(c, drop);
         for (let i = 0; i < upload.length; i += 400) {
           const batch = fs.writeBatch(db);
           upload.slice(i, i + 400).forEach((r: any) => batch.set(fs.doc(col(c), r.id), clean(r)));

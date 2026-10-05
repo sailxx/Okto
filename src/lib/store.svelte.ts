@@ -2,13 +2,14 @@ import { addDays, toKey, toMin, fromKey } from './date';
 import { DICT, weekStartOf, type Key } from './i18n';
 import { migrateLegacy } from './migrate';
 import {
-  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newSession, newTask, normData, normDevice, POMO,
+  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newSession, newTask, normData, normDevice, normSettings, POMO,
   type Collection, type Counter, type Data, type Device, type Lang, type List, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
 import { buzz, chime, systemNotify } from './alerts';
 
 const KEY = 'okto-v3';
+const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter };
 const browserLang: Lang = (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en';
 
 export type Scope = 'one' | 'future' | 'all';
@@ -96,18 +97,34 @@ class Store {
 
   /** Apply records that arrived from the cloud; newer wins, nothing is echoed back. */
   applyRemote(coll: Collection, records: unknown[]) {
-    const lang = this.data.settings.lang;
     if (coll === 'settings') {
-      const incoming = normData({ settings: records[0] }, lang).settings;
+      const incoming = normSettings(records[0], this.data.settings.lang);
       if (incoming.updatedAt > this.data.settings.updatedAt) this.data.settings = incoming;
     } else {
-      const normalized = normData({ [coll]: Object.fromEntries((records as { id: string }[]).map((r) => [r.id, r])) }, lang)[coll];
+      const make = NORMALIZE[coll] as (r: unknown) => { id: string; updatedAt: number };
       const target = this.data[coll] as Record<string, { updatedAt: number }>;
-      for (const [id, rec] of Object.entries(normalized as Record<string, { updatedAt: number }>)) {
-        if (!target[id] || rec.updatedAt > target[id].updatedAt) target[id] = rec;
+      for (const raw of records) {
+        const rec = make(raw);
+        if (!target[rec.id] || rec.updatedAt > target[rec.id].updatedAt) target[rec.id] = rec;
       }
+      this.ensureBasics();
     }
     this.schedule();
+  }
+
+  /** Remove never-edited local records that the cloud does not know (see initialMerge). */
+  dropLocal(coll: Exclude<Collection, 'settings'>, ids: string[]) {
+    const target = this.data[coll] as Record<string, unknown>;
+    for (const id of ids) delete target[id];
+    this.ensureBasics();
+    this.schedule();
+  }
+
+  /** The app always needs one list and one counter to work with. */
+  private ensureBasics() {
+    if (!live(this.data.lists).length) for (const l of defaultLists(this.data.settings.lang)) this.data.lists[l.id] = { ...l, deleted: false };
+    if (!live(this.data.counters).length) { const c = newCounter({ updatedAt: 0 }); this.data.counters[c.id] = c; }
+    if (!live(this.data.counters).some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = this.counters[0]?.id ?? null;
   }
 
   /** Full snapshot for the initial cloud merge. */
