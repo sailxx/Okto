@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-en.webp" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak">
+
+<br>
+
 <img src="assets/readme/sections-tr.svg" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak">
 
 <details>
@@ -37,6 +41,14 @@ Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırm�
 Tek dokunuşla sayaç ve Pomodoro: hedefli hazır etiketler, +1/+5/+10 adımlar, sıfırlamak için basılı tut, dört Pomodoro modu, kronometre ve «ekranı açık tut».
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-tr.svg" width="100%" alt="RAKAMLARLA KALİTE">
+
+<br>
+
+<img src="assets/readme/design-tr.svg" width="100%" alt="TASARIM KODU">
 
 <br>
 
@@ -80,7 +92,7 @@ Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopy
 
 ## ⚖️ Lisanslar
 
-[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) ile dizilmiştir.
+[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) ile dizilmiştir.
 
 <div align="center">
 <br>

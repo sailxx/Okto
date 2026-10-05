@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-ru.webp" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус">
+
+<br>
+
 <img src="assets/readme/sections-uk.svg" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус">
 
 <details>
@@ -37,6 +41,14 @@
 Лічильник в один тап і Pomodoro: теги-заготовки з цілями, крок +1/+5/+10, утримання — скидання, чотири режими Pomodoro, секундомір і «не вимикати екран».
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-uk.svg" width="100%" alt="ЯКІСТЬ У ЦИФРАХ">
+
+<br>
+
+<img src="assets/readme/design-uk.svg" width="100%" alt="ДИЗАЙН-КОД">
 
 <br>
 
@@ -80,7 +92,7 @@ npm run build    # збірка в dist/
 
 ## ⚖️ Ліцензії
 
-Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).
+Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
 
 <div align="center">
 <br>

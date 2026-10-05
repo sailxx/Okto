@@ -1,182 +1,492 @@
 {
   "ru": {
-    "name": "Русский", "file": "README.md",
-    "alt": ["Okto — спланируй день, сфокусируйся на главном", "Открыть Okto", "Разделы Okto: Главная, Задачи, Календарь, Фокус", "Синхронизация, приватность и оформление"],
+    "name": "Русский",
+    "file": "README.md",
+    "alt": [
+      "Okto — спланируй день, сфокусируйся на главном",
+      "Открыть Okto",
+      "Разделы Okto: Главная, Задачи, Календарь, Фокус",
+      "Синхронизация, приватность и оформление"
+    ],
     "note": "",
     "more": "Подробнее о разделах",
-    "home": ["🏠 Главная", "Блоки продуктивности: **Задачи** (выполнено из запланированного), **Фокус** (минуты Pomodoro), **Серия** (дней подряд с задачей или фокусом), **Дальше** (ближайшая задача) и **счётчики** по любому тегу. Блоки можно добавлять, убирать и перетаскивать — кнопка «Изменить». Тап по блоку показывает график за 7 дней и итог за 30."],
-    "tasks": ["✅ Задачи", "Фильтры: Сегодня (с просроченными), Предстоящие, Все, Без даты, Выполненные — и ваши **списки** с цветами. У задачи есть дата, время и длительность, **повтор** (каждый день, по будням, неделя, месяц, интервал, дата окончания), **напоминание**, приоритет, заметка и **подзадачи**. **Фокус на задаче** запускает Pomodoro, и минуты записываются в задачу. На телефоне свайп влево — «На завтра» или «Удалить», после любого действия можно отменить."],
-    "calendar": ["📅 Календарь", "В стиле Apple Calendar: **День · Неделя · Месяц**, красная линия текущего времени, строка «весь день». Новая задача сразу появляется в календаре. Блоки можно **перетаскивать** на другое время и день и **растягивать** за нижний край (шаг 15 минут; на телефоне — после долгого нажатия). Для повторяющихся задач Okto спросит: только эту, все будущие или всю серию."],
-    "focus": ["🎯 Фокус", "Счётчик в один тап и Pomodoro: теги-заготовки с целями, шаг +1/+5/+10, удержание — сброс, четыре режима Pomodoro, секундомер и «не гасить экран»."],
+    "home": [
+      "🏠 Главная",
+      "Блоки продуктивности: **Задачи** (выполнено из запланированного), **Фокус** (минуты Pomodoro), **Серия** (дней подряд с задачей или фокусом), **Дальше** (ближайшая задача) и **счётчики** по любому тегу. Блоки можно добавлять, убирать и перетаскивать — кнопка «Изменить». Тап по блоку показывает график за 7 дней и итог за 30."
+    ],
+    "tasks": [
+      "✅ Задачи",
+      "Фильтры: Сегодня (с просроченными), Предстоящие, Все, Без даты, Выполненные — и ваши **списки** с цветами. У задачи есть дата, время и длительность, **повтор** (каждый день, по будням, неделя, месяц, интервал, дата окончания), **напоминание**, приоритет, заметка и **подзадачи**. **Фокус на задаче** запускает Pomodoro, и минуты записываются в задачу. На телефоне свайп влево — «На завтра» или «Удалить», после любого действия можно отменить."
+    ],
+    "calendar": [
+      "📅 Календарь",
+      "В стиле Apple Calendar: **День · Неделя · Месяц**, красная линия текущего времени, строка «весь день». Новая задача сразу появляется в календаре. Блоки можно **перетаскивать** на другое время и день и **растягивать** за нижний край (шаг 15 минут; на телефоне — после долгого нажатия). Для повторяющихся задач Okto спросит: только эту, все будущие или всю серию."
+    ],
+    "focus": [
+      "🎯 Фокус",
+      "Счётчик в один тап и Pomodoro: теги-заготовки с целями, шаг +1/+5/+10, удержание — сброс, четыре режима Pomodoro, секундомер и «не гасить экран»."
+    ],
     "syncTitle": "Как включить синхронизацию",
     "syncIntro": "Без настройки Okto хранит всё в браузере на устройстве. Чтобы данные были одинаковыми на телефоне и компьютере, подключите бесплатный Firebase (план Spark, карта не нужна):",
-    "steps": ["Создайте проект на [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — включите **Google**. В **Settings → Authorized domains** добавьте `sailxx.github.io`.", "**Firestore Database** — создайте базу и во вкладке **Rules** вставьте содержимое [`firestore.rules`](firestore.rules).", "**Project settings → Your apps → Web** — зарегистрируйте приложение и скопируйте `apiKey`, `authDomain`, `projectId`, `appId`.", "В репозитории на GitHub: **Settings → Secrets and variables → Actions** — добавьте секреты `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Запустите деплой. В настройках Okto появится «Войти через Google»."],
+    "steps": [
+      "Создайте проект на [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — включите **Google**. В **Settings → Authorized domains** добавьте `sailxx.github.io`.",
+      "**Firestore Database** — создайте базу и во вкладке **Rules** вставьте содержимое [`firestore.rules`](firestore.rules).",
+      "**Project settings → Your apps → Web** — зарегистрируйте приложение и скопируйте `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "В репозитории на GitHub: **Settings → Secrets and variables → Actions** — добавьте секреты `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Запустите деплой. В настройках Okto появится «Войти через Google»."
+    ],
     "syncNote": "Эти ключи не секретные — доступ защищают правила Firestore: каждый видит только свои данные. Напоминания на сайте срабатывают, пока вкладка открыта.",
-    "dev": "🛠 Разработка", "devTests": "Vitest: повторы, статистика, перенос данных, синхронизация, раскладка календаря", "devBuild": "сборка в dist/", "devEnv": "Для синхронизации локально скопируйте `.env.example` в `.env.local` и заполните ключи. Публикация на GitHub Pages — автоматически при каждом изменении в `main`.",
-    "history": "🗂 История версий", "h2": "**2.0** — задачи со списками, повторами, подзадачами и напоминаниями; календарь в стиле Apple Calendar с перетаскиванием; главная с настраиваемыми блоками; синхронизация через Firebase; фокус на задаче.", "h1": "**1.0** — Pomodoro с четырьмя режимами, теги-заготовки с цветами, семь тем, английский язык, уведомления в браузере.",
-    "license": "⚖️ Лицензии", "lic": "Шрифт [Inter](https://rsms.me/inter/) распространяется по лицензии SIL Open Font License 1.1. Картинки README набраны шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Разработка",
+    "devTests": "Vitest: повторы, статистика, перенос данных, синхронизация, раскладка календаря",
+    "devBuild": "сборка в dist/",
+    "devEnv": "Для синхронизации локально скопируйте `.env.example` в `.env.local` и заполните ключи. Публикация на GitHub Pages — автоматически при каждом изменении в `main`.",
+    "history": "🗂 История версий",
+    "h2": "**2.0** — задачи со списками, повторами, подзадачами и напоминаниями; календарь в стиле Apple Calendar с перетаскиванием; главная с настраиваемыми блоками; синхронизация через Firebase; фокус на задаче.",
+    "h1": "**1.0** — Pomodoro с четырьмя режимами, теги-заготовки с цветами, семь тем, английский язык, уведомления в браузере.",
+    "license": "⚖️ Лицензии",
+    "lic": "Шрифт [Inter](https://rsms.me/inter/) распространяется по лицензии SIL Open Font License 1.1. Картинки README набраны шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Сделал [Владислав](https://t.me/arkhitkovv). Если Okto пригодился, поставь ⭐ репозиторию."
   },
   "en": {
-    "name": "English", "file": "README.en.md",
-    "alt": ["Okto — plan your day, focus on what matters", "Open Okto", "Okto sections: Home, Tasks, Calendar, Focus", "Sync, privacy and look"],
+    "name": "English",
+    "file": "README.en.md",
+    "alt": [
+      "Okto — plan your day, focus on what matters",
+      "Open Okto",
+      "Okto sections: Home, Tasks, Calendar, Focus",
+      "Sync, privacy and look"
+    ],
     "note": "The app interface is available in Russian and English.",
     "more": "More about the sections",
-    "home": ["🏠 Home", "Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (days in a row with a task or focus), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total."],
-    "tasks": ["✅ Tasks", "Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone."],
-    "calendar": ["📅 Calendar", "Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series."],
-    "focus": ["🎯 Focus", "A one-tap counter and Pomodoro: preset tags with goals, +1/+5/+10 steps, hold to reset, four Pomodoro modes, a stopwatch and “keep screen on”."],
+    "home": [
+      "🏠 Home",
+      "Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (days in a row with a task or focus), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total."
+    ],
+    "tasks": [
+      "✅ Tasks",
+      "Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone."
+    ],
+    "calendar": [
+      "📅 Calendar",
+      "Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series."
+    ],
+    "focus": [
+      "🎯 Focus",
+      "A one-tap counter and Pomodoro: preset tags with goals, +1/+5/+10 steps, hold to reset, four Pomodoro modes, a stopwatch and “keep screen on”."
+    ],
     "syncTitle": "How to turn on sync",
     "syncIntro": "Out of the box Okto keeps everything in the browser on your device. To have the same data on phone and computer, connect a free Firebase project (Spark plan, no card needed):",
-    "steps": ["Create a project at [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — enable **Google**. In **Settings → Authorized domains** add `sailxx.github.io`.", "**Firestore Database** — create a database and paste [`firestore.rules`](firestore.rules) into the **Rules** tab.", "**Project settings → Your apps → Web** — register the app and copy `apiKey`, `authDomain`, `projectId`, `appId`.", "In the GitHub repo: **Settings → Secrets and variables → Actions** — add the secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Run the deploy. “Sign in with Google” appears in Okto’s settings."],
+    "steps": [
+      "Create a project at [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — enable **Google**. In **Settings → Authorized domains** add `sailxx.github.io`.",
+      "**Firestore Database** — create a database and paste [`firestore.rules`](firestore.rules) into the **Rules** tab.",
+      "**Project settings → Your apps → Web** — register the app and copy `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "In the GitHub repo: **Settings → Secrets and variables → Actions** — add the secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Run the deploy. “Sign in with Google” appears in Okto’s settings."
+    ],
     "syncNote": "These keys are not secret — access is protected by Firestore rules, so everyone sees only their own data. Reminders on the website fire while the tab is open.",
-    "dev": "🛠 Development", "devTests": "Vitest: repeats, stats, data migration, sync, calendar layout", "devBuild": "build into dist/", "devEnv": "For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.",
-    "history": "🗂 Version history", "h2": "**2.0** — tasks with lists, repeats, subtasks and reminders; Apple Calendar style calendar with drag and drop; a customisable home screen; Firebase sync; focus on a task.", "h1": "**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.",
-    "license": "⚖️ Licenses", "lic": "The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Development",
+    "devTests": "Vitest: repeats, stats, data migration, sync, calendar layout",
+    "devBuild": "build into dist/",
+    "devEnv": "For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.",
+    "history": "🗂 Version history",
+    "h2": "**2.0** — tasks with lists, repeats, subtasks and reminders; Apple Calendar style calendar with drag and drop; a customisable home screen; Firebase sync; focus on a task.",
+    "h1": "**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.",
+    "license": "⚖️ Licenses",
+    "lic": "The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Made by [Vlad](https://t.me/arkhitkovv). If Okto helped you, give the repo a ⭐"
   },
   "es": {
-    "name": "Español", "file": "README.es.md",
-    "alt": ["Okto — planifica tu día, concéntrate en lo importante", "Abrir Okto", "Secciones de Okto: Inicio, Tareas, Calendario, Enfoque", "Sincronización, privacidad y aspecto"],
+    "name": "Español",
+    "file": "README.es.md",
+    "alt": [
+      "Okto — planifica tu día, concéntrate en lo importante",
+      "Abrir Okto",
+      "Secciones de Okto: Inicio, Tareas, Calendario, Enfoque",
+      "Sincronización, privacidad y aspecto"
+    ],
     "note": "La interfaz de la app está en ruso e inglés.",
     "more": "Más sobre las secciones",
-    "home": ["🏠 Inicio", "Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos con tarea o enfoque), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30."],
-    "tasks": ["✅ Tareas", "Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer."],
-    "calendar": ["📅 Calendario", "Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie."],
-    "focus": ["🎯 Enfoque", "Contador de un toque y Pomodoro: etiquetas con metas, pasos +1/+5/+10, mantener para reiniciar, cuatro modos de Pomodoro, cronómetro y «no apagar la pantalla»."],
+    "home": [
+      "🏠 Inicio",
+      "Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos con tarea o enfoque), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30."
+    ],
+    "tasks": [
+      "✅ Tareas",
+      "Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer."
+    ],
+    "calendar": [
+      "📅 Calendario",
+      "Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie."
+    ],
+    "focus": [
+      "🎯 Enfoque",
+      "Contador de un toque y Pomodoro: etiquetas con metas, pasos +1/+5/+10, mantener para reiniciar, cuatro modos de Pomodoro, cronómetro y «no apagar la pantalla»."
+    ],
     "syncTitle": "Cómo activar la sincronización",
     "syncIntro": "Por defecto Okto guarda todo en el navegador del dispositivo. Para tener los mismos datos en el móvil y el ordenador, conecta un proyecto gratuito de Firebase (plan Spark, sin tarjeta):",
-    "steps": ["Crea un proyecto en [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — activa **Google**. En **Settings → Authorized domains** añade `sailxx.github.io`.", "**Firestore Database** — crea la base de datos y pega [`firestore.rules`](firestore.rules) en la pestaña **Rules**.", "**Project settings → Your apps → Web** — registra la app y copia `apiKey`, `authDomain`, `projectId`, `appId`.", "En el repositorio de GitHub: **Settings → Secrets and variables → Actions** — añade los secretos `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Lanza el despliegue. En los ajustes de Okto aparecerá «Entrar con Google»."],
+    "steps": [
+      "Crea un proyecto en [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — activa **Google**. En **Settings → Authorized domains** añade `sailxx.github.io`.",
+      "**Firestore Database** — crea la base de datos y pega [`firestore.rules`](firestore.rules) en la pestaña **Rules**.",
+      "**Project settings → Your apps → Web** — registra la app y copia `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "En el repositorio de GitHub: **Settings → Secrets and variables → Actions** — añade los secretos `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Lanza el despliegue. En los ajustes de Okto aparecerá «Entrar con Google»."
+    ],
     "syncNote": "Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y cada uno ve solo sus datos. Los recordatorios en la web funcionan mientras la pestaña está abierta.",
-    "dev": "🛠 Desarrollo", "devTests": "Vitest: repeticiones, estadísticas, migración, sincronización, calendario", "devBuild": "compila en dist/", "devEnv": "Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las claves. GitHub Pages publica automáticamente con cada cambio en `main`.",
-    "history": "🗂 Historial de versiones", "h2": "**2.0** — tareas con listas, repeticiones, subtareas y recordatorios; calendario al estilo Apple Calendar con arrastrar y soltar; inicio personalizable; sincronización con Firebase; enfoque en una tarea.", "h1": "**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.",
-    "license": "⚖️ Licencias", "lic": "La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Desarrollo",
+    "devTests": "Vitest: repeticiones, estadísticas, migración, sincronización, calendario",
+    "devBuild": "compila en dist/",
+    "devEnv": "Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las claves. GitHub Pages publica automáticamente con cada cambio en `main`.",
+    "history": "🗂 Historial de versiones",
+    "h2": "**2.0** — tareas con listas, repeticiones, subtareas y recordatorios; calendario al estilo Apple Calendar con arrastrar y soltar; inicio personalizable; sincronización con Firebase; enfoque en una tarea.",
+    "h1": "**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.",
+    "license": "⚖️ Licencias",
+    "lic": "La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Hecho por [Vlad](https://t.me/arkhitkovv). Si Okto te sirvió, dale una ⭐ al repositorio."
   },
   "pt": {
-    "name": "Português", "file": "README.pt.md",
-    "alt": ["Okto — planeje seu dia, foque no que importa", "Abrir o Okto", "Seções do Okto: Início, Tarefas, Calendário, Foco", "Sincronização, privacidade e visual"],
+    "name": "Português",
+    "file": "README.pt.md",
+    "alt": [
+      "Okto — planeje seu dia, foque no que importa",
+      "Abrir o Okto",
+      "Seções do Okto: Início, Tarefas, Calendário, Foco",
+      "Sincronização, privacidade e visual"
+    ],
     "note": "A interface do app está em russo e inglês.",
     "more": "Mais sobre as seções",
-    "home": ["🏠 Início", "Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos com tarefa ou foco), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30."],
-    "tasks": ["✅ Tarefas", "Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e suas próprias **listas** com cores. A tarefa tem data, hora e duração, **repetição** (diária, dias úteis, semanal, mensal, intervalo, data final), **lembrete**, prioridade, nota e **subtarefas**. **Focar numa tarefa** inicia o Pomodoro e salva os minutos nela. No celular, deslize para a esquerda para «Amanhã» ou «Apagar»; tudo pode ser desfeito."],
-    "calendar": ["📅 Calendário", "No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira."],
-    "focus": ["🎯 Foco", "Contador de um toque e Pomodoro: etiquetas com metas, passos +1/+5/+10, segurar para zerar, quatro modos de Pomodoro, cronômetro e «não apagar a tela»."],
+    "home": [
+      "🏠 Início",
+      "Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos com tarefa ou foco), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30."
+    ],
+    "tasks": [
+      "✅ Tarefas",
+      "Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e suas próprias **listas** com cores. A tarefa tem data, hora e duração, **repetição** (diária, dias úteis, semanal, mensal, intervalo, data final), **lembrete**, prioridade, nota e **subtarefas**. **Focar numa tarefa** inicia o Pomodoro e salva os minutos nela. No celular, deslize para a esquerda para «Amanhã» ou «Apagar»; tudo pode ser desfeito."
+    ],
+    "calendar": [
+      "📅 Calendário",
+      "No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira."
+    ],
+    "focus": [
+      "🎯 Foco",
+      "Contador de um toque e Pomodoro: etiquetas com metas, passos +1/+5/+10, segurar para zerar, quatro modos de Pomodoro, cronômetro e «não apagar a tela»."
+    ],
     "syncTitle": "Como ativar a sincronização",
     "syncIntro": "Por padrão o Okto guarda tudo no navegador do aparelho. Para ter os mesmos dados no celular e no computador, conecte um projeto gratuito do Firebase (plano Spark, sem cartão):",
-    "steps": ["Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — ative o **Google**. Em **Settings → Authorized domains** adicione `sailxx.github.io`.", "**Firestore Database** — crie o banco e cole [`firestore.rules`](firestore.rules) na aba **Rules**.", "**Project settings → Your apps → Web** — registre o app e copie `apiKey`, `authDomain`, `projectId`, `appId`.", "No repositório do GitHub: **Settings → Secrets and variables → Actions** — adicione os secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Rode o deploy. Nas configurações do Okto aparecerá «Entrar com Google»."],
+    "steps": [
+      "Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — ative o **Google**. Em **Settings → Authorized domains** adicione `sailxx.github.io`.",
+      "**Firestore Database** — crie o banco e cole [`firestore.rules`](firestore.rules) na aba **Rules**.",
+      "**Project settings → Your apps → Web** — registre o app e copie `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "No repositório do GitHub: **Settings → Secrets and variables → Actions** — adicione os secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Rode o deploy. Nas configurações do Okto aparecerá «Entrar com Google»."
+    ],
     "syncNote": "Essas chaves não são secretas: o acesso é protegido pelas regras do Firestore e cada um vê só os próprios dados. Os lembretes no site funcionam enquanto a aba está aberta.",
-    "dev": "🛠 Desenvolvimento", "devTests": "Vitest: repetições, estatísticas, migração, sincronização, calendário", "devBuild": "gera o build em dist/", "devEnv": "Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha as chaves. O GitHub Pages publica automaticamente a cada mudança em `main`.",
-    "history": "🗂 Histórico de versões", "h2": "**2.0** — tarefas com listas, repetições, subtarefas e lembretes; calendário no estilo Apple Calendar com arrastar e soltar; início personalizável; sincronização com Firebase; foco numa tarefa.", "h1": "**1.0** — Pomodoro com quatro modos, etiquetas coloridas, sete temas, idioma inglês, notificações do navegador.",
-    "license": "⚖️ Licenças", "lic": "A fonte [Inter](https://rsms.me/inter/) usa a licença SIL Open Font License 1.1. As imagens do README usam [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Desenvolvimento",
+    "devTests": "Vitest: repetições, estatísticas, migração, sincronização, calendário",
+    "devBuild": "gera o build em dist/",
+    "devEnv": "Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha as chaves. O GitHub Pages publica automaticamente a cada mudança em `main`.",
+    "history": "🗂 Histórico de versões",
+    "h2": "**2.0** — tarefas com listas, repetições, subtarefas e lembretes; calendário no estilo Apple Calendar com arrastar e soltar; início personalizável; sincronização com Firebase; foco numa tarefa.",
+    "h1": "**1.0** — Pomodoro com quatro modos, etiquetas coloridas, sete temas, idioma inglês, notificações do navegador.",
+    "license": "⚖️ Licenças",
+    "lic": "A fonte [Inter](https://rsms.me/inter/) usa a licença SIL Open Font License 1.1. As imagens do README usam [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Feito por [Vlad](https://t.me/arkhitkovv). Se o Okto te ajudou, deixe uma ⭐ no repositório."
   },
   "de": {
-    "name": "Deutsch", "file": "README.de.md",
-    "alt": ["Okto — plane deinen Tag, Fokus auf das Wichtige", "Okto öffnen", "Bereiche von Okto: Start, Aufgaben, Kalender, Fokus", "Synchronisierung, Datenschutz und Design"],
+    "name": "Deutsch",
+    "file": "README.de.md",
+    "alt": [
+      "Okto — plane deinen Tag, Fokus auf das Wichtige",
+      "Okto öffnen",
+      "Bereiche von Okto: Start, Aufgaben, Kalender, Fokus",
+      "Synchronisierung, Datenschutz und Design"
+    ],
     "note": "Die App-Oberfläche gibt es auf Russisch und Englisch.",
     "more": "Mehr zu den Bereichen",
-    "home": ["🏠 Start", "Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Tage am Stück mit Aufgabe oder Fokus), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage."],
-    "tasks": ["✅ Aufgaben", "Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen."],
-    "calendar": ["📅 Kalender", "Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie."],
-    "focus": ["🎯 Fokus", "Zähler mit einem Tipp und Pomodoro: Vorlagen-Tags mit Zielen, Schritte +1/+5/+10, Halten zum Zurücksetzen, vier Pomodoro-Modi, Stoppuhr und „Bildschirm anlassen“."],
+    "home": [
+      "🏠 Start",
+      "Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Tage am Stück mit Aufgabe oder Fokus), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage."
+    ],
+    "tasks": [
+      "✅ Aufgaben",
+      "Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen."
+    ],
+    "calendar": [
+      "📅 Kalender",
+      "Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie."
+    ],
+    "focus": [
+      "🎯 Fokus",
+      "Zähler mit einem Tipp und Pomodoro: Vorlagen-Tags mit Zielen, Schritte +1/+5/+10, Halten zum Zurücksetzen, vier Pomodoro-Modi, Stoppuhr und „Bildschirm anlassen“."
+    ],
     "syncTitle": "Synchronisierung einschalten",
     "syncIntro": "Standardmäßig speichert Okto alles im Browser des Geräts. Für dieselben Daten auf Handy und Computer ein kostenloses Firebase-Projekt verbinden (Spark-Tarif, keine Karte nötig):",
-    "steps": ["Projekt auf [console.firebase.google.com](https://console.firebase.google.com/) anlegen.", "**Authentication → Sign-in method** — **Google** aktivieren. Unter **Settings → Authorized domains** `sailxx.github.io` hinzufügen.", "**Firestore Database** — Datenbank anlegen und [`firestore.rules`](firestore.rules) im Tab **Rules** einfügen.", "**Project settings → Your apps → Web** — App registrieren und `apiKey`, `authDomain`, `projectId`, `appId` kopieren.", "Im GitHub-Repo: **Settings → Secrets and variables → Actions** — die Secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` anlegen.", "Deploy starten. In den Einstellungen von Okto erscheint „Mit Google anmelden“."],
+    "steps": [
+      "Projekt auf [console.firebase.google.com](https://console.firebase.google.com/) anlegen.",
+      "**Authentication → Sign-in method** — **Google** aktivieren. Unter **Settings → Authorized domains** `sailxx.github.io` hinzufügen.",
+      "**Firestore Database** — Datenbank anlegen und [`firestore.rules`](firestore.rules) im Tab **Rules** einfügen.",
+      "**Project settings → Your apps → Web** — App registrieren und `apiKey`, `authDomain`, `projectId`, `appId` kopieren.",
+      "Im GitHub-Repo: **Settings → Secrets and variables → Actions** — die Secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` anlegen.",
+      "Deploy starten. In den Einstellungen von Okto erscheint „Mit Google anmelden“."
+    ],
     "syncNote": "Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, jeder sieht nur seine eigenen Daten. Erinnerungen auf der Website kommen, solange der Tab offen ist.",
-    "dev": "🛠 Entwicklung", "devTests": "Vitest: Wiederholungen, Statistik, Migration, Synchronisierung, Kalender", "devBuild": "Build nach dist/", "devEnv": "Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.",
-    "history": "🗂 Versionen", "h2": "**2.0** — Aufgaben mit Listen, Wiederholungen, Unteraufgaben und Erinnerungen; Kalender im Stil von Apple Kalender mit Drag & Drop; anpassbarer Start; Synchronisierung über Firebase; Fokus auf eine Aufgabe.", "h1": "**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.",
-    "license": "⚖️ Lizenzen", "lic": "Die Schrift [Inter](https://rsms.me/inter/) steht unter der SIL Open Font License 1.1. Die README-Bilder sind in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) gesetzt.",
+    "dev": "🛠 Entwicklung",
+    "devTests": "Vitest: Wiederholungen, Statistik, Migration, Synchronisierung, Kalender",
+    "devBuild": "Build nach dist/",
+    "devEnv": "Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.",
+    "history": "🗂 Versionen",
+    "h2": "**2.0** — Aufgaben mit Listen, Wiederholungen, Unteraufgaben und Erinnerungen; Kalender im Stil von Apple Kalender mit Drag & Drop; anpassbarer Start; Synchronisierung über Firebase; Fokus auf eine Aufgabe.",
+    "h1": "**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.",
+    "license": "⚖️ Lizenzen",
+    "lic": "Die Schrift [Inter](https://rsms.me/inter/) steht unter der SIL Open Font License 1.1. Die README-Bilder sind in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) gesetzt.",
     "footer": "Gemacht von [Vlad](https://t.me/arkhitkovv). Wenn dir Okto hilft, gib dem Repo einen ⭐"
   },
   "fr": {
-    "name": "Français", "file": "README.fr.md",
-    "alt": ["Okto — planifie ta journée, concentre-toi sur l’essentiel", "Ouvrir Okto", "Sections d’Okto : Accueil, Tâches, Calendrier, Concentration", "Synchronisation, confidentialité et apparence"],
+    "name": "Français",
+    "file": "README.fr.md",
+    "alt": [
+      "Okto — planifie ta journée, concentre-toi sur l’essentiel",
+      "Ouvrir Okto",
+      "Sections d’Okto : Accueil, Tâches, Calendrier, Concentration",
+      "Synchronisation, confidentialité et apparence"
+    ],
     "note": "L’interface de l’app est disponible en russe et en anglais.",
     "more": "En savoir plus sur les sections",
-    "home": ["🏠 Accueil", "Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (jours d’affilée avec une tâche ou du focus), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30."],
-    "tasks": ["✅ Tâches", "Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé."],
-    "calendar": ["📅 Calendrier", "Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série."],
-    "focus": ["🎯 Concentration", "Compteur en un geste et Pomodoro : tags prédéfinis avec objectifs, pas +1/+5/+10, appui long pour remettre à zéro, quatre modes de Pomodoro, chronomètre et « garder l’écran allumé »."],
+    "home": [
+      "🏠 Accueil",
+      "Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (jours d’affilée avec une tâche ou du focus), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30."
+    ],
+    "tasks": [
+      "✅ Tâches",
+      "Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé."
+    ],
+    "calendar": [
+      "📅 Calendrier",
+      "Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série."
+    ],
+    "focus": [
+      "🎯 Concentration",
+      "Compteur en un geste et Pomodoro : tags prédéfinis avec objectifs, pas +1/+5/+10, appui long pour remettre à zéro, quatre modes de Pomodoro, chronomètre et « garder l’écran allumé »."
+    ],
     "syncTitle": "Activer la synchronisation",
     "syncIntro": "Par défaut, Okto garde tout dans le navigateur de l’appareil. Pour avoir les mêmes données sur téléphone et ordinateur, connecte un projet Firebase gratuit (offre Spark, sans carte) :",
-    "steps": ["Crée un projet sur [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx.github.io`.", "**Firestore Database** — crée la base et colle [`firestore.rules`](firestore.rules) dans l’onglet **Rules**.", "**Project settings → Your apps → Web** — enregistre l’app et copie `apiKey`, `authDomain`, `projectId`, `appId`.", "Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Lance le déploiement. « Se connecter avec Google » apparaît dans les réglages d’Okto."],
+    "steps": [
+      "Crée un projet sur [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx.github.io`.",
+      "**Firestore Database** — crée la base et colle [`firestore.rules`](firestore.rules) dans l’onglet **Rules**.",
+      "**Project settings → Your apps → Web** — enregistre l’app et copie `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Lance le déploiement. « Se connecter avec Google » apparaît dans les réglages d’Okto."
+    ],
     "syncNote": "Ces clés ne sont pas secrètes : l’accès est protégé par les règles Firestore, chacun ne voit que ses données. Sur le site, les rappels fonctionnent tant que l’onglet est ouvert.",
-    "dev": "🛠 Développement", "devTests": "Vitest : répétitions, stats, migration, synchronisation, calendrier", "devBuild": "build dans dist/", "devEnv": "Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remplis les clés. GitHub Pages publie automatiquement à chaque changement sur `main`.",
-    "history": "🗂 Historique des versions", "h2": "**2.0** — tâches avec listes, répétitions, sous-tâches et rappels ; calendrier façon Apple Calendrier avec glisser-déposer ; accueil personnalisable ; synchronisation Firebase ; focus sur une tâche.", "h1": "**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.",
-    "license": "⚖️ Licences", "lic": "La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Développement",
+    "devTests": "Vitest : répétitions, stats, migration, synchronisation, calendrier",
+    "devBuild": "build dans dist/",
+    "devEnv": "Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remplis les clés. GitHub Pages publie automatiquement à chaque changement sur `main`.",
+    "history": "🗂 Historique des versions",
+    "h2": "**2.0** — tâches avec listes, répétitions, sous-tâches et rappels ; calendrier façon Apple Calendrier avec glisser-déposer ; accueil personnalisable ; synchronisation Firebase ; focus sur une tâche.",
+    "h1": "**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.",
+    "license": "⚖️ Licences",
+    "lic": "La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Fait par [Vlad](https://t.me/arkhitkovv). Si Okto t’a servi, laisse une ⭐ au dépôt."
   },
   "it": {
-    "name": "Italiano", "file": "README.it.md",
-    "alt": ["Okto — pianifica la giornata, concentrati su ciò che conta", "Apri Okto", "Sezioni di Okto: Home, Attività, Calendario, Focus", "Sincronizzazione, privacy e aspetto"],
+    "name": "Italiano",
+    "file": "README.it.md",
+    "alt": [
+      "Okto — pianifica la giornata, concentrati su ciò che conta",
+      "Apri Okto",
+      "Sezioni di Okto: Home, Attività, Calendario, Focus",
+      "Sincronizzazione, privacy e aspetto"
+    ],
     "note": "L’interfaccia dell’app è in russo e inglese.",
     "more": "Di più sulle sezioni",
-    "home": ["🏠 Home", "Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (giorni di fila con un’attività o focus), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30."],
-    "tasks": ["✅ Attività", "Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare."],
-    "calendar": ["📅 Calendario", "In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie."],
-    "focus": ["🎯 Focus", "Contatore a un tocco e Pomodoro: tag predefiniti con obiettivi, passi +1/+5/+10, tieni premuto per azzerare, quattro modalità di Pomodoro, cronometro e «schermo sempre acceso»."],
+    "home": [
+      "🏠 Home",
+      "Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (giorni di fila con un’attività o focus), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30."
+    ],
+    "tasks": [
+      "✅ Attività",
+      "Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare."
+    ],
+    "calendar": [
+      "📅 Calendario",
+      "In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie."
+    ],
+    "focus": [
+      "🎯 Focus",
+      "Contatore a un tocco e Pomodoro: tag predefiniti con obiettivi, passi +1/+5/+10, tieni premuto per azzerare, quattro modalità di Pomodoro, cronometro e «schermo sempre acceso»."
+    ],
     "syncTitle": "Come attivare la sincronizzazione",
     "syncIntro": "Di base Okto salva tutto nel browser del dispositivo. Per avere gli stessi dati su telefono e computer, collega un progetto Firebase gratuito (piano Spark, senza carta):",
-    "steps": ["Crea un progetto su [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — attiva **Google**. In **Settings → Authorized domains** aggiungi `sailxx.github.io`.", "**Firestore Database** — crea il database e incolla [`firestore.rules`](firestore.rules) nella scheda **Rules**.", "**Project settings → Your apps → Web** — registra l’app e copia `apiKey`, `authDomain`, `projectId`, `appId`.", "Nel repository GitHub: **Settings → Secrets and variables → Actions** — aggiungi i secret `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Avvia il deploy. Nelle impostazioni di Okto comparirà «Accedi con Google»."],
+    "steps": [
+      "Crea un progetto su [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — attiva **Google**. In **Settings → Authorized domains** aggiungi `sailxx.github.io`.",
+      "**Firestore Database** — crea il database e incolla [`firestore.rules`](firestore.rules) nella scheda **Rules**.",
+      "**Project settings → Your apps → Web** — registra l’app e copia `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "Nel repository GitHub: **Settings → Secrets and variables → Actions** — aggiungi i secret `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Avvia il deploy. Nelle impostazioni di Okto comparirà «Accedi con Google»."
+    ],
     "syncNote": "Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestore e ognuno vede solo i propri dati. I promemoria sul sito funzionano finché la scheda è aperta.",
-    "dev": "🛠 Sviluppo", "devTests": "Vitest: ripetizioni, statistiche, migrazione, sincronizzazione, calendario", "devBuild": "build in dist/", "devEnv": "Per la sincronizzazione in locale, copia `.env.example` in `.env.local` e compila le chiavi. GitHub Pages pubblica automaticamente a ogni modifica su `main`.",
-    "history": "🗂 Cronologia versioni", "h2": "**2.0** — attività con liste, ripetizioni, sottoattività e promemoria; calendario in stile Apple Calendario con trascinamento; home personalizzabile; sincronizzazione con Firebase; focus su un’attività.", "h1": "**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.",
-    "license": "⚖️ Licenze", "lic": "Il font [Inter](https://rsms.me/inter/) è distribuito con la SIL Open Font License 1.1. Le immagini del README usano [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Sviluppo",
+    "devTests": "Vitest: ripetizioni, statistiche, migrazione, sincronizzazione, calendario",
+    "devBuild": "build in dist/",
+    "devEnv": "Per la sincronizzazione in locale, copia `.env.example` in `.env.local` e compila le chiavi. GitHub Pages pubblica automaticamente a ogni modifica su `main`.",
+    "history": "🗂 Cronologia versioni",
+    "h2": "**2.0** — attività con liste, ripetizioni, sottoattività e promemoria; calendario in stile Apple Calendario con trascinamento; home personalizzabile; sincronizzazione con Firebase; focus su un’attività.",
+    "h1": "**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.",
+    "license": "⚖️ Licenze",
+    "lic": "Il font [Inter](https://rsms.me/inter/) è distribuito con la SIL Open Font License 1.1. Le immagini del README usano [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Fatto da [Vlad](https://t.me/arkhitkovv). Se Okto ti è utile, lascia una ⭐ al repository."
   },
   "tr": {
-    "name": "Türkçe", "file": "README.tr.md",
-    "alt": ["Okto — gününü planla, önemli olana odaklan", "Okto’yu aç", "Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak", "Senkronizasyon, gizlilik ve görünüm"],
+    "name": "Türkçe",
+    "file": "README.tr.md",
+    "alt": [
+      "Okto — gününü planla, önemli olana odaklan",
+      "Okto’yu aç",
+      "Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak",
+      "Senkronizasyon, gizlilik ve görünüm"
+    ],
     "note": "Uygulama arayüzü Rusça ve İngilizcedir.",
     "more": "Bölümler hakkında daha fazlası",
-    "home": ["🏠 Ana sayfa", "Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (görev ya da odakla geçen ardışık günler), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür."],
-    "tasks": ["✅ Görevler", "Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir."],
-    "calendar": ["📅 Takvim", "Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri."],
-    "focus": ["🎯 Odak", "Tek dokunuşla sayaç ve Pomodoro: hedefli hazır etiketler, +1/+5/+10 adımlar, sıfırlamak için basılı tut, dört Pomodoro modu, kronometre ve «ekranı açık tut»."],
+    "home": [
+      "🏠 Ana sayfa",
+      "Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (görev ya da odakla geçen ardışık günler), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür."
+    ],
+    "tasks": [
+      "✅ Görevler",
+      "Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir."
+    ],
+    "calendar": [
+      "📅 Takvim",
+      "Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri."
+    ],
+    "focus": [
+      "🎯 Odak",
+      "Tek dokunuşla sayaç ve Pomodoro: hedefli hazır etiketler, +1/+5/+10 adımlar, sıfırlamak için basılı tut, dört Pomodoro modu, kronometre ve «ekranı açık tut»."
+    ],
     "syncTitle": "Senkronizasyonu açma",
     "syncIntro": "Okto varsayılan olarak her şeyi cihazdaki tarayıcıda tutar. Telefonda ve bilgisayarda aynı verilere sahip olmak için ücretsiz bir Firebase projesi bağla (Spark planı, kart gerekmez):",
-    "steps": ["[console.firebase.google.com](https://console.firebase.google.com/) adresinde bir proje oluştur.", "**Authentication → Sign-in method** — **Google**’ı aç. **Settings → Authorized domains** altına `sailxx.github.io` ekle.", "**Firestore Database** — veritabanını oluştur ve **Rules** sekmesine [`firestore.rules`](firestore.rules) içeriğini yapıştır.", "**Project settings → Your apps → Web** — uygulamayı kaydet ve `apiKey`, `authDomain`, `projectId`, `appId` değerlerini kopyala.", "GitHub deposunda: **Settings → Secrets and variables → Actions** — `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` secret’larını ekle.", "Yayınlamayı başlat. Okto ayarlarında «Google ile giriş yap» görünür."],
+    "steps": [
+      "[console.firebase.google.com](https://console.firebase.google.com/) adresinde bir proje oluştur.",
+      "**Authentication → Sign-in method** — **Google**’ı aç. **Settings → Authorized domains** altına `sailxx.github.io` ekle.",
+      "**Firestore Database** — veritabanını oluştur ve **Rules** sekmesine [`firestore.rules`](firestore.rules) içeriğini yapıştır.",
+      "**Project settings → Your apps → Web** — uygulamayı kaydet ve `apiKey`, `authDomain`, `projectId`, `appId` değerlerini kopyala.",
+      "GitHub deposunda: **Settings → Secrets and variables → Actions** — `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` secret’larını ekle.",
+      "Yayınlamayı başlat. Okto ayarlarında «Google ile giriş yap» görünür."
+    ],
     "syncNote": "Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yalnızca kendi verisini görür. Sitedeki hatırlatıcılar sekme açıkken çalışır.",
-    "dev": "🛠 Geliştirme", "devTests": "Vitest: tekrarlar, istatistik, veri taşıma, senkronizasyon, takvim", "devBuild": "dist/ içine derler", "devEnv": "Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.",
-    "history": "🗂 Sürüm geçmişi", "h2": "**2.0** — listeli, tekrarlı, alt görevli ve hatırlatıcılı görevler; sürükle-bırak destekli Apple Takvim tarzı takvim; özelleştirilebilir ana sayfa; Firebase senkronizasyonu; göreve odaklanma.", "h1": "**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.",
-    "license": "⚖️ Lisanslar", "lic": "[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) ile dizilmiştir.",
+    "dev": "🛠 Geliştirme",
+    "devTests": "Vitest: tekrarlar, istatistik, veri taşıma, senkronizasyon, takvim",
+    "devBuild": "dist/ içine derler",
+    "devEnv": "Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.",
+    "history": "🗂 Sürüm geçmişi",
+    "h2": "**2.0** — listeli, tekrarlı, alt görevli ve hatırlatıcılı görevler; sürükle-bırak destekli Apple Takvim tarzı takvim; özelleştirilebilir ana sayfa; Firebase senkronizasyonu; göreve odaklanma.",
+    "h1": "**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.",
+    "license": "⚖️ Lisanslar",
+    "lic": "[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) ile dizilmiştir.",
     "footer": "[Vlad](https://t.me/arkhitkovv) tarafından yapıldı. Okto işine yaradıysa depoya bir ⭐ bırak."
   },
   "uk": {
-    "name": "Українська", "file": "README.uk.md",
-    "alt": ["Okto — сплануй день, зосередься на головному", "Відкрити Okto", "Розділи Okto: Головна, Завдання, Календар, Фокус", "Синхронізація, приватність і вигляд"],
+    "name": "Українська",
+    "file": "README.uk.md",
+    "alt": [
+      "Okto — сплануй день, зосередься на головному",
+      "Відкрити Okto",
+      "Розділи Okto: Головна, Завдання, Календар, Фокус",
+      "Синхронізація, приватність і вигляд"
+    ],
     "note": "Інтерфейс застосунку доступний російською та англійською.",
     "more": "Докладніше про розділи",
-    "home": ["🏠 Головна", "Блоки продуктивності: **Завдання** (виконано із запланованого), **Фокус** (хвилини Pomodoro), **Серія** (днів поспіль із завданням або фокусом), **Далі** (найближче завдання) і **лічильники** за будь-яким тегом. Блоки можна додавати, прибирати й перетягувати — кнопка «Змінити». Тап по блоку показує графік за 7 днів і підсумок за 30."],
-    "tasks": ["✅ Завдання", "Фільтри: Сьогодні (з простроченими), Майбутні, Усі, Без дати, Виконані — і ваші **списки** з кольорами. У завдання є дата, час і тривалість, **повтор** (щодня, у будні, щотижня, щомісяця, інтервал, дата завершення), **нагадування**, пріоритет, нотатка і **підзавдання**. **Фокус на завданні** запускає Pomodoro, і хвилини записуються в завдання. На телефоні свайп ліворуч — «На завтра» або «Видалити», будь-яку дію можна скасувати."],
-    "calendar": ["📅 Календар", "У стилі Apple Calendar: **День · Тиждень · Місяць**, червона лінія поточного часу, рядок «увесь день». Нове завдання одразу з’являється в календарі. Блоки можна **перетягувати** на інший час і день та **розтягувати** за нижній край (крок 15 хвилин; на телефоні — після довгого натискання). Для повторюваних завдань Okto спитає: лише це, усі майбутні чи всю серію."],
-    "focus": ["🎯 Фокус", "Лічильник в один тап і Pomodoro: теги-заготовки з цілями, крок +1/+5/+10, утримання — скидання, чотири режими Pomodoro, секундомір і «не вимикати екран»."],
+    "home": [
+      "🏠 Головна",
+      "Блоки продуктивності: **Завдання** (виконано із запланованого), **Фокус** (хвилини Pomodoro), **Серія** (днів поспіль із завданням або фокусом), **Далі** (найближче завдання) і **лічильники** за будь-яким тегом. Блоки можна додавати, прибирати й перетягувати — кнопка «Змінити». Тап по блоку показує графік за 7 днів і підсумок за 30."
+    ],
+    "tasks": [
+      "✅ Завдання",
+      "Фільтри: Сьогодні (з простроченими), Майбутні, Усі, Без дати, Виконані — і ваші **списки** з кольорами. У завдання є дата, час і тривалість, **повтор** (щодня, у будні, щотижня, щомісяця, інтервал, дата завершення), **нагадування**, пріоритет, нотатка і **підзавдання**. **Фокус на завданні** запускає Pomodoro, і хвилини записуються в завдання. На телефоні свайп ліворуч — «На завтра» або «Видалити», будь-яку дію можна скасувати."
+    ],
+    "calendar": [
+      "📅 Календар",
+      "У стилі Apple Calendar: **День · Тиждень · Місяць**, червона лінія поточного часу, рядок «увесь день». Нове завдання одразу з’являється в календарі. Блоки можна **перетягувати** на інший час і день та **розтягувати** за нижній край (крок 15 хвилин; на телефоні — після довгого натискання). Для повторюваних завдань Okto спитає: лише це, усі майбутні чи всю серію."
+    ],
+    "focus": [
+      "🎯 Фокус",
+      "Лічильник в один тап і Pomodoro: теги-заготовки з цілями, крок +1/+5/+10, утримання — скидання, чотири режими Pomodoro, секундомір і «не вимикати екран»."
+    ],
     "syncTitle": "Як увімкнути синхронізацію",
     "syncIntro": "Без налаштування Okto зберігає все в браузері на пристрої. Щоб дані були однаковими на телефоні й комп’ютері, підключіть безкоштовний Firebase (план Spark, картка не потрібна):",
-    "steps": ["Створіть проєкт на [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — увімкніть **Google**. У **Settings → Authorized domains** додайте `sailxx.github.io`.", "**Firestore Database** — створіть базу й у вкладці **Rules** вставте вміст [`firestore.rules`](firestore.rules).", "**Project settings → Your apps → Web** — зареєструйте застосунок і скопіюйте `apiKey`, `authDomain`, `projectId`, `appId`.", "У репозиторії на GitHub: **Settings → Secrets and variables → Actions** — додайте секрети `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Запустіть деплой. У налаштуваннях Okto з’явиться «Увійти через Google»."],
+    "steps": [
+      "Створіть проєкт на [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — увімкніть **Google**. У **Settings → Authorized domains** додайте `sailxx.github.io`.",
+      "**Firestore Database** — створіть базу й у вкладці **Rules** вставте вміст [`firestore.rules`](firestore.rules).",
+      "**Project settings → Your apps → Web** — зареєструйте застосунок і скопіюйте `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "У репозиторії на GitHub: **Settings → Secrets and variables → Actions** — додайте секрети `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Запустіть деплой. У налаштуваннях Okto з’явиться «Увійти через Google»."
+    ],
     "syncNote": "Ці ключі не секретні — доступ захищають правила Firestore: кожен бачить лише свої дані. Нагадування на сайті спрацьовують, поки вкладка відкрита.",
-    "dev": "🛠 Розробка", "devTests": "Vitest: повтори, статистика, перенесення даних, синхронізація, календар", "devBuild": "збірка в dist/", "devEnv": "Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.",
-    "history": "🗂 Історія версій", "h2": "**2.0** — завдання зі списками, повторами, підзавданнями й нагадуваннями; календар у стилі Apple Calendar з перетягуванням; головна з налаштовуваними блоками; синхронізація через Firebase; фокус на завданні.", "h1": "**1.0** — Pomodoro з чотирма режимами, теги-заготовки з кольорами, сім тем, англійська мова, сповіщення в браузері.",
-    "license": "⚖️ Ліцензії", "lic": "Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Розробка",
+    "devTests": "Vitest: повтори, статистика, перенесення даних, синхронізація, календар",
+    "devBuild": "збірка в dist/",
+    "devEnv": "Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.",
+    "history": "🗂 Історія версій",
+    "h2": "**2.0** — завдання зі списками, повторами, підзавданнями й нагадуваннями; календар у стилі Apple Calendar з перетягуванням; головна з налаштовуваними блоками; синхронізація через Firebase; фокус на завданні.",
+    "h1": "**1.0** — Pomodoro з чотирма режимами, теги-заготовки з кольорами, сім тем, англійська мова, сповіщення в браузері.",
+    "license": "⚖️ Ліцензії",
+    "lic": "Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Зробив [Влад](https://t.me/arkhitkovv). Якщо Okto знадобився, постав ⭐ репозиторію."
   },
   "pl": {
-    "name": "Polski", "file": "README.pl.md",
-    "alt": ["Okto — zaplanuj dzień, skup się na tym, co ważne", "Otwórz Okto", "Sekcje Okto: Start, Zadania, Kalendarz, Skupienie", "Synchronizacja, prywatność i wygląd"],
+    "name": "Polski",
+    "file": "README.pl.md",
+    "alt": [
+      "Okto — zaplanuj dzień, skup się na tym, co ważne",
+      "Otwórz Okto",
+      "Sekcje Okto: Start, Zadania, Kalendarz, Skupienie",
+      "Synchronizacja, prywatność i wygląd"
+    ],
     "note": "Interfejs aplikacji jest po rosyjsku i angielsku.",
     "more": "Więcej o sekcjach",
-    "home": ["🏠 Start", "Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu z zadaniem lub skupieniem), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30."],
-    "tasks": ["✅ Zadania", "Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć."],
-    "calendar": ["📅 Kalendarz", "W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię."],
-    "focus": ["🎯 Skupienie", "Licznik jednym dotknięciem i Pomodoro: gotowe tagi z celami, kroki +1/+5/+10, przytrzymanie — reset, cztery tryby Pomodoro, stoper i „nie wygaszaj ekranu”."],
+    "home": [
+      "🏠 Start",
+      "Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu z zadaniem lub skupieniem), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30."
+    ],
+    "tasks": [
+      "✅ Zadania",
+      "Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć."
+    ],
+    "calendar": [
+      "📅 Kalendarz",
+      "W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię."
+    ],
+    "focus": [
+      "🎯 Skupienie",
+      "Licznik jednym dotknięciem i Pomodoro: gotowe tagi z celami, kroki +1/+5/+10, przytrzymanie — reset, cztery tryby Pomodoro, stoper i „nie wygaszaj ekranu”."
+    ],
     "syncTitle": "Jak włączyć synchronizację",
     "syncIntro": "Domyślnie Okto trzyma wszystko w przeglądarce na urządzeniu. Aby mieć te same dane na telefonie i komputerze, podłącz darmowy projekt Firebase (plan Spark, bez karty):",
-    "steps": ["Utwórz projekt na [console.firebase.google.com](https://console.firebase.google.com/).", "**Authentication → Sign-in method** — włącz **Google**. W **Settings → Authorized domains** dodaj `sailxx.github.io`.", "**Firestore Database** — utwórz bazę i wklej [`firestore.rules`](firestore.rules) w zakładce **Rules**.", "**Project settings → Your apps → Web** — zarejestruj aplikację i skopiuj `apiKey`, `authDomain`, `projectId`, `appId`.", "W repozytorium na GitHubie: **Settings → Secrets and variables → Actions** — dodaj sekrety `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.", "Uruchom wdrożenie. W ustawieniach Okto pojawi się „Zaloguj przez Google”."],
+    "steps": [
+      "Utwórz projekt na [console.firebase.google.com](https://console.firebase.google.com/).",
+      "**Authentication → Sign-in method** — włącz **Google**. W **Settings → Authorized domains** dodaj `sailxx.github.io`.",
+      "**Firestore Database** — utwórz bazę i wklej [`firestore.rules`](firestore.rules) w zakładce **Rules**.",
+      "**Project settings → Your apps → Web** — zarejestruj aplikację i skopiuj `apiKey`, `authDomain`, `projectId`, `appId`.",
+      "W repozytorium na GitHubie: **Settings → Secrets and variables → Actions** — dodaj sekrety `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
+      "Uruchom wdrożenie. W ustawieniach Okto pojawi się „Zaloguj przez Google”."
+    ],
     "syncNote": "Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tylko swoje dane. Przypomnienia na stronie działają, dopóki karta jest otwarta.",
-    "dev": "🛠 Rozwój", "devTests": "Vitest: powtórki, statystyki, migracja, synchronizacja, kalendarz", "devBuild": "build do dist/", "devEnv": "Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.",
-    "history": "🗂 Historia wersji", "h2": "**2.0** — zadania z listami, powtórkami, podzadaniami i przypomnieniami; kalendarz w stylu Apple Calendar z przeciąganiem; konfigurowalny ekran startowy; synchronizacja przez Firebase; skupienie na zadaniu.", "h1": "**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.",
-    "license": "⚖️ Licencje", "lic": "Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).",
+    "dev": "🛠 Rozwój",
+    "devTests": "Vitest: powtórki, statystyki, migracja, synchronizacja, kalendarz",
+    "devBuild": "build do dist/",
+    "devEnv": "Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.",
+    "history": "🗂 Historia wersji",
+    "h2": "**2.0** — zadania z listami, powtórkami, podzadaniami i przypomnieniami; kalendarz w stylu Apple Calendar z przeciąganiem; konfigurowalny ekran startowy; synchronizacja przez Firebase; skupienie na zadaniu.",
+    "h1": "**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.",
+    "license": "⚖️ Licencje",
+    "lic": "Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Zrobił [Vlad](https://t.me/arkhitkovv). Jeśli Okto ci się przydał, zostaw ⭐ w repozytorium."
   }
 }

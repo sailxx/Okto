@@ -15,6 +15,10 @@
 
 <br>
 
+<img src="assets/readme/screens-en.webp" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus">
+
+<br>
+
 <img src="assets/readme/sections-en.svg" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus">
 
 <details>
@@ -37,6 +41,14 @@ Apple Calendar style: **Day · Week · Month**, a red current-time line and an a
 A one-tap counter and Pomodoro: preset tags with goals, +1/+5/+10 steps, hold to reset, four Pomodoro modes, a stopwatch and “keep screen on”.
 
 </details>
+
+<br>
+
+<img src="assets/readme/quality-en.svg" width="100%" alt="QUALITY IN NUMBERS">
+
+<br>
+
+<img src="assets/readme/design-en.svg" width="100%" alt="DESIGN CODE">
 
 <br>
 
@@ -80,7 +92,7 @@ For sync during local development, copy `.env.example` to `.env.local` and fill 
 
 ## ⚖️ Licenses
 
-The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1).
+The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
 
 <div align="center">
 <br>
