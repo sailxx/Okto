@@ -4,6 +4,7 @@
   import Toast from './components/Toast.svelte';
   import Settings from './components/Settings.svelte';
   import TaskEditor from './components/TaskEditor.svelte';
+  import ProfileSheet from './components/ProfileSheet.svelte';
   import Home from './screens/Home.svelte';
   import Tasks from './screens/Tasks.svelte';
   import Calendar from './screens/Calendar.svelte';
@@ -16,6 +17,7 @@
   import './styles/shell.css';
 
   let settingsOpen = $state(false);
+  let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
 
   const pomodoro = $derived(router.route === 'focus' && store.device.focusMode === 'pomodoro');
@@ -48,6 +50,8 @@
     store.tick();
     sync.start();
     boot.start();
+    // First launch: ask for a name once the power-on animation has played.
+    if (!store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
     // Keyboard: 1–4 switch sections, N adds a task.
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
@@ -75,4 +79,5 @@
 
 {#if store.editor}<TaskEditor />{/if}
 {#if settingsOpen}<Settings onclose={() => (settingsOpen = false)} />{/if}
+{#if welcome}<ProfileSheet welcome onclose={() => (welcome = false)} />{/if}
 <Toast />
