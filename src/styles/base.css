@@ -36,16 +36,17 @@ button { -webkit-tap-highlight-color: transparent; cursor: pointer; background: 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-.app {
+/* Page column: the Okto 1.0 `.app` container, now one per screen. */
+.page {
   width: min(100% - 40px, 560px);
-  min-height: 100svh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding: max(20px, env(safe-area-inset-top)) 0 max(20px, env(safe-area-inset-bottom));
-  user-select: none;
-  -webkit-user-select: none;
+  padding-bottom: 24px;
 }
+.page.wide { width: min(100% - 40px, 760px); }
+.page.full { width: calc(100% - 40px); max-width: none; }
+.focus-page { min-height: calc(100svh - var(--chrome, 0px)); user-select: none; -webkit-user-select: none; padding-bottom: 20px; }
 
 /* ---------- Top ---------- */
 .top { display: flex; justify-content: space-between; align-items: center; height: 44px; }
