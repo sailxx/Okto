@@ -2,17 +2,17 @@
 name: Okto
 description: A monochrome personal planner built as a precision instrument; every metric sits in a recessed display and every action is a key.
 colors:
-  ink: "#161616"
-  casing: "#e9e9e7"
+  ink: "#141414"
+  casing: "#ffffff"
   signal-red: "#d33a3f"
-  casing-soft: "#dededb"
-  casing-line: "#d0d0cd"
-  muted: "#5a5a57"
-  key: "#f7f7f5"
-  key-edge: "#bababa"
-  well: "#d5d5d2"
-  well-ink: "#121212"
-  well-dim: "#4d4d4a"
+  casing-soft: "#f3f3f1"
+  casing-line: "#e4e4e1"
+  muted: "#5f5f5c"
+  key: "#ffffff"
+  key-edge: "#cfcfcc"
+  well: "#f1f1ef"
+  well-ink: "#111111"
+  well-dim: "#5a5a57"
 typography:
   display:
     fontFamily: "JetBrains Mono, ui-monospace, Cascadia Mono, Consolas, monospace"
@@ -23,10 +23,10 @@ typography:
     fontFeature: "tnum"
   readout:
     fontFamily: "JetBrains Mono, ui-monospace, Cascadia Mono, Consolas, monospace"
-    fontSize: "clamp(38px, 11vw, 60px)"
+    fontSize: "clamp(40px, 17cqi, 120px)"
     fontWeight: 700
-    lineHeight: 0.95
-    letterSpacing: "-0.04em"
+    lineHeight: 0.92
+    letterSpacing: "-0.045em"
     fontFeature: "tnum"
   headline:
     fontFamily: "Golos Text, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
@@ -55,7 +55,10 @@ typography:
     fontWeight: 500
     letterSpacing: "0.1em"
 rounded:
+  lcd: "1.5px"
   segment: "2px"
+  cell: "3px"
+  frame: "4px"
   well: "8px"
   key: "10px"
   strip: "12px"
@@ -96,6 +99,14 @@ components:
     textColor: "{colors.well-ink}"
     rounded: "{rounded.well}"
     padding: "14px"
+  scrub-chart:
+    textColor: "{colors.well-ink}"
+    rounded: "{rounded.frame}"
+    height: "64px"
+  activity-cell:
+    backgroundColor: "{colors.well-ink}"
+    rounded: "{rounded.cell}"
+    size: "30px"
   field:
     backgroundColor: "{colors.well}"
     textColor: "{colors.well-ink}"
@@ -133,41 +144,41 @@ components:
 
 **Creative North Star: "The Pocket Instrument"**
 
-Okto is an engineering calculator in the Braun ET66 / HP-15C lineage, used as a planner and rendered in black and white. The page background is the instrument's casing. Every metric lives in a recessed display well, set in tabular JetBrains Mono with unlit "8" segments behind the live digits. Every control is a key: a rounded rectangle with a hairline top highlight and a 1px drop that sinks 1px when pressed. Prose (greetings, task titles, sheet headings) is set in Golos Text, so the instrument stays readable and never turns into a terminal costume.
+Okto is an engineering calculator in the Braun ET66 / HP-15C lineage, used as a planner and rendered in black and white (a white casing in Light). The page background is the instrument's casing. Every metric lives in a recessed display well, set in tabular JetBrains Mono with unlit "8" segments behind the live digits. Every control is a key: a rounded rectangle with a hairline top highlight and a 1px drop that sinks 1px when pressed. Prose (greetings, task titles, sheet headings) is set in Golos Text, so the instrument stays readable and never turns into a terminal costume.
 
-It is built for Operate mode: many short visits a day, one-handed on a phone. Density is moderate and the shell never moves. There is no brand hue. The primary action is the ink colour inverted onto a key (a black key in light themes, a white key in dark themes), and state is shown with ink LED dots. Red is the only signal colour and means alarm. The only other colours are the user's own: list and counter colours on small markers and calendar events. Motion follows the instrument's own behaviour: the power-on self-test at launch, the key press, and the display tick. It is not decorative.
+It is built for Operate mode: many short visits a day, one-handed on a phone. Density is moderate and the shell never moves. There is no brand hue. The primary action is the ink colour inverted onto a key (a black key in light themes, a white key in dark themes), and state is shown with ink LED dots. Red is the only signal colour: it means alarm, and it is the face of the running Pomodoro clock. The only other colours are the user's own: list and counter colours on small markers and calendar events. Motion follows the instrument's own behaviour: the power-on self-test at launch, the key press, and the display tick. It is not decorative.
 
 The system rejects the soft-card productivity app, hacker neon / terminal styling, and (by the owner's decision) a yellow/ochre brand accent. Depth comes from physical metaphor (raised keys, sunken wells), not from floating cards.
 
 **Key Characteristics:**
 - Casing ground, raised keys, recessed display wells: three material layers, each with its own tokens.
 - JetBrains Mono for every numeral and every silk-screen legend; Golos Text for every sentence.
-- Monochrome: the primary key is the ink inverted (`--primary: var(--ink)`, `--on-primary: var(--bg)`), and red is reserved for alarms.
+- Monochrome: the primary key is the ink inverted (`--primary: var(--ink)`, `--on-primary: var(--bg)`), and red is reserved for alarms and the Pomodoro clock face.
 - Ghost "8" segments behind live numerals; power-on self-test on every launch (about 1.1 s, skipped under reduced motion).
-- Seven themes re-tint the casing, keys and well without changing the structure; Light and Dark are pure neutral greys.
+- Seven themes re-tint the casing, keys and well without changing the structure; Light is white, Dark is near-black, both hue-free.
+- Home is an instrument panel that fills the screen; every well carries a live, scrubbable readout of its history.
 
 ### Open opportunities (finish review ceiling, not defects)
 - Mono uppercase legends are used broadly (key legends, tabs, link buttons, hints). Future surfaces should not add more mono chrome; reserve it for real legends.
 - Tasks and Calendar carry few instrument devices compared with Home and Focus.
-- The desktop first view is half empty; the four-column well grid leaves the right side unused at large widths.
 
 ## Colors
 
-A neutral grey casing palette with no brand hue. The ink inverts to form the primary key, and red is the single alarm signal.
+A white-and-ink palette with no brand hue. The ink inverts to form the primary key, and red is the single signal: alarm, and the Pomodoro clock face.
 
 ### Primary
 - **Ink Key** (`ink`, exposed as `--primary`, with `--on-primary` = casing): the primary key face. Used on the full-width solid key, the FAB, the desktop "new" key, the big calculator key, and the active `text-key`. Ink also supplies the power LED (unlit = key edge), the active-tab and active-nav LED dots, the mode LED, the focus ring (`--accent` = ink in every mode), the caret, the focused-field ring, the checked switch track (85% ink), and selection (ink at 18%).
 
 ### Tertiary
-- **Signal Red** (`signal-red`): the alarm colour, for overdue times and labels, the calendar now-line, the over-capacity bar, delete keys and swipe actions, and sync errors. It does not tint Pomodoro mode and is never decorative.
+- **Signal Red** (`signal-red`) has two jobs. First, it is the alarm colour, for overdue times and labels, the calendar now-line and the Home day-plan now-marker, the over-capacity bar, delete keys and swipe actions, and sync errors. Second, it is the Pomodoro clock face: while in Pomodoro mode the running time digits and lit progress segments turn red, like an alarm-clock display. Keys, LEDs and focus rings stay ink in Pomodoro, and red is never decorative.
 
 ### Neutral
-- **Casing** (`casing`): page ground; the instrument body; the legend colour on the primary key.
+- **Casing** (`casing`): page ground; the instrument body; the legend colour on the primary key. In Light it is pure white, the same colour as the key face, so keys read only by their edge and drop shadow.
 - **Casing Soft** (`casing-soft`): tab bar and sidebar panel, segmented strips, and hover fill on flat keys.
 - **Casing Line** (`casing-line`): hairlines, row dividers, and outlines on unselected chips.
 - **Muted** (`muted`): secondary text and legends on the casing.
-- **Key Face** (`key`) / **Key Edge** (`key-edge`): the raised key surface and its 1px drop edge. The edge also forms the 2px hard drop under the primary key. The top highlight is translucent white (`--key-hi`, 90% on light).
-- **Display Well** (`well`), **Well Ink** (`well-ink`), **Well Dim** (`well-dim`): the recessed display, its live digits and lit progress segments, and its legends plus the day-capacity bar. Ghost segments use translucent well ink (`--well-ghost`, 6-8%).
+- **Key Face** (`key`) / **Key Edge** (`key-edge`): the raised key surface and its 1px drop edge. The edge also forms the 2px hard drop under the primary key. The top highlight is translucent white (`--key-hi`, 100% on Light).
+- **Display Well** (`well`), **Well Ink** (`well-ink`), **Well Dim** (`well-dim`): the recessed display; its live digits, lit segments, today/selected chart bars, activity cells and plan slots; and its legends plus the day-capacity bar. Resting chart bars are well ink at 28%, and done plan slots are 30%. Ghost segments use translucent well ink (`--well-ghost`, 6-8%).
 
 ### User data colours
 List and counter-tag colours chosen by the user (`--c`) are the only hues besides red. They appear only as 6-9px square markers (chip LEDs, list dots, month-grid dots) and as tinted calendar event fills (16-18% mix) with 55% outlines. They never colour keys, wells, or Home progress segments.
@@ -177,26 +188,26 @@ All themes share one set of token names (`--bg --ink --muted --line --soft --key
 
 | Token | Light | Dark | Paper | Mint | Midnight | OLED |
 |---|---|---|---|---|---|---|
-| bg (casing) | #e9e9e7 | #141414 | #e9e2d1 | #e1eae3 | #0f141d | #000 |
-| ink (= primary) | #161616 | #ededed | #2a251b | #14241a | #e2e7f0 | #f4f4f4 |
-| muted | #5a5a57 | #8e8e8e | #645a49 | #4a5f52 | #8590a6 | #8d8d8d |
-| line | #d0d0cd | #2a2a2a | #d6ccb6 | #c9d8cd | #212a39 | #1d1d1d |
-| soft | #dededb | #1d1d1d | #dfd6c2 | #d6e2d9 | #161d29 | #0d0d0d |
-| key | #f7f7f5 | #262626 | #f6f0e1 | #f1f6f2 | #1b2331 | #111 |
-| key-edge | #bababa | #070707 | #c2b69c | #b2c4b6 | #060a10 | #000 |
-| well | #d5d5d2 | #0a0a0a | #2b2820 | #cbd9c4 | #070a0f | #000 |
-| well-ink | #121212 | #f2f2f2 | #f1e6c8 | #142313 | #dfe7f5 | #fff |
-| well-dim | #4d4d4a | #8a8a8a | #a69b80 | #415539 | #7a879c | #8d8d8d |
+| bg (casing) | #ffffff | #141414 | #e9e2d1 | #e1eae3 | #0f141d | #000 |
+| ink (= primary) | #141414 | #ededed | #2a251b | #14241a | #e2e7f0 | #f4f4f4 |
+| muted | #5f5f5c | #8e8e8e | #645a49 | #4a5f52 | #8590a6 | #8d8d8d |
+| line | #e4e4e1 | #2a2a2a | #d6ccb6 | #c9d8cd | #212a39 | #1d1d1d |
+| soft | #f3f3f1 | #1d1d1d | #dfd6c2 | #d6e2d9 | #161d29 | #0d0d0d |
+| key | #ffffff | #262626 | #f6f0e1 | #f1f6f2 | #1b2331 | #111 |
+| key-edge | #cfcfcc | #070707 | #c2b69c | #b2c4b6 | #060a10 | #000 |
+| well | #f1f1ef | #0a0a0a | #2b2820 | #cbd9c4 | #070a0f | #000 |
+| well-ink | #111111 | #f2f2f2 | #f1e6c8 | #142313 | #dfe7f5 | #fff |
+| well-dim | #5a5a57 | #8a8a8a | #a69b80 | #415539 | #7a879c | #8d8d8d |
 | red | #d33a3f | #ef5a5f | (light) | (light) | #f0646a | #ff5a5f |
 
-Paper is the only light theme with a dark display well (a backlit LCD look on a cream body). Mint keeps its pale green LCD well, and Paper, Mint and Midnight keep their casing tints. Light, Dark and OLED are hue-free.
+Paper is the only light theme with a dark display well (a backlit LCD look on a cream body). Mint keeps its pale green LCD well, and Paper, Mint and Midnight keep their casing tints. Light, Dark and OLED are hue-free. In Light the well edge is a soft 13% black and the ghost 6%.
 
 ### Named Rules
 **The One Inverted Key Rule.** Each view has at most one ink-faced primary key (FAB on phone, "new" key in the desktop sidebar, the big calculator key, or the sheet's full-width primary key). Elsewhere, ink shows state only as an LED dot, caret, focus ring or selection.
 
 **The No Brand Hue Rule.** The system has no accent colour. Never add one (yellow, ochre, blue or otherwise) to keys, LEDs, wells or charts. Hierarchy comes from ink inversion, weight and recess.
 
-**The Alarm Rule.** Red means time pressure or loss: overdue, now, over capacity, delete, error. Never use it for emphasis, decoration, or mode identity.
+**The Alarm Rule.** Red means time: either pressure or loss (overdue, now, over capacity, delete, error) or the running Pomodoro clock face (its digits and lit segments). Never use it for emphasis, decoration, keys, LEDs, or chrome.
 
 **The Theme Contract Rule.** New surfaces may only use the shared theme tokens. Never hard-code a hex in a component, so all seven themes keep working.
 
@@ -210,12 +221,12 @@ Paper is the only light theme with a dark display well (a backlit LCD look on a 
 
 ### Hierarchy
 - **Display** (700, `min(30vw, 168px)`, line-height 1, -0.04em, tabular, right-aligned): the Focus counter and timer, inside a well. In Pomodoro mode it shrinks to `min(24vw, 150px)`.
-- **Readout** (700, `clamp(38px, 11vw, 60px)`, 0.95; wide wells use `clamp(44px, 13vw, 72px)`): the value in each Home display well.
-- **Headline** (Golos 700, `clamp(28px, 7.5vw, 38px)`, 1.1, -0.03em): the page title, one per screen. The Focus item name uses the same voice at `clamp(26px, 7vw, 34px)`.
+- **Readout** (700, `clamp(40px, 17cqi, 120px)`, 0.92, -0.045em; the double-height Tasks well uses `clamp(48px, 15cqi, 150px)`): the value in each Home display well. Sizes follow the well's own width through container-query units. The Next well's task title is Golos 600 `clamp(16px, 4.2cqi, 22px)`.
+- **Headline** (Golos 700, `clamp(28px, 7.5vw, 38px)`, 1.1, -0.03em): the page title, one per screen. On Home it is the personal greeting ("<greeting or time-of-day auto>, <name>"). It is a button that opens the Profile sheet, and on hover it gets a 2px line-colour underline. The Focus item name uses the same voice at `clamp(26px, 7vw, 34px)`.
 - **Title** (Golos 700, 22px, -0.02em): sheet headings.
 - **Body** (Golos 400-500, 16px; task titles 16.5px/500/1.35): all prose, task titles, settings rows.
 - **Label** (Mono 500, 11px, 0.12em, uppercase): silk-screen legends above fields and inside wells.
-- **Key legend** (Mono 500, 10-12px, 0.1em, uppercase): text printed on tab keys, segmented strips, text keys. Secondary readings (dates, times, counts) use Mono 12-13px with tabular figures and no uppercase.
+- **Key legend** (Mono 500, 10-12px, 0.1em, uppercase): text printed on tab keys, segmented strips, text keys. Chart axis legends (weekday initials, plan hours) are Mono 10px in well dim. Secondary readings (dates, times, counts) use Mono 12-13px with tabular figures and no uppercase.
 
 ### Named Rules
 **The Numerals Are Mono Rule.** Every number a user reads (time, count, date, task number, duration) is set in JetBrains Mono with tabular figures. Sentences never are.
@@ -224,9 +235,13 @@ Paper is the only light theme with a dark display well (a backlit LCD look on a 
 
 ## Layout
 
-One centred column per screen: `min(100% - 32px, 560px)` by default and `820px` for wide screens (Home, Tasks). Calendar is full width. On phones the shell has a sticky top casing row (wordmark with power LED, clock, actions), a fixed bottom key-row tab bar (4 keys, 56px tall, 6px gaps, 72px band), and an ink FAB 20px above the tab bar. At 900px and up, the tab bar and FAB give way to a 236px sticky sidebar key column on the soft casing: wordmark, clock, nav keys with keyboard hints, the ink "new" key, and a footer.
+One centred column per screen: `min(100% - 32px, 560px)` by default and `820px` for wide screens (Tasks). Home is `min(100% - 32px, 1560px)` and Calendar is full width. On phones the shell has a sticky top casing row (wordmark with power LED, clock, actions), a fixed bottom key-row tab bar (4 keys, 56px tall, 6px gaps, 72px band), and an ink FAB 20px above the tab bar. At 900px and up, the tab bar and FAB give way to a 236px sticky sidebar key column on the soft casing: wordmark, clock, nav keys with keyboard hints, the ink "new" key, and a footer.
 
-Home arranges display wells in a 2-column grid (10px gap) on phones and 4 columns (14px gap) on desktop. Wide wells span 2 columns. Focus fills the viewport height: heading, then a flexible tap zone holding the display well, then the key row. Spacing rhythm runs 4 / 8 / 14 / 20 px, with a 16px page gutter. Sheets are centred dialogs (max 460px) and become bottom sheets at 560px and below.
+Home is an instrument panel that fills the screen.
+- **Phone:** a 2-column grid with a 10px gap. Wells span both columns, except Streak, which takes one column from 600px and up.
+- **900px and up:** 4 columns with a 14px gap and rows of `minmax(210px, 1fr)`, dense flow, and `min-height: calc(100svh - 150px)`. The Tasks well spans 2 rows.
+- **1280px and up:** 6 columns; wells span 3.
+- **Well height:** at least 168px. Focus fills the viewport height: heading, then a flexible tap zone holding the display well, then the key row. Spacing rhythm runs 4 / 8 / 14 / 20 px, with a 16px page gutter. Sheets are centred dialogs (max 460px) and become bottom sheets at 560px and below.
 
 While Pomodoro runs, the shell chrome and everything on Focus except the instrument dim to 30-35% opacity, and the chrome restores on hover.
 
@@ -246,7 +261,7 @@ Depth is physical rather than atmospheric. There are exactly three planes: casin
 
 ## Shapes
 
-Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have a 10px radius, wells and fields 8px, segmented strips 12px, the FAB 14px, and sheets 16px (18px top corners as a bottom sheet). LEDs are the only circles (5-9px dots). List-colour markers and chip LEDs are 6-8px squares with a 2px radius, and progress segments are 1-1.5px-radius bars with 2-3px gaps, like LCD segments.
+Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have a 10px radius, wells and fields 8px, segmented strips 12px, the FAB 14px, and sheets 16px (18px top corners as a bottom sheet). LEDs are the only circles (5-9px dots). List-colour markers and chip LEDs are 6-8px squares with a 2px radius, and progress segments are 1-1.5px-radius bars with 2-3px gaps, like LCD segments. Chart marks are small rectangles too: scrub bars and plan slots have a 2px radius, activity cells 3px, and chart focus frames 4px.
 
 ## Components
 
@@ -267,7 +282,15 @@ Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have 
 - **Background:** well tint with well-ink digits and well-dim legends.
 - **Shadow Strategy:** well recess (see Elevation).
 - **Internal Padding:** 14px on Home wells; 18px 18px 14px for the Focus block.
-- **Structure:** a legend row (label left, secondary reading right), then a readout pinned to the bottom. Progress appears as discrete LCD segments (20 on Home, 24 on Focus) in ghost tint, lit in well ink. The Tasks well adds a 2px day-capacity line in well dim, which turns red over capacity.
+- **Structure:** a legend row (label left, secondary reading right), then the readout, then an instrument trace filling the rest. Progress appears as discrete LCD segments (20 on Home, 24 on Focus) in ghost tint, lit in well ink. Focus segments are red in Pomodoro. The Tasks well adds a 2px day-capacity line in well dim, which turns red over capacity.
+- **Home traces:**
+  - **Scrub chart:** used by Tasks (14 days), Focus and counters (7 days).
+  - **Activity grid:** used by Streak. It shows 5 weeks of 30px max squares with a 3px radius and 5px gaps. Lit cells are well ink, empty cells are ghost, and future cells sit at 35%. Today has a ring, and the selected cell has a 2px outline.
+  - **Day-plan strip:** used by Next. It runs 06–24 and is 42px tall. Planned slots are 14px ink bars with a 2px radius (done ones at 30%), with a red 2px now-marker.
+
+### Scrub chart (interactive trace)
+- **Role:** a keyboard-reachable `role="slider"` inside a well. Hovering, touch-dragging, or using the arrow keys picks a day. That day's value replaces the well's big digits, and its date replaces the legend. Escape or blur restores today.
+- **Style:** one column per day with a 3px gap. Bars are at most 22px wide with a 2px top radius and well ink at 28%. Today and the picked day are solid well ink; the picked day also gets a 1px outline offset by 2px. A ghost baseline runs underneath, with Mono 10px uppercase weekday initials below (ink when today or picked). The cursor is a crosshair, and the focus frame has a 4px radius.
 
 ### Inputs / Fields
 - **Style:** inputs are small display wells: 48px tall, well background, inset recess, mono 500 17px text, an ink caret, and well-dim placeholders. Each has a mono uppercase legend above it.
@@ -283,7 +306,7 @@ Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have 
 Every reading is rendered with the Digits component: a ghost layer that replaces each digit with "8" in `--well-ghost`, with the live value layered on top. On every launch the boot sequence runs `off` (90ms) → `test` (all segments lit) → `settle` → `on` at about 1.15s. During `settle` each digit resolves from 8 to its value 70ms after the previous one, and wells stagger by 90ms. Meanwhile the power LED lights from key edge to ink, Home progress segments flash `well-dim`, and the screen content rises 6px into place. Under `prefers-reduced-motion` it jumps straight to `on`. Focus adds a 140ms tick dim on count, and when paused the live digits blink with `steps(1)` at 1.1s.
 
 ### Sheets and Toast
-Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row ruled off by a hairline. They enter with a 260ms slide-up of 18px. The toast is a one-line display well (mono 13px) with an optional uppercase action in well ink, underlined. It sits at the top on desktop and above the FAB on phones.
+The Profile sheet (name field, plus a greeting with an "auto" switch) opens from the Home greeting. On first launch the same sheet appears as a welcome after the boot animation, with a lead line and a skip key next to the primary key. Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row ruled off by a hairline. They enter with a 260ms slide-up of 18px. The toast is a one-line display well (mono 13px) with an optional uppercase action in well ink, underlined. It sits at the top on desktop and above the FAB on phones.
 
 ## Do's and Don'ts
 
@@ -291,7 +314,8 @@ Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row 
 - **Do** put every reading inside a display well and render its numerals through the Digits component, so they get ghost segments and the power-on test.
 - **Do** make every pressable control a key: raised shadow at rest, a 1px sink on press with the `cubic-bezier(.16, 1, .3, 1)` ease over 90ms.
 - **Do** keep one ink-faced primary key per view and show state with ink LED dots (5-9px) rather than fills.
-- **Do** separate data series by value, segment and recess (well ink vs well dim vs ghost) before reaching for a hue.
+- **Do** separate data series by value, segment and recess (well ink, 28-30% ink, well dim, ghost) before reaching for a hue.
+- **Do** make every Home trace scrubbable: hover, drag and arrow keys show the picked day in the well's own digits and legend.
 - **Do** set every number in JetBrains Mono with tabular figures and every sentence in Golos Text.
 - **Do** define new colours as theme tokens in all seven themes, and check Paper, where the well is dark on a light body.
 - **Do** keep entry motion at about one second and reduce it to nothing under `prefers-reduced-motion`.
@@ -300,7 +324,7 @@ Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row 
 - **Don't** introduce a brand or accent hue (yellow, ochre, blue) on keys, LEDs, wells, focus rings or charts.
 - **Don't** introduce soft floating cards, glassmorphism, or ambient-shadow tiles. Readings are recessed, not lifted.
 - **Don't** use green-on-black, scanlines, glow, or a terminal prompt aesthetic. This is a calculator, not a console.
-- **Don't** use red for emphasis, branding, decoration, or to mark a mode. It means overdue, now, over capacity, delete, or error.
+- **Don't** use red for emphasis, branding, decoration, keys, LEDs or chrome. It means overdue, now, over capacity, delete, error, or the running Pomodoro clock face.
 - **Don't** let user list/counter colours go beyond small markers and calendar event tints.
 - **Don't** use uppercase mono for headlines, section intros, or kickers. Legends name a control or reading and nothing else.
 - **Don't** use pill shapes or circular buttons. Circles are reserved for LEDs.
