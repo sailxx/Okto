@@ -69,7 +69,7 @@
   function gripUp() { dragKey = null; }
 </script>
 
-{#snippet bar(on: number, color = 'var(--ochre)')}
+{#snippet bar(on: number, color = 'var(--well-ink)')}
   <span class="segs" style:--c={color} aria-hidden="true">
     {#each Array(SEGS) as _, s}<i class:on={s < on}></i>{/each}
   </span>
@@ -116,7 +116,7 @@
             {/if}
           {:else if counter}
             <span class="read"><Digits class="big" text={String(counter.count).padStart(3, '0')} delay={i * 90} /><em>/{counter.target}</em></span>
-            {@render bar(lit(counter.count / counter.target), counter.color)}
+            {@render bar(lit(counter.count / counter.target))}
           {/if}
         </button>
         {#if editing}
@@ -139,7 +139,7 @@
         {#each available as b (keyOf(b))}
           {@const c = b.counterId ? store.data.counters[b.counterId] : null}
           <form method="dialog"><button class="avail-row" onclick={() => setBlocks([...blocks, b])}>
-            <span class="dot" style:--c={c ? c.color : 'var(--ochre)'}></span>
+            <span class="dot" style:--c={c ? c.color : 'var(--primary)'}></span>
             <span>{c ? `${store.t('bCounter')}: ${c.name || store.t('counter')}` : store.t(LABEL[b.type as Exclude<BlockType, 'counter'>])}</span>
             <Icon name="plus" size={18} />
           </button></form>
@@ -186,7 +186,7 @@
   .segs i { border-radius: 1.5px; background: var(--well-ghost); transition: background-color 300ms ease; }
   .segs i.on { background: var(--c); }
   .cap { display: block; height: 2px; margin-top: -4px; background: var(--well-ghost); border-radius: 2px; overflow: hidden; }
-  .cap i { display: block; height: 100%; background: var(--blue); }
+  .cap i { display: block; height: 100%; background: var(--well-dim); }
   .cap i.over { background: var(--red); }
 
   /* Power-on: lit segments during self-test */

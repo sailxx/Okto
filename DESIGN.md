@@ -1,21 +1,18 @@
 ---
 name: Okto
-description: A personal planner built as a precision instrument; every metric sits in a recessed display and every action is a key.
+description: A monochrome personal planner built as a precision instrument; every metric sits in a recessed display and every action is a key.
 colors:
-  ochre: "#d39a12"
-  on-ochre: "#1b1608"
-  hp-blue: "#2c64c8"
-  signal-red: "#d93a3f"
-  casing: "#e8e7e1"
-  casing-soft: "#dddcd5"
-  casing-line: "#d0cec6"
-  ink: "#1b1c19"
-  muted: "#5a5b54"
-  key: "#f5f4ef"
-  key-edge: "#bdbbb2"
-  well: "#d3d8c8"
-  well-ink: "#1d2318"
-  well-dim: "#4c5443"
+  ink: "#161616"
+  casing: "#e9e9e7"
+  signal-red: "#d33a3f"
+  casing-soft: "#dededb"
+  casing-line: "#d0d0cd"
+  muted: "#5a5a57"
+  key: "#f7f7f5"
+  key-edge: "#bababa"
+  well: "#d5d5d2"
+  well-ink: "#121212"
+  well-dim: "#4d4d4a"
 typography:
   display:
     fontFamily: "JetBrains Mono, ui-monospace, Cascadia Mono, Consolas, monospace"
@@ -78,8 +75,8 @@ components:
     height: "50px"
     padding: "0 18px"
   key-primary:
-    backgroundColor: "{colors.ochre}"
-    textColor: "{colors.on-ochre}"
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.casing}"
     rounded: "{rounded.key}"
     height: "50px"
     width: "100%"
@@ -90,8 +87,8 @@ components:
     rounded: "{rounded.key}"
     size: "52px"
   fab:
-    backgroundColor: "{colors.ochre}"
-    textColor: "{colors.on-ochre}"
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.casing}"
     rounded: "{rounded.fab}"
     size: "60px"
   display-well:
@@ -125,6 +122,9 @@ components:
     rounded: "{rounded.well}"
     height: "34px"
     padding: "0 12px"
+  text-key-active:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.casing}"
 ---
 
 # Design System: Okto
@@ -133,71 +133,70 @@ components:
 
 **Creative North Star: "The Pocket Instrument"**
 
-Okto is an engineering calculator in the Braun ET66 / HP-15C lineage, used as a planner. The page background is the instrument's casing. Every metric lives in a recessed display well, set in tabular JetBrains Mono with unlit "8" segments behind the live digits. Every control is a key: a rounded rectangle with a hairline top highlight and a 1px drop that sinks 1px when pressed. Prose (greetings, task titles, sheet headings) is set in Golos Text, so the instrument stays readable and never turns into a terminal costume.
+Okto is an engineering calculator in the Braun ET66 / HP-15C lineage, used as a planner and rendered in black and white. The page background is the instrument's casing. Every metric lives in a recessed display well, set in tabular JetBrains Mono with unlit "8" segments behind the live digits. Every control is a key: a rounded rectangle with a hairline top highlight and a 1px drop that sinks 1px when pressed. Prose (greetings, task titles, sheet headings) is set in Golos Text, so the instrument stays readable and never turns into a terminal costume.
 
-It is built for Operate mode: many short visits a day, one-handed on a phone. Density is moderate and the shell never moves. Colour does orientation work. Ochre marks the one action you are meant to press, blue is the second data series, and red is the alarm. Motion follows the instrument's own behaviour: the power-on self-test at launch, the key press, and the display tick. It is not decorative.
+It is built for Operate mode: many short visits a day, one-handed on a phone. Density is moderate and the shell never moves. There is no brand hue. The primary action is the ink colour inverted onto a key (a black key in light themes, a white key in dark themes), and state is shown with ink LED dots. Red is the only signal colour and means alarm. The only other colours are the user's own: list and counter colours on small markers and calendar events. Motion follows the instrument's own behaviour: the power-on self-test at launch, the key press, and the display tick. It is not decorative.
 
-The system rejects both the soft-card productivity app and hacker neon / terminal styling. Depth comes from physical metaphor (raised keys, sunken wells), not from floating cards.
+The system rejects the soft-card productivity app, hacker neon / terminal styling, and (by the owner's decision) a yellow/ochre brand accent. Depth comes from physical metaphor (raised keys, sunken wells), not from floating cards.
 
 **Key Characteristics:**
 - Casing ground, raised keys, recessed display wells: three material layers, each with its own tokens.
 - JetBrains Mono for every numeral and every silk-screen legend; Golos Text for every sentence.
-- A single ochre primary action per view; red is reserved for alarm and Pomodoro states.
+- Monochrome: the primary key is the ink inverted (`--primary: var(--ink)`, `--on-primary: var(--bg)`), and red is reserved for alarms.
 - Ghost "8" segments behind live numerals; power-on self-test on every launch (about 1.1 s, skipped under reduced motion).
-- Seven themes re-tint the casing, keys and well without changing the structure.
+- Seven themes re-tint the casing, keys and well without changing the structure; Light and Dark are pure neutral greys.
 
 ### Open opportunities (finish review ceiling, not defects)
 - Mono uppercase legends are used broadly (key legends, tabs, link buttons, hints). Future surfaces should not add more mono chrome; reserve it for real legends.
-- HP blue is underused as a data series (it currently appears only in the day-capacity bar). The next chart should use it.
 - Tasks and Calendar carry few instrument devices compared with Home and Focus.
 - The desktop first view is half empty; the four-column well grid leaves the right side unused at large widths.
 
 ## Colors
 
-A warm-neutral casing palette with three signal colours used the way an instrument uses them: one primary key, one second series, one alarm.
+A neutral grey casing palette with no brand hue. The ink inverts to form the primary key, and red is the single alarm signal.
 
 ### Primary
-- **ET66 Ochre** (`ochre`): the `=` key. Used on the primary key (full-width solid key, FAB, desktop "new" key), the power LED, the active-tab and active-nav LED dot, the focus ring and caret, text selection, the active `text-key`, and checked switches. Text on ochre always uses **Ochre Ink** (`on-ochre`).
-
-### Secondary
-- **HP Blue** (`hp-blue`): the second data series, currently the day-capacity bar under the Tasks well.
+- **Ink Key** (`ink`, exposed as `--primary`, with `--on-primary` = casing): the primary key face. Used on the full-width solid key, the FAB, the desktop "new" key, the big calculator key, and the active `text-key`. Ink also supplies the power LED (unlit = key edge), the active-tab and active-nav LED dots, the mode LED, the focus ring (`--accent` = ink in every mode), the caret, the focused-field ring, the checked switch track (85% ink), and selection (ink at 18%).
 
 ### Tertiary
-- **Signal Red** (`signal-red`): the alarm colour. It replaces ochre as `--accent` in Pomodoro mode (power LED, mode LED, progress segments, bars, focus ring). It also marks time alarms and destructive acts: overdue times, the calendar now-line, over-capacity, delete keys and swipe actions, and sync errors. It is never decorative.
+- **Signal Red** (`signal-red`): the alarm colour, for overdue times and labels, the calendar now-line, the over-capacity bar, delete keys and swipe actions, and sync errors. It does not tint Pomodoro mode and is never decorative.
 
 ### Neutral
-- **Casing** (`casing`): page ground; the instrument body.
+- **Casing** (`casing`): page ground; the instrument body; the legend colour on the primary key.
 - **Casing Soft** (`casing-soft`): tab bar and sidebar panel, segmented strips, and hover fill on flat keys.
 - **Casing Line** (`casing-line`): hairlines, row dividers, and outlines on unselected chips.
-- **Ink** (`ink`) / **Muted** (`muted`): primary text, and secondary text plus legends on the casing.
-- **Key Face** (`key`) / **Key Edge** (`key-edge`): the raised key surface and its 1px drop edge. The top highlight is translucent white (`--key-hi`, 85% on light).
-- **Display Well** (`well`), **Well Ink** (`well-ink`), **Well Dim** (`well-dim`): the recessed display, its live digits, and its legends. Ghost segments use translucent well ink (`--well-ghost`, 6-8%).
+- **Muted** (`muted`): secondary text and legends on the casing.
+- **Key Face** (`key`) / **Key Edge** (`key-edge`): the raised key surface and its 1px drop edge. The edge also forms the 2px hard drop under the primary key. The top highlight is translucent white (`--key-hi`, 90% on light).
+- **Display Well** (`well`), **Well Ink** (`well-ink`), **Well Dim** (`well-dim`): the recessed display, its live digits and lit progress segments, and its legends plus the day-capacity bar. Ghost segments use translucent well ink (`--well-ghost`, 6-8%).
+
+### User data colours
+List and counter-tag colours chosen by the user (`--c`) are the only hues besides red. They appear only as 6-9px square markers (chip LEDs, list dots, month-grid dots) and as tinted calendar event fills (16-18% mix) with 55% outlines. They never colour keys, wells, or Home progress segments.
 
 ### Per-theme values
-All themes share one set of token names (`--bg --ink --muted --line --soft --key --key-ink --key-edge --well --well-ink --well-dim --ochre --blue --red`). "System" follows the OS between Light and Dark. Themes not listed under a signal colour inherit the Light value.
+All themes share one set of token names (`--bg --ink --muted --line --soft --key --key-ink --key-edge --well --well-ink --well-dim --red`). `--primary`/`--accent` resolve to `--ink` and `--on-primary`/`--on-accent` to `--bg` in every theme. "System" follows the OS between Light and Dark. Themes not listed under red inherit the Light value.
 
 | Token | Light | Dark | Paper | Mint | Midnight | OLED |
 |---|---|---|---|---|---|---|
-| bg (casing) | #e8e7e1 | #171815 | #e9e2d1 | #e1eae3 | #0f141d | #000 |
-| ink | #1b1c19 | #ecebe4 | #2a251b | #14241a | #e2e7f0 | #f4f4f4 |
-| muted | #5a5b54 | #8f9088 | #645a49 | #4a5f52 | #8590a6 | #8d8d8d |
-| line | #d0cec6 | #2b2c28 | #d6ccb6 | #c9d8cd | #212a39 | #1d1d1d |
-| soft | #dddcd5 | #20211d | #dfd6c2 | #d6e2d9 | #161d29 | #0d0d0d |
-| key | #f5f4ef | #262723 | #f6f0e1 | #f1f6f2 | #1b2331 | #111 |
-| key-edge | #bdbbb2 | #0b0b0a | #c2b69c | #b2c4b6 | #060a10 | #000 |
-| well | #d3d8c8 | #0c0d0b | #2b2820 | #cbd9c4 | #070a0f | #000 |
-| well-ink | #1d2318 | #efe9d8 | #f1e6c8 | #142313 | #dfe7f5 | #fff |
-| well-dim | #4c5443 | #8a8577 | #a69b80 | #415539 | #7a879c | #8d8d8d |
-| ochre | #d39a12 | #e3a823 | #c98d0c | (light) | #e7ad2b | #f0b429 |
-| blue | #2c64c8 | #5b8ef0 | (light) | (light) | #6a9cf5 | #6a9cf5 |
-| red | #d93a3f | #ef5a5f | (light) | (light) | #f0646a | #ff5a5f |
+| bg (casing) | #e9e9e7 | #141414 | #e9e2d1 | #e1eae3 | #0f141d | #000 |
+| ink (= primary) | #161616 | #ededed | #2a251b | #14241a | #e2e7f0 | #f4f4f4 |
+| muted | #5a5a57 | #8e8e8e | #645a49 | #4a5f52 | #8590a6 | #8d8d8d |
+| line | #d0d0cd | #2a2a2a | #d6ccb6 | #c9d8cd | #212a39 | #1d1d1d |
+| soft | #dededb | #1d1d1d | #dfd6c2 | #d6e2d9 | #161d29 | #0d0d0d |
+| key | #f7f7f5 | #262626 | #f6f0e1 | #f1f6f2 | #1b2331 | #111 |
+| key-edge | #bababa | #070707 | #c2b69c | #b2c4b6 | #060a10 | #000 |
+| well | #d5d5d2 | #0a0a0a | #2b2820 | #cbd9c4 | #070a0f | #000 |
+| well-ink | #121212 | #f2f2f2 | #f1e6c8 | #142313 | #dfe7f5 | #fff |
+| well-dim | #4d4d4a | #8a8a8a | #a69b80 | #415539 | #7a879c | #8d8d8d |
+| red | #d33a3f | #ef5a5f | (light) | (light) | #f0646a | #ff5a5f |
 
-Paper is the only light theme with a dark display well (a backlit LCD look on a cream body). Light and Mint use a pale green-grey LCD well.
+Paper is the only light theme with a dark display well (a backlit LCD look on a cream body). Mint keeps its pale green LCD well, and Paper, Mint and Midnight keep their casing tints. Light, Dark and OLED are hue-free.
 
 ### Named Rules
-**The One Ochre Key Rule.** Each view has at most one ochre key face (FAB on phone, "new" key in the desktop sidebar, or the sheet's full-width primary key). Elsewhere, ochre appears only as an LED dot, caret, focus ring or selection.
+**The One Inverted Key Rule.** Each view has at most one ink-faced primary key (FAB on phone, "new" key in the desktop sidebar, the big calculator key, or the sheet's full-width primary key). Elsewhere, ink shows state only as an LED dot, caret, focus ring or selection.
 
-**The Alarm Rule.** Red means time pressure or loss: Pomodoro, overdue, now, over capacity, delete, error. Never use it for emphasis or decoration.
+**The No Brand Hue Rule.** The system has no accent colour. Never add one (yellow, ochre, blue or otherwise) to keys, LEDs, wells or charts. Hierarchy comes from ink inversion, weight and recess.
+
+**The Alarm Rule.** Red means time pressure or loss: overdue, now, over capacity, delete, error. Never use it for emphasis, decoration, or mode identity.
 
 **The Theme Contract Rule.** New surfaces may only use the shared theme tokens. Never hard-code a hex in a component, so all seven themes keep working.
 
@@ -225,7 +224,7 @@ Paper is the only light theme with a dark display well (a backlit LCD look on a 
 
 ## Layout
 
-One centred column per screen: `min(100% - 32px, 560px)` by default and `820px` for wide screens (Home, Tasks). Calendar is full width. On phones the shell has a sticky top casing row (wordmark with power LED, clock, actions), a fixed bottom key-row tab bar (4 keys, 56px tall, 6px gaps, 72px band), and an ochre FAB 20px above the tab bar. At 900px and up, the tab bar and FAB give way to a 236px sticky sidebar key column on the soft casing: wordmark, clock, nav keys with keyboard hints, the ochre "new" key, and a footer.
+One centred column per screen: `min(100% - 32px, 560px)` by default and `820px` for wide screens (Home, Tasks). Calendar is full width. On phones the shell has a sticky top casing row (wordmark with power LED, clock, actions), a fixed bottom key-row tab bar (4 keys, 56px tall, 6px gaps, 72px band), and an ink FAB 20px above the tab bar. At 900px and up, the tab bar and FAB give way to a 236px sticky sidebar key column on the soft casing: wordmark, clock, nav keys with keyboard hints, the ink "new" key, and a footer.
 
 Home arranges display wells in a 2-column grid (10px gap) on phones and 4 columns (14px gap) on desktop. Wide wells span 2 columns. Focus fills the viewport height: heading, then a flexible tap zone holding the display well, then the key row. Spacing rhythm runs 4 / 8 / 14 / 20 px, with a 16px page gutter. Sheets are centred dialogs (max 460px) and become bottom sheets at 560px and below.
 
@@ -233,13 +232,13 @@ While Pomodoro runs, the shell chrome and everything on Focus except the instrum
 
 ## Elevation & Depth
 
-Depth is physical rather than atmospheric. There are exactly three planes: casing (flat), keys (raised by a highlight and a 1px edge), and wells (sunk by inset shadow). Floating shadows are used only for things that actually float: sheets, the toast, and the FAB.
+Depth is physical rather than atmospheric. There are exactly three planes: casing (flat), keys (raised by a highlight and a 1px edge), and wells (sunk by inset shadow). Floating shadows are used only for things that actually float: sheets, the toast, and the FAB. In a monochrome system this tonal layering does the work a hue used to do.
 
 ### Shadow Vocabulary
 - **Key raised** (`box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%)`): every key at rest, selected chips, active segment, mode thumb.
 - **Key pressed** (`box-shadow: inset 0 1px 2px rgb(0 0 0 / 18%)` with `transform: translateY(1px)`): `:active`, latched (`aria-pressed`), and current-tab states.
 - **Well recess** (`box-shadow: inset 0 2px 3px var(--well-edge), inset 0 0 0 1px var(--well-edge), 0 1px 0 var(--key-hi)`): display wells, inputs, switch tracks.
-- **Primary key drop** (`box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 2px 0 color-mix(in srgb, var(--ochre) 55%, #000), 0 10px 22px -8px rgb(0 0 0 / 45%)`): FAB only (the sidebar key omits the ambient part).
+- **Primary key drop** (`box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 2px 0 var(--key-edge), 0 10px 22px -8px rgb(0 0 0 / 45%)`): FAB only (the sidebar key omits the ambient part). The 2px hard drop is the key's own travel, not a decorative offset shadow.
 - **Sheet lift** (`box-shadow: inset 0 1px 0 var(--key-hi), 0 0 0 1px var(--line), 0 30px 60px -20px rgb(0 0 0 / 45%)`): dialogs.
 
 ### Named Rules
@@ -247,20 +246,20 @@ Depth is physical rather than atmospheric. There are exactly three planes: casin
 
 ## Shapes
 
-Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have a 10px radius, wells and fields 8px, segmented strips 12px, the FAB 14px, and sheets 16px (18px top corners as a bottom sheet). LEDs are the only circles (5-9px dots). List-colour markers and chip LEDs are 7-8px squares with a 2px radius, and progress segments are 1-1.5px-radius bars with 2-3px gaps, like LCD segments.
+Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have a 10px radius, wells and fields 8px, segmented strips 12px, the FAB 14px, and sheets 16px (18px top corners as a bottom sheet). LEDs are the only circles (5-9px dots). List-colour markers and chip LEDs are 6-8px squares with a 2px radius, and progress segments are 1-1.5px-radius bars with 2-3px gaps, like LCD segments.
 
 ## Components
 
 ### Buttons (keys)
 - **Shape:** rounded rectangle (10px).
-- **Primary:** an ochre face with ochre-ink text, Golos 600 16px, 50px tall, full width in sheets. The FAB is the 60px square variant.
+- **Primary:** an ink face with a casing-colour legend (black/white in light themes, inverted in dark themes), Golos 600 16px, 50px tall, full width in sheets. The FAB is the 60px square variant with a 2px key-edge drop.
 - **Secondary:** a key-face colour with ink text, 50px tall, 18px side padding. The danger variant swaps only the legend colour to red.
-- **Calculator keys:** 52px squares (46px on short or narrow screens) carrying mono 600 15px legends. The big ochre key is 76px wide. Latched keys invert to an ink face.
-- **Hover / Focus / Active:** hover tints the face 10% toward ink, and the primary key brightens by 6%. The focus ring is a 2px accent outline offset by 3px. Active sinks 1px over 90ms with the instrument ease `cubic-bezier(.16, 1, .3, 1)`.
-- **Text key / link:** a flat 34px mono-uppercase text key that fills soft on hover and turns ochre when it is the active toggle. Link buttons are mono uppercase with a hairline underline.
+- **Calculator keys:** 52px squares (46px on short or narrow screens) carrying mono 600 15px legends. The big start/pause key is 76px wide and ink-faced. Latched keys invert to an ink face.
+- **Hover / Focus / Active:** hover tints the face 10% toward ink, and the primary key brightens by 6%. The focus ring is a 2px ink outline offset by 3px. Active sinks 1px over 90ms with the instrument ease `cubic-bezier(.16, 1, .3, 1)`.
+- **Text key / link:** a flat 34px mono-uppercase text key that fills soft on hover and inverts to ink when it is the active toggle. Link buttons are mono uppercase with a hairline underline.
 
 ### Chips
-- **Style:** 36px with an 8px radius, a 1px line outline, and a transparent fill. A 7px square "LED" in the item colour sits at 55% opacity, followed by a Golos 500 14px name and an optional mono count.
+- **Style:** 36px with an 8px radius, a 1px line outline, and a transparent fill. A 7px square "LED" sits at 55% opacity: ink for Pomodoro presets, the user's colour for counter tags. It is followed by a Golos 500 14px name and an optional mono count.
 - **State:** selected chips become a raised key face, and their LED lights fully with a 3px halo. Chips scroll horizontally without a scrollbar.
 
 ### Cards / Containers (display wells)
@@ -268,39 +267,41 @@ Shapes are softened rectangles throughout and nothing is pill-shaped. Keys have 
 - **Background:** well tint with well-ink digits and well-dim legends.
 - **Shadow Strategy:** well recess (see Elevation).
 - **Internal Padding:** 14px on Home wells; 18px 18px 14px for the Focus block.
-- **Structure:** a legend row (label left, secondary reading right), then a readout pinned to the bottom. Progress appears as discrete LCD segments (20 on Home, 24 on Focus) in ghost tint, lit with the series colour.
+- **Structure:** a legend row (label left, secondary reading right), then a readout pinned to the bottom. Progress appears as discrete LCD segments (20 on Home, 24 on Focus) in ghost tint, lit in well ink. The Tasks well adds a 2px day-capacity line in well dim, which turns red over capacity.
 
 ### Inputs / Fields
-- **Style:** inputs are small display wells: 48px tall, well background, inset recess, mono 500 17px text, an ochre caret, and well-dim placeholders. Each has a mono uppercase legend above it.
-- **Focus:** the inset 1px edge becomes a 2px ochre inset ring.
-- **Switch:** an 8px-radius well track with a 22px key-faced slider. When checked, the track fills 85% ochre.
+- **Style:** inputs are small display wells: 48px tall, well background, inset recess, mono 500 17px text, an ink caret, and well-dim placeholders. Each has a mono uppercase legend above it.
+- **Focus:** the inset 1px edge becomes a 2px ink inset ring.
+- **Switch:** an 8px-radius well track with a 22px key-faced slider. When checked, the track fills 85% ink.
 
 ### Navigation
-- **Phone:** a bottom key row of four keys on the soft panel, each with a 21px stroke icon over a 10px mono uppercase legend. The current tab is pressed in (sunk 1px, inset shadow, ink legend) with a 5px ochre LED in its top-right corner.
-- **Desktop:** a sidebar key column. Links are flat (Golos 500 15px, muted), get a translucent key face on hover, and turn into a raised key with a 6px ochre LED when current. Mono keyboard hints sit on the right.
-- **Mode switch:** a recessed two-way strip with a sliding raised thumb (260ms). The selected mode shows an accent LED dot.
+- **Phone:** a bottom key row of four keys on the soft panel, each with a 21px stroke icon over a 10px mono uppercase legend. The current tab is pressed in (sunk 1px, inset shadow, ink legend) with a 5px ink LED in its top-right corner.
+- **Desktop:** a sidebar key column. Links are flat (Golos 500 15px, muted), get a translucent key face on hover, and turn into a raised key with a 6px ink LED when current. Mono keyboard hints sit on the right.
+- **Mode switch:** a recessed two-way strip with a sliding raised thumb (260ms). The selected mode shows an ink LED dot. Counter and Pomodoro look the same apart from the readout size.
 
 ### Digits with power-on self-test (signature)
-Every reading is rendered with the Digits component: a ghost layer that replaces each digit with "8" in `--well-ghost`, with the live value layered on top. On every launch the boot sequence runs `off` (90ms) → `test` (all segments lit) → `settle` → `on` at about 1.15s. During `settle` each digit resolves from 8 to its value 70ms after the previous one, and wells stagger by 90ms. Meanwhile the power LED lights, Home progress segments flash `well-dim`, and the screen content rises 6px into place. Under `prefers-reduced-motion` it jumps straight to `on`. Focus adds a 140ms tick dim on count, and when paused the live digits blink with `steps(1)` at 1.1s.
+Every reading is rendered with the Digits component: a ghost layer that replaces each digit with "8" in `--well-ghost`, with the live value layered on top. On every launch the boot sequence runs `off` (90ms) → `test` (all segments lit) → `settle` → `on` at about 1.15s. During `settle` each digit resolves from 8 to its value 70ms after the previous one, and wells stagger by 90ms. Meanwhile the power LED lights from key edge to ink, Home progress segments flash `well-dim`, and the screen content rises 6px into place. Under `prefers-reduced-motion` it jumps straight to `on`. Focus adds a 140ms tick dim on count, and when paused the live digits blink with `steps(1)` at 1.1s.
 
 ### Sheets and Toast
-Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row ruled off by a hairline. They enter with a 260ms slide-up of 18px. The toast is a one-line display well (mono 13px) with an optional ochre uppercase action. It sits at the top on desktop and above the FAB on phones.
+Sheets sit on the casing colour with a 16px radius, a 20px pad, and a title row ruled off by a hairline. They enter with a 260ms slide-up of 18px. The toast is a one-line display well (mono 13px) with an optional uppercase action in well ink, underlined. It sits at the top on desktop and above the FAB on phones.
 
 ## Do's and Don'ts
 
 ### Do:
 - **Do** put every reading inside a display well and render its numerals through the Digits component, so they get ghost segments and the power-on test.
 - **Do** make every pressable control a key: raised shadow at rest, a 1px sink on press with the `cubic-bezier(.16, 1, .3, 1)` ease over 90ms.
-- **Do** keep one ochre key face per view and show state with LED dots (5-9px) rather than fills.
-- **Do** use HP blue for the second data series in any new chart or meter before reaching for another hue.
+- **Do** keep one ink-faced primary key per view and show state with ink LED dots (5-9px) rather than fills.
+- **Do** separate data series by value, segment and recess (well ink vs well dim vs ghost) before reaching for a hue.
 - **Do** set every number in JetBrains Mono with tabular figures and every sentence in Golos Text.
 - **Do** define new colours as theme tokens in all seven themes, and check Paper, where the well is dark on a light body.
 - **Do** keep entry motion at about one second and reduce it to nothing under `prefers-reduced-motion`.
 
 ### Don't:
+- **Don't** introduce a brand or accent hue (yellow, ochre, blue) on keys, LEDs, wells, focus rings or charts.
 - **Don't** introduce soft floating cards, glassmorphism, or ambient-shadow tiles. Readings are recessed, not lifted.
 - **Don't** use green-on-black, scanlines, glow, or a terminal prompt aesthetic. This is a calculator, not a console.
-- **Don't** use red for emphasis, branding, or decoration. It means Pomodoro, overdue, now, over capacity, delete, or error.
+- **Don't** use red for emphasis, branding, decoration, or to mark a mode. It means overdue, now, over capacity, delete, or error.
+- **Don't** let user list/counter colours go beyond small markers and calendar event tints.
 - **Don't** use uppercase mono for headlines, section intros, or kickers. Legends name a control or reading and nothing else.
 - **Don't** use pill shapes or circular buttons. Circles are reserved for LEDs.
 - **Don't** hard-code hex values in components. They break the theme contract.
