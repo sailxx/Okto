@@ -73,7 +73,7 @@ class Store {
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
 
   listOf(task: Task): List | undefined { return this.lists.find((l) => l.id === task.listId) ?? this.lists[0]; }
-  colorOf(task: Task) { return this.listOf(task)?.color ?? '#0090ff'; }
+  colorOf(task: Task) { return task.color ?? this.listOf(task)?.color ?? '#0090ff'; }
 
   /* ---------- persistence ---------- */
   onChange(fn: Listener) { this.listeners.push(fn); return () => { this.listeners = this.listeners.filter((l) => l !== fn); }; }

@@ -32,7 +32,9 @@
 <span class="digits {cls}" aria-label={text}><span class="ghost" aria-hidden="true">{ghost}</span><span class="live" aria-hidden="true">{shown}</span></span>
 
 <style>
-  .digits { position: relative; display: inline-block; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: pre; }
+  /* Ghost and live value share one grid cell, so they line up whatever the alignment around them. */
+  .digits { display: inline-grid; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: pre; }
+  .ghost, .live { grid-area: 1 / 1; justify-self: center; }
   .ghost { color: var(--well-ghost); }
-  .live { position: absolute; inset: 0; color: inherit; text-align: left; }
+  .live { color: inherit; }
 </style>

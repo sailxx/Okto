@@ -11,7 +11,7 @@
   import { fmtLongDay, fmtShortDay, relDay } from '../lib/i18n';
   import { activeDays, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
-  import type { Block, BlockType } from '../lib/model';
+  import { blockSize, GRID_MAX_H, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
   let adding = $state(false);
@@ -56,7 +56,6 @@
   const dayLabel = (k: string) => relDay(store.lang, k, store.today, addDays(store.today, 1), addDays(store.today, -1));
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const size = (b: Block) => (b.type === 'tasks' ? 'xl' : b.type === 'streak' ? 's' : 'm');
   const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext' };
 
   function setBlocks(list: Block[]) { store.updateSettings({ dashboard: list.map((b) => ({ ...b })) }); }
@@ -72,25 +71,65 @@
     detail = b;
   }
 
-  /* ---------- drag to reorder (edit mode) ---------- */
+  /* ---------- grid: columns follow the available width ---------- */
+  const ROW = 96, GAP = 10;
+  let gridEl = $state<HTMLDivElement>();
+  let cols = $state(2);
+  $effect(() => {
+    if (!gridEl) return;
+    const ro = new ResizeObserver(() => { const w = gridEl!.clientWidth; cols = w >= 1040 ? 6 : w >= 600 ? 4 : 2; });
+    ro.observe(gridEl);
+    return () => ro.disconnect();
+  });
+  const span = (b: Block) => { const { w, h } = blockSize(b); return { w: Math.min(w, cols), h }; };
+
+  /* ---------- edit mode: drag to swap, corner to resize ---------- */
+  // While a gesture runs the layout lives here; it is saved once, on release.
+  let draft = $state<Block[] | null>(null);
+  const shown = $derived(draft ?? blocks);
   let dragKey = $state<string | null>(null);
-  function gripDown(e: PointerEvent, b: Block) {
+  let lastSwap: string | null = null;
+  let rz: { key: string; x: number; y: number; w: number; h: number; full: number } | null = null;
+  let resizing = $state<string | null>(null);
+
+  function dragDown(e: PointerEvent, b: Block) {
+    if (!editing || e.button !== 0 || (e.target as Element).closest('.rm, .rz')) return;
     e.preventDefault();
-    dragKey = keyOf(b);
+    dragKey = keyOf(b); lastSwap = null;
+    draft = blocks.map((x) => ({ ...x }));
     (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
   }
-  function gripMove(e: PointerEvent) {
-    if (!dragKey) return;
-    const el = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>('[data-key]');
-    const over = el?.dataset.key;
-    if (!over || over === dragKey) return;
-    const list = [...blocks];
-    const from = list.findIndex((x) => keyOf(x) === dragKey), to = list.findIndex((x) => keyOf(x) === over);
+  function dragMove(e: PointerEvent) {
+    if (!dragKey || !draft) return;
+    const over = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>('[data-key]')?.dataset.key;
+    if (!over) { lastSwap = null; return; }
+    if (over === dragKey || over === lastSwap) return;
+    const from = draft.findIndex((x) => keyOf(x) === dragKey), to = draft.findIndex((x) => keyOf(x) === over);
     if (from < 0 || to < 0) return;
-    list.splice(to, 0, list.splice(from, 1)[0]);
-    setBlocks(list);
+    [draft[from], draft[to]] = [draft[to], draft[from]];
+    lastSwap = over;
   }
-  function gripUp() { dragKey = null; }
+  function resizeDown(e: PointerEvent, b: Block) {
+    e.preventDefault(); e.stopPropagation();
+    const { w, h } = blockSize(b);
+    rz = { key: keyOf(b), x: e.clientX, y: e.clientY, w: Math.min(w, cols), h, full: w };
+    resizing = rz.key;
+    draft = blocks.map((x) => ({ ...x }));
+    (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
+  }
+  function resizeMove(e: PointerEvent) {
+    if (!rz || !draft || !gridEl) return;
+    const cell = (gridEl.clientWidth - GAP * (cols - 1)) / cols;
+    const w = Math.max(1, Math.min(cols, rz.w + Math.round((e.clientX - rz.x) / (cell + GAP))));
+    const h = Math.max(1, Math.min(GRID_MAX_H, rz.h + Math.round((e.clientY - rz.y) / (ROW + GAP))));
+    const b = draft.find((x) => keyOf(x) === rz!.key);
+    // On a narrow screen an untouched width keeps its wider desktop value.
+    if (b) { b.w = w === rz.w ? rz.full : w; b.h = h; }
+  }
+  function gestureUp() {
+    if (draft && (dragKey || rz)) setBlocks(draft);
+    draft = null; dragKey = null; rz = null; resizing = null;
+  }
 
   /* ---------- day timeline (next widget): 06:00–24:00 ---------- */
   const T0 = 6 * 60, T1 = 24 * 60;
@@ -112,11 +151,17 @@
     <button type="button" class="text-btn" class:accent={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('edit')}</button>
   </div>
 
-  <div class="blocks" class:editing>
-    {#each blocks as b, i (keyOf(b))}
+  {#if editing}<p class="edit-hint">{store.t('editHint')}</p>{/if}
+
+  <div class="blocks" class:editing bind:this={gridEl} style:--cols={cols} style:--row="{ROW}px" style:--gap="{GAP}px">
+    {#each shown as b, i (keyOf(b))}
       {@const counter = b.type === 'counter' ? store.data.counters[b.counterId!] : null}
-      <div class="blk {size(b)}" class:dragging={dragKey === keyOf(b)} data-key={keyOf(b)} style:--d="{(i % 3) * -0.12}s">
-        <div class="well cell" role="button" tabindex="0" aria-disabled={editing}
+      {@const sz = span(b)}
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div class="blk" class:dragging={dragKey === keyOf(b)} class:resizing={resizing === keyOf(b)} data-key={keyOf(b)}
+        style:grid-column="span {sz.w}" style:grid-row="span {sz.h}"
+        onpointerdown={(e) => dragDown(e, b)} onpointermove={dragMove} onpointerup={gestureUp} onpointercancel={gestureUp}>
+        <div class="cell" role="button" tabindex="0" aria-disabled={editing}
           onclick={() => open(b)} onkeydown={(e) => { if (e.key === 'Enter' && e.target === e.currentTarget) open(b); }}>
 
           {#if b.type === 'tasks'}
@@ -130,7 +175,6 @@
               {:else}<Digits class="big" text={`${p2(tasks.done)}/${p2(tasks.total)}`} delay={i * 90} />{/if}
             </span>
             {@render bar(lit(tasks.total ? tasks.done / tasks.total : 0))}
-            <span class="cap" aria-hidden="true"><i style:width="{Math.min(100, (planned / DAY) * 100)}%" class:over={planned > DAY}></i></span>
             <div class="chart"><Scrub days={days14} values={doneSeries} bind:sel={selTasks} label="{store.t('tasksDone')}, {store.t('last14')}" /></div>
 
           {:else if b.type === 'focus'}
@@ -202,8 +246,11 @@
           {/if}
         </div>
         {#if editing}
-          <button type="button" class="rm key" aria-label={store.t('remove')} onclick={() => remove(b)}><Icon name="minus" size={16} /></button>
-          <span class="grip" role="button" tabindex="-1" aria-hidden="true" onpointerdown={(e) => gripDown(e, b)} onpointermove={gripMove} onpointerup={gripUp} onpointercancel={gripUp}><Icon name="grip" size={18} /></span>
+          <button type="button" class="rm" aria-label={store.t('remove')} onclick={() => remove(b)}><Icon name="minus" size={14} /></button>
+          <span class="grip" aria-hidden="true"><Icon name="grip" size={16} /></span>
+          <span class="rz" role="button" tabindex="-1" aria-label={store.t('resize')} title={store.t('resize')}
+            onpointerdown={(e) => resizeDown(e, b)} onpointermove={resizeMove} onpointerup={gestureUp} onpointercancel={gestureUp}></span>
+          <span class="dims" aria-hidden="true">{sz.w}×{sz.h}</span>
         {/if}
       </div>
     {/each}
@@ -243,59 +290,50 @@
   .greet .page-title { overflow-wrap: anywhere; }
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
 
-  /* Widgets fill the screen: one column on phones, an instrument panel on desktop. */
-  .blocks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
-  .blk { position: relative; min-width: 0; grid-column: span 2; }
-  .blk.s { grid-column: span 1; }
-  @media (max-width: 599px) { .blk.s { grid-column: span 2; } }
-  @media (min-width: 900px) {
-    .blocks {
-      grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(210px, 1fr); grid-auto-flow: dense; gap: 14px;
-      min-height: calc(100svh - 150px);
-    }
-    .blk.xl { grid-row: span 2; }
+  /* Widgets: a grid the person arranges — swap by dragging, resize by the corner. */
+  .blocks {
+    display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); grid-auto-rows: var(--row);
+    grid-auto-flow: row dense; gap: var(--gap); margin-top: 18px;
   }
-  @media (min-width: 1280px) {
-    .blocks { grid-template-columns: repeat(6, 1fr); }
-    .blk.xl, .blk.m { grid-column: span 3; }
-    .blk.s { grid-column: span 3; }
-  }
+  .blk { position: relative; min-width: 0; min-height: 0; }
 
   .cell {
-    container-type: inline-size;
-    width: 100%; height: 100%; min-height: 168px; padding: 14px;
-    display: flex; flex-direction: column; gap: 10px; text-align: left; cursor: pointer;
-    transition: filter 150ms ease;
+    container-type: size;
+    width: 100%; height: 100%; padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 8px; text-align: left; cursor: pointer; overflow: hidden;
+    background: var(--well); color: var(--well-ink);
+    border-radius: 12px; box-shadow: inset 0 0 0 1px var(--well-edge);
+    transition: box-shadow 150ms ease, background-color 150ms ease;
   }
-  .cell:hover { filter: brightness(1.02); }
-  .cell[aria-disabled='true'] { cursor: default; }
-  .legend { display: flex; justify-content: space-between; gap: 10px; }
-  .legend .label { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .legend .label + .label { text-align: right; flex: 0 0 auto; }
+  .cell:hover { box-shadow: inset 0 0 0 1px var(--well-dim); }
+  .cell[aria-disabled='true'] { cursor: grab; }
+  .legend { display: flex; justify-content: space-between; gap: 10px; flex: 0 0 auto; }
+  .legend .label { margin: 0; font-size: 10px; letter-spacing: .14em; color: var(--well-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend .label + .label { text-align: right; flex: 0 0 auto; opacity: .8; }
 
-  .read { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
-  .read :global(.big) { font-size: clamp(40px, 17cqi, 120px); font-weight: 700; letter-spacing: -.045em; line-height: .92; }
-  .xl .read :global(.big) { font-size: clamp(48px, 15cqi, 150px); }
+  .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; flex: 0 0 auto; }
+  .read :global(.big) { font-size: clamp(26px, min(13cqi, 30cqh), 92px); font-weight: 700; letter-spacing: -.04em; line-height: .95; }
   .read :global(.big.dim) { color: var(--well-dim); }
-  .read em { font-style: normal; font-family: var(--mono); font-size: 13px; color: var(--well-dim); }
-  .next { align-items: flex-end; gap: 16px; }
-  .nt { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-bottom: 4px; }
-  .nt b { font-family: var(--sans); font-size: clamp(16px, 4.2cqi, 22px); font-weight: 600; line-height: 1.25; color: var(--well-ink); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
-  .nt small { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 12px; color: var(--well-dim); }
-  .nt small[style]::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--c); }
+  .read em { font-style: normal; font-family: var(--mono); font-size: 12px; color: var(--well-dim); }
+  .next { align-items: flex-end; gap: 14px; }
+  .nt { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-bottom: 3px; }
+  .nt b { font-family: var(--sans); font-size: clamp(14px, 3.6cqi, 19px); font-weight: 600; line-height: 1.25; color: var(--well-ink); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+  .nt small { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--well-dim); }
+  .nt small[style]::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
 
-  .segs { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; height: 10px; flex: 0 0 auto; }
-  .segs i { border-radius: 1.5px; background: var(--well-ghost); transition: background-color 300ms ease; }
+  .segs { display: grid; grid-template-columns: repeat(20, 1fr); gap: 2px; height: 4px; flex: 0 0 auto; }
+  .segs i { border-radius: 1px; background: var(--well-ghost); transition: background-color 300ms ease; }
   .segs i.on { background: var(--well-ink); }
   :global([data-boot='test']) .segs i { background: var(--well-dim); }
-  .cap { display: block; height: 2px; margin-top: -4px; background: var(--well-ghost); border-radius: 2px; overflow: hidden; flex: 0 0 auto; }
-  .cap i { display: block; height: 100%; background: var(--well-dim); }
-  .cap i.over { background: var(--red); }
 
-  .chart { flex: 1; min-height: 72px; display: flex; flex-direction: column; justify-content: flex-end; margin-top: 4px; }
+  .chart { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+
+  /* Small blocks show just the reading. */
+  @container (max-height: 170px) { .chart, .heat, .line, .segs { display: none; } }
+  @container (max-width: 200px) { .legend .label + .label { display: none; } .nt { display: none; } }
 
   /* Streak: five weeks of activity */
-  .heat { display: grid; grid-template-columns: repeat(7, minmax(0, 30px)); gap: 5px; margin-top: auto; outline-offset: 4px; border-radius: 4px; align-self: flex-start; }
+  .heat { display: grid; grid-template-columns: repeat(7, minmax(0, min(22px, 9cqh))); gap: 3px; margin-top: auto; outline-offset: 4px; border-radius: 4px; align-self: flex-start; }
   .heat i { aspect-ratio: 1; border-radius: 3px; background: var(--well-ghost); box-shadow: inset 0 0 0 1px var(--well-ghost); }
   .heat i.on { background: var(--well-ink); }
   .heat i.future { opacity: .35; }
@@ -303,7 +341,7 @@
   .heat i.sel { outline: 2px solid var(--well-ink); outline-offset: 1px; }
 
   /* Next: today's plan as a strip, 06–24 */
-  .line { position: relative; height: 42px; margin-top: auto; border-top: 1px solid var(--well-ghost); outline-offset: 4px; border-radius: 2px; }
+  .line { position: relative; height: 36px; flex: 0 0 auto; margin-top: auto; border-top: 1px solid var(--well-ghost); outline-offset: 4px; border-radius: 2px; }
   .tick { position: absolute; top: 24px; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; color: var(--well-dim); }
   .tick:first-child { transform: none; }
   .slot { position: absolute; top: 6px; height: 14px; border-radius: 2px; background: var(--well-ink); }
@@ -312,16 +350,23 @@
   .now { position: absolute; top: 0; width: 2px; height: 22px; margin-left: -1px; background: var(--red); }
 
   /* Edit mode */
-  .editing .blk { animation: wiggle 260ms ease-in-out infinite alternate; animation-delay: var(--d); }
-  .editing .blk.dragging { animation: none; opacity: .55; }
-  @keyframes wiggle { from { transform: rotate(-0.3deg); } to { transform: rotate(0.3deg); } }
-  .rm { position: absolute; top: -8px; right: -6px; width: 30px; height: 30px; --k-ink: var(--red); }
-  .grip { position: absolute; right: 8px; bottom: 8px; width: 32px; height: 32px; display: grid; place-items: center; color: var(--well-dim); cursor: grab; touch-action: none; }
+  .edit-hint { margin: 10px 2px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
+  .editing .blk { touch-action: none; user-select: none; -webkit-user-select: none; }
+  .editing .cell { box-shadow: inset 0 0 0 1px var(--well-dim); }
+  .editing .blk.dragging .cell, .editing .blk.resizing .cell { box-shadow: inset 0 0 0 2px var(--primary); }
+  .editing .blk.dragging { opacity: .7; cursor: grabbing; z-index: 1; }
+  .rm { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--red); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
+  .rm:hover { background: var(--red); color: #fff; }
+  .grip { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: var(--well-dim); pointer-events: none; opacity: .7; }
+  .grip :global(svg) { transform: rotate(90deg); }
+  .rz { position: absolute; right: 0; bottom: 0; width: 26px; height: 26px; cursor: nwse-resize; touch-action: none; z-index: 2; }
+  .rz::after { content: ''; position: absolute; right: 6px; bottom: 6px; width: 10px; height: 10px; border-right: 2px solid var(--well-dim); border-bottom: 2px solid var(--well-dim); border-bottom-right-radius: 3px; }
+  .rz:hover::after, .resizing .rz::after { border-color: var(--primary); }
+  .dims { position: absolute; right: 30px; bottom: 8px; font-family: var(--mono); font-size: 10px; color: var(--well-dim); pointer-events: none; }
   .add-block { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 50px; margin-top: 14px; border-radius: var(--r-key); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
   .add-block:hover { color: var(--ink); background: var(--soft); }
   .avail { display: flex; flex-direction: column; }
   .avail-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; border-bottom: 1px solid var(--line); font-size: 16px; text-align: left; }
   .avail-row span:nth-child(2) { flex: 1; }
   .dot { width: 9px; height: 9px; border-radius: 2px; background: var(--c); }
-  @media (prefers-reduced-motion: reduce) { .editing .blk { animation: none; } }
 </style>

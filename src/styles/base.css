@@ -54,6 +54,47 @@
   --well: #000; --well-ink: #fff; --well-dim: #8d8d8d; --well-ghost: rgb(255 255 255 / 6%); --well-edge: #262626;
   --red: #ff5a5f;
 }
+/* Red on black: the display glows red, the primary key is red. */
+:root[data-theme='crimson'] {
+  color-scheme: dark;
+  --bg: #0a0a0a; --ink: #f2eeee; --muted: #8f8787; --line: #261a1a; --soft: #120d0d;
+  --key: #1a1313; --key-ink: #f2eeee; --key-edge: #000; --key-hi: rgb(255 255 255 / 6%);
+  --well: #000; --well-ink: #ff3b3f; --well-dim: #8a5a5b; --well-ghost: rgb(255 59 63 / 9%); --well-edge: #2a1515;
+  --primary: #e5262d; --on-primary: #fff; --accent: #e5262d; --on-accent: #fff;
+  --red: #ff3b3f;
+}
+/* Amber terminal */
+:root[data-theme='amber'] {
+  color-scheme: dark;
+  --bg: #0d0b07; --ink: #f3e7cf; --muted: #9a8a6a; --line: #2a2416; --soft: #15120b;
+  --key: #1d1910; --key-ink: #f3e7cf; --key-edge: #000; --key-hi: rgb(255 255 255 / 5%);
+  --well: #050402; --well-ink: #ffb000; --well-dim: #8c6d2c; --well-ghost: rgb(255 176 0 / 8%); --well-edge: #2b2210;
+  --primary: #ffb000; --on-primary: #1a1200; --accent: #ffb000; --on-accent: #1a1200;
+  --red: #ff6a3d;
+}
+:root[data-theme='ocean'] {
+  color-scheme: dark;
+  --bg: #0b1a22; --ink: #e2f1f5; --muted: #7d9ba6; --line: #1a2e38; --soft: #0f222c;
+  --key: #143039; --key-ink: #e2f1f5; --key-edge: #03090c; --key-hi: rgb(255 255 255 / 6%);
+  --well: #06121a; --well-ink: #5fe0ef; --well-dim: #5d8792; --well-ghost: rgb(95 224 239 / 8%); --well-edge: rgb(0 0 0 / 60%);
+  --primary: #2ec4d6; --on-primary: #04222a; --accent: #2ec4d6; --on-accent: #04222a;
+  --red: #ff6b70;
+}
+:root[data-theme='sakura'] {
+  --bg: #fbeff1; --ink: #2b1a1f; --muted: #7d5e66; --line: #efd6dc; --soft: #f6e2e7;
+  --key: #fff8f9; --key-ink: #2b1a1f; --key-edge: #e2bfc7; --key-hi: rgb(255 255 255 / 90%);
+  --well: #fff; --well-ink: #2b1a1f; --well-dim: #96707a; --well-ghost: rgb(214 51 108 / 8%); --well-edge: rgb(150 60 90 / 14%);
+  --primary: #d6336c; --on-primary: #fff; --accent: #d6336c; --on-accent: #fff;
+  --red: #d6336c;
+}
+:root[data-theme='nord'] {
+  color-scheme: dark;
+  --bg: #2e3440; --ink: #eceff4; --muted: #a3acbd; --line: #3b4252; --soft: #333a47;
+  --key: #3b4252; --key-ink: #eceff4; --key-edge: #20242c; --key-hi: rgb(255 255 255 / 7%);
+  --well: #262b35; --well-ink: #88c0d0; --well-dim: #7f8a9e; --well-ghost: rgb(136 192 208 / 9%); --well-edge: rgb(0 0 0 / 40%);
+  --primary: #88c0d0; --on-primary: #1f2530; --accent: #88c0d0; --on-accent: #1f2530;
+  --red: #bf616a;
+}
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
@@ -210,7 +251,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .count {
   position: relative; display: block; width: 100%;
   font-family: var(--mono); font-size: min(30vw, 168px); font-weight: 700; line-height: 1; letter-spacing: -.04em;
-  font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; color: var(--well-ink);
+  font-variant-numeric: tabular-nums; text-align: center; white-space: nowrap; color: var(--well-ink);
 }
 .count:focus-visible { outline-offset: 6px; border-radius: 6px; }
 .count.tick { animation: tick 140ms ease-out; }

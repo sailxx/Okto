@@ -56,7 +56,8 @@
   {/each}
 </nav>
 
-{#if router.route !== 'focus'}
+<!-- Home stays clean; Tasks has its own add button. -->
+{#if router.route === 'calendar'}
   <button class="fab" type="button" aria-label={store.t('newTask')} onclick={() => store.openNewTask()}><Icon name="plus" /></button>
 {/if}
 
