@@ -1,0 +1,84 @@
+# Выпуск Android-версии: поднять versionCode/versionName в android/app/build.gradle.kts,
+# закоммитить и отправить тег:  git tag v2.0.1 && git push origin v2.0.1
+# GitHub соберёт, подпишет и опубликует Okto.apk.
+name: Android release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch: # пробный запуск: сборка и подпись без публикации
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: android
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Тег совпадает с versionName
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          VER=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          [ "v$VER" = "$GITHUB_REF_NAME" ] || { echo "::error::Тег $GITHUB_REF_NAME, а versionName = $VER"; exit 1; }
+          echo "VER=$VER" >> "$GITHUB_ENV"
+
+      - name: Ключ подписи из секретов
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/release.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: Сборка
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Проверка подписи
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk Okto.apk
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          SHA=$("$APKSIGNER" verify --print-certs Okto.apk | grep -oP 'SHA-256 digest: \K\w+')
+          [ -n "$SHA" ] || { echo "::error::APK не подписан"; exit 1; }
+          [ "$SHA" = "da30c416a31b98a0e59da7f8f352036a95dc4da00937dc0f9975c0d38b0883a3" ] || { echo "::error::APK подписан чужим ключом: $SHA"; exit 1; }
+          echo "SHA=$SHA" >> "$GITHUB_ENV"
+
+      - name: Пробный запуск — APK во вложения
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: actions/upload-artifact@v4
+        with:
+          name: Okto.apk
+          path: android/Okto.apk
+
+      - name: Публикация
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTES=$(printf '**Установка:** скачайте Okto.apk, откройте и разрешите установку. Android 7.0+, нужен Chrome.\n\nПодпись (SHA-256): `%s`' "$SHA")
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" Okto.apk --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" Okto.apk --title "Okto $VER — Android" --generate-notes --latest --notes "$NOTES"
+          fi
+
+      - name: Убрать ключ
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks" keystore.properties
