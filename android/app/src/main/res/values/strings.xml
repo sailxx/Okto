@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Okto</string>
-    <string name="launch_url" translatable="false">https://sailxx.github.io/Okto/</string>
     <!-- Связь с сайтом: https://sailxx.github.io/.well-known/assetlinks.json -->
     <string name="asset_statements" translatable="false">
         [{
