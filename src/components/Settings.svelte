@@ -87,7 +87,7 @@
   </div>
 
   <div class="links">
-    <button class="link-btn" type="button" onclick={() => { store.setDevice({ stopwatch: { elapsed: 0, startedAt: null } }); store.toast(store.t('reset')); }}>{store.t('resetStopwatch')}</button>
+    <button class="link-btn" type="button" onclick={() => { store.setDevice({ stopwatch: { elapsed: 0, startedAt: null, laps: [] } }); store.toast(store.t('reset')); }}>{store.t('resetStopwatch')}</button>
   </div>
   <form method="dialog"><button class="solid-btn">{store.t('done')}</button></form>
 </Sheet>

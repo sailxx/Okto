@@ -5,6 +5,7 @@ export type Lang = 'ru' | 'en';
 export type Theme = 'system' | 'light' | 'dark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord';
 export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
+export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
 export type Phase = 'work' | 'short' | 'long';
 export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'counter';
 export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'settings';
@@ -67,10 +68,12 @@ export interface Data {
 }
 /** Per-device state, never synced. */
 export interface Device {
-  focusMode: 'counter' | 'pomodoro';
+  focusMode: FocusMode;
   activeCounter: string | null;
   locked: boolean;
-  stopwatch: { elapsed: number; startedAt: number | null };
+  stopwatch: { elapsed: number; startedAt: number | null; laps: number[] };
+  /** Countdown timer: a running timer has endsAt, a paused one has remaining. */
+  timer: { duration: number; endsAt: number | null; remaining: number | null };
   pomo: { phase: Phase; round: number; remaining: number | null; endsAt: number | null };
   focusTask: string | null;
   calView: 'day' | 'week' | 'month' | null;
@@ -277,7 +280,8 @@ export function normData(raw: unknown, lang: Lang): Data {
 export function defaultDevice(): Device {
   return {
     focusMode: 'counter', activeCounter: null, locked: false,
-    stopwatch: { elapsed: 0, startedAt: null },
+    stopwatch: { elapsed: 0, startedAt: null, laps: [] },
+    timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
     focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false,
   };
@@ -288,10 +292,18 @@ export function normDevice(raw: unknown): Device {
   if (!isObj(raw)) return d;
   const p = isObj(raw.pomo) ? raw.pomo : {};
   return {
-    focusMode: raw.focusMode === 'pomodoro' ? 'pomodoro' : 'counter',
+    focusMode: ['pomodoro', 'stopwatch', 'timer'].includes(raw.focusMode) ? raw.focusMode : 'counter',
     activeCounter: typeof raw.activeCounter === 'string' ? raw.activeCounter : null,
     locked: raw.locked === true,
-    stopwatch: { elapsed: ts(raw.stopwatch?.elapsed, 0), startedAt: raw.stopwatch?.startedAt ? ts(raw.stopwatch.startedAt) : null },
+    stopwatch: {
+      elapsed: ts(raw.stopwatch?.elapsed, 0), startedAt: raw.stopwatch?.startedAt ? ts(raw.stopwatch.startedAt) : null,
+      laps: Array.isArray(raw.stopwatch?.laps) ? raw.stopwatch.laps.filter((v: unknown) => typeof v === 'number' && v >= 0).slice(-99) : [],
+    },
+    timer: {
+      duration: int(raw.timer?.duration, 1000, 24 * 3600000, 5 * 60000),
+      endsAt: raw.timer?.endsAt == null ? null : ts(raw.timer.endsAt),
+      remaining: raw.timer?.remaining == null ? null : ts(raw.timer.remaining),
+    },
     pomo: {
       phase: ['work', 'short', 'long'].includes(p.phase) ? p.phase : 'work',
       round: int(p.round, 1, 12, 1),

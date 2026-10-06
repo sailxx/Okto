@@ -215,20 +215,20 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 
 /* Mode switch (Counter / Pomodoro) */
 .modes {
-  --i: 0; position: relative; display: grid; grid-template-columns: 1fr 1fr;
+  --i: 0; --n: 2; position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr));
   margin-top: 14px; padding: 4px; border-radius: 12px; background: var(--soft);
   box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
 }
 .modes-thumb {
-  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--n));
   border-radius: 8px; background: var(--key);
   box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 20%);
   transform: translateX(calc(100% * var(--i)));
   transition: transform 260ms var(--ease);
 }
-.modes button { position: relative; height: 40px; border-radius: 8px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color 200ms ease; }
+.modes button { position: relative; min-width: 0; height: 40px; padding: 0 4px; border-radius: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); font-size: clamp(10px, 2.9vw, 12px); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color 200ms ease; }
 .modes button[aria-selected='true'] { color: var(--ink); }
-.modes button[aria-selected='true']::after { content: ''; position: absolute; top: 8px; right: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
+.modes button[aria-selected='true']::after { content: ''; position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent); }
 
 /* ---------- Display well ---------- */
 .well {

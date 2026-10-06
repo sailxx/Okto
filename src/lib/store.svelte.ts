@@ -316,6 +316,28 @@ class Store {
       else this.alert(this.t('breakDoneTitle'), this.t('breakDoneBody'));
     }
   }
+  /* ---------- countdown timer (runs app-wide, like Pomodoro) ---------- */
+  timerRunning() { return Boolean(this.device.timer.endsAt); }
+  timerLeft() { const t = this.device.timer; return t.endsAt ? Math.max(0, t.endsAt - this.now.getTime()) : t.remaining ?? t.duration; }
+  timerStart() {
+    if (this.timerRunning()) return;
+    const left = this.timerLeft() || this.device.timer.duration;
+    this.setDevice({ timer: { ...this.device.timer, endsAt: Date.now() + left, remaining: null } });
+  }
+  timerPause() {
+    const t = this.device.timer;
+    if (t.endsAt) this.setDevice({ timer: { ...t, remaining: Math.max(0, t.endsAt - Date.now()), endsAt: null } });
+  }
+  timerReset() { this.setDevice({ timer: { ...this.device.timer, endsAt: null, remaining: null } }); }
+  timerSet(duration: number) { this.setDevice({ timer: { duration, endsAt: null, remaining: null } }); }
+  /** +1 minute: to the running countdown, or to the set duration. */
+  timerAdd(ms: number) {
+    const t = this.device.timer;
+    if (t.endsAt) this.setDevice({ timer: { ...t, endsAt: t.endsAt + ms } });
+    else if (t.remaining !== null) this.setDevice({ timer: { ...t, remaining: t.remaining + ms } });
+    else this.setDevice({ timer: { ...t, duration: Math.min(24 * 3600000, t.duration + ms) } });
+  }
+
   pomoToday() { return this.sessions.filter((s) => toKey(new Date(s.start)) === this.today).length; }
 
   alert(title: string, body: string, tag = 'okto') {
@@ -333,6 +355,10 @@ class Store {
   tick() {
     this.now = new Date();
     if (this.pomoRunning() && Date.now() >= this.device.pomo.endsAt!) this.pomoAdvance(true);
+    if (this.timerRunning() && Date.now() >= this.device.timer.endsAt!) {
+      this.timerReset();
+      this.alert(this.t('timerDoneTitle'), this.t('timerDoneBody'));
+    }
     if (Date.now() - this.lastReminderCheck > 30000) { this.lastReminderCheck = Date.now(); this.checkReminders(); }
   }
 
