@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Открыть Okto"></a>
 
+<sub>Android: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">скачать Okto.apk</a> или найти «Okto» в <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 <br>

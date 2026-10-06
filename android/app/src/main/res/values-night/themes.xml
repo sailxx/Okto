@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Okto" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bar_dark</item>
+        <item name="android:statusBarColor">@color/bar_dark</item>
+        <item name="android:navigationBarColor">@color/bar_dark</item>
+    </style>
+</resources>
