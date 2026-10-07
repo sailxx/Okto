@@ -203,6 +203,13 @@
   .cal.desktop.expanded { padding-top: 16px; }
   .cal.desktop.expanded .cal-main { height: calc(100svh - 16px); }
   @media (max-width: 420px) { .cal-head .page-title span { display: none; } }
+  /* Телефон: месяц и все кнопки в одну строку не помещаются (~415 px) — кнопки уходят
+     на вторую строку справа, иначе шапка выталкивала страницу вбок вместе с панелью и «+». */
+  @media (max-width: 480px) {
+    .cal-head { flex-wrap: wrap; row-gap: 2px; }
+    .nav { margin-left: auto; }
+    .nav .icon-btn { width: 38px; }
+  }
   .views { margin: 12px 0 10px; }
   .views { grid-template-columns: repeat(3, 1fr); }
   .cal-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }

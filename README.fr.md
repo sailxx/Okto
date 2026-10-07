@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Ouvrir Okto"></a>
 
+<sub>Android 2.1 avec widget de tâches: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">télécharger Okto.apk</a> ou cherchez « Okto » dans <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Sections d’Okto : Accueil, Tâches, Calendrier, Concentration">
+
+<br>
+
+<img src="assets/readme/android-fr.svg" width="100%" alt="Okto 2.1 pour Android : widget, une seule app, nouveautés">
 
 <br>
 
@@ -72,6 +78,10 @@ Ces clés ne sont pas secrètes : l’accès est protégé par les règles Fires
 
 <br>
 
+<img src="assets/readme/safe-fr.svg" width="100%" alt="Sécurité : signature, données, autorisations">
+
+<br>
+
 ## 🛠 Développement
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # build dans dist/
 Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remplis les clés. GitHub Pages publie automatiquement à chaque changement sur `main`.
 
 ## 🗂 Historique des versions
+
+**2.1** — app Android avec widget de tâches sur l'écran d'accueil ; thèmes clair et sombre doux style Apple ; Appels et Focus masquables ; langue dans les Réglages ; lancement corrigé sur Android.
 
 **2.0** — tâches avec listes, répétitions, sous-tâches et rappels ; calendrier façon Apple Calendrier avec glisser-déposer ; accueil personnalisable ; synchronisation Firebase ; focus sur une tâche.
 

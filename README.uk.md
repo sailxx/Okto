@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Відкрити Okto"></a>
 
+<sub>Android 2.1 з віджетом завдань: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">завантажити Okto.apk</a> або знайти «Okto» в <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-ru.webp" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус">
+
+<br>
+
+<img src="assets/readme/android-uk.svg" width="100%" alt="Okto 2.1 для Android: віджет, один застосунок, нове в 2.1">
 
 <br>
 
@@ -72,6 +78,10 @@
 
 <br>
 
+<img src="assets/readme/safe-uk.svg" width="100%" alt="Безпека: підпис, дані, дозволи">
+
+<br>
+
 ## 🛠 Розробка
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # збірка в dist/
 Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.
 
 ## 🗂 Історія версій
+
+**2.1** — Android-застосунок із віджетом завдань на робочому столі; м'які світла й темна теми в стилі Apple; «Дзвінки» і «Фокус» можна сховати; мова — в налаштуваннях; виправлено запуск на Android.
 
 **2.0** — завдання зі списками, повторами, підзавданнями й нагадуваннями; календар у стилі Apple Calendar з перетягуванням; головна з налаштовуваними блоками; синхронізація через Firebase; фокус на завданні.
 

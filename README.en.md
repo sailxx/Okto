@@ -8,7 +8,7 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Open Okto"></a>
 
-<sub>Android: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">download Okto.apk</a> or find “Okto” in <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+<sub>Android 2.1 with a task widget: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">download Okto.apk</a> or find “Okto” in <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
 
 </div>
 
@@ -18,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus">
+
+<br>
+
+<img src="assets/readme/android-en.svg" width="100%" alt="Okto 2.1 for Android: widget, one app, what's new in 2.1">
 
 <br>
 
@@ -74,6 +78,10 @@ These keys are not secret — access is protected by Firestore rules, so everyon
 
 <br>
 
+<img src="assets/readme/safe-en.svg" width="100%" alt="Security: signature, data, permissions">
+
+<br>
+
 ## 🛠 Development
 
 ```bash
@@ -87,6 +95,8 @@ npm run build    # build into dist/
 For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.
 
 ## 🗂 Version history
+
+**2.1** — Android app with a home-screen task widget; soft light and dark themes in Apple style; Calls and Focus can be hidden; language is set in Settings; fixed launching on Android.
 
 **2.0** — tasks with lists, repeats, subtasks and reminders; Apple Calendar style calendar with drag and drop; a customisable home screen; Firebase sync; focus on a task.
 

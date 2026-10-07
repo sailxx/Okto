@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Okto’yu aç"></a>
 
+<sub>Görev widget'lı Android 2.1: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">Okto.apk indir</a> veya «Okto» diye ara: <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak">
+
+<br>
+
+<img src="assets/readme/android-tr.svg" width="100%" alt="Android için Okto 2.1: widget, tek uygulama, yenilikler">
 
 <br>
 
@@ -72,6 +78,10 @@ Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yaln�
 
 <br>
 
+<img src="assets/readme/safe-tr.svg" width="100%" alt="Güvenlik: imza, veriler, izinler">
+
+<br>
+
 ## 🛠 Geliştirme
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # dist/ içine derler
 Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.
 
 ## 🗂 Sürüm geçmişi
+
+**2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.
 
 **2.0** — listeli, tekrarlı, alt görevli ve hatırlatıcılı görevler; sürükle-bırak destekli Apple Takvim tarzı takvim; özelleştirilebilir ana sayfa; Firebase senkronizasyonu; göreve odaklanma.
 

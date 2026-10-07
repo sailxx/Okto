@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Otwórz Okto"></a>
 
+<sub>Android 2.1 z widżetem zadań: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">pobierz Okto.apk</a> lub znajdź „Okto” w <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Sekcje Okto: Start, Zadania, Kalendarz, Skupienie">
+
+<br>
+
+<img src="assets/readme/android-pl.svg" width="100%" alt="Okto 2.1 na Androida: widżet, jedna aplikacja, nowości">
 
 <br>
 
@@ -72,6 +78,10 @@ Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tyl
 
 <br>
 
+<img src="assets/readme/safe-pl.svg" width="100%" alt="Bezpieczeństwo: podpis, dane, uprawnienia">
+
+<br>
+
 ## 🛠 Rozwój
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # build do dist/
 Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.
 
 ## 🗂 Historia wersji
+
+**2.1** — aplikacja na Androida z widżetem zadań na ekranie głównym; łagodne jasny i ciemny motyw w stylu Apple; Rozmowy i Fokus można ukryć; język w Ustawieniach; naprawione uruchamianie na Androidzie.
 
 **2.0** — zadania z listami, powtórkami, podzadaniami i przypomnieniami; kalendarz w stylu Apple Calendar z przeciąganiem; konfigurowalny ekran startowy; synchronizacja przez Firebase; skupienie na zadaniu.
 

@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Apri Okto"></a>
 
+<sub>Android 2.1 con widget delle attività: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">scarica Okto.apk</a> o cerca «Okto» in <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Sezioni di Okto: Home, Attività, Calendario, Focus">
+
+<br>
+
+<img src="assets/readme/android-it.svg" width="100%" alt="Okto 2.1 per Android: widget, un'unica app, novità">
 
 <br>
 
@@ -72,6 +78,10 @@ Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestor
 
 <br>
 
+<img src="assets/readme/safe-it.svg" width="100%" alt="Sicurezza: firma, dati, permessi">
+
+<br>
+
 ## 🛠 Sviluppo
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # build in dist/
 Per la sincronizzazione in locale, copia `.env.example` in `.env.local` e compila le chiavi. GitHub Pages pubblica automaticamente a ogni modifica su `main`.
 
 ## 🗂 Cronologia versioni
+
+**2.1** — app Android con widget delle attività nella schermata Home; temi chiaro e scuro morbidi in stile Apple; Chiamate e Focus nascondibili; lingua nelle Impostazioni; corretto l'avvio su Android.
 
 **2.0** — attività con liste, ripetizioni, sottoattività e promemoria; calendario in stile Apple Calendario con trascinamento; home personalizzabile; sincronizzazione con Firebase; focus su un’attività.
 
