@@ -13,6 +13,7 @@
 
     <application
         android:allowBackup="false"
+        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -69,6 +70,17 @@
                     android:pathPrefix="/Okto"
                     android:scheme="https" />
             </intent-filter>
+        </activity>
+
+        <!-- Обязателен: при каждом запуске библиотека включает/выключает его ярлык «Настройки сайта»
+             (setComponentEnabledSetting), и без объявления приложение падает. Он же — «Управление
+             памятью» в настройках Android. -->
+        <activity
+            android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL"
+                android:value="https://sailxx.github.io/Okto/" />
         </activity>
 
         <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
