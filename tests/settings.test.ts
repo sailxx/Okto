@@ -12,3 +12,13 @@ describe('profile settings', () => {
     expect(normSettings({ name: 5, greeting: null }, 'ru')).toMatchObject({ name: '', greeting: '' });
   });
 });
+
+describe('hidden sections', () => {
+  it('shows every section by default', () => {
+    expect(defaultSettings('ru').hiddenSections).toEqual([]);
+  });
+  it('keeps only calls and focus, without duplicates', () => {
+    expect(normSettings({ hiddenSections: ['focus', 'tasks', 'calls', 'focus', 7] }, 'ru').hiddenSections).toEqual(['calls', 'focus']);
+    expect(normSettings({ hiddenSections: 'calls' }, 'ru').hiddenSections).toEqual([]);
+  });
+});

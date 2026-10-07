@@ -67,6 +67,14 @@
   </div>
 
   <div class="group">
+    <span class="label">{store.t('sections')}</span>
+    {#each [['calls', 'navCalls'], ['focus', 'navFocus']] as const as [section, label]}
+      <label class="switch"><span>{store.t(label)}</span><input type="checkbox" checked={store.shows(section)} onchange={(e) => store.toggleSection(section, e.currentTarget.checked)} /><i></i></label>
+    {/each}
+    <p class="sub">{store.t('sectionsHint')}</p>
+  </div>
+
+  <div class="group">
     <span class="label">{store.t('alerts')}</span>
     <label class="switch"><span>{store.t('notifications')}</span><input type="checkbox" checked={s.notify && notifyGranted()} onchange={toggleNotify} /><i></i></label>
     <label class="switch"><span>{store.t('soundLabel')}</span><input type="checkbox" checked={s.sound} onchange={(e) => { unlockAudio(); store.updateSettings({ sound: e.currentTarget.checked }); if (e.currentTarget.checked) chime(1); }} /><i></i></label>
@@ -75,6 +83,7 @@
     {/if}
   </div>
 
+  {#if store.shows('focus')}
   <div class="group">
     <span class="label">Pomodoro</span>
     <label class="switch"><span>{store.t('autoStart')}</span><input type="checkbox" checked={s.pomo.autoStart} onchange={(e) => store.updateSettings({ pomo: { ...s.pomo, autoStart: e.currentTarget.checked } })} /><i></i></label>
@@ -89,6 +98,7 @@
   <div class="links">
     <button class="link-btn" type="button" onclick={() => { store.setDevice({ stopwatch: { elapsed: 0, startedAt: null, laps: [] } }); store.toast(store.t('reset')); }}>{store.t('resetStopwatch')}</button>
   </div>
+  {/if}
   <form method="dialog"><button class="solid-btn">{store.t('done')}</button></form>
 </Sheet>
 {#if profile}<ProfileSheet onclose={() => (profile = false)} />{/if}

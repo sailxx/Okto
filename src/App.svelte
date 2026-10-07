@@ -39,6 +39,11 @@
     if (!(router.route === 'focus' && store.pomoRunning())) document.title = store.t('appTitle');
   });
 
+  // A switched-off section is not reachable, even from an old link.
+  $effect(() => {
+    if (!store.shows(router.route)) router.go('home');
+  });
+
   onMount(() => {
     const mq = matchMedia('(prefers-color-scheme: dark)');
     const onScheme = () => { systemDark = mq.matches; };
@@ -53,13 +58,13 @@
     boot.start();
     // First launch: ask for a name once the power-on animation has played.
     if (!store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
-    // Keyboard: 1–5 switch sections, N adds a task.
+    // Keyboard: 1–5 switch the visible sections in menu order, N adds a task.
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
-      const routes = ['home', 'tasks', 'calls', 'calendar', 'focus'] as const;
+      const routes = (['home', 'tasks', 'calls', 'calendar', 'focus'] as const).filter((r) => store.shows(r));
       const n = Number(e.key);
-      if (n >= 1 && n <= 5) { e.preventDefault(); router.go(routes[n - 1]); }
+      if (n >= 1 && n <= routes.length) { e.preventDefault(); router.go(routes[n - 1]); }
       else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);

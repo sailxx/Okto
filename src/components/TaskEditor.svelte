@@ -113,7 +113,9 @@
     {/if}
 
     <div class="chips">
-      <button type="button" class="chip" class:set={isCall} aria-pressed={isCall} onclick={() => { draft.kind = isCall ? 'task' : 'call'; if (draft.kind === 'call' && !draft.date) draft.date = store.today; }}><Icon name="call" size={18} />{store.t('call')}</button>
+      {#if isCall || store.shows('calls')}
+        <button type="button" class="chip" class:set={isCall} aria-pressed={isCall} onclick={() => { draft.kind = isCall ? 'task' : 'call'; if (draft.kind === 'call' && !draft.date) draft.date = store.today; }}><Icon name="call" size={18} />{store.t('call')}</button>
+      {/if}
       <button type="button" class="chip" class:on={panel === 'date'} class:set={draft.date} onclick={() => toggle('date')}><Icon name="calendar" size={18} />{dateLabel}</button>
       <button type="button" class="chip" class:on={panel === 'time'} class:set={draft.start} onclick={() => toggle('time')}><Icon name="clock" size={18} />{timeLabel}</button>
       <button type="button" class="chip" class:on={panel === 'repeat'} class:set={draft.repeat} onclick={() => toggle('repeat')}><Icon name="repeat" size={18} />{repeatLabel}</button>
