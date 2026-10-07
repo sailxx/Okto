@@ -6,7 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +38,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -46,6 +51,8 @@ import androidx.glance.appwidget.updateAll
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppIcon
+import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
 import com.sailxx.okto.data.signInWithGoogle
 import com.sailxx.okto.data.signOut
@@ -145,5 +152,44 @@ private fun MainScreen(activity: ComponentActivity) {
             }
             error?.let { BasicText(it, style = TextStyle(color = p.red, fontSize = 13.sp)) }
         }
+        Spacer(Modifier.height(28.dp))
+        IconPicker(p)
     }
 }
+
+@Composable
+private fun IconPicker(p: OktoPalette) {
+    val ctx = LocalContext.current
+    var icon by remember { mutableStateOf(AppIcon.current(ctx)) }
+    MonoLabel(ctx.getString(R.string.app_icon), p.muted)
+    Spacer(Modifier.height(10.dp))
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        AppIcon.entries.forEach { option ->
+            val selected = option == icon
+            Column(
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .border(2.dp, if (selected) p.ink else p.line, RoundedCornerShape(16.dp))
+                    .clickable(enabled = !selected) {
+                        AppIcon.set(ctx, option)
+                        icon = option
+                    }
+                    .padding(horizontal = 18.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painterResource(option.preview),
+                    contentDescription = null,
+                    Modifier.size(64.dp).clip(CircleShape).background(IconBg),
+                )
+                Spacer(Modifier.height(8.dp))
+                BasicText(ctx.getString(option.label), style = TextStyle(color = p.ink, fontSize = 14.sp, fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal))
+            }
+        }
+    }
+    Spacer(Modifier.height(8.dp))
+    BasicText(ctx.getString(R.string.icon_hint), style = TextStyle(color = p.muted, fontSize = 13.sp))
+}
+
+/** Фон значка, как @color/icon_bg */
+private val IconBg = Color(0xFF17181B)

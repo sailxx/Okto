@@ -29,4 +29,8 @@
     <string name="tomorrow_chip">Tomorrow</string>
     <string name="no_date_chip">No date</string>
     <string name="add">Add</string>
+    <string name="app_icon">App icon</string>
+    <string name="icon_octo">Octopus</string>
+    <string name="icon_ring">Ring</string>
+    <string name="icon_hint">The launcher may take a few seconds to update the icon. If it disappears from the home screen, add it again from the app list.</string>
 </resources>

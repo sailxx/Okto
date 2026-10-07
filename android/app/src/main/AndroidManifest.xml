@@ -57,15 +57,6 @@
             <meta-data
                 android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
                 android:value="com.sailxx.okto.fileprovider" />
-            <!-- Долгий тап по иконке: «Новая задача» и «Настройки виджета» -->
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -76,6 +67,39 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
+        <!-- Значок на рабочем столе: включён ровно один alias, выбирается в «Настройках виджета»
+             (IconChoice). Метаданные TWA библиотека читает с самой LauncherActivity. -->
+        <activity-alias
+            android:name=".LauncherOcto"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:targetActivity="com.google.androidbrowserhelper.trusted.LauncherActivity">
+            <!-- Долгий тап по иконке: «Новая задача» и «Настройки виджета» -->
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherRing"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_ring"
+            android:targetActivity="com.google.androidbrowserhelper.trusted.LauncherActivity">
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <!-- Обязателен: при каждом запуске библиотека включает/выключает его ярлык «Настройки сайта»
              (setComponentEnabledSetting), и без объявления приложение падает. Он же — «Управление

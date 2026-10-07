@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Заставка: осьминог Okto — сгенерировано tools/icons/build.mjs -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="96dp"
     android:height="96dp"
@@ -8,7 +9,16 @@
         android:fillColor="#FF17181B"
         android:pathData="M16,0h32a16,16 0,0 1,16 16v32a16,16 0,0 1,-16 16h-32a16,16 0,0 1,-16 -16v-32a16,16 0,0 1,16 -16z" />
     <path
-        android:pathData="M32,32m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0"
-        android:strokeWidth="7"
-        android:strokeColor="#FFFAFAFA" />
+        android:pathData="M22.76,31.67Q20.12,43.72 13.02,44.54M27.55,34.31Q26.55,45.86 23.42,51.97M36.45,34.31Q37.45,45.86 40.58,51.97M41.24,31.67Q43.88,43.72 50.98,44.54"
+        android:strokeWidth="4.29"
+        android:strokeColor="#FFFAFAFA"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M18.8,23.09a13.2,13.2 0 1,1 26.4,0a13.2,13.2 0 1,1 -26.4,0z"
+        android:strokeWidth="1.32"
+        android:strokeColor="#FF17181B" />
+    <path
+        android:fillColor="#FFFAFAFA"
+        android:fillType="evenOdd"
+        android:pathData="M18.8,23.09a13.2,13.2 0 1,1 26.4,0a13.2,13.2 0 1,1 -26.4,0zM25.24,21.93a2.31,2.31 0 1,1 4.62,0a2.31,2.31 0 1,1 -4.62,0zM34.14,21.93a2.31,2.31 0 1,1 4.62,0a2.31,2.31 0 1,1 -4.62,0z" />
 </vector>

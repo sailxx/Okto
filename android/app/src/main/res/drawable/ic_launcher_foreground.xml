@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Кольцо Okto, как в icon-maskable-512.png -->
+<!-- Осьминог Okto — сгенерировано tools/icons/build.mjs -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:pathData="M54,54m-12.4,0a12.4,12.4 0,1 1,24.8 0a12.4,12.4 0,1 1,-24.8 0"
-        android:strokeWidth="6.2"
-        android:strokeColor="#FFFAFAFA" />
+        android:pathData="M42.8,53.6Q39.6,68.2 31,69.2M48.6,56.8Q47.4,70.8 43.6,78.2M59.4,56.8Q60.6,70.8 64.4,78.2M65.2,53.6Q68.4,68.2 77,69.2"
+        android:strokeWidth="5.2"
+        android:strokeColor="#FFFAFAFA"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M38,43.2a16,16 0 1,1 32,0a16,16 0 1,1 -32,0z"
+        android:strokeWidth="1.6"
+        android:strokeColor="#FF17181B" />
+    <path
+        android:fillColor="#FFFAFAFA"
+        android:fillType="evenOdd"
+        android:pathData="M38,43.2a16,16 0 1,1 32,0a16,16 0 1,1 -32,0zM45.8,41.8a2.8,2.8 0 1,1 5.6,0a2.8,2.8 0 1,1 -5.6,0zM56.6,41.8a2.8,2.8 0 1,1 5.6,0a2.8,2.8 0 1,1 -5.6,0z" />
 </vector>
