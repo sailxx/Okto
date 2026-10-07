@@ -22,8 +22,11 @@ ws.addEventListener("message", (e) => { const m = JSON.parse(e.data); if (m.id &
 const send = (method, params = {}) => new Promise((r) => { const id = ++seq; pending.set(id, r); ws.send(JSON.stringify({ id, method, params })); });
 
 await send("Page.enable");
-// Полдень на экранах: календарь прокручен к рабочему дню, приветствие дневное
-await send("Emulation.setTimezoneOverride", { timezoneId: "America/Anchorage" });
+// Полдень на экранах: календарь прокручен к рабочему дню, приветствие дневное.
+// Пояс подбираем от текущего времени (Etc/GMT-N = UTC+N), чтобы в момент съёмки было ~12:00.
+const noonOffset = ((12 - new Date().getUTCHours() + 36) % 24) - 12;
+const noonZone = noonOffset === 0 ? "Etc/GMT" : `Etc/GMT${noonOffset > 0 ? "-" : "+"}${Math.abs(noonOffset)}`;
+await send("Emulation.setTimezoneOverride", { timezoneId: noonZone });
 const shots = [
   ["home", "", "day"], ["tasks", "tasks", "day"], ["calendar", "calendar", "day"], ["focus", "focus", "day"],
 ];
@@ -32,7 +35,7 @@ for (const lang of ["ru", "en"]) {
     await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
     await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "light" }, { name: "prefers-reduced-motion", value: "reduce" }] });
     await send("Page.navigate", { url: `${BASE}?lang=${lang}&to=${to}&view=${view}` });
-    await sleep(2500);
+    await sleep(3500);
     const r = await send("Page.captureScreenshot", { format: "png" });
     fs.writeFileSync(`${OUT}${lang}-${name}.png`, Buffer.from(r.result.data, "base64"));
     console.log(`${lang}-${name}.png`);

@@ -6,9 +6,12 @@
       "Okto — спланируй день, сфокусируйся на главном",
       "Открыть Okto",
       "Разделы Okto: Главная, Задачи, Календарь, Фокус",
-      "Синхронизация, приватность и оформление"
+      "Синхронизация, приватность и оформление",
+      "Okto 2.1 для Android: виджет, одно приложение, новое в 2.1",
+      "Безопасность: подпись, данные, разрешения"
     ],
     "note": "",
+    "android": ["Android 2.1 с виджетом задач","скачать Okto.apk","или найти «Okto» в"],
     "more": "Подробнее о разделах",
     "home": [
       "🏠 Главная",
@@ -42,6 +45,7 @@
     "devBuild": "сборка в dist/",
     "devEnv": "Для синхронизации локально скопируйте `.env.example` в `.env.local` и заполните ключи. Публикация на GitHub Pages — автоматически при каждом изменении в `main`.",
     "history": "🗂 История версий",
+    "h21": "**2.1** — Android-приложение с виджетом задач на рабочем столе; мягкие светлая и тёмная темы в стиле Apple; разделы «Созвоны» и «Фокус» можно скрыть; язык меняется в настройках; исправлен запуск на Android.",
     "h2": "**2.0** — задачи со списками, повторами, подзадачами и напоминаниями; календарь в стиле Apple Calendar с перетаскиванием; главная с настраиваемыми блоками; синхронизация через Firebase; фокус на задаче.",
     "h1": "**1.0** — Pomodoro с четырьмя режимами, теги-заготовки с цветами, семь тем, английский язык, уведомления в браузере.",
     "license": "⚖️ Лицензии",
@@ -55,9 +59,12 @@
       "Okto — plan your day, focus on what matters",
       "Open Okto",
       "Okto sections: Home, Tasks, Calendar, Focus",
-      "Sync, privacy and look"
+      "Sync, privacy and look",
+      "Okto 2.1 for Android: widget, one app, what's new in 2.1",
+      "Security: signature, data, permissions"
     ],
     "note": "The app interface is available in Russian and English.",
+    "android": ["Android 2.1 with a task widget","download Okto.apk","or find “Okto” in"],
     "more": "More about the sections",
     "home": [
       "🏠 Home",
@@ -91,6 +98,7 @@
     "devBuild": "build into dist/",
     "devEnv": "For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.",
     "history": "🗂 Version history",
+    "h21": "**2.1** — Android app with a home-screen task widget; soft light and dark themes in Apple style; Calls and Focus can be hidden; language is set in Settings; fixed launching on Android.",
     "h2": "**2.0** — tasks with lists, repeats, subtasks and reminders; Apple Calendar style calendar with drag and drop; a customisable home screen; Firebase sync; focus on a task.",
     "h1": "**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.",
     "license": "⚖️ Licenses",
@@ -104,9 +112,12 @@
       "Okto — planifica tu día, concéntrate en lo importante",
       "Abrir Okto",
       "Secciones de Okto: Inicio, Tareas, Calendario, Enfoque",
-      "Sincronización, privacidad y aspecto"
+      "Sincronización, privacidad y aspecto",
+      "Okto 2.1 para Android: widget, una sola app, novedades",
+      "Seguridad: firma, datos, permisos"
     ],
     "note": "La interfaz de la app está en ruso e inglés.",
+    "android": ["Android 2.1 con widget de tareas","descargar Okto.apk","o busca «Okto» en"],
     "more": "Más sobre las secciones",
     "home": [
       "🏠 Inicio",
@@ -140,6 +151,7 @@
     "devBuild": "compila en dist/",
     "devEnv": "Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las claves. GitHub Pages publica automáticamente con cada cambio en `main`.",
     "history": "🗂 Historial de versiones",
+    "h21": "**2.1** — app de Android con widget de tareas en la pantalla de inicio; temas claro y oscuro suaves al estilo Apple; Llamadas y Enfoque se pueden ocultar; el idioma se elige en Ajustes; arreglado el inicio en Android.",
     "h2": "**2.0** — tareas con listas, repeticiones, subtareas y recordatorios; calendario al estilo Apple Calendar con arrastrar y soltar; inicio personalizable; sincronización con Firebase; enfoque en una tarea.",
     "h1": "**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.",
     "license": "⚖️ Licencias",
@@ -153,9 +165,12 @@
       "Okto — planeje seu dia, foque no que importa",
       "Abrir o Okto",
       "Seções do Okto: Início, Tarefas, Calendário, Foco",
-      "Sincronização, privacidade e visual"
+      "Sincronização, privacidade e visual",
+      "Okto 2.1 para Android: widget, um só app, novidades",
+      "Segurança: assinatura, dados, permissões"
     ],
     "note": "A interface do app está em russo e inglês.",
+    "android": ["Android 2.1 com widget de tarefas","baixar Okto.apk","ou procure «Okto» na"],
     "more": "Mais sobre as seções",
     "home": [
       "🏠 Início",
@@ -189,6 +204,7 @@
     "devBuild": "gera o build em dist/",
     "devEnv": "Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha as chaves. O GitHub Pages publica automaticamente a cada mudança em `main`.",
     "history": "🗂 Histórico de versões",
+    "h21": "**2.1** — app Android com widget de tarefas na tela inicial; temas claro e escuro suaves no estilo Apple; Chamadas e Foco podem ser ocultados; o idioma fica nas Configurações; corrigida a abertura no Android.",
     "h2": "**2.0** — tarefas com listas, repetições, subtarefas e lembretes; calendário no estilo Apple Calendar com arrastar e soltar; início personalizável; sincronização com Firebase; foco numa tarefa.",
     "h1": "**1.0** — Pomodoro com quatro modos, etiquetas coloridas, sete temas, idioma inglês, notificações do navegador.",
     "license": "⚖️ Licenças",
@@ -202,9 +218,12 @@
       "Okto — plane deinen Tag, Fokus auf das Wichtige",
       "Okto öffnen",
       "Bereiche von Okto: Start, Aufgaben, Kalender, Fokus",
-      "Synchronisierung, Datenschutz und Design"
+      "Synchronisierung, Datenschutz und Design",
+      "Okto 2.1 für Android: Widget, eine App, neu in 2.1",
+      "Sicherheit: Signatur, Daten, Berechtigungen"
     ],
     "note": "Die App-Oberfläche gibt es auf Russisch und Englisch.",
+    "android": ["Android 2.1 mit Aufgaben-Widget","Okto.apk herunterladen","oder „Okto“ suchen im"],
     "more": "Mehr zu den Bereichen",
     "home": [
       "🏠 Start",
@@ -238,6 +257,7 @@
     "devBuild": "Build nach dist/",
     "devEnv": "Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.",
     "history": "🗂 Versionen",
+    "h21": "**2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.",
     "h2": "**2.0** — Aufgaben mit Listen, Wiederholungen, Unteraufgaben und Erinnerungen; Kalender im Stil von Apple Kalender mit Drag & Drop; anpassbarer Start; Synchronisierung über Firebase; Fokus auf eine Aufgabe.",
     "h1": "**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.",
     "license": "⚖️ Lizenzen",
@@ -251,9 +271,12 @@
       "Okto — planifie ta journée, concentre-toi sur l’essentiel",
       "Ouvrir Okto",
       "Sections d’Okto : Accueil, Tâches, Calendrier, Concentration",
-      "Synchronisation, confidentialité et apparence"
+      "Synchronisation, confidentialité et apparence",
+      "Okto 2.1 pour Android : widget, une seule app, nouveautés",
+      "Sécurité : signature, données, autorisations"
     ],
     "note": "L’interface de l’app est disponible en russe et en anglais.",
+    "android": ["Android 2.1 avec widget de tâches","télécharger Okto.apk","ou cherchez « Okto » dans"],
     "more": "En savoir plus sur les sections",
     "home": [
       "🏠 Accueil",
@@ -287,6 +310,7 @@
     "devBuild": "build dans dist/",
     "devEnv": "Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remplis les clés. GitHub Pages publie automatiquement à chaque changement sur `main`.",
     "history": "🗂 Historique des versions",
+    "h21": "**2.1** — app Android avec widget de tâches sur l'écran d'accueil ; thèmes clair et sombre doux style Apple ; Appels et Focus masquables ; langue dans les Réglages ; lancement corrigé sur Android.",
     "h2": "**2.0** — tâches avec listes, répétitions, sous-tâches et rappels ; calendrier façon Apple Calendrier avec glisser-déposer ; accueil personnalisable ; synchronisation Firebase ; focus sur une tâche.",
     "h1": "**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.",
     "license": "⚖️ Licences",
@@ -300,9 +324,12 @@
       "Okto — pianifica la giornata, concentrati su ciò che conta",
       "Apri Okto",
       "Sezioni di Okto: Home, Attività, Calendario, Focus",
-      "Sincronizzazione, privacy e aspetto"
+      "Sincronizzazione, privacy e aspetto",
+      "Okto 2.1 per Android: widget, un'unica app, novità",
+      "Sicurezza: firma, dati, permessi"
     ],
     "note": "L’interfaccia dell’app è in russo e inglese.",
+    "android": ["Android 2.1 con widget delle attività","scarica Okto.apk","o cerca «Okto» in"],
     "more": "Di più sulle sezioni",
     "home": [
       "🏠 Home",
@@ -336,6 +363,7 @@
     "devBuild": "build in dist/",
     "devEnv": "Per la sincronizzazione in locale, copia `.env.example` in `.env.local` e compila le chiavi. GitHub Pages pubblica automaticamente a ogni modifica su `main`.",
     "history": "🗂 Cronologia versioni",
+    "h21": "**2.1** — app Android con widget delle attività nella schermata Home; temi chiaro e scuro morbidi in stile Apple; Chiamate e Focus nascondibili; lingua nelle Impostazioni; corretto l'avvio su Android.",
     "h2": "**2.0** — attività con liste, ripetizioni, sottoattività e promemoria; calendario in stile Apple Calendario con trascinamento; home personalizzabile; sincronizzazione con Firebase; focus su un’attività.",
     "h1": "**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.",
     "license": "⚖️ Licenze",
@@ -349,9 +377,12 @@
       "Okto — gününü planla, önemli olana odaklan",
       "Okto’yu aç",
       "Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak",
-      "Senkronizasyon, gizlilik ve görünüm"
+      "Senkronizasyon, gizlilik ve görünüm",
+      "Android için Okto 2.1: widget, tek uygulama, yenilikler",
+      "Güvenlik: imza, veriler, izinler"
     ],
     "note": "Uygulama arayüzü Rusça ve İngilizcedir.",
+    "android": ["Görev widget'lı Android 2.1","Okto.apk indir","veya «Okto» diye ara:"],
     "more": "Bölümler hakkında daha fazlası",
     "home": [
       "🏠 Ana sayfa",
@@ -385,6 +416,7 @@
     "devBuild": "dist/ içine derler",
     "devEnv": "Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.",
     "history": "🗂 Sürüm geçmişi",
+    "h21": "**2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.",
     "h2": "**2.0** — listeli, tekrarlı, alt görevli ve hatırlatıcılı görevler; sürükle-bırak destekli Apple Takvim tarzı takvim; özelleştirilebilir ana sayfa; Firebase senkronizasyonu; göreve odaklanma.",
     "h1": "**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.",
     "license": "⚖️ Lisanslar",
@@ -398,9 +430,12 @@
       "Okto — сплануй день, зосередься на головному",
       "Відкрити Okto",
       "Розділи Okto: Головна, Завдання, Календар, Фокус",
-      "Синхронізація, приватність і вигляд"
+      "Синхронізація, приватність і вигляд",
+      "Okto 2.1 для Android: віджет, один застосунок, нове в 2.1",
+      "Безпека: підпис, дані, дозволи"
     ],
     "note": "Інтерфейс застосунку доступний російською та англійською.",
+    "android": ["Android 2.1 з віджетом завдань","завантажити Okto.apk","або знайти «Okto» в"],
     "more": "Докладніше про розділи",
     "home": [
       "🏠 Головна",
@@ -434,6 +469,7 @@
     "devBuild": "збірка в dist/",
     "devEnv": "Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.",
     "history": "🗂 Історія версій",
+    "h21": "**2.1** — Android-застосунок із віджетом завдань на робочому столі; м'які світла й темна теми в стилі Apple; «Дзвінки» і «Фокус» можна сховати; мова — в налаштуваннях; виправлено запуск на Android.",
     "h2": "**2.0** — завдання зі списками, повторами, підзавданнями й нагадуваннями; календар у стилі Apple Calendar з перетягуванням; головна з налаштовуваними блоками; синхронізація через Firebase; фокус на завданні.",
     "h1": "**1.0** — Pomodoro з чотирма режимами, теги-заготовки з кольорами, сім тем, англійська мова, сповіщення в браузері.",
     "license": "⚖️ Ліцензії",
@@ -447,9 +483,12 @@
       "Okto — zaplanuj dzień, skup się na tym, co ważne",
       "Otwórz Okto",
       "Sekcje Okto: Start, Zadania, Kalendarz, Skupienie",
-      "Synchronizacja, prywatność i wygląd"
+      "Synchronizacja, prywatność i wygląd",
+      "Okto 2.1 na Androida: widżet, jedna aplikacja, nowości",
+      "Bezpieczeństwo: podpis, dane, uprawnienia"
     ],
     "note": "Interfejs aplikacji jest po rosyjsku i angielsku.",
+    "android": ["Android 2.1 z widżetem zadań","pobierz Okto.apk","lub znajdź „Okto” w"],
     "more": "Więcej o sekcjach",
     "home": [
       "🏠 Start",
@@ -483,6 +522,7 @@
     "devBuild": "build do dist/",
     "devEnv": "Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.",
     "history": "🗂 Historia wersji",
+    "h21": "**2.1** — aplikacja na Androida z widżetem zadań na ekranie głównym; łagodne jasny i ciemny motyw w stylu Apple; Rozmowy i Fokus można ukryć; język w Ustawieniach; naprawione uruchamianie na Androidzie.",
     "h2": "**2.0** — zadania z listami, powtórkami, podzadaniami i przypomnieniami; kalendarz w stylu Apple Calendar z przeciąganiem; konfigurowalny ekran startowy; synchronizacja przez Firebase; skupienie na zadaniu.",
     "h1": "**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.",
     "license": "⚖️ Licencje",

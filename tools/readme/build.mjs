@@ -174,11 +174,22 @@ const MORE_ICONS = {
   sync: '<path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/>',
   privacy: '<rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/>',
   look: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>',
+  // Okto 2.1 · Android
+  widget: '<rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="3.5" y="13" width="17" height="7.5" rx="2"/><path d="M7 16.8l1.3 1.2 2.4-2.4"/>',
+  oneapp: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.8"/><path d="M10.5 18.5h3"/><circle cx="12" cy="10" r="2.6"/>',
+  new21: '<path d="M12 3.5l2.1 5.4 5.4 2.1-5.4 2.1-2.1 5.4-2.1-5.4-5.4-2.1 5.4-2.1z"/><path d="M19 3.5v3M17.5 5h3"/>',
+  // Безопасность
+  sign: '<path d="M12 3l7.5 3v5.3c0 4.6-3.2 8.2-7.5 9.7-4.3-1.5-7.5-5.1-7.5-9.7V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.3"/>',
+  data: '<rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/>',
+  perms: '<path d="M4 6.5h9M4 12h6M4 17.5h9"/><circle cx="17.5" cy="12" r="3.2"/><path d="M15.3 14.3l4.4-4.6"/>',
 };
-function moreSvg(s) {
+// Тёмная плашка из трёх колонок: иконка, подпись, заголовок и пункты; head — подпись над колонками
+function cardsSvg(s, keys, head) {
   let b = "";
   const CW = (W - 2 * P - 24) / 3;
-  const cells = ["sync", "privacy", "look"].map((k) => {
+  const top = head ? P + 30 : P;
+  if (head) b += `<text x="${P}" y="${P + 6}" class="lb r" fill="${DIM}">${esc(head)}</text>`;
+  const cells = keys.map((k) => {
     const [name, title, bullets] = s[k];
     const t = richLines(title, 22, WHITE);
     const bl = bullets.map((x) => richLines(x, 30, "#bdbdb8"));
@@ -186,7 +197,7 @@ function moreSvg(s) {
   });
   const rh = Math.max(...cells.map((c) => c.h));
   cells.forEach((c, i) => {
-    const X = P + i * (CW + 12), y = P;
+    const X = P + i * (CW + 12), y = top;
     let cy = y + 26;
     let g = `<rect x="${X}" y="${y}" width="${CW}" height="${rh}" rx="14" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>` +
       `<g transform="translate(${X + 18} ${cy - 6})" fill="none" color="${RED}" stroke="${RED}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${MORE_ICONS[c.k]}</g>`;
@@ -201,8 +212,11 @@ function moreSvg(s) {
     }
     b += `<g class="r"${delay(0.1 + i * 0.12)}>${g}</g>`;
   });
-  return svg(P + rh + P, `${s.sync[0]} · ${s.privacy[0]} · ${s.look[0]}`, b, true);
+  return svg(top + rh + P, (head ? head + " — " : "") + keys.map((k) => s[k][0]).join(" · "), b, true);
 }
+const moreSvg = (s) => cardsSvg(s, ["sync", "privacy", "look"]);
+const androidSvg = (s) => cardsSvg(s, ["widget", "oneapp", "new21"], s.appLabel);
+const safeSvg = (s) => cardsSvg(s, ["sign", "data", "perms"], s.safeLabel);
 
 function ctaSvg() {
   const label = "sailxx.github.io/Okto";
@@ -374,6 +388,8 @@ for (const [lang, s] of Object.entries(strings)) {
   fs.writeFileSync(`${out}hero-${lang}.svg`, heroSvg(s));
   fs.writeFileSync(`${out}sections-${lang}.svg`, sectionsSvg(s));
   fs.writeFileSync(`${out}more-${lang}.svg`, moreSvg(s));
+  fs.writeFileSync(`${out}android-${lang}.svg`, androidSvg(s));
+  fs.writeFileSync(`${out}safe-${lang}.svg`, safeSvg(s));
   fs.writeFileSync(`${out}quality-${lang}.svg`, qualitySvg(cards2[lang], lang));
   fs.writeFileSync(`${out}design-${lang}.svg`, designSvg(cards2[lang], lang));
 }
@@ -397,11 +413,17 @@ ${sw}
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="${m.alt[1]}"></a>
 
+<sub>${m.android[0]}: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">${m.android[1]}</a> ${m.android[2]} <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <br>
 
 <img src="assets/readme/screens-${lang === "ru" || lang === "uk" ? "ru" : "en"}.webp" width="100%" alt="${m.alt[2]}">
+
+<br>
+
+<img src="assets/readme/android-${lang}.svg" width="100%" alt="${m.alt[4]}">
 
 <br>
 
@@ -438,6 +460,10 @@ ${m.syncNote}
 
 <br>
 
+<img src="assets/readme/safe-${lang}.svg" width="100%" alt="${m.alt[5]}">
+
+<br>
+
 ## ${m.dev}
 
 \`\`\`bash
@@ -451,6 +477,8 @@ npm run build    # ${m.devBuild}
 ${m.devEnv}
 
 ## ${m.history}
+
+${m.h21}
 
 ${m.h2}
 

@@ -8,6 +8,8 @@
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Okto öffnen"></a>
 
+<sub>Android 2.1 mit Aufgaben-Widget: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">Okto.apk herunterladen</a> oder „Okto“ suchen im <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+
 </div>
 
 > [!NOTE]
@@ -16,6 +18,10 @@
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Bereiche von Okto: Start, Aufgaben, Kalender, Fokus">
+
+<br>
+
+<img src="assets/readme/android-de.svg" width="100%" alt="Okto 2.1 für Android: Widget, eine App, neu in 2.1">
 
 <br>
 
@@ -72,6 +78,10 @@ Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, 
 
 <br>
 
+<img src="assets/readme/safe-de.svg" width="100%" alt="Sicherheit: Signatur, Daten, Berechtigungen">
+
+<br>
+
 ## 🛠 Entwicklung
 
 ```bash
@@ -85,6 +95,8 @@ npm run build    # Build nach dist/
 Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.
 
 ## 🗂 Versionen
+
+**2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.
 
 **2.0** — Aufgaben mit Listen, Wiederholungen, Unteraufgaben und Erinnerungen; Kalender im Stil von Apple Kalender mit Drag & Drop; anpassbarer Start; Synchronisierung über Firebase; Fokus auf eine Aufgabe.
 
