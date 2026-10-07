@@ -11,7 +11,7 @@
   import { fmtLongDay, fmtShortDay, relDay } from '../lib/i18n';
   import { activeDays, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
-  import { blockSize, GRID_MAX_H, type Block, type BlockType } from '../lib/model';
+  import { blockSize, GRID_MAX_H, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
   let adding = $state(false);
@@ -40,6 +40,10 @@
   });
   const next = $derived(nextUp(store.tasks, store.now));
   const todayTimed = $derived(dayTasks(store.tasks, store.today).filter((i) => i.task.start).sort((a, b) => toMin(a.task.start!) - toMin(b.task.start!)));
+  // Today's checklist: open tasks first, timed ones by start.
+  const todayList = $derived(dayTasks(store.tasks, store.today).sort((a, b) =>
+    Number(isDoneOn(a.task, a.date)) - Number(isDoneOn(b.task, b.date))
+    || (a.task.start ? toMin(a.task.start) : 1e4) - (b.task.start ? toMin(b.task.start) : 1e4)));
   const DAY = 8 * 60;
   const planned = $derived(todayTimed.reduce((sum, i) => sum + i.task.duration, 0));
 
@@ -171,16 +175,37 @@
 
           {#if b.type === 'tasks'}
             {@const d = selTasks === null ? null : days14[selTasks]}
-            <span class="legend">
-              <span class="label">{store.t('bTasks')} · {d ? dayLabel(d) : store.t('todayLine')}</span>
-              <span class="label">{store.t('plan')} {hmm(planned)}/{hmm(DAY)}</span>
-            </span>
-            <span class="read">
-              {#if d}<Digits class="big" text={p2(doneSeries[selTasks!])} /><em>{store.t('tasksDone')}</em>
-              {:else}<Digits class="big" text={`${p2(tasks.done)}/${p2(tasks.total)}`} delay={i * 90} />{/if}
-            </span>
-            {@render bar(lit(tasks.total ? tasks.done / tasks.total : 0))}
-            <div class="chart"><Scrub days={days14} values={doneSeries} bind:sel={selTasks} label="{store.t('tasksDone')}, {store.t('last14')}" /></div>
+            <div class="tk">
+              <div class="tk-stats">
+                <span class="legend">
+                  <span class="label">{store.t('bTasks')} · {d ? dayLabel(d) : store.t('todayLine')}</span>
+                  <span class="label">{store.t('plan')} {hmm(planned)}/{hmm(DAY)}</span>
+                </span>
+                <span class="read">
+                  {#if d}<Digits class="big" text={p2(doneSeries[selTasks!])} /><em>{store.t('tasksDone')}</em>
+                  {:else}<Digits class="big" text={`${p2(tasks.done)}/${p2(tasks.total)}`} delay={i * 90} /><em>{store.t('taskDone').toLowerCase()}</em>{/if}
+                </span>
+                {@render bar(lit(tasks.total ? tasks.done / tasks.total : 0))}
+                <div class="chart"><Scrub days={days14} values={doneSeries} bind:sel={selTasks} label="{store.t('tasksDone')}, {store.t('last14')}" /></div>
+              </div>
+              <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+              <ul class="todo" aria-label={store.t('todayOf')(tasks.done, tasks.total)} onclick={(e) => e.stopPropagation()}>
+                {#each todayList as it (it.task.id + it.date)}
+                  {@const done = isDoneOn(it.task, it.date)}
+                  <li class:done>
+                    <button type="button" class="ck" style:--p={it.task.priority ? PRIORITY_COLORS[it.task.priority] : 'var(--well-ink)'}
+                      aria-label={store.t('taskDone')} aria-pressed={done} disabled={editing}
+                      onclick={() => store.toggleDone(it.task, it.date)}>{#if done}<Icon name="check" size={13} />{/if}</button>
+                    <button type="button" class="tt" disabled={editing} onclick={() => store.openTask(it.task, it.date)}>
+                      <span class="tn">{it.task.title || '—'}</span>
+                      {#if it.task.start}<span class="tm">{it.task.start}</span>{/if}
+                    </button>
+                  </li>
+                {:else}
+                  <li class="empty">{store.t('emptyToday')}</li>
+                {/each}
+              </ul>
+            </div>
 
           {:else if b.type === 'focus'}
             {@const d = selFocus === null ? null : days7[selFocus]}
@@ -313,7 +338,7 @@
   .cell:hover { box-shadow: inset 0 0 0 1px var(--well-dim); }
   .cell[aria-disabled='true'] { cursor: grab; }
   .legend { display: flex; justify-content: space-between; gap: 10px; flex: 0 0 auto; }
-  .legend .label { margin: 0; font-size: 10px; letter-spacing: .14em; color: var(--well-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend .label { margin: 0; font-size: 11px; letter-spacing: .14em; color: var(--well-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .legend .label + .label { text-align: right; flex: 0 0 auto; opacity: .8; }
 
   .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; flex: 0 0 auto; }
@@ -332,6 +357,36 @@
   :global([data-boot='test']) .segs i { background: var(--well-dim); }
 
   .chart { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+
+  /* Tasks: stats, and today's checklist beside them (wide) or under them (tall). */
+  .tk { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .tk-stats { min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .todo { display: none; margin: 0; padding: 0 2px 0 0; list-style: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  @container (min-width: 520px) and (min-height: 171px) {
+    .tk { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+    .todo { display: block; border-left: 1px solid var(--well-ghost); padding-left: 14px; }
+  }
+  @container (max-width: 519px) and (min-height: 270px) {
+    .tk { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+    .todo { display: block; border-top: 1px solid var(--well-ghost); padding-top: 4px; }
+  }
+  .todo li { display: flex; align-items: center; gap: 10px; min-height: 36px; border-bottom: 1px solid var(--well-ghost); }
+  .todo li:last-child { border-bottom: 0; }
+  .todo .empty { color: var(--well-dim); font-family: var(--mono); font-size: 12px; }
+  .ck {
+    flex: 0 0 auto; width: 20px; height: 20px; display: grid; place-items: center;
+    border: 2px solid var(--p); border-radius: 6px; color: var(--well);
+    transition: background-color 150ms ease, transform 120ms ease;
+  }
+  .ck:active { transform: scale(.88); }
+  .ck[aria-pressed='true'] { background: var(--p); }
+  .ck :global(svg) { stroke-width: 3.5; }
+  .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--well-ink); }
+  .tn { flex: 1; min-width: 0; font-size: 14px; font-weight: 500; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tm { flex: 0 0 auto; font-family: var(--mono); font-size: 12px; color: var(--well-dim); font-variant-numeric: tabular-nums; }
+  .tt:hover .tn { text-decoration: underline; text-decoration-color: var(--well-dim); text-underline-offset: 3px; }
+  .todo li.done .tn { color: var(--well-dim); text-decoration: line-through; }
+  .editing .todo { pointer-events: none; }
 
   /* Small blocks show just the reading. */
   @container (max-height: 170px) { .chart, .heat, .line, .segs { display: none; } }
