@@ -6,9 +6,9 @@
 
 <img src="assets/readme/hero-tr.svg" width="100%" alt="Okto — gününü planla, önemli olana odaklan">
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Okto’yu aç"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-tr.svg" height="48" alt="Web sürümünü aç"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-tr.svg" height="48" alt="Android için indir"></a>
 
-<sub>Görev widget'lı Android 2.1: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">Okto.apk indir</a> veya «Okto» diye ara: <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+**Okto her cihazda çalışır** — iPhone ve Android, tablet, Windows, macOS ve Linux. Bir tarayıcı yeterli; telefona ve bilgisayara uygulama olarak da kurulur. Android için görev widget'lı ayrı bir uygulama da var; [Komi Store](https://github.com/komi-store/komi-store)'da da bulabilirsin.
 
 </div>
 

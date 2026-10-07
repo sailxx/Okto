@@ -218,14 +218,21 @@ const moreSvg = (s) => cardsSvg(s, ["sync", "privacy", "look"]);
 const androidSvg = (s) => cardsSvg(s, ["widget", "oneapp", "new21"], s.appLabel);
 const safeSvg = (s) => cardsSvg(s, ["sign", "data", "perms"], s.safeLabel);
 
-function ctaSvg() {
-  const label = "sailxx.github.io/Okto";
-  const w = label.length * 9 + 76;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="48" viewBox="0 0 ${w} 48" role="img" aria-label="${label}">
+// Кнопки под заставкой: «веб-версия» — тёмная с красной точкой, «Android» — светлая в рамке.
+// Шрифт моноширинный (0,6 em = 9 px при 15 px), поэтому ширина считается по числу знаков.
+const ANDROID_ICON = '<path d="M7 10.5a5 5 0 0 1 10 0v.5H7z"/><path d="M8.6 6.6 7.4 4.8M15.4 6.6l1.2-1.8"/><rect x="7" y="12.5" width="10" height="7" rx="1.6"/>';
+function btnSvg(label, kind) {
+  const web = kind === "web";
+  const text = label + (web ? " ↗" : " ↓");
+  const w = [...text].length * 9 + 76;
+  const mark = web
+    ? `<circle cx="26" cy="24" r="5" fill="${RED}"/>`
+    : `<g transform="translate(14 12)" fill="none" stroke="${RED}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ANDROID_ICON}</g>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="48" viewBox="0 0 ${w} 48" role="img" aria-label="${esc(label)}">
 <style>${FACE}text{font-family:"JBM",ui-monospace,Consolas,monospace}</style>
-<rect x=".5" y=".5" width="${w - 1}" height="47" rx="12" fill="${INK}" stroke="${INK}"/>
-<circle cx="26" cy="24" r="5" fill="${RED}"/>
-<text x="42" y="30" font-size="15" font-weight="800" letter-spacing="-.2" fill="${WHITE}">${label} ↗</text>
+<rect x=".75" y=".75" width="${w - 1.5}" height="46.5" rx="12" fill="${web ? INK : WHITE}" stroke="${INK}" stroke-width="1.5"/>
+${mark}
+<text x="44" y="30" font-size="15" font-weight="800" letter-spacing="-.2" fill="${web ? WHITE : INK}">${esc(text)}</text>
 </svg>`;
 }
 
@@ -383,6 +390,7 @@ function designSvg(c, lang) {
 }
 
 const strings = JSON.parse(fs.readFileSync(dir + "strings.json", "utf8"));
+const md = JSON.parse(fs.readFileSync(dir + "md.json", "utf8"));
 const cards2 = JSON.parse(fs.readFileSync(dir + "cards2.json", "utf8"));
 for (const [lang, s] of Object.entries(strings)) {
   fs.writeFileSync(`${out}hero-${lang}.svg`, heroSvg(s));
@@ -390,14 +398,15 @@ for (const [lang, s] of Object.entries(strings)) {
   fs.writeFileSync(`${out}more-${lang}.svg`, moreSvg(s));
   fs.writeFileSync(`${out}android-${lang}.svg`, androidSvg(s));
   fs.writeFileSync(`${out}safe-${lang}.svg`, safeSvg(s));
+  const m = md[lang];
+  fs.writeFileSync(`${out}btn-web-${lang}.svg`, btnSvg(m.btnWeb, "web"));
+  fs.writeFileSync(`${out}btn-android-${lang}.svg`, btnSvg(m.btnApk, "android"));
   fs.writeFileSync(`${out}quality-${lang}.svg`, qualitySvg(cards2[lang], lang));
   fs.writeFileSync(`${out}design-${lang}.svg`, designSvg(cards2[lang], lang));
 }
-fs.writeFileSync(out + "cta.svg", ctaSvg());
 console.log(Object.keys(strings).length + " языков, " + fs.readdirSync(out).length + " файлов");
 
 // ── README на всех языках из одного шаблона (tools/readme/md.json) ──
-const md = JSON.parse(fs.readFileSync(dir + "md.json", "utf8"));
 const langs = Object.keys(md);
 for (const lang of langs) {
   const m = md[lang];
@@ -411,9 +420,9 @@ ${sw}
 
 <img src="assets/readme/hero-${lang}.svg" width="100%" alt="${m.alt[0]}">
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="${m.alt[1]}"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="48" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="48" alt="${m.btnApk}"></a>
 
-<sub>${m.android[0]}: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">${m.android[1]}</a> ${m.android[2]} <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+${m.anywhere}
 
 </div>
 ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}

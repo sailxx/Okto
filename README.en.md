@@ -6,9 +6,9 @@
 
 <img src="assets/readme/hero-en.svg" width="100%" alt="Okto — plan your day, focus on what matters">
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Open Okto"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="48" alt="Open web app"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="48" alt="Download for Android"></a>
 
-<sub>Android 2.1 with a task widget: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">download Okto.apk</a> or find “Okto” in <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+**Okto works on any device** — iPhone and Android, tablets, Windows, macOS and Linux. All you need is a browser, and Okto installs as an app on your phone or computer. Android also gets a dedicated app with a task widget — you can find it in [Komi Store](https://github.com/komi-store/komi-store) too.
 
 </div>
 

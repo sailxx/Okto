@@ -6,9 +6,9 @@
 
 <img src="assets/readme/hero-uk.svg" width="100%" alt="Okto — сплануй день, зосередься на головному">
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/cta.svg" height="44" alt="Відкрити Okto"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-uk.svg" height="48" alt="Відкрити веб-версію"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-uk.svg" height="48" alt="Завантажити для Android"></a>
 
-<sub>Android 2.1 з віджетом завдань: <a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk">завантажити Okto.apk</a> або знайти «Okto» в <a href="https://github.com/komi-store/komi-store">Komi Store</a></sub>
+**Okto працює на будь-якому пристрої** — iPhone і Android, планшет, Windows, macOS і Linux. Потрібен лише браузер, а на телефон і комп'ютер Okto встановлюється як застосунок. Для Android є окремий застосунок із віджетом завдань — його можна знайти й у [Komi Store](https://github.com/komi-store/komi-store).
 
 </div>
 
