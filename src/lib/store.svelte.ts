@@ -16,7 +16,7 @@ export type Scope = 'one' | 'future' | 'all';
 type Listener = (coll: Collection, rec: { id: string }) => void;
 
 export interface Editor { task: Task; occurrence: string | null; isNew: boolean }
-export interface Toast { text: string; action?: () => void; label?: string; id: number }
+export interface Toast { text: string; action?: () => void; label?: string; icon?: string; ms: number; id: number }
 
 function readStorage(key: string): unknown {
   try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
@@ -140,10 +140,11 @@ class Store {
   snapshot() { return $state.snapshot(this.data) as Data; }
 
   /* ---------- toast ---------- */
-  toast(text: string, action?: () => void, label?: string) {
-    this.toastMsg = { text, action, label, id: Date.now() };
+  toast(text: string, action?: () => void, label?: string, icon?: string) {
+    const ms = action ? 4000 : 2400;
+    this.toastMsg = { text, action, label, icon, ms, id: Date.now() };
     clearTimeout(this.toastTimer);
-    this.toastTimer = setTimeout(() => { this.toastMsg = null; }, action ? 4000 : 2400);
+    this.toastTimer = setTimeout(() => { this.toastMsg = null; }, ms);
   }
 
   /* ---------- settings / device ---------- */
@@ -221,7 +222,7 @@ class Store {
     } else {
       this.commit('tasks', newTask({ ...before, deleted: true }));
     }
-    this.toast(this.t('taskDeleted'), () => this.commit('tasks', newTask({ ...before })), this.t('undoAction'));
+    this.toast(this.t('taskDeleted'), () => this.commit('tasks', newTask({ ...before })), this.t('undoAction'), 'trash');
   }
 
   toggleDone(task: Task, date: string | null) {
@@ -240,7 +241,7 @@ class Store {
     this.commit('tasks', newTask(snap));
     if (nowDone) {
       buzz(12);
-      this.toast(this.t('taskDone'), () => this.toggleDone(task, date), this.t('undoAction'));
+      this.toast(this.t('taskDone'), () => this.toggleDone(task, date), this.t('undoAction'), 'check');
     }
   }
 
