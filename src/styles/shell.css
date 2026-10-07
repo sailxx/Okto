@@ -112,14 +112,6 @@
 .page-title { margin: 0; font-family: var(--sans); font-size: clamp(28px, 7.5vw, 38px); font-weight: 700; letter-spacing: -.03em; line-height: 1.1; }
 .page-sub { margin: 6px 0 0; color: var(--muted); font-family: var(--mono); font-size: 13px; letter-spacing: .03em; font-variant-numeric: tabular-nums; }
 
-/* Toast with an action */
-.toast { display: flex; align-items: center; gap: 14px; pointer-events: none; }
-.toast.visible { pointer-events: auto; }
-.toast button { color: var(--well-ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
-@media (max-width: 899px) {
-  .toast { top: auto; bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 96px); }
-}
-
 /* Sheets: bottom sheet on phones */
 @media (max-width: 560px) {
   .sheet { margin: auto auto 0; width: 100%; max-width: 100%; border-radius: 18px 18px 0 0; padding-bottom: max(20px, env(safe-area-inset-bottom)); max-height: 92svh; }
