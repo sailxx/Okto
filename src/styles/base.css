@@ -180,7 +180,6 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: var(--r-key); color: var(--ink); transition: background-color 150ms ease; }
 .icon-btn:hover { background: var(--soft); }
 .icon-btn svg { width: 22px; height: 22px; }
-.icon-btn.lang { width: auto; display: inline-flex; align-items: center; gap: 7px; padding: 0 10px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; }
 .flag { width: 18px; height: 12px; flex: 0 0 auto; border-radius: 2px; box-shadow: 0 0 0 1px rgb(0 0 0 / 15%); stroke: none; }
 .text-btn { height: 34px; padding: 0 12px; border-radius: 8px; color: var(--ink); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; transition: background-color 150ms ease; }
 .text-btn:hover { background: var(--soft); }

@@ -20,8 +20,6 @@
     { route: 'focus', icon: 'focus', label: 'navFocus' },
   ];
   const items = $derived(ALL.filter((it) => store.shows(it.route)));
-  const other = $derived(store.lang === 'ru' ? 'en' : 'ru');
-  const toggleLang = () => store.updateSettings({ lang: other });
   const pad = (n: number) => String(n).padStart(2, '0');
   const clock = $derived(`${pad(store.now.getHours())}:${pad(store.now.getMinutes())}`);
   const stamp = $derived(`${new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'short' }).format(store.now).replace('.', '').toUpperCase()} ${pad(store.now.getDate())}.${pad(store.now.getMonth() + 1)}`);
@@ -34,17 +32,11 @@
   </a>
 {/snippet}
 
-{#snippet langBtn()}
-  <button class="icon-btn lang" type="button" onclick={toggleLang} aria-label={store.lang === 'ru' ? 'Switch to English' : 'Переключить на русский'}>
-    {@html FLAGS[other]}<span>{other.toUpperCase()}</span>
-  </button>
-{/snippet}
 
 <header class="mobile-top">
   {@render brand()}
   <div class="top-actions">
     <span class="clock">{stamp} · {clock}</span>
-    {@render langBtn()}
     <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
   </div>
 </header>
@@ -75,12 +67,11 @@
   {/each}
   <button class="side-new" type="button" onclick={() => store.openNewTask()}><Icon name="plus" />{store.t('newTask')}<kbd class="nk">N</kbd></button>
   <div class="side-foot">
-    {@render langBtn()}
     <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
   </div>
 </aside>
 
 <style>
   .nk { font-family: var(--mono); font-size: 11px; opacity: .6; margin-left: 4px; }
-  @media (max-width: 400px) { .top-actions :global(.lang span) { display: none; } .clock { margin-right: 2px; } }
+  @media (max-width: 400px) { .clock { margin-right: 2px; } }
 </style>
