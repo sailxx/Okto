@@ -5,8 +5,10 @@
   import { instancesInRange, isDoneOn, type Instance } from '../lib/recurrence';
   import type { Task } from '../lib/model';
 
-  let { month, tasks, selected, compact, onpick }: {
+  /** fold: 0 = whole month, 1 = only the selected week (phone); in between while dragging. */
+  let { month, tasks, selected, compact, onpick, fold = 0, dragging = false }: {
     month: string; tasks: Task[]; selected: string; compact: boolean; onpick: (key: string) => void;
+    fold?: number; dragging?: boolean;
   } = $props();
 
   const first = $derived(startOfWeek(monthStart(month), store.weekStart));
@@ -19,17 +21,20 @@
   });
   const inMonth = (k: string) => k.slice(0, 7) === month.slice(0, 7);
   const MAX = 3;
+  const selRow = $derived(Math.max(0, Math.floor(days.indexOf(selected) / 7)));
 </script>
 
-<div class="mg" class:compact>
+<div class="mg" class:compact class:folded={fold > 0.5} class:dragging style:--fold={fold} style:--row={selRow}>
   <div class="wd-row">
     {#each days.slice(0, 7) as d}<span class:weekend={[0, 6].includes(weekday(d))}>{fmtWeekdayShort(store.lang, d)}</span>{/each}
   </div>
+  <div class="clip">
   <div class="cells">
-    {#each days as d (d)}
+    {#each days as d, idx (d)}
       {@const items = byDay.get(d) ?? []}
       <button
-        type="button" class="cell" class:out={!inMonth(d)} class:sel={d === selected} class:today={d === store.today}
+        type="button" class="cell" class:out={!inMonth(d)} class:sel={d === selected} class:today={d === store.today} class:other={Math.floor(idx / 7) !== selRow}
+        tabindex={fold > 0.5 && Math.floor(idx / 7) !== selRow ? -1 : undefined}
         onclick={() => onpick(d)}
       >
         <span class="num">{Number(d.slice(8))}</span>
@@ -50,6 +55,7 @@
       </button>
     {/each}
   </div>
+  </div>
 </div>
 
 <style>
@@ -63,7 +69,17 @@
     min-width: 0; padding: 6px 2px; border-bottom: 1px solid var(--line);
     text-align: left;
   }
-  .compact .cell { min-height: 52px; }
+  /* Phone: fixed rows, so the grid can fold to the selected week — the clip shrinks
+     while the rows slide up until the selected one sits under the weekday labels. */
+  .clip { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .compact { flex: none; --rh: 54px; }
+  .compact .clip { flex: none; overflow: hidden; height: calc(var(--rh) * (6 - 5 * var(--fold)) + 1px); transition: height 320ms var(--ease); }
+  .compact .cells { flex: none; grid-auto-rows: var(--rh); transform: translateY(calc(var(--rh) * var(--row) * var(--fold) * -1)); transition: transform 320ms var(--ease); }
+  .compact.dragging .clip, .compact.dragging .cells, .compact.dragging .cell { transition: none; }
+  .compact .cell { min-height: 0; transition: opacity 320ms var(--ease); }
+  .compact .other { opacity: calc(1 - var(--fold) * .8); }
+  /* Folded, the week may span two months: no greying of the neighbour days. */
+  .folded .out .num { color: inherit; opacity: 1; }
   .num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .out .num { color: var(--muted); opacity: .5; }
   .today .num { color: var(--accent); font-weight: 700; }

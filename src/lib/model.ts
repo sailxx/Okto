@@ -85,6 +85,8 @@ export interface Device {
   /** Calendar: hour-height step and the full-screen view. */
   calZoom: number;
   calExpanded: boolean;
+  /** Phone month view folded down to the selected week. */
+  calFolded: boolean;
 }
 
 /* ================= Constants ================= */
@@ -290,7 +292,7 @@ export function defaultDevice(): Device {
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false,
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false,
   };
 }
 
@@ -322,6 +324,7 @@ export function normDevice(raw: unknown): Device {
     taskFilter: typeof raw.taskFilter === 'string' ? raw.taskFilter : 'today',
     calZoom: int(raw.calZoom, 0, CAL_ZOOM.length - 1, 1),
     calExpanded: raw.calExpanded === true,
+    calFolded: raw.calFolded === true,
   };
 }
 
