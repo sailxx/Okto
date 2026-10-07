@@ -28,7 +28,8 @@
 /* Key-row tab bar */
 .tabbar {
   position: fixed; z-index: 4; left: 0; right: 0; bottom: 0;
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;
+  /* One equal column per visible section: switched-off ones leave no gap. */
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 5px;
   padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
   background: var(--soft);
   box-shadow: inset 0 1px 0 var(--line);
