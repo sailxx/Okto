@@ -65,8 +65,54 @@
   const titleKey = $derived(view === 'month' ? cursor : days[0]);
   const strip = $derived(Array.from({ length: 7 }, (_, i) => addDays(startOfWeek(cursor, store.weekStart), i)));
 
+  /* ---------- phone month: folds down to the selected week ---------- */
+  const ROW = 54; // keep in sync with --rh in MonthGrid
+  let fold = $state(store.device.calFolded ? 1 : 0);
+  let foldDrag = $state(false);
+  const foldable = $derived(view === 'month' && !desktop);
+  const folded = $derived(foldable && store.device.calFolded);
+  function setFolded(v: boolean) {
+    fold = v ? 1 : 0;
+    if (v !== store.device.calFolded) store.setDevice({ calFolded: v });
+  }
+
+  // Vertical drag on the grid or its handle follows the finger, then snaps.
+  let fy = 0, fx = 0, f0 = 0, fid = -1, moved = false;
+  function fDown(e: PointerEvent) { fid = e.pointerId; fy = e.clientY; fx = e.clientX; f0 = fold; moved = false; }
+  function fMove(e: PointerEvent) {
+    if (e.pointerId !== fid) return;
+    const dy = e.clientY - fy;
+    if (!foldDrag) {
+      if (Math.abs(dy) < 10 || Math.abs(dy) < Math.abs(e.clientX - fx)) return;
+      foldDrag = true; moved = true;
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    }
+    e.preventDefault();
+    fold = Math.max(0, Math.min(1, f0 - dy / (ROW * 5)));
+  }
+  function fUp(e: PointerEvent) {
+    if (e.pointerId !== fid) return;
+    fid = -1;
+    if (!foldDrag) return;
+    foldDrag = false;
+    const dy = e.clientY - fy;
+    setFolded(Math.abs(dy) > 24 ? dy < 0 : fold > 0.5);
+  }
+  // A drag must not also tap the day it started on.
+  function fClick(e: MouseEvent) { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }
+
+  // The day list: swipe up folds the month, pulling down at the top unfolds it.
+  let ly = 0;
+  function lStart(e: TouchEvent) { ly = e.touches[0].clientY; }
+  function lMove(e: TouchEvent) {
+    const dy = e.touches[0].clientY - ly, list = e.currentTarget as HTMLElement;
+    if (dy < -30 && !folded) setFolded(true);
+    else if (dy > 50 && folded && list.scrollTop <= 0) setFolded(false);
+  }
+
   function step(dir: 1 | -1) {
-    if (view === 'month') cursor = addMonths(cursor, dir);
+    if (folded) cursor = addDays(cursor, dir * 7);
+    else if (view === 'month') cursor = addMonths(cursor, dir);
     else if (view === 'week') cursor = addDays(cursor, dir * weekLen);
     else cursor = addDays(cursor, dir);
     miniMonth = monthStart(cursor);
@@ -153,9 +199,16 @@
 
     <div class="cal-body" bind:this={bodyEl} onpointerdown={tDown} onpointerup={tUp} onpointercancel={() => (swiping = false)} role="presentation">
       {#if view === 'month'}
-        <MonthGrid month={cursor} tasks={visible} selected={cursor} compact={!desktop} onpick={pickMonthDay} />
+        {#if foldable}
+          <div class="fold" onpointerdown={fDown} onpointermove={fMove} onpointerup={fUp} onpointercancel={fUp} onclickcapture={fClick} role="presentation">
+            <MonthGrid month={cursor} tasks={visible} selected={cursor} compact onpick={pickMonthDay} {fold} dragging={foldDrag} />
+            <button type="button" class="grip" aria-expanded={!folded} aria-label={store.t(folded ? 'unfoldMonth' : 'foldMonth')} title={store.t(folded ? 'unfoldMonth' : 'foldMonth')} onclick={() => setFolded(!folded)}><i style:--fold={fold}></i></button>
+          </div>
+        {:else}
+          <MonthGrid month={cursor} tasks={visible} selected={cursor} compact={false} onpick={pickMonthDay} />
+        {/if}
         {#if !desktop}
-          <div class="day-list">
+          <div class="day-list" role="group" aria-label={fmtLongDay(store.lang, cursor)} ontouchstart={lStart} ontouchmove={lMove}>
             <h2 class="label">{fmtLongDay(store.lang, cursor)}</h2>
             {#each dayList as i (i.task.id + i.date)}
               <TaskRow task={i.task} date={i.date} />
@@ -214,7 +267,19 @@
   .views { grid-template-columns: repeat(3, 1fr); }
   .cal-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 
-  .day-list { margin-top: 14px; overflow-y: auto; flex: 0 1 auto; padding-bottom: 80px; }
+  .day-list { margin-top: 6px; overflow-y: auto; flex: 1 1 auto; min-height: 0; padding-bottom: 80px; overscroll-behavior: contain; }
+
+  .fold { flex: none; touch-action: none; user-select: none; -webkit-user-select: none; }
+  /* Handle: a pill that bends into a chevron pointing where the month will go. */
+  .grip { display: grid; place-items: center; width: 100%; height: 22px; }
+  .grip i { position: relative; width: 36px; height: 10px; }
+  .grip i::before, .grip i::after {
+    content: ''; position: absolute; top: 4px; width: 20px; height: 4px; border-radius: 2px;
+    background: var(--line); transition: transform 320ms var(--ease), background-color 150ms ease;
+  }
+  .grip i::before { left: 0; transform-origin: right center; transform: rotate(calc(-16deg + 32deg * var(--fold))); }
+  .grip i::after { right: 0; transform-origin: left center; transform: rotate(calc(16deg - 32deg * var(--fold))); }
+  .grip:hover i::before, .grip:hover i::after, .grip:focus-visible i::before, .grip:focus-visible i::after { background: var(--muted); }
   .day-list .label { margin: 0 0 2px 2px; }
   .empty-add { padding: 14px 2px; color: var(--muted); font-size: 15px; font-weight: 600; }
 
