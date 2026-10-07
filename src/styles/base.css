@@ -30,6 +30,29 @@
   --well: #0a0a0a; --well-ink: #f2f2f2; --well-dim: #8a8a8a; --well-ghost: rgb(255 255 255 / 6%); --well-edge: rgb(0 0 0 / 60%);
   --red: #ef5a5f;
 }
+/* Soft, Apple-style: system greys instead of pure black and white, cards instead of
+   recessed displays, rounder corners, diffuse shadows and a calm blue accent. */
+:root[data-theme='soft'] {
+  --bg: #f2f2f7; --ink: #1d1d1f; --muted: #6e6e73; --line: #e5e5ea; --soft: #e9e9ee;
+  --key: #ffffff; --key-ink: #1d1d1f; --key-edge: rgb(0 0 0 / 5%); --key-hi: rgb(255 255 255 / 100%);
+  --well: #ffffff; --well-ink: #1d1d1f; --well-dim: #8e8e93; --well-ghost: rgb(60 60 67 / 8%); --well-edge: rgb(0 0 0 / 4%);
+  --primary: #007aff; --on-primary: #fff; --accent: #007aff; --on-accent: #fff;
+  --red: #ff3b30;
+  --key-drop: 0 1px 2px rgb(0 0 0 / 6%), 0 4px 12px -6px rgb(0 0 0 / 10%);
+  --r-key: 14px; --r-well: 18px;
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Golos Text', system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+:root[data-theme='softdark'] {
+  color-scheme: dark;
+  --bg: #1c1c1e; --ink: #f2f2f7; --muted: #98989f; --line: #2c2c2e; --soft: #242426;
+  --key: #333336; --key-ink: #f2f2f7; --key-edge: rgb(0 0 0 / 22%); --key-hi: rgb(255 255 255 / 5%);
+  --well: #2a2a2c; --well-ink: #f2f2f7; --well-dim: #8e8e93; --well-ghost: rgb(235 235 245 / 8%); --well-edge: rgb(0 0 0 / 16%);
+  --primary: #0a84ff; --on-primary: #fff; --accent: #0a84ff; --on-accent: #fff;
+  --red: #ff453a;
+  --key-drop: 0 1px 2px rgb(0 0 0 / 20%), 0 4px 12px -6px rgb(0 0 0 / 30%);
+  --r-key: 14px; --r-well: 18px;
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Golos Text', system-ui, 'Segoe UI', Roboto, sans-serif;
+}
 :root[data-theme='paper'] {
   --bg: #e9e2d1; --ink: #2a251b; --muted: #645a49; --line: #d6ccb6; --soft: #dfd6c2;
   --key: #f6f0e1; --key-ink: #2a251b; --key-edge: #c2b69c; --key-hi: rgb(255 255 255 / 80%);
@@ -146,7 +169,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
   display: inline-grid; place-items: center;
   background: var(--k-bg); color: var(--k-ink);
   border-radius: var(--r-key);
-  box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%);
+  box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 22%));
   transition: transform 90ms var(--ease), box-shadow 90ms var(--ease), background-color 150ms ease, opacity 150ms ease;
 }
 .key:active, .circle:active, .line-btn:active, .solid-btn:active {
@@ -202,7 +225,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .tag small { font-family: var(--mono); color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .tag:hover { background: var(--soft); }
 .tag[aria-selected='true'], .tag[aria-pressed='true'] {
-  background: var(--key); box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 20%);
+  background: var(--key); box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 20%));
 }
 .tag[aria-selected='true']::before, .tag[aria-pressed='true']::before { opacity: 1; box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent); }
 .tag.add { padding: 0 12px; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; }
@@ -211,7 +234,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 /* Segmented key strip */
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--soft); box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%); }
 .seg button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 38px; border-radius: 8px; font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: color 150ms ease, background-color 150ms ease; }
-.seg button[aria-pressed='true'] { background: var(--key); color: var(--key-ink); box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 20%); }
+.seg button[aria-pressed='true'] { background: var(--key); color: var(--key-ink); box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 20%)); }
 
 /* Mode switch (Counter / Pomodoro) */
 .modes {
@@ -222,7 +245,7 @@ svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width:
 .modes-thumb {
   position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--n));
   border-radius: 8px; background: var(--key);
-  box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 20%);
+  box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 20%));
   transform: translateX(calc(100% * var(--i)));
   transition: transform 260ms var(--ease);
 }

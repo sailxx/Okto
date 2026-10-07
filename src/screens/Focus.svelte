@@ -486,5 +486,5 @@
   .laps small { min-width: 86px; text-align: right; font-size: 12px; }
   .nums.two { grid-template-columns: 1fr 1fr; margin-bottom: 16px; }
   .set-time { margin-top: 4px; }
-  .circle.sound[aria-pressed='true'] { --k-bg: var(--key); --k-ink: var(--key-ink); transform: none; box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), 0 2px 3px -1px rgb(0 0 0 / 22%); }
+  .circle.sound[aria-pressed='true'] { --k-bg: var(--key); --k-ink: var(--key-ink); transform: none; box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 22%)); }
 </style>

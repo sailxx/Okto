@@ -2,7 +2,7 @@ import { isHm, isKey } from './date';
 
 /* ================= Types ================= */
 export type Lang = 'ru' | 'en';
-export type Theme = 'system' | 'light' | 'dark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord';
+export type Theme = 'system' | 'light' | 'dark' | 'soft' | 'softdark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord';
 export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
@@ -93,6 +93,8 @@ export const THEMES: Record<Theme, [string, string]> = {
   system: ['#fafafa', '#0e0e10'],
   light: ['#fafafa', '#e4e5e8'],
   dark: ['#0e0e10', '#2a2b30'],
+  soft: ['#f2f2f7', '#007aff'],
+  softdark: ['#1c1c1e', '#0a84ff'],
   paper: ['#f4efe6', '#2a251d'],
   mint: ['#edf5f0', '#13241a'],
   midnight: ['#0f1522', '#e8edf7'],
