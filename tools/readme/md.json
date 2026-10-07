@@ -11,7 +11,9 @@
       "Безопасность: подпись, данные, разрешения"
     ],
     "note": "",
-    "android": ["Android 2.1 с виджетом задач","скачать Okto.apk","или найти «Okto» в"],
+    "btnWeb": "Открыть веб-версию",
+    "btnApk": "Скачать для Android",
+    "anywhere": "**Okto работает на любом устройстве** — iPhone и Android, планшет, Windows, macOS и Linux. Нужен только браузер, а на телефон и компьютер Okto ставится как приложение. Для Android есть отдельное приложение с виджетом задач — его можно найти и в [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Подробнее о разделах",
     "home": [
       "🏠 Главная",
@@ -64,7 +66,9 @@
       "Security: signature, data, permissions"
     ],
     "note": "The app interface is available in Russian and English.",
-    "android": ["Android 2.1 with a task widget","download Okto.apk","or find “Okto” in"],
+    "btnWeb": "Open web app",
+    "btnApk": "Download for Android",
+    "anywhere": "**Okto works on any device** — iPhone and Android, tablets, Windows, macOS and Linux. All you need is a browser, and Okto installs as an app on your phone or computer. Android also gets a dedicated app with a task widget — you can find it in [Komi Store](https://github.com/komi-store/komi-store) too.",
     "more": "More about the sections",
     "home": [
       "🏠 Home",
@@ -117,7 +121,9 @@
       "Seguridad: firma, datos, permisos"
     ],
     "note": "La interfaz de la app está en ruso e inglés.",
-    "android": ["Android 2.1 con widget de tareas","descargar Okto.apk","o busca «Okto» en"],
+    "btnWeb": "Abrir versión web",
+    "btnApk": "Descargar para Android",
+    "anywhere": "**Okto funciona en cualquier dispositivo**: iPhone y Android, tabletas, Windows, macOS y Linux. Solo necesitas un navegador, y en el móvil o el ordenador Okto se instala como app. Para Android hay además una app con widget de tareas, también en [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Más sobre las secciones",
     "home": [
       "🏠 Inicio",
@@ -170,7 +176,9 @@
       "Segurança: assinatura, dados, permissões"
     ],
     "note": "A interface do app está em russo e inglês.",
-    "android": ["Android 2.1 com widget de tarefas","baixar Okto.apk","ou procure «Okto» na"],
+    "btnWeb": "Abrir versão web",
+    "btnApk": "Baixar para Android",
+    "anywhere": "**O Okto funciona em qualquer dispositivo**: iPhone e Android, tablets, Windows, macOS e Linux. Basta um navegador, e no celular ou no computador o Okto se instala como app. Para Android há também um app com widget de tarefas, disponível também na [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Mais sobre as seções",
     "home": [
       "🏠 Início",
@@ -223,7 +231,9 @@
       "Sicherheit: Signatur, Daten, Berechtigungen"
     ],
     "note": "Die App-Oberfläche gibt es auf Russisch und Englisch.",
-    "android": ["Android 2.1 mit Aufgaben-Widget","Okto.apk herunterladen","oder „Okto“ suchen im"],
+    "btnWeb": "Web-Version öffnen",
+    "btnApk": "Für Android laden",
+    "anywhere": "**Okto läuft auf jedem Gerät** — iPhone und Android, Tablets, Windows, macOS und Linux. Ein Browser genügt, auf Handy und Computer lässt sich Okto als App installieren. Für Android gibt es zusätzlich eine App mit Aufgaben-Widget — auch im [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Mehr zu den Bereichen",
     "home": [
       "🏠 Start",
@@ -276,7 +286,9 @@
       "Sécurité : signature, données, autorisations"
     ],
     "note": "L’interface de l’app est disponible en russe et en anglais.",
-    "android": ["Android 2.1 avec widget de tâches","télécharger Okto.apk","ou cherchez « Okto » dans"],
+    "btnWeb": "Ouvrir la version web",
+    "btnApk": "Télécharger pour Android",
+    "anywhere": "**Okto fonctionne sur tous les appareils** : iPhone et Android, tablettes, Windows, macOS et Linux. Un navigateur suffit, et Okto s'installe comme une app sur le téléphone ou l'ordinateur. Sur Android, il existe aussi une app avec widget de tâches, disponible aussi dans [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "En savoir plus sur les sections",
     "home": [
       "🏠 Accueil",
@@ -329,7 +341,9 @@
       "Sicurezza: firma, dati, permessi"
     ],
     "note": "L’interfaccia dell’app è in russo e inglese.",
-    "android": ["Android 2.1 con widget delle attività","scarica Okto.apk","o cerca «Okto» in"],
+    "btnWeb": "Apri la versione web",
+    "btnApk": "Scarica per Android",
+    "anywhere": "**Okto funziona su qualsiasi dispositivo**: iPhone e Android, tablet, Windows, macOS e Linux. Basta un browser, e su telefono o computer Okto si installa come app. Per Android c'è anche un'app con widget delle attività, disponibile anche su [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Di più sulle sezioni",
     "home": [
       "🏠 Home",
@@ -382,7 +396,9 @@
       "Güvenlik: imza, veriler, izinler"
     ],
     "note": "Uygulama arayüzü Rusça ve İngilizcedir.",
-    "android": ["Görev widget'lı Android 2.1","Okto.apk indir","veya «Okto» diye ara:"],
+    "btnWeb": "Web sürümünü aç",
+    "btnApk": "Android için indir",
+    "anywhere": "**Okto her cihazda çalışır** — iPhone ve Android, tablet, Windows, macOS ve Linux. Bir tarayıcı yeterli; telefona ve bilgisayara uygulama olarak da kurulur. Android için görev widget'lı ayrı bir uygulama da var; [Komi Store](https://github.com/komi-store/komi-store)'da da bulabilirsin.",
     "more": "Bölümler hakkında daha fazlası",
     "home": [
       "🏠 Ana sayfa",
@@ -435,7 +451,9 @@
       "Безпека: підпис, дані, дозволи"
     ],
     "note": "Інтерфейс застосунку доступний російською та англійською.",
-    "android": ["Android 2.1 з віджетом завдань","завантажити Okto.apk","або знайти «Okto» в"],
+    "btnWeb": "Відкрити веб-версію",
+    "btnApk": "Завантажити для Android",
+    "anywhere": "**Okto працює на будь-якому пристрої** — iPhone і Android, планшет, Windows, macOS і Linux. Потрібен лише браузер, а на телефон і комп'ютер Okto встановлюється як застосунок. Для Android є окремий застосунок із віджетом завдань — його можна знайти й у [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Докладніше про розділи",
     "home": [
       "🏠 Головна",
@@ -488,7 +506,9 @@
       "Bezpieczeństwo: podpis, dane, uprawnienia"
     ],
     "note": "Interfejs aplikacji jest po rosyjsku i angielsku.",
-    "android": ["Android 2.1 z widżetem zadań","pobierz Okto.apk","lub znajdź „Okto” w"],
+    "btnWeb": "Otwórz wersję web",
+    "btnApk": "Pobierz na Androida",
+    "anywhere": "**Okto działa na każdym urządzeniu** — iPhone i Android, tablet, Windows, macOS i Linux. Wystarczy przeglądarka, a na telefonie i komputerze Okto instaluje się jak aplikacja. Na Androida jest też osobna aplikacja z widżetem zadań — znajdziesz ją także w [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Więcej o sekcjach",
     "home": [
       "🏠 Start",
