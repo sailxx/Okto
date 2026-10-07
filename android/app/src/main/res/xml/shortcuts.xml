@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Меню долгого тапа по иконке Okto -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutId="new_task"
+        android:shortcutShortLabel="@string/new_task">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.sailxx.okto.ui.QuickAddActivity"
+            android:targetPackage="com.sailxx.okto" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_settings"
+        android:shortcutId="widget_settings"
+        android:shortcutShortLabel="@string/widget_settings">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.sailxx.okto.ui.WidgetSettingsActivity"
+            android:targetPackage="com.sailxx.okto" />
+    </shortcut>
+</shortcuts>

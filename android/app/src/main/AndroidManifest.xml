@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Okto для Android: Trusted Web Activity поверх https://sailxx.github.io/Okto/ -->
+<!-- Okto для Android: Trusted Web Activity поверх https://sailxx.github.io/Okto/ + виджет задач -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,6 +12,7 @@
     </queries>
 
     <application
+        android:name=".OktoApp"
         android:allowBackup="false"
         android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
         android:icon="@mipmap/ic_launcher"
@@ -56,6 +57,10 @@
             <meta-data
                 android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
                 android:value="com.sailxx.okto.fileprovider" />
+            <!-- Долгий тап по иконке: «Новая задача» и «Настройки виджета» -->
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,6 +93,37 @@
         <activity
             android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
             android:configChanges="orientation|screenSize" />
+
+        <!-- ===== Виджет задач ===== -->
+
+        <!-- Вход в Google и синхронизация виджета; открывается из виджета и из меню иконки -->
+        <activity
+            android:name=".ui.WidgetSettingsActivity"
+            android:exported="true"
+            android:label="@string/widget_settings"
+            android:theme="@style/Theme.Okto.Widget" />
+
+        <!-- «Новая задача»: панель поверх рабочего стола -->
+        <activity
+            android:name=".ui.QuickAddActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/new_task"
+            android:taskAffinity=""
+            android:theme="@style/Theme.Okto.Sheet"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <receiver
+            android:name=".widget.OktoWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/okto_widget_info" />
+        </receiver>
 
         <provider
             android:name="androidx.core.content.FileProvider"

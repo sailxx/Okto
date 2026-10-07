@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_settings">Widget settings</string>
+    <string name="app_title">Tasks widget</string>
+    <string name="widget_name">Okto · Tasks</string>
+    <string name="widget_description">Today\'s and overdue Okto tasks. Tap a circle to complete.</string>
+    <string name="tasks_today">Tasks · today</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="call">Call</string>
+    <string name="untitled">Untitled</string>
+    <string name="empty">ALL CLEAR · NOTHING DUE</string>
+    <string name="add_task">Add task</string>
+    <string name="sync">Sync</string>
+    <string name="mark_done">Mark done</string>
+    <string name="mark_undone">Mark not done</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_hint">Sign in to see your tasks</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="sign_in_explain">Use the same Google account as in Okto — the widget will show the same tasks.</string>
+    <string name="not_signed_in">Not signed in</string>
+    <string name="pin_widget">Add widget to home screen</string>
+    <string name="sync_now">Sync now</string>
+    <string name="open_okto">Open Okto</string>
+    <string name="sign_out">Sign out</string>
+    <string name="new_task">New task</string>
+    <string name="task_hint">What needs to be done?</string>
+    <string name="today_chip">Today</string>
+    <string name="tomorrow_chip">Tomorrow</string>
+    <string name="no_date_chip">No date</string>
+    <string name="add">Add</string>
+</resources>
