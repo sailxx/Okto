@@ -3,7 +3,7 @@ import { DICT, weekStartOf, type Key } from './i18n';
 import { migrateLegacy } from './migrate';
 import {
   defaultData, defaultDevice, defaultLists, live, newCounter, newList, newSession, newTask, normData, normDevice, normSettings, POMO,
-  type Collection, type Counter, type Data, type Device, type Lang, type List, type Settings, type Task,
+  type Collection, type Counter, type Data, type Device, type Lang, type List, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
 import { buzz, chime, systemNotify } from './alerts';
@@ -71,6 +71,13 @@ class Store {
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
 
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
+
+  /** Calls and Focus can be switched off in Settings; everything else is always on. */
+  shows(section: string) { return !(this.data.settings.hiddenSections as string[]).includes(section); }
+  toggleSection(section: OptionalSection, on: boolean) {
+    const rest = this.data.settings.hiddenSections.filter((s) => s !== section);
+    this.updateSettings({ hiddenSections: on ? rest : [...rest, section] });
+  }
 
   listOf(task: Task): List | undefined { return this.lists.find((l) => l.id === task.listId) ?? this.lists[0]; }
   colorOf(task: Task) { return task.color ?? this.listOf(task)?.color ?? '#0090ff'; }

@@ -25,7 +25,8 @@
   const greeting = $derived(`${s.greeting || autoGreeting}${s.name ? `, ${s.name}` : ''}`);
 
   /* ---------- data ---------- */
-  const blocks = $derived(s.dashboard.filter((b) => b.type !== 'counter' || store.counters.some((c) => c.id === b.counterId)));
+  // The Focus card leaves Home together with the Focus section.
+  const blocks = $derived(s.dashboard.filter((b) => (b.type !== 'counter' || store.counters.some((c) => c.id === b.counterId)) && store.shows(b.type)));
   const days14 = $derived(lastDays(14, store.today));
   const days7 = $derived(lastDays(7, store.today));
   const tasks = $derived(dayTaskStats(store.tasks, store.today));
@@ -58,10 +59,14 @@
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
   const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext' };
 
-  function setBlocks(list: Block[]) { store.updateSettings({ dashboard: list.map((b) => ({ ...b })) }); }
+  // Cards of switched-off sections keep their place, so they come back when the section does.
+  function setBlocks(list: Block[]) {
+    const hidden = s.dashboard.filter((b) => !store.shows(b.type));
+    store.updateSettings({ dashboard: [...list, ...hidden].map((b) => ({ ...b })) });
+  }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['tasks', 'focus', 'streak', 'next'] as const).filter((t) => !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['tasks', 'focus', 'streak', 'next'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 

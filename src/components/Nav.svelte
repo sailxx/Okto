@@ -12,13 +12,14 @@
 
   let { onSettings }: { onSettings: () => void } = $props();
 
-  const items: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navFocus' }[] = [
+  const ALL: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navFocus' }[] = [
     { route: 'home', icon: 'home', label: 'navHome' },
     { route: 'tasks', icon: 'tasks', label: 'navTasks' },
     { route: 'calls', icon: 'call', label: 'navCalls' },
     { route: 'calendar', icon: 'calendar', label: 'navCalendar' },
     { route: 'focus', icon: 'focus', label: 'navFocus' },
   ];
+  const items = $derived(ALL.filter((it) => store.shows(it.route)));
   const other = $derived(store.lang === 'ru' ? 'en' : 'ru');
   const toggleLang = () => store.updateSettings({ lang: other });
   const pad = (n: number) => String(n).padStart(2, '0');

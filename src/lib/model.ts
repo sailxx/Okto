@@ -57,8 +57,12 @@ export interface Settings {
   pomo: { preset: PomoPreset; custom: PomoCfg; autoStart: boolean };
   dashboard: Block[];
   hiddenLists: string[];
+  /** Sections the person switched off: they leave the menu and Home. */
+  hiddenSections: OptionalSection[];
   updatedAt: number;
 }
+export type OptionalSection = 'calls' | 'focus';
+export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'focus'];
 export interface Data {
   tasks: Record<string, Task>;
   lists: Record<string, List>;
@@ -206,7 +210,7 @@ export function defaultSettings(lang: Lang): Settings {
     id: 'main', lang, theme: 'system', notify: false, sound: true, vibrate: true,
     name: '', greeting: '', onboarded: false,
     pomo: { preset: 'classic', custom: { ...POMO.classic }, autoStart: true },
-    dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], updatedAt: 0,
+    dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], hiddenSections: [], updatedAt: 0,
   };
 }
 
@@ -236,6 +240,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
     },
     dashboard,
     hiddenLists: Array.isArray(raw.hiddenLists) ? raw.hiddenLists.filter((x: unknown) => typeof x === 'string') : [],
+    hiddenSections: Array.isArray(raw.hiddenSections) ? OPTIONAL_SECTIONS.filter((x) => raw.hiddenSections.includes(x)) : [],
     updatedAt: ts(raw.updatedAt, 0),
   };
 }
