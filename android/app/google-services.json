@@ -1,0 +1,92 @@
+{
+  "project_info": {
+    "project_number": "832941717379",
+    "project_id": "okto-2102026",
+    "storage_bucket": "okto-2102026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832941717379:android:c752d310c1e4817172e8b6",
+        "android_client_info": {
+          "package_name": "com.okto.widget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832941717379-7uipc8qv2ubvedfodfbtd25revslel9d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.okto.widget",
+            "certificate_hash": "e88cd059b3a47eacce28991a9519386443bd5741"
+          }
+        },
+        {
+          "client_id": "832941717379-6lsgejutmhulum36tvmp9r9hm4912m3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgYj-4s5QWuBsCFFvs8xEWRB7rGozKegw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832941717379-6lsgejutmhulum36tvmp9r9hm4912m3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832941717379:android:ab28a6ee56bbfa0972e8b6",
+        "android_client_info": {
+          "package_name": "com.sailxx.okto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832941717379-5bi55itrnbdrr95khfaugoo95hc5c6hh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sailxx.okto",
+            "certificate_hash": "e162104b3472facf2f866c8d95af9d8638cad963"
+          }
+        },
+        {
+          "client_id": "832941717379-69u53nljmf6178sg8juj9qcgn2v699nm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sailxx.okto",
+            "certificate_hash": "e88cd059b3a47eacce28991a9519386443bd5741"
+          }
+        },
+        {
+          "client_id": "832941717379-6lsgejutmhulum36tvmp9r9hm4912m3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgYj-4s5QWuBsCFFvs8xEWRB7rGozKegw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832941717379-6lsgejutmhulum36tvmp9r9hm4912m3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

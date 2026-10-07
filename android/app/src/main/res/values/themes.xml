@@ -6,4 +6,19 @@
         <item name="android:navigationBarColor">@color/bar</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!-- Настройки виджета: экран рисует Compose в цветах темы Okto, окно — без своих полос -->
+    <style name="Theme.Okto.Widget" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bar_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- «Новая задача» из виджета: панель снизу поверх рабочего стола -->
+    <style name="Theme.Okto.Sheet" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>

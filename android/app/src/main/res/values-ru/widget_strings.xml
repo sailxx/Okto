@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_settings">Настройки виджета</string>
+    <string name="app_title">Виджет задач</string>
+    <string name="widget_name">Okto · Задачи</string>
+    <string name="widget_description">Задачи Okto на сегодня и просроченные. Нажмите на кружок, чтобы выполнить.</string>
+    <string name="tasks_today">Задачи · сегодня</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="call">Звонок</string>
+    <string name="untitled">Без названия</string>
+    <string name="empty">ВСЁ СДЕЛАНО · ЗАДАЧ НЕТ</string>
+    <string name="add_task">Добавить задачу</string>
+    <string name="sync">Синхронизировать</string>
+    <string name="mark_done">Отметить выполненной</string>
+    <string name="mark_undone">Снять отметку</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_in_hint">Войдите, чтобы видеть задачи</string>
+    <string name="sign_in_google">Войти через Google</string>
+    <string name="sign_in_explain">Используйте тот же Google-аккаунт, что и в Okto, — виджет покажет те же задачи.</string>
+    <string name="not_signed_in">Вход не выполнен</string>
+    <string name="pin_widget">Добавить виджет на экран</string>
+    <string name="sync_now">Синхронизировать</string>
+    <string name="open_okto">Открыть Okto</string>
+    <string name="sign_out">Выйти</string>
+    <string name="new_task">Новая задача</string>
+    <string name="task_hint">Что нужно сделать?</string>
+    <string name="today_chip">Сегодня</string>
+    <string name="tomorrow_chip">Завтра</string>
+    <string name="no_date_chip">Без даты</string>
+    <string name="add">Добавить</string>
+</resources>

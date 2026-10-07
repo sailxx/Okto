@@ -1,0 +1,149 @@
+package com.sailxx.okto.ui
+
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.updateAll
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.sailxx.okto.R
+import com.sailxx.okto.data.OktoRepository
+import com.sailxx.okto.data.signInWithGoogle
+import com.sailxx.okto.data.signOut
+import com.sailxx.okto.widget.oktoIntent
+import com.sailxx.okto.widget.OktoTasksWidget
+import com.sailxx.okto.widget.OktoWidgetReceiver
+import com.sailxx.okto.widget.SyncWorker
+import kotlinx.coroutines.launch
+
+class WidgetSettingsActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        SyncWorker.schedule(this)
+        setContent { MainScreen(this) }
+    }
+}
+
+@Composable
+private fun MainScreen(activity: ComponentActivity) {
+    val ctx = LocalContext.current
+    val state by OktoRepository.state.collectAsState()
+    val p = state.palette
+    val scope = rememberCoroutineScope()
+    var signedIn by remember { mutableStateOf(Firebase.auth.currentUser != null) }
+    var busy by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf<String?>(null) }
+
+    suspend fun sync() {
+        OktoRepository.refresh(ctx)
+        OktoTasksWidget().updateAll(ctx)
+    }
+    LaunchedEffect(signedIn) { sync() }
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(p.bg)
+            .systemBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(9.dp).clip(CircleShape).background(p.ink))
+            Spacer(Modifier.width(8.dp))
+            BasicText("okto", style = TextStyle(color = p.ink, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace))
+        }
+        Spacer(Modifier.height(28.dp))
+        BasicText(ctx.getString(R.string.app_title), style = TextStyle(color = p.ink, fontSize = 34.sp, fontWeight = FontWeight.Bold))
+        Spacer(Modifier.height(4.dp))
+        MonoLabel(state.email ?: ctx.getString(R.string.not_signed_in), p.muted)
+        Spacer(Modifier.height(20.dp))
+
+        // Та же карточка, что на главной Okto
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(p.well)
+                .padding(14.dp),
+        ) {
+            MonoLabel(ctx.getString(R.string.tasks_today), p.wellDim)
+            BasicText(
+                "%02d/%02d".format(state.doneToday, state.totalToday),
+                style = TextStyle(color = p.wellInk, fontSize = 52.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace),
+            )
+        }
+        Spacer(Modifier.height(20.dp))
+
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (!signedIn) {
+                OktoKeyWide(ctx.getString(R.string.sign_in_google), p, primary = true, enabled = !busy) {
+                    scope.launch {
+                        busy = true
+                        error = runCatching { signInWithGoogle(activity) }.exceptionOrNull()?.localizedMessage
+                        signedIn = Firebase.auth.currentUser != null
+                        busy = false
+                    }
+                }
+                BasicText(ctx.getString(R.string.sign_in_explain), style = TextStyle(color = p.muted, fontSize = 13.sp))
+            } else {
+                OktoKeyWide(ctx.getString(R.string.pin_widget), p, primary = true) {
+                    scope.launch {
+                        GlanceAppWidgetManager(ctx).requestPinGlanceAppWidget(OktoWidgetReceiver::class.java)
+                    }
+                }
+                OktoKeyWide(ctx.getString(R.string.sync_now), p, enabled = !busy) {
+                    scope.launch { busy = true; sync(); busy = false }
+                }
+                OktoKeyWide(ctx.getString(R.string.open_okto), p) {
+                    ctx.startActivity(oktoIntent(ctx))
+                }
+                OktoKeyWide(ctx.getString(R.string.sign_out), p) {
+                    signOut()
+                    signedIn = false
+                }
+            }
+            error?.let { BasicText(it, style = TextStyle(color = p.red, fontSize = 13.sp)) }
+        }
+    }
+}
