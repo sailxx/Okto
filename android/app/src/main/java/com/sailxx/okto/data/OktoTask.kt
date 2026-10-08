@@ -19,6 +19,7 @@ data class OktoTask(
     val date: String?,      // "yyyy-MM-dd" или null (без даты)
     val start: String?,     // "HH:mm" или null
     val duration: Int,
+    val reminder: Int?,     // минуты до начала; только вместе со start
     val repeat: Repeat?,
     val done: Boolean,
     val doneDates: List<String>,
@@ -74,6 +75,7 @@ data class OktoTask(
                 date = isoDate(m["date"]),
                 start = m["start"] as? String,
                 duration = (m["duration"] as? Number)?.toInt() ?: 30,
+                reminder = (m["reminder"] as? Number)?.toInt()?.coerceIn(0, 10080),
                 repeat = repeat,
                 done = m["done"] == true,
                 doneDates = strings(m["doneDates"]),

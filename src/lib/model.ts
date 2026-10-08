@@ -54,7 +54,7 @@ export interface PomoCfg { work: number; short: number; long: number; every: num
 export interface Block { type: BlockType; counterId?: string; w?: number; h?: number }
 export interface Settings {
   id: 'main';
-  lang: Lang; theme: Theme; notify: boolean; sound: boolean; vibrate: boolean;
+  lang: Lang; theme: Theme; sound: boolean; vibrate: boolean;
   /** Profile: shown on Home. Empty greeting = greet by time of day. */
   name: string; greeting: string; onboarded: boolean;
   pomo: { preset: PomoPreset; custom: PomoCfg; autoStart: boolean };
@@ -90,6 +90,8 @@ export interface Device {
   calExpanded: boolean;
   /** Phone month view folded down to the selected week. */
   calFolded: boolean;
+  /** System notifications: permission is per device, so the switch is too. */
+  notify: boolean;
 }
 
 /* ================= Constants ================= */
@@ -222,7 +224,7 @@ const normPomoCfg = (c: any, def: PomoCfg): PomoCfg => ({
 
 export function defaultSettings(lang: Lang): Settings {
   return {
-    id: 'main', lang, theme: 'system', notify: false, sound: true, vibrate: true,
+    id: 'main', lang, theme: 'system', sound: true, vibrate: true,
     name: '', greeting: '', onboarded: false,
     pomo: { preset: 'classic', custom: { ...POMO.classic }, autoStart: true },
     dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], hiddenSections: [], updatedAt: 0,
@@ -246,7 +248,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
     id: 'main',
     lang: raw.lang === 'ru' || raw.lang === 'en' ? raw.lang : d.lang,
     theme: raw.theme in THEMES ? raw.theme : d.theme,
-    notify: raw.notify === true, sound: raw.sound !== false, vibrate: raw.vibrate !== false,
+    sound: raw.sound !== false, vibrate: raw.vibrate !== false,
     name: str(raw.name, 40).trim(), greeting: str(raw.greeting, 80).trim(), onboarded: raw.onboarded === true,
     pomo: {
       preset: ['classic', 'short', 'deep', 'custom'].includes(p.preset) ? p.preset : 'classic',
@@ -303,7 +305,7 @@ export function defaultDevice(): Device {
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false,
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, notify: false,
   };
 }
 
@@ -336,6 +338,7 @@ export function normDevice(raw: unknown): Device {
     calZoom: int(raw.calZoom, 0, CAL_ZOOM.length - 1, 1),
     calExpanded: raw.calExpanded === true,
     calFolded: raw.calFolded === true,
+    notify: raw.notify === true,
   };
 }
 

@@ -33,4 +33,5 @@
     <string name="icon_octo">Octopus</string>
     <string name="icon_ring">Ring</string>
     <string name="icon_hint">The launcher may take a few seconds to update the icon. If it disappears from the home screen, add it again from the app list.</string>
+    <string name="reminders_channel">Task reminders</string>
 </resources>

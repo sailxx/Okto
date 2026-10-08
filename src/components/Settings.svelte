@@ -15,12 +15,12 @@
 
   async function toggleNotify(e: Event) {
     const input = e.currentTarget as HTMLInputElement;
-    if (!input.checked) { store.updateSettings({ notify: false }); return; }
+    if (!input.checked) { store.setDevice({ notify: false }); return; }
     const perm = await requestNotify();
-    if (perm === 'granted') { store.updateSettings({ notify: true }); systemNotify('Okto', store.t('notifyOn')); }
+    if (perm === 'granted') { store.setDevice({ notify: true }); systemNotify('Okto', store.t('notifyOn')); }
     else {
       input.checked = false;
-      store.updateSettings({ notify: false });
+      store.setDevice({ notify: false });
       store.toast(perm === 'unsupported' ? store.t('notifyUnsupported') : store.t('notifyDenied'));
     }
   }
@@ -76,7 +76,7 @@
 
   <div class="group">
     <span class="label">{store.t('alerts')}</span>
-    <label class="switch"><span>{store.t('notifications')}</span><input type="checkbox" checked={s.notify && notifyGranted()} onchange={toggleNotify} /><i></i></label>
+    <label class="switch"><span>{store.t('notifications')}</span><input type="checkbox" checked={store.device.notify && notifyGranted()} onchange={toggleNotify} /><i></i></label>
     <label class="switch"><span>{store.t('soundLabel')}</span><input type="checkbox" checked={s.sound} onchange={(e) => { unlockAudio(); store.updateSettings({ sound: e.currentTarget.checked }); if (e.currentTarget.checked) chime(1); }} /><i></i></label>
     {#if vibrateSupported}
       <label class="switch"><span>{store.t('vibration')}</span><input type="checkbox" checked={s.vibrate} onchange={(e) => { store.updateSettings({ vibrate: e.currentTarget.checked }); buzz(20); }} /><i></i></label>

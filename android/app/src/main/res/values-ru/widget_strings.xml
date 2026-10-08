@@ -33,4 +33,5 @@
     <string name="icon_octo">Осьминог</string>
     <string name="icon_ring">Кольцо</string>
     <string name="icon_hint">Лаунчер обновит значок через несколько секунд. Если он пропал с рабочего стола — добавьте его заново из списка приложений.</string>
+    <string name="reminders_channel">Напоминания о задачах</string>
 </resources>
