@@ -1,4 +1,4 @@
-// Sound, vibration and system notifications (ported from Okto 1.0).
+// Sound, vibration and system notifications (ported from Okto 1.0). The service worker also keeps Okto starting offline.
 let audio: AudioContext | undefined;
 let swReg: ServiceWorkerRegistration | null = null;
 

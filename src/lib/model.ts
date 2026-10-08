@@ -12,6 +12,8 @@ export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'settings
 
 export interface Repeat { freq: Freq; interval: number; until: string | null }
 export interface Subtask { id: string; title: string; done: boolean }
+/** A photo or file pinned to a task. Only this description syncs; the bytes stay on the device (see files.ts). */
+export interface Attachment { id: string; name: string; type: string; size: number; addedAt: number }
 
 export interface Task {
   id: string;
@@ -28,6 +30,7 @@ export interface Task {
   start: string | null;
   duration: number;
   subtasks: Subtask[];
+  attachments: Attachment[];
   repeat: Repeat | null;
   reminder: number | null;
   done: boolean;
@@ -116,6 +119,9 @@ export const CAL_ZOOM = [36, 52, 72, 100, 140];
 export const PRIORITY_COLORS = ['var(--ink)', '#0090ff', '#f76b15', '#e5484d'];
 export const REMINDERS = [0, 5, 15, 30, 60, 1440];
 export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
+export const MAX_ATTACHMENTS = 20;
+/** Per file, bytes. */
+export const MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const DEFAULT_DASHBOARD: Block[] = [{ type: 'tasks', w: 3, h: 2 }, { type: 'focus', w: 3, h: 2 }, { type: 'streak', w: 2, h: 2 }, { type: 'next', w: 4, h: 2 }];
 export const GRID_MAX_W = 6, GRID_MAX_H = 4;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
@@ -160,6 +166,11 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
     duration: int(r.duration, 5, 24 * 60, 30),
     subtasks: Array.isArray(r.subtasks)
       ? r.subtasks.filter(isObj).slice(0, 50).map((s) => ({ id: id(s.id), title: str(s.title, 200), done: s.done === true }))
+      : [],
+    attachments: Array.isArray(r.attachments)
+      ? r.attachments.filter(isObj).slice(0, MAX_ATTACHMENTS).map((a) => ({
+        id: id(a.id), name: str(a.name, 200) || 'file', type: str(a.type, 100), size: int(a.size, 0, Number.MAX_SAFE_INTEGER, 0), addedAt: ts(a.addedAt, now),
+      }))
       : [],
     repeat,
     reminder: r.reminder === null || r.reminder === undefined ? null : int(r.reminder, 0, 10080, 0),
