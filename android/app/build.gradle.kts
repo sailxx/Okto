@@ -17,8 +17,8 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8
-        versionName = "2.3.0"
+        versionCode = 9
+        versionName = "2.4.0"
     }
 
     // Ключ подписи хранится вне репозитория; путь и пароли — в keystore.properties (в .gitignore)
