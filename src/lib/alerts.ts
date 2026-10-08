@@ -30,6 +30,14 @@ export function chime(times = 3) {
   }
 }
 
+/** Inside the Okto Android app (TWA): Chrome passes the app as the referrer on launch; reloads keep the tab's session. */
+export const inAndroidApp = (() => {
+  try {
+    if (document.referrer.startsWith('android-app://com.sailxx.okto')) sessionStorage.setItem('okto-twa', '1');
+    return sessionStorage.getItem('okto-twa') === '1';
+  } catch { return false; }
+})();
+
 export const buzz = (pattern: number | number[]) => navigator.vibrate?.(pattern);
 
 export const notifySupported = () => 'Notification' in window;

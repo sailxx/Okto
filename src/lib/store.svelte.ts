@@ -6,7 +6,7 @@ import {
   type Collection, type Counter, type Data, type Device, type Lang, type List, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
-import { buzz, chime, systemNotify } from './alerts';
+import { buzz, chime, inAndroidApp, systemNotify } from './alerts';
 
 const KEY = 'okto-v3';
 const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter };
@@ -351,12 +351,13 @@ class Store {
 
   pomoToday() { return this.sessions.filter((s) => toKey(new Date(s.start)) === this.today).length; }
 
-  alert(title: string, body: string, tag = 'okto') {
+  /** system: false — the Android app posts this one itself (task reminders). */
+  alert(title: string, body: string, tag = 'okto', system = true) {
     const s = this.data.settings;
     if (s.sound) chime();
     if (s.vibrate) buzz([60, 80, 60, 80, 120]);
     this.toast(`${title} · ${body}`);
-    if (s.notify) systemNotify(title, body, tag);
+    if (system && this.device.notify) systemNotify(title, body, tag);
   }
 
   /* ---------- ticker ---------- */
@@ -388,7 +389,7 @@ class Store {
         if (now >= startMs - t.reminder * 60000 && now < startMs + t.duration * 60000) {
           this.fired.add(key);
           changed = true;
-          this.alert(this.t('reminderTitle'), this.t('reminderBody')(t.title, t.start), key);
+          this.alert(this.t('reminderTitle'), this.t('reminderBody')(t.title, t.start), key, !inAndroidApp);
         }
       }
     }

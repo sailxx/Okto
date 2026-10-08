@@ -19,14 +19,12 @@ class OktoWidgetReceiver : GlanceAppWidgetReceiver() {
         super.onEnabled(context)
         SyncWorker.schedule(context)
     }
-
-    override fun onDisabled(context: Context) {
-        super.onDisabled(context)
-        SyncWorker.cancel(context)
-    }
 }
 
-/** Фоновая синхронизация: подтягивает изменения из веб-Okto и переключает «сегодня» после полуночи. */
+/**
+ * Фоновая синхронизация: подтягивает изменения из веб-Okto, переключает «сегодня» после полуночи
+ * и перепланирует напоминания — поэтому работает и без виджета на экране.
+ */
 class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         OktoRepository.refresh(applicationContext)
@@ -41,10 +39,6 @@ class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(c
             val request = PeriodicWorkRequestBuilder<SyncWorker>(30, TimeUnit.MINUTES).build()
             WorkManager.getInstance(context)
                 .enqueueUniquePeriodicWork(NAME, ExistingPeriodicWorkPolicy.UPDATE, request)
-        }
-
-        fun cancel(context: Context) {
-            WorkManager.getInstance(context).cancelUniqueWork(NAME)
         }
     }
 }

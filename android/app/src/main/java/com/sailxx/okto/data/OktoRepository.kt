@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.sailxx.okto.R
+import com.sailxx.okto.notify.Reminders
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -85,6 +86,7 @@ object OktoRepository {
         val ref = userRef()
         if (ref == null) {
             tasks.clear()
+            Reminders.schedule(context, emptyList())
             _state.value = WidgetState(Status.SIGNED_OUT, OktoPalettes.forTheme(context, themeName))
             return@withLock
         }
@@ -219,8 +221,9 @@ object OktoRepository {
         return true
     }
 
-    /** Собирает список для виджета: задачи на сегодня + просроченные, выполненные — внизу. */
+    /** Собирает список для виджета (задачи на сегодня + просроченные, выполненные — внизу) и перепланирует напоминания. */
     private fun publish(context: Context, offline: Boolean = _state.value.offline) {
+        Reminders.schedule(context, tasks.values)
         val today = LocalDate.now()
         val t = today.toString()
         val items = mutableListOf<WidgetItem>()
