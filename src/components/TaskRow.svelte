@@ -91,6 +91,7 @@
         {#if task.repeat}<span class="ic"><Icon name="repeat" size={14} /></span>{/if}
         {#if task.reminder !== null && task.start}<span class="ic"><Icon name="bell" size={14} /></span>{/if}
         {#if task.note}<span class="ic"><Icon name="note" size={14} /></span>{/if}
+        {#if task.attachments.length}<span class="ic"><Icon name="clip" size={14} />{task.attachments.length}</span>{/if}
       </div>
     </div>
   </div>

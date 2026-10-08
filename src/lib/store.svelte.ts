@@ -136,6 +136,9 @@ class Store {
     if (!live(this.data.counters).some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = this.counters[0]?.id ?? null;
   }
 
+  /** Files that live tasks still point to; everything else on the device may go. */
+  attachedFiles() { return new Set(live(this.data.tasks).flatMap((t) => t.attachments.map((a) => a.id))); }
+
   /** Full snapshot for the initial cloud merge. */
   snapshot() { return $state.snapshot(this.data) as Data; }
 

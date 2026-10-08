@@ -3,8 +3,10 @@
   import Sheet from './Sheet.svelte';
   import Icon from './Icon.svelte';
   import MiniMonth from './MiniMonth.svelte';
+  import Attachments from './Attachments.svelte';
   import { store, type Scope } from '../lib/store.svelte';
   import { router } from '../lib/router.svelte';
+  import { deleteFiles } from '../lib/files';
   import { addDays, monthStart, toMin, fromMin } from '../lib/date';
   import { relDay } from '../lib/i18n';
   import { COLORS, DURATIONS, PRIORITY_COLORS, REMINDERS, normLink, uid, type Freq, type Task } from '../lib/model';
@@ -22,7 +24,14 @@
   let linkText = $state(draft.link);
   const isCall = $derived(draft.kind === 'call');
 
-  const close = () => { store.editor = null; };
+  /* Files are written as soon as they are picked; ones the task never kept are dropped on close. */
+  const added: string[] = [];
+  let saved = false;
+  const close = () => {
+    store.editor = null;
+    const kept = new Set((saved ? draft : original).attachments.map((a) => a.id));
+    deleteFiles(added.filter((id) => !kept.has(id)));
+  };
   const toggle = (p: Panel) => { panel = panel === p ? null : p; };
 
   onMount(() => { if (ed.isNew) setTimeout(() => titleEl?.focus(), 60); });
@@ -50,7 +59,7 @@
   }
 
   /* ---------- save / delete ---------- */
-  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'color', 'kind', 'link', 'date', 'start', 'duration', 'subtasks', 'repeat', 'reminder'];
+  const FIELDS: (keyof Task)[] = ['title', 'note', 'listId', 'priority', 'color', 'kind', 'link', 'date', 'start', 'duration', 'subtasks', 'attachments', 'repeat', 'reminder'];
   function patch(): Partial<Task> {
     const out: Partial<Task> = {};
     const base = { ...original, date: ed.occurrence ?? original.date };
@@ -64,11 +73,12 @@
     draft.link = normLink(linkText);
     if (linkText.trim() && !draft.link) { store.toast(store.t('badLink')); return null; }
     if (!draft.title) { titleEl?.focus(); store.toast(store.t('titleRequired')); return null; }
-    if (ed.isNew) { store.saveTask(draft); return draft.id; }
+    if (ed.isNew) { store.saveTask(draft); saved = true; return draft.id; }
     const p = patch();
     if (!Object.keys(p).length) return original.id;
     if (isSeries) { scopeFor = 'save'; return null; }
     store.saveTask({ ...original, ...p } as Task);
+    saved = true;
     return original.id;
   }
   function onSave() { if (save()) close(); }
@@ -78,7 +88,7 @@
     close();
   }
   function applyScope(scope: Scope) {
-    if (scopeFor === 'save') store.editTask(original, ed.occurrence, patch(), scope);
+    if (scopeFor === 'save') { store.editTask(original, ed.occurrence, patch(), scope); saved = true; }
     else store.deleteTask(original, ed.occurrence, scope);
     close();
   }
@@ -214,6 +224,8 @@
           onkeydown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addSub(); } }} onblur={addSub} />
       </div>
     </div>
+
+    <Attachments bind:items={draft.attachments} onadd={(id) => added.push(id)} />
 
     {#if draft.focusMinutes}
       <p class="focus-total"><Icon name="tomato" size={16} />{store.t('durMin')(draft.focusMinutes)}</p>

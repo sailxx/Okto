@@ -198,6 +198,7 @@ object OktoRepository {
             "start" to null,
             "duration" to 30,
             "subtasks" to emptyList<Any>(),
+            "attachments" to emptyList<Any>(),
             "repeat" to null,
             "reminder" to null,
             "done" to false,

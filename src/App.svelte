@@ -15,6 +15,7 @@
   import { sync } from './lib/sync.svelte';
   import { unlockAudio } from './lib/alerts';
   import { boot } from './lib/boot.svelte';
+  import { gcFiles } from './lib/files';
   import './styles/shell.css';
 
   let settingsOpen = $state(false);
@@ -56,6 +57,7 @@
     store.tick();
     sync.start();
     boot.start();
+    const gc = setTimeout(() => gcFiles(store.attachedFiles()), 15_000);
     // First launch: ask for a name once the power-on animation has played.
     if (!store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
     // Keyboard: 1–5 switch the visible sections in menu order, N adds a task.
@@ -68,7 +70,7 @@
       else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
-    return () => { clearInterval(timer); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
+    return () => { clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
   });
 
 </script>
