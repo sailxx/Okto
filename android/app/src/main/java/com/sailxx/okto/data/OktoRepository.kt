@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.sailxx.okto.R
+import com.sailxx.okto.calendar.GoogleCalendar
 import com.sailxx.okto.notify.Reminders
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
@@ -154,6 +155,8 @@ object OktoRepository {
         return listOf(tasksReg, settingsReg)
     }
 
+    suspend fun tasks(): List<OktoTask> = mutex.withLock { tasks.values.toList() }
+
     /** Отметить/снять отметку. Для повторяющейся задачи — только конкретный день, как в Okto. */
     suspend fun toggle(context: Context, taskId: String, occurrence: String?) {
         val ref = userRef() ?: return
@@ -224,6 +227,7 @@ object OktoRepository {
     /** Собирает список для виджета (задачи на сегодня + просроченные, выполненные — внизу) и перепланирует напоминания. */
     private fun publish(context: Context, offline: Boolean = _state.value.offline) {
         Reminders.schedule(context, tasks.values)
+        GoogleCalendar.onTasks(context, tasks.values)
         val today = LocalDate.now()
         val t = today.toString()
         val items = mutableListOf<WidgetItem>()
