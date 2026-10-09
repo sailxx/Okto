@@ -4,7 +4,7 @@
 
 <br>
 
-<img src="assets/readme/hero-en.svg" width="100%" alt="Okto — plan your day, focus on what matters">
+<picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — plan your day, focus on what matters"></picture>
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="48" alt="Open web app"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="48" alt="Download for Android"></a>
 
@@ -21,14 +21,14 @@
 
 <br>
 
-<img src="assets/readme/android-en.svg" width="100%" alt="Okto 2.1 for Android: widget, one app, what's new in 2.1">
+<picture><source srcset="assets/readme/android-en.svg"><img src="assets/readme/png/android-en.png" width="100%" alt="Okto 2.1 for Android: widget, one app, what's new in 2.1"></picture>
 
 <br>
 
-<img src="assets/readme/sections-en.svg" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus">
+<picture><source srcset="assets/readme/sections-en.svg"><img src="assets/readme/png/sections-en.png" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus"></picture>
 
 <details>
-<summary><b>More about the sections</b></summary>
+<summary>More about the sections</summary>
 
 ### 🏠 Home
 
@@ -50,18 +50,18 @@ A one-tap counter and Pomodoro: preset tags with goals, +1/+5/+10 steps, hold to
 
 <br>
 
-<img src="assets/readme/quality-en.svg" width="100%" alt="QUALITY IN NUMBERS">
+<picture><source srcset="assets/readme/quality-en.svg"><img src="assets/readme/png/quality-en.png" width="100%" alt="QUALITY IN NUMBERS"></picture>
 
 <br>
 
-<img src="assets/readme/design-en.svg" width="100%" alt="DESIGN CODE">
+<picture><source srcset="assets/readme/design-en.svg"><img src="assets/readme/png/design-en.png" width="100%" alt="DESIGN CODE"></picture>
 
 <br>
 
-<img src="assets/readme/more-en.svg" width="100%" alt="Sync, privacy and look">
+<picture><source srcset="assets/readme/more-en.svg"><img src="assets/readme/png/more-en.png" width="100%" alt="Sync, privacy and look"></picture>
 
 <details>
-<summary><b>How to turn on sync</b></summary>
+<summary>How to turn on sync</summary>
 
 Out of the box Okto keeps everything in the browser on your device. To have the same data on phone and computer, connect a free Firebase project (Spark plan, no card needed):
 
@@ -78,7 +78,7 @@ These keys are not secret — access is protected by Firestore rules, so everyon
 
 <br>
 
-<img src="assets/readme/safe-en.svg" width="100%" alt="Security: signature, data, permissions">
+<picture><source srcset="assets/readme/safe-en.svg"><img src="assets/readme/png/safe-en.png" width="100%" alt="Security: signature, data, permissions"></picture>
 
 <br>
 

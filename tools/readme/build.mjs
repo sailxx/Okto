@@ -2,6 +2,7 @@
 // Шрифт (OFL-1.1, github.com/JetBrains/JetBrainsMono) положить в tools/readme/.font/JetBrainsMono-Var.woff2
 // Строки — tools/readme/strings.json, *слово* — красное. Запуск: node tools/readme/build.mjs
 import fs from "node:fs";
+import { renderPngs } from "./png.mjs";
 
 const dir = "tools/readme/";
 const out = "assets/readme/";
@@ -405,6 +406,7 @@ for (const [lang, s] of Object.entries(strings)) {
   fs.writeFileSync(`${out}design-${lang}.svg`, designSvg(cards2[lang], lang));
 }
 console.log(Object.keys(strings).length + " языков, " + fs.readdirSync(out).length + " файлов");
+renderPngs();
 
 // ── README на всех языках из одного шаблона (tools/readme/md.json) ──
 const langs = Object.keys(md);
@@ -418,7 +420,7 @@ ${sw}
 
 <br>
 
-<img src="assets/readme/hero-${lang}.svg" width="100%" alt="${m.alt[0]}">
+<picture><source srcset="assets/readme/hero-${lang}.svg"><img src="assets/readme/png/hero-${lang}.png" width="100%" alt="${m.alt[0]}"></picture>
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="48" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="48" alt="${m.btnApk}"></a>
 
@@ -432,32 +434,32 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 
 <br>
 
-<img src="assets/readme/android-${lang}.svg" width="100%" alt="${m.alt[4]}">
+<picture><source srcset="assets/readme/android-${lang}.svg"><img src="assets/readme/png/android-${lang}.png" width="100%" alt="${m.alt[4]}"></picture>
 
 <br>
 
-<img src="assets/readme/sections-${lang}.svg" width="100%" alt="${m.alt[2]}">
+<picture><source srcset="assets/readme/sections-${lang}.svg"><img src="assets/readme/png/sections-${lang}.png" width="100%" alt="${m.alt[2]}"></picture>
 
 <details>
-<summary><b>${m.more}</b></summary>
+<summary>${m.more}</summary>
 
 ${["home", "tasks", "calendar", "focus"].map(sec).join("\n")}
 </details>
 
 <br>
 
-<img src="assets/readme/quality-${lang}.svg" width="100%" alt="${cards2[lang].q.label}">
+<picture><source srcset="assets/readme/quality-${lang}.svg"><img src="assets/readme/png/quality-${lang}.png" width="100%" alt="${cards2[lang].q.label}"></picture>
 
 <br>
 
-<img src="assets/readme/design-${lang}.svg" width="100%" alt="${cards2[lang].d.label}">
+<picture><source srcset="assets/readme/design-${lang}.svg"><img src="assets/readme/png/design-${lang}.png" width="100%" alt="${cards2[lang].d.label}"></picture>
 
 <br>
 
-<img src="assets/readme/more-${lang}.svg" width="100%" alt="${m.alt[3]}">
+<picture><source srcset="assets/readme/more-${lang}.svg"><img src="assets/readme/png/more-${lang}.png" width="100%" alt="${m.alt[3]}"></picture>
 
 <details>
-<summary><b>${m.syncTitle}</b></summary>
+<summary>${m.syncTitle}</summary>
 
 ${m.syncIntro}
 
@@ -469,7 +471,7 @@ ${m.syncNote}
 
 <br>
 
-<img src="assets/readme/safe-${lang}.svg" width="100%" alt="${m.alt[5]}">
+<picture><source srcset="assets/readme/safe-${lang}.svg"><img src="assets/readme/png/safe-${lang}.png" width="100%" alt="${m.alt[5]}"></picture>
 
 <br>
 

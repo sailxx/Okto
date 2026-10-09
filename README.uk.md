@@ -4,7 +4,7 @@
 
 <br>
 
-<img src="assets/readme/hero-uk.svg" width="100%" alt="Okto — сплануй день, зосередься на головному">
+<picture><source srcset="assets/readme/hero-uk.svg"><img src="assets/readme/png/hero-uk.png" width="100%" alt="Okto — сплануй день, зосередься на головному"></picture>
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-uk.svg" height="48" alt="Відкрити веб-версію"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-uk.svg" height="48" alt="Завантажити для Android"></a>
 
@@ -21,14 +21,14 @@
 
 <br>
 
-<img src="assets/readme/android-uk.svg" width="100%" alt="Okto 2.1 для Android: віджет, один застосунок, нове в 2.1">
+<picture><source srcset="assets/readme/android-uk.svg"><img src="assets/readme/png/android-uk.png" width="100%" alt="Okto 2.1 для Android: віджет, один застосунок, нове в 2.1"></picture>
 
 <br>
 
-<img src="assets/readme/sections-uk.svg" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус">
+<picture><source srcset="assets/readme/sections-uk.svg"><img src="assets/readme/png/sections-uk.png" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус"></picture>
 
 <details>
-<summary><b>Докладніше про розділи</b></summary>
+<summary>Докладніше про розділи</summary>
 
 ### 🏠 Головна
 
@@ -50,18 +50,18 @@
 
 <br>
 
-<img src="assets/readme/quality-uk.svg" width="100%" alt="ЯКІСТЬ У ЦИФРАХ">
+<picture><source srcset="assets/readme/quality-uk.svg"><img src="assets/readme/png/quality-uk.png" width="100%" alt="ЯКІСТЬ У ЦИФРАХ"></picture>
 
 <br>
 
-<img src="assets/readme/design-uk.svg" width="100%" alt="ДИЗАЙН-КОД">
+<picture><source srcset="assets/readme/design-uk.svg"><img src="assets/readme/png/design-uk.png" width="100%" alt="ДИЗАЙН-КОД"></picture>
 
 <br>
 
-<img src="assets/readme/more-uk.svg" width="100%" alt="Синхронізація, приватність і вигляд">
+<picture><source srcset="assets/readme/more-uk.svg"><img src="assets/readme/png/more-uk.png" width="100%" alt="Синхронізація, приватність і вигляд"></picture>
 
 <details>
-<summary><b>Як увімкнути синхронізацію</b></summary>
+<summary>Як увімкнути синхронізацію</summary>
 
 Без налаштування Okto зберігає все в браузері на пристрої. Щоб дані були однаковими на телефоні й комп’ютері, підключіть безкоштовний Firebase (план Spark, картка не потрібна):
 
@@ -78,7 +78,7 @@
 
 <br>
 
-<img src="assets/readme/safe-uk.svg" width="100%" alt="Безпека: підпис, дані, дозволи">
+<picture><source srcset="assets/readme/safe-uk.svg"><img src="assets/readme/png/safe-uk.png" width="100%" alt="Безпека: підпис, дані, дозволи"></picture>
 
 <br>
 
