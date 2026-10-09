@@ -21,7 +21,7 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-uk.svg"><img src="assets/readme/png/android-uk.png" width="100%" alt="Okto 2.1 для Android: віджет, один застосунок, нове в 2.1"></picture>
+<picture><source srcset="assets/readme/android-uk.svg"><img src="assets/readme/png/android-uk.png" width="100%" alt="Okto для Android: віджети, один застосунок, що нового"></picture>
 
 <br>
 
@@ -95,6 +95,8 @@ npm run build    # збірка в dist/
 Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.
 
 ## 🗂 Історія версій
+
+**2.2–2.8** — значок на вибір; фото й файли в завданнях, запуск офлайн; згортуваний місяць у календарі; нагадування про завдання на Android; завдання в Google Календарі; 14 нових світлих і темних тем; розмір тексту й три нові віджети; карта активності на головній.
 
 **2.1** — Android-застосунок із віджетом завдань на робочому столі; м'які світла й темна теми в стилі Apple; «Дзвінки» і «Фокус» можна сховати; мова — в налаштуваннях; виправлено запуск на Android.
 
