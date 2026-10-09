@@ -184,6 +184,23 @@
   --primary: #8c1c34; --on-primary: #fff; --accent: #8c1c34; --on-accent: #fff;
   --red: #d33a3f;
 }
+/* Light gold: ivory casing, dark display with gold digits */
+:root[data-theme='goldlight'] {
+  --bg: #f7f1e1; --ink: #2e2410; --muted: #7a6a45; --line: #e8dcbc; --soft: #f0e7cf;
+  --key: #fffaf0; --key-ink: #2e2410; --key-edge: #d9c48e; --key-hi: rgb(255 255 255 / 90%);
+  --well: #2a2111; --well-ink: #e8c35a; --well-dim: #9c8550; --well-ghost: rgb(232 195 90 / 9%); --well-edge: rgb(0 0 0 / 40%);
+  --primary: #b8860b; --on-primary: #fff; --accent: #b8860b; --on-accent: #fff;
+  --red: #c0392b;
+}
+/* Dark gold: black lacquer, metallic gold */
+:root[data-theme='golddark'] {
+  color-scheme: dark;
+  --bg: #14110a; --ink: #f3ead2; --muted: #9c8f6e; --line: #2a2414; --soft: #1a160d;
+  --key: #221d11; --key-ink: #f3ead2; --key-edge: #000; --key-hi: rgb(255 255 255 / 5%);
+  --well: #0a0805; --well-ink: #e6c766; --well-dim: #8f7838; --well-ghost: rgb(230 199 102 / 9%); --well-edge: #2b2412;
+  --primary: #d4af37; --on-primary: #1a1300; --accent: #d4af37; --on-accent: #1a1300;
+  --red: #ff6a5c;
+}
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }
