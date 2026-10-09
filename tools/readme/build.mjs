@@ -5,6 +5,8 @@ import fs from "node:fs";
 import { renderPngs } from "./png.mjs";
 
 const dir = "tools/readme/";
+// Версия Android-приложения для подписи плашки — из android/app/build.gradle.kts, чтобы не устаревала
+const VERSION = fs.readFileSync("android/app/build.gradle.kts", "utf8").match(/versionName = "([^"]+)"/)[1];
 const out = "assets/readme/";
 fs.mkdirSync(out, { recursive: true });
 const font = fs.readFileSync(dir + ".font/JetBrainsMono-Var.woff2").toString("base64");
@@ -175,10 +177,10 @@ const MORE_ICONS = {
   sync: '<path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/>',
   privacy: '<rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/>',
   look: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>',
-  // Okto 2.1 · Android
+  // Плашка «Android»
   widget: '<rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="3.5" y="13" width="17" height="7.5" rx="2"/><path d="M7 16.8l1.3 1.2 2.4-2.4"/>',
   oneapp: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.8"/><path d="M10.5 18.5h3"/><circle cx="12" cy="10" r="2.6"/>',
-  new21: '<path d="M12 3.5l2.1 5.4 5.4 2.1-5.4 2.1-2.1 5.4-2.1-5.4-5.4-2.1 5.4-2.1z"/><path d="M19 3.5v3M17.5 5h3"/>',
+  fresh: '<path d="M12 3.5l2.1 5.4 5.4 2.1-5.4 2.1-2.1 5.4-2.1-5.4-5.4-2.1 5.4-2.1z"/><path d="M19 3.5v3M17.5 5h3"/>',
   // Безопасность
   sign: '<path d="M12 3l7.5 3v5.3c0 4.6-3.2 8.2-7.5 9.7-4.3-1.5-7.5-5.1-7.5-9.7V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.3"/>',
   data: '<rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/>',
@@ -216,7 +218,7 @@ function cardsSvg(s, keys, head) {
   return svg(top + rh + P, (head ? head + " — " : "") + keys.map((k) => s[k][0]).join(" · "), b, true);
 }
 const moreSvg = (s) => cardsSvg(s, ["sync", "privacy", "look"]);
-const androidSvg = (s) => cardsSvg(s, ["widget", "oneapp", "new21"], s.appLabel);
+const androidSvg = (s) => cardsSvg(s, ["widget", "oneapp", "fresh"], s.appLabel.replace("{v}", VERSION));
 const safeSvg = (s) => cardsSvg(s, ["sign", "data", "perms"], s.safeLabel);
 
 // Кнопки под заставкой: «веб-версия» — тёмная с красной точкой, «Android» — светлая в рамке.
@@ -488,6 +490,8 @@ npm run build    # ${m.devBuild}
 ${m.devEnv}
 
 ## ${m.history}
+
+${m.h28}
 
 ${m.h21}
 

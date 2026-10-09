@@ -21,7 +21,7 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-tr.svg"><img src="assets/readme/png/android-tr.png" width="100%" alt="Android için Okto 2.1: widget, tek uygulama, yenilikler"></picture>
+<picture><source srcset="assets/readme/android-tr.svg"><img src="assets/readme/png/android-tr.png" width="100%" alt="Android için Okto: widget'lar, tek uygulama, yenilikler"></picture>
 
 <br>
 
@@ -95,6 +95,8 @@ npm run build    # dist/ içine derler
 Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.
 
 ## 🗂 Sürüm geçmişi
+
+**2.2–2.8** — seçilebilir uygulama simgesi; görevlerde fotoğraf ve dosyalar, çevrimdışı açılış; takvimde daraltılabilir ay; Android'de görev hatırlatıcıları; Google Takvim'de görevler; 14 yeni açık ve koyu tema; yazı boyutu ve üç yeni widget; ana sayfada etkinlik haritası.
 
 **2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.
 

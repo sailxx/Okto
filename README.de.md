@@ -21,7 +21,7 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-de.svg"><img src="assets/readme/png/android-de.png" width="100%" alt="Okto 2.1 für Android: Widget, eine App, neu in 2.1"></picture>
+<picture><source srcset="assets/readme/android-de.svg"><img src="assets/readme/png/android-de.png" width="100%" alt="Okto für Android: Widgets, eine App, Neues"></picture>
 
 <br>
 
@@ -95,6 +95,8 @@ npm run build    # Build nach dist/
 Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.
 
 ## 🗂 Versionen
+
+**2.2–2.8** — App-Symbol wählbar; Fotos und Dateien in Aufgaben, Offline-Start; einklappbarer Monat im Kalender; Aufgaben-Erinnerungen unter Android; Aufgaben im Google Kalender; 14 neue helle und dunkle Themes; Textgröße und drei neue Widgets; Aktivitätskarte auf der Startseite.
 
 **2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.
 
