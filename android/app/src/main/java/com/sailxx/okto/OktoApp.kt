@@ -3,11 +3,10 @@ package com.sailxx.okto
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.glance.appwidget.updateAll
 import com.google.androidbrowserhelper.trusted.LauncherActivity
 import com.google.firebase.firestore.ListenerRegistration
 import com.sailxx.okto.data.OktoRepository
-import com.sailxx.okto.widget.OktoTasksWidget
+import com.sailxx.okto.widget.updateOktoWidgets
 import com.sailxx.okto.widget.SyncWorker
 
 /**
@@ -23,7 +22,7 @@ class OktoApp : Application() {
             override fun onActivityCreated(activity: Activity, state: Bundle?) {
                 if (activity !is LauncherActivity) return
                 SyncWorker.schedule(this@OktoApp)
-                if (live.isEmpty()) live = OktoRepository.listen(this@OktoApp) { OktoTasksWidget().updateAll(this@OktoApp) }
+                if (live.isEmpty()) live = OktoRepository.listen(this@OktoApp) { updateOktoWidgets(this@OktoApp) }
             }
 
             override fun onActivityDestroyed(activity: Activity) {

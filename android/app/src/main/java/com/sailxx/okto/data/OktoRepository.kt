@@ -24,8 +24,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.tasks.await
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Locale
@@ -46,6 +49,15 @@ data class WidgetItem(
     val priority: Int,
 )
 
+/** Ближайшая задача со временем, которая ещё не закончилась (виджет «Следующая»). */
+data class NextUp(
+    val taskId: String,
+    val occurrence: String?,
+    val title: String,
+    val meta: String,
+    val color: Color?,
+)
+
 data class WidgetState(
     val status: Status,
     val palette: OktoPalette,
@@ -54,7 +66,13 @@ data class WidgetState(
     val totalToday: Int = 0,
     val offline: Boolean = false,
     val email: String? = null,
+    val next: NextUp? = null,
+    val streak: Int = 0,
+    /** Выполнено задач за последние [HEAT_DAYS] дней, от старых к сегодняшнему; -1 — день только с фокусом. */
+    val heat: List<Int> = emptyList(),
 )
+
+const val HEAT_DAYS = 28
 
 /**
  * Единый источник данных для виджета и приложения.
@@ -71,6 +89,7 @@ object OktoRepository {
     private val liveScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var tasks = mutableMapOf<String, OktoTask>()
     private var listColors = emptyMap<String, Color>()
+    private var focusDays = emptySet<String>()
     private var firstListId = ""
     private var themeName: String? = null
     private var syncedAt = 0L
@@ -97,6 +116,7 @@ object OktoRepository {
                 val t = async { ref.collection("tasks").whereEqualTo("deleted", false).get().await() }
                 val l = async { ref.collection("lists").get().await() }
                 val s = async { ref.collection("settings").document("main").get().await() }
+                val f = async { ref.collection("sessions").get().await() }
 
                 val taskSnap = t.await()
                 tasks = taskSnap.documents.mapNotNull(OktoTask::fromDoc).associateBy { it.id }.toMutableMap()
@@ -109,6 +129,10 @@ object OktoRepository {
                 firstListId = lists.firstOrNull()?.id ?: ""
 
                 themeName = s.await().getString("theme")
+                focusDays = f.await().documents
+                    .filter { it.getBoolean("deleted") != true }
+                    .mapNotNull { (it.get("start") as? Number)?.toLong()?.let(::dayOf) }
+                    .toSet()
             }
             syncedAt = System.currentTimeMillis()
         } catch (e: Exception) {
@@ -174,7 +198,7 @@ object OktoRepository {
                 )
             } else {
                 val nowDone = !task.done
-                tasks[taskId] = task.copy(done = nowDone)
+                tasks[taskId] = task.copy(done = nowDone, doneAt = if (nowDone) now else null)
                 mapOf("done" to nowDone, "doneAt" to if (nowDone) now else null, "updatedAt" to now)
             }
             publish(context)
@@ -261,8 +285,64 @@ object OktoRepository {
             totalToday = total,
             offline = offline,
             email = Firebase.auth.currentUser?.email,
+            next = nextUp(context, today),
+            streak = streak(today),
+            heat = (HEAT_DAYS - 1 downTo 0).map { back ->
+                val day = today.minusDays(back.toLong()).toString()
+                doneOn(day).takeIf { it > 0 } ?: if (day in focusDays) -1 else 0
+            },
         )
     }
+
+    /** Порт nextUp из stats.ts: ближайшее невыполненное вхождение со временем в пределах недели, которое ещё не закончилось. */
+    private fun nextUp(context: Context, today: LocalDate): NextUp? {
+        val now = LocalDateTime.now()
+        for (offset in 0L..7L) {
+            val day = today.plusDays(offset)
+            val key = day.toString()
+            val best = tasks.values
+                .filter { it.start != null && it.occursOn(key) && !it.isDoneOn(key) }
+                .mapNotNull { t -> runCatching { t to day.atTime(LocalTime.parse(t.start)) }.getOrNull() }
+                .filter { (t, begin) -> begin.plusMinutes(t.duration.toLong()).isAfter(now) }
+                .minByOrNull { it.second }
+                ?: continue
+            val task = best.first
+            val dayLabel = when (offset) {
+                0L -> context.getString(R.string.today)
+                1L -> context.getString(R.string.tomorrow)
+                else -> day.format(DateTimeFormatter.ofPattern("d MMM", Locale.getDefault()))
+            }
+            return NextUp(
+                taskId = task.id,
+                occurrence = key.takeIf { task.repeat != null },
+                title = task.title.ifBlank { context.getString(R.string.untitled) },
+                meta = "$dayLabel · ${task.start}–${endTime(task.start!!, task.duration)}".uppercase(),
+                color = OktoPalettes.parseHex(task.color) ?: listColors[task.listId],
+            )
+        }
+        return null
+    }
+
+    /** Как doneOnDay в stats.ts: сколько задач выполнено в день [key]. */
+    private fun doneOn(key: String): Int = tasks.values.count { t ->
+        if (t.repeat != null) key in t.doneDates else t.done && t.doneAt?.let(::dayOf) == key
+    }
+
+    /** Как streak в stats.ts: дни подряд с выполненной задачей или фокусом; пустое «сегодня» серию не обрывает. */
+    private fun streak(today: LocalDate): Int {
+        val days = HashSet(focusDays)
+        for (t in tasks.values) {
+            if (t.repeat != null) days += t.doneDates
+            else if (t.done) t.doneAt?.let { days += dayOf(it) }
+        }
+        var d = if (today.toString() in days) today else today.minusDays(1)
+        var n = 0
+        while (d.toString() in days) { n++; d = d.minusDays(1) }
+        return n
+    }
+
+    private fun dayOf(ms: Long): String =
+        Instant.ofEpochMilli(ms).atZone(ZoneId.systemDefault()).toLocalDate().toString()
 
     private fun item(context: Context, task: OktoTask, occurrence: String?, date: String, done: Boolean, today: LocalDate) =
         WidgetItem(

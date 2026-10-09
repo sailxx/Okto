@@ -40,4 +40,31 @@
     <string name="calendar_explain">Задачи с датой появятся в отдельном календаре «Okto» в вашем Google-аккаунте — и на телефоне, и на calendar.google.com.</string>
     <string name="calendar_explain_on">Задачи синхронизируются в календарь «Okto». Если выключить, этот календарь удалится.</string>
     <string name="calendar_denied">Нет доступа к Google Календарю</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="next_widget_name">Okto · Следующая</string>
+    <string name="next_widget_description">Ближайшая задача со временем. Нажмите на кружок, чтобы выполнить.</string>
+    <string name="next_caption">ДАЛЬШЕ</string>
+    <string name="next_empty">На неделе нет задач со временем</string>
+    <string name="quick_add_widget_name">Okto · Быстрая задача</string>
+    <string name="quick_add_widget_description">Одна кнопка — новая задача.</string>
+    <string name="quick_add_caption">ЗАДАЧА</string>
+    <string name="streak_widget_name">Okto · Серия</string>
+    <string name="streak_widget_description">Сколько дней подряд выполнены задачи, и карта за 4 недели.</string>
+    <string name="streak_caption">СЕРИЯ</string>
+    <plurals name="streak_days">
+        <item quantity="one">день подряд</item>
+        <item quantity="few">дня подряд</item>
+        <item quantity="many">дней подряд</item>
+        <item quantity="other">дня подряд</item>
+    </plurals>
+    <string name="text_size">Размер текста в виджетах</string>
+    <string name="text_title">Название задачи</string>
+    <string name="text_meta">Время и дата</string>
+    <string name="text_counter">Счётчик</string>
+    <string name="text_fixed">Не учитывать системный размер шрифта</string>
+    <string name="text_fixed_hint">Размеры в пикселях (sp). Если включено, масштаб шрифта телефона на них не влияет.</string>
+    <string name="text_sample_title">Созвон с командой</string>
+    <string name="text_sample_meta">СЕГОДНЯ · 10:00–10:30</string>
+    <string name="decrease">Уменьшить</string>
+    <string name="increase">Увеличить</string>
 </resources>
