@@ -65,6 +65,8 @@ data class WidgetState(
     val doneToday: Int = 0,
     val totalToday: Int = 0,
     val offline: Boolean = false,
+    /** Когда данные последний раз пришли с сервера, мс; 0 — ещё ни разу. */
+    val syncedAt: Long = 0L,
     val email: String? = null,
     val next: NextUp? = null,
     val streak: Int = 0,
@@ -284,6 +286,7 @@ object OktoRepository {
             doneToday = done,
             totalToday = total,
             offline = offline,
+            syncedAt = syncedAt,
             email = Firebase.auth.currentUser?.email,
             next = nextUp(context, today),
             streak = streak(today),

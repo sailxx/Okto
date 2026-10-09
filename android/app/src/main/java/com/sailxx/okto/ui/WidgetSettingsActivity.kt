@@ -244,18 +244,10 @@ private fun TextSizePicker(p: OktoPalette, sample: WidgetItem?) {
     MonoLabel(ctx.getString(R.string.text_size), p.muted)
     Spacer(Modifier.height(10.dp))
 
-    // Превью: колодец со счётчиком и одна задача-карточка, как в виджете
+    // Превью: задача-карточка, как в виджете
     Column(
         Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(p.bg).border(1.dp, p.line, RoundedCornerShape(24.dp)).padding(10.dp),
     ) {
-        Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(p.well).padding(12.dp)) {
-            MonoLabel(ctx.getString(R.string.tasks_today), p.wellDim)
-            BasicText(
-                "03/07",
-                style = TextStyle(color = p.wellInk, fontSize = t.sp(t.counter, fontScale).sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace),
-            )
-        }
-        Spacer(Modifier.height(8.dp))
         val tint = sample?.color ?: SampleColor
         Row(
             Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(lerp(p.bg, tint, if (p.isDark) 0.24f else 0.16f))
