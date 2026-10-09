@@ -201,6 +201,41 @@
   --primary: #ffc61a; --on-primary: #1a1300; --accent: #ffc61a; --on-accent: #1a1300;
   --red: #ff6a5c;
 }
+/* Stoic: marble and basalt, no colour, Roman serif lettering. Restraint over ornament. */
+:root[data-theme='stoiclight'] {
+  --bg: #f3f1ec; --ink: #1a1915; --muted: #6b675f; --line: #e0dcd3; --soft: #ebe8e1;
+  --key: #faf9f6; --key-ink: #1a1915; --key-edge: #d3cec3; --key-hi: rgb(255 255 255 / 90%);
+  --well: #e6e2d9; --well-ink: #1a1915; --well-dim: #77726a; --well-ghost: rgb(26 25 21 / 7%); --well-edge: rgb(0 0 0 / 10%);
+  --red: #9b2c2c;
+  --sans: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Noto Serif', serif;
+  --r-key: 4px; --r-well: 4px;
+}
+:root[data-theme='stoicdark'] {
+  color-scheme: dark;
+  --bg: #111110; --ink: #ece8df; --muted: #8f8a80; --line: #262522; --soft: #181816;
+  --key: #1f1e1c; --key-ink: #ece8df; --key-edge: #050505; --key-hi: rgb(255 255 255 / 5%);
+  --well: #1a1917; --well-ink: #ece8df; --well-dim: #827d73; --well-ghost: rgb(236 232 223 / 7%); --well-edge: rgb(0 0 0 / 50%);
+  --red: #d06a5f;
+  --sans: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Noto Serif', serif;
+  --r-key: 4px; --r-well: 4px;
+}
+/* Light forest: birch-bark casing, pale moss display, pine-green primary key */
+:root[data-theme='forestlight'] {
+  --bg: #eef2e8; --ink: #16241a; --muted: #5b6f5f; --line: #d6e0d0; --soft: #e4eadc;
+  --key: #f7faf3; --key-ink: #16241a; --key-edge: #bccab4; --key-hi: rgb(255 255 255 / 90%);
+  --well: #dbe6cf; --well-ink: #23401f; --well-dim: #5f7d63; --well-ghost: rgb(35 64 31 / 9%); --well-edge: rgb(0 0 0 / 10%);
+  --primary: #2f5d3a; --on-primary: #fff; --accent: #2f5d3a; --on-accent: #fff;
+  --red: #b5473a;
+}
+/* Forest at dusk: deep pine casing, moss display, light-wood primary key */
+:root[data-theme='forest'] {
+  color-scheme: dark;
+  --bg: #0f1a14; --ink: #e3ecdf; --muted: #87a08d; --line: #1e2e24; --soft: #142019;
+  --key: #1a2a20; --key-ink: #e3ecdf; --key-edge: #050a07; --key-hi: rgb(255 255 255 / 5%);
+  --well: #09120d; --well-ink: #a8d672; --well-dim: #5f7d63; --well-ghost: rgb(168 214 114 / 9%); --well-edge: rgb(0 0 0 / 55%);
+  --primary: #c9a46a; --on-primary: #1a1206; --accent: #c9a46a; --on-accent: #1a1206;
+  --red: #e4705f;
+}
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }
