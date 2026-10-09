@@ -17,15 +17,15 @@
     "more": "Подробнее о разделах",
     "home": [
       "🏠 Главная",
-      "Блоки продуктивности: **Задачи** (выполнено из запланированного), **Фокус** (минуты Pomodoro), **Серия** (дней подряд с задачей или фокусом), **Дальше** (ближайшая задача) и **счётчики** по любому тегу. Блоки можно добавлять, убирать и перетаскивать — кнопка «Изменить». Тап по блоку показывает график за 7 дней и итог за 30."
+      "Блоки продуктивности: **Задачи** (выполнено из запланированного), **Фокус** (минуты Pomodoro), **Серия** (карта активности: сколько дел сделано за каждый день, текущая серия и рекорд), **Дальше** (ближайшая задача) и **счётчики** по любому тегу. Блоки можно добавлять, убирать и перетаскивать — кнопка «Изменить». Тап по блоку показывает график за 7 дней и итог за 30."
     ],
     "tasks": [
       "✅ Задачи",
-      "Фильтры: Сегодня (с просроченными), Предстоящие, Все, Без даты, Выполненные — и ваши **списки** с цветами. У задачи есть дата, время и длительность, **повтор** (каждый день, по будням, неделя, месяц, интервал, дата окончания), **напоминание**, приоритет, заметка и **подзадачи**. **Фокус на задаче** запускает Pomodoro, и минуты записываются в задачу. На телефоне свайп влево — «На завтра» или «Удалить», после любого действия можно отменить."
+      "Фильтры: Сегодня (с просроченными), Предстоящие, Все, Без даты, Выполненные — и ваши **списки** с цветами. У задачи есть дата, время и длительность, **повтор** (каждый день, по будням, неделя, месяц, интервал, дата окончания), **напоминание**, приоритет, заметка и **подзадачи**. **Фокус на задаче** запускает Pomodoro, и минуты записываются в задачу. На телефоне свайп влево — «На завтра» или «Удалить», после любого действия можно отменить. К задаче можно прикрепить **фото и файлы**."
     ],
     "calendar": [
       "📅 Календарь",
-      "В стиле Apple Calendar: **День · Неделя · Месяц**, красная линия текущего времени, строка «весь день». Новая задача сразу появляется в календаре. Блоки можно **перетаскивать** на другое время и день и **растягивать** за нижний край (шаг 15 минут; на телефоне — после долгого нажатия). Для повторяющихся задач Okto спросит: только эту, все будущие или всю серию."
+      "В стиле Apple Calendar: **День · Неделя · Месяц**, красная линия текущего времени, строка «весь день». Новая задача сразу появляется в календаре. Блоки можно **перетаскивать** на другое время и день и **растягивать** за нижний край (шаг 15 минут; на телефоне — после долгого нажатия). Для повторяющихся задач Okto спросит: только эту, все будущие или всю серию. На телефоне месяц сворачивается до недели."
     ],
     "focus": [
       "🎯 Фокус",
@@ -41,7 +41,7 @@
       "В репозитории на GitHub: **Settings → Secrets and variables → Actions** — добавьте секреты `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Запустите деплой. В настройках Okto появится «Войти через Google»."
     ],
-    "syncNote": "Эти ключи не секретные — доступ защищают правила Firestore: каждый видит только свои данные. Напоминания на сайте срабатывают, пока вкладка открыта.",
+    "syncNote": "Эти ключи не секретные — доступ защищают правила Firestore: каждый видит только свои данные. Напоминания на сайте срабатывают, пока вкладка открыта. В приложении для Android напоминания приходят, даже когда Okto закрыт.",
     "dev": "🛠 Разработка",
     "devTests": "Vitest: повторы, статистика, перенос данных, синхронизация, раскладка календаря",
     "devBuild": "сборка в dist/",
@@ -73,15 +73,15 @@
     "more": "More about the sections",
     "home": [
       "🏠 Home",
-      "Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (days in a row with a task or focus), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total."
+      "Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (an activity map of what you got done each day, your current streak and record), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total."
     ],
     "tasks": [
       "✅ Tasks",
-      "Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone."
+      "Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone. You can attach **photos and files** to a task."
     ],
     "calendar": [
       "📅 Calendar",
-      "Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series."
+      "Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series. On a phone, the month collapses into a week."
     ],
     "focus": [
       "🎯 Focus",
@@ -97,7 +97,7 @@
       "In the GitHub repo: **Settings → Secrets and variables → Actions** — add the secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Run the deploy. “Sign in with Google” appears in Okto’s settings."
     ],
-    "syncNote": "These keys are not secret — access is protected by Firestore rules, so everyone sees only their own data. Reminders on the website fire while the tab is open.",
+    "syncNote": "These keys are not secret — access is protected by Firestore rules, so everyone sees only their own data. Reminders on the website fire while the tab is open. In the Android app, reminders arrive even when Okto is closed.",
     "dev": "🛠 Development",
     "devTests": "Vitest: repeats, stats, data migration, sync, calendar layout",
     "devBuild": "build into dist/",
@@ -129,15 +129,15 @@
     "more": "Más sobre las secciones",
     "home": [
       "🏠 Inicio",
-      "Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos con tarea o enfoque), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30."
+      "Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (mapa de actividad con lo hecho cada día, racha actual y récord), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30."
     ],
     "tasks": [
       "✅ Tareas",
-      "Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer."
+      "Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer. Puedes adjuntar **fotos y archivos** a una tarea."
     ],
     "calendar": [
       "📅 Calendario",
-      "Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie."
+      "Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie. En el móvil, el mes se pliega a una semana."
     ],
     "focus": [
       "🎯 Enfoque",
@@ -153,7 +153,7 @@
       "En el repositorio de GitHub: **Settings → Secrets and variables → Actions** — añade los secretos `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Lanza el despliegue. En los ajustes de Okto aparecerá «Entrar con Google»."
     ],
-    "syncNote": "Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y cada uno ve solo sus datos. Los recordatorios en la web funcionan mientras la pestaña está abierta.",
+    "syncNote": "Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y cada uno ve solo sus datos. Los recordatorios en la web funcionan mientras la pestaña está abierta. En la app de Android, los recordatorios llegan aunque Okto esté cerrado.",
     "dev": "🛠 Desarrollo",
     "devTests": "Vitest: repeticiones, estadísticas, migración, sincronización, calendario",
     "devBuild": "compila en dist/",
@@ -185,15 +185,15 @@
     "more": "Mais sobre as seções",
     "home": [
       "🏠 Início",
-      "Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos com tarefa ou foco), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30."
+      "Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (mapa de atividade com o que foi feito a cada dia, sequência atual e recorde), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30."
     ],
     "tasks": [
       "✅ Tarefas",
-      "Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e suas próprias **listas** com cores. A tarefa tem data, hora e duração, **repetição** (diária, dias úteis, semanal, mensal, intervalo, data final), **lembrete**, prioridade, nota e **subtarefas**. **Focar numa tarefa** inicia o Pomodoro e salva os minutos nela. No celular, deslize para a esquerda para «Amanhã» ou «Apagar»; tudo pode ser desfeito."
+      "Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e suas próprias **listas** com cores. A tarefa tem data, hora e duração, **repetição** (diária, dias úteis, semanal, mensal, intervalo, data final), **lembrete**, prioridade, nota e **subtarefas**. **Focar numa tarefa** inicia o Pomodoro e salva os minutos nela. No celular, deslize para a esquerda para «Amanhã» ou «Apagar»; tudo pode ser desfeito. Dá para anexar **fotos e arquivos** a uma tarefa."
     ],
     "calendar": [
       "📅 Calendário",
-      "No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira."
+      "No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira. No celular, o mês recolhe para uma semana."
     ],
     "focus": [
       "🎯 Foco",
@@ -209,7 +209,7 @@
       "No repositório do GitHub: **Settings → Secrets and variables → Actions** — adicione os secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Rode o deploy. Nas configurações do Okto aparecerá «Entrar com Google»."
     ],
-    "syncNote": "Essas chaves não são secretas: o acesso é protegido pelas regras do Firestore e cada um vê só os próprios dados. Os lembretes no site funcionam enquanto a aba está aberta.",
+    "syncNote": "Essas chaves não são secretas: o acesso é protegido pelas regras do Firestore e cada um vê só os próprios dados. Os lembretes no site funcionam enquanto a aba está aberta. No app para Android, os lembretes chegam mesmo com o Okto fechado.",
     "dev": "🛠 Desenvolvimento",
     "devTests": "Vitest: repetições, estatísticas, migração, sincronização, calendário",
     "devBuild": "gera o build em dist/",
@@ -241,15 +241,15 @@
     "more": "Mehr zu den Bereichen",
     "home": [
       "🏠 Start",
-      "Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Tage am Stück mit Aufgabe oder Fokus), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage."
+      "Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Aktivitätskarte mit den Erledigungen pro Tag, aktueller Serie und Rekord), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage."
     ],
     "tasks": [
       "✅ Aufgaben",
-      "Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen."
+      "Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen. An eine Aufgabe lassen sich **Fotos und Dateien** anhängen."
     ],
     "calendar": [
       "📅 Kalender",
-      "Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie."
+      "Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie. Auf dem Handy klappt der Monat zu einer Woche zusammen."
     ],
     "focus": [
       "🎯 Fokus",
@@ -265,7 +265,7 @@
       "Im GitHub-Repo: **Settings → Secrets and variables → Actions** — die Secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` anlegen.",
       "Deploy starten. In den Einstellungen von Okto erscheint „Mit Google anmelden“."
     ],
-    "syncNote": "Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, jeder sieht nur seine eigenen Daten. Erinnerungen auf der Website kommen, solange der Tab offen ist.",
+    "syncNote": "Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, jeder sieht nur seine eigenen Daten. Erinnerungen auf der Website kommen, solange der Tab offen ist. In der Android-App kommen Erinnerungen auch bei geschlossenem Okto.",
     "dev": "🛠 Entwicklung",
     "devTests": "Vitest: Wiederholungen, Statistik, Migration, Synchronisierung, Kalender",
     "devBuild": "Build nach dist/",
@@ -297,15 +297,15 @@
     "more": "En savoir plus sur les sections",
     "home": [
       "🏠 Accueil",
-      "Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (jours d’affilée avec une tâche ou du focus), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30."
+      "Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (carte d’activité de ce qui a été fait chaque jour, série en cours et record), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30."
     ],
     "tasks": [
       "✅ Tâches",
-      "Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé."
+      "Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé. On peut joindre des **photos et des fichiers** à une tâche."
     ],
     "calendar": [
       "📅 Calendrier",
-      "Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série."
+      "Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série. Sur téléphone, le mois se replie en une semaine."
     ],
     "focus": [
       "🎯 Concentration",
@@ -321,7 +321,7 @@
       "Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Lance le déploiement. « Se connecter avec Google » apparaît dans les réglages d’Okto."
     ],
-    "syncNote": "Ces clés ne sont pas secrètes : l’accès est protégé par les règles Firestore, chacun ne voit que ses données. Sur le site, les rappels fonctionnent tant que l’onglet est ouvert.",
+    "syncNote": "Ces clés ne sont pas secrètes : l’accès est protégé par les règles Firestore, chacun ne voit que ses données. Sur le site, les rappels fonctionnent tant que l’onglet est ouvert. Dans l’app Android, les rappels arrivent même quand Okto est fermé.",
     "dev": "🛠 Développement",
     "devTests": "Vitest : répétitions, stats, migration, synchronisation, calendrier",
     "devBuild": "build dans dist/",
@@ -353,15 +353,15 @@
     "more": "Di più sulle sezioni",
     "home": [
       "🏠 Home",
-      "Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (giorni di fila con un’attività o focus), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30."
+      "Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (mappa delle attività fatte ogni giorno, serie attuale e record), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30."
     ],
     "tasks": [
       "✅ Attività",
-      "Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare."
+      "Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare. A un’attività si possono allegare **foto e file**."
     ],
     "calendar": [
       "📅 Calendario",
-      "In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie."
+      "In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie. Sul telefono il mese si comprime in una settimana."
     ],
     "focus": [
       "🎯 Focus",
@@ -377,7 +377,7 @@
       "Nel repository GitHub: **Settings → Secrets and variables → Actions** — aggiungi i secret `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Avvia il deploy. Nelle impostazioni di Okto comparirà «Accedi con Google»."
     ],
-    "syncNote": "Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestore e ognuno vede solo i propri dati. I promemoria sul sito funzionano finché la scheda è aperta.",
+    "syncNote": "Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestore e ognuno vede solo i propri dati. I promemoria sul sito funzionano finché la scheda è aperta. Nell’app Android i promemoria arrivano anche con Okto chiuso.",
     "dev": "🛠 Sviluppo",
     "devTests": "Vitest: ripetizioni, statistiche, migrazione, sincronizzazione, calendario",
     "devBuild": "build in dist/",
@@ -409,15 +409,15 @@
     "more": "Bölümler hakkında daha fazlası",
     "home": [
       "🏠 Ana sayfa",
-      "Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (görev ya da odakla geçen ardışık günler), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür."
+      "Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (her gün yapılanları gösteren etkinlik haritası, güncel seri ve rekor), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür."
     ],
     "tasks": [
       "✅ Görevler",
-      "Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir."
+      "Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir. Göreve **fotoğraf ve dosya** eklenebilir."
     ],
     "calendar": [
       "📅 Takvim",
-      "Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri."
+      "Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri. Telefonda ay görünümü haftaya daralır."
     ],
     "focus": [
       "🎯 Odak",
@@ -433,7 +433,7 @@
       "GitHub deposunda: **Settings → Secrets and variables → Actions** — `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` secret’larını ekle.",
       "Yayınlamayı başlat. Okto ayarlarında «Google ile giriş yap» görünür."
     ],
-    "syncNote": "Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yalnızca kendi verisini görür. Sitedeki hatırlatıcılar sekme açıkken çalışır.",
+    "syncNote": "Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yalnızca kendi verisini görür. Sitedeki hatırlatıcılar sekme açıkken çalışır. Android uygulamasında hatırlatıcılar Okto kapalıyken de gelir.",
     "dev": "🛠 Geliştirme",
     "devTests": "Vitest: tekrarlar, istatistik, veri taşıma, senkronizasyon, takvim",
     "devBuild": "dist/ içine derler",
@@ -465,15 +465,15 @@
     "more": "Докладніше про розділи",
     "home": [
       "🏠 Головна",
-      "Блоки продуктивності: **Завдання** (виконано із запланованого), **Фокус** (хвилини Pomodoro), **Серія** (днів поспіль із завданням або фокусом), **Далі** (найближче завдання) і **лічильники** за будь-яким тегом. Блоки можна додавати, прибирати й перетягувати — кнопка «Змінити». Тап по блоку показує графік за 7 днів і підсумок за 30."
+      "Блоки продуктивності: **Завдання** (виконано із запланованого), **Фокус** (хвилини Pomodoro), **Серія** (карта активності: скільки справ зроблено щодня, поточна серія й рекорд), **Далі** (найближче завдання) і **лічильники** за будь-яким тегом. Блоки можна додавати, прибирати й перетягувати — кнопка «Змінити». Тап по блоку показує графік за 7 днів і підсумок за 30."
     ],
     "tasks": [
       "✅ Завдання",
-      "Фільтри: Сьогодні (з простроченими), Майбутні, Усі, Без дати, Виконані — і ваші **списки** з кольорами. У завдання є дата, час і тривалість, **повтор** (щодня, у будні, щотижня, щомісяця, інтервал, дата завершення), **нагадування**, пріоритет, нотатка і **підзавдання**. **Фокус на завданні** запускає Pomodoro, і хвилини записуються в завдання. На телефоні свайп ліворуч — «На завтра» або «Видалити», будь-яку дію можна скасувати."
+      "Фільтри: Сьогодні (з простроченими), Майбутні, Усі, Без дати, Виконані — і ваші **списки** з кольорами. У завдання є дата, час і тривалість, **повтор** (щодня, у будні, щотижня, щомісяця, інтервал, дата завершення), **нагадування**, пріоритет, нотатка і **підзавдання**. **Фокус на завданні** запускає Pomodoro, і хвилини записуються в завдання. На телефоні свайп ліворуч — «На завтра» або «Видалити», будь-яку дію можна скасувати. До завдання можна прикріпити **фото й файли**."
     ],
     "calendar": [
       "📅 Календар",
-      "У стилі Apple Calendar: **День · Тиждень · Місяць**, червона лінія поточного часу, рядок «увесь день». Нове завдання одразу з’являється в календарі. Блоки можна **перетягувати** на інший час і день та **розтягувати** за нижній край (крок 15 хвилин; на телефоні — після довгого натискання). Для повторюваних завдань Okto спитає: лише це, усі майбутні чи всю серію."
+      "У стилі Apple Calendar: **День · Тиждень · Місяць**, червона лінія поточного часу, рядок «увесь день». Нове завдання одразу з’являється в календарі. Блоки можна **перетягувати** на інший час і день та **розтягувати** за нижній край (крок 15 хвилин; на телефоні — після довгого натискання). Для повторюваних завдань Okto спитає: лише це, усі майбутні чи всю серію. На телефоні місяць згортається до тижня."
     ],
     "focus": [
       "🎯 Фокус",
@@ -489,7 +489,7 @@
       "У репозиторії на GitHub: **Settings → Secrets and variables → Actions** — додайте секрети `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Запустіть деплой. У налаштуваннях Okto з’явиться «Увійти через Google»."
     ],
-    "syncNote": "Ці ключі не секретні — доступ захищають правила Firestore: кожен бачить лише свої дані. Нагадування на сайті спрацьовують, поки вкладка відкрита.",
+    "syncNote": "Ці ключі не секретні — доступ захищають правила Firestore: кожен бачить лише свої дані. Нагадування на сайті спрацьовують, поки вкладка відкрита. У застосунку для Android нагадування приходять, навіть коли Okto закритий.",
     "dev": "🛠 Розробка",
     "devTests": "Vitest: повтори, статистика, перенесення даних, синхронізація, календар",
     "devBuild": "збірка в dist/",
@@ -521,15 +521,15 @@
     "more": "Więcej o sekcjach",
     "home": [
       "🏠 Start",
-      "Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu z zadaniem lub skupieniem), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30."
+      "Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (mapa aktywności z tym, co zrobione każdego dnia, bieżąca seria i rekord), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30."
     ],
     "tasks": [
       "✅ Zadania",
-      "Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć."
+      "Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć. Do zadania można dołączyć **zdjęcia i pliki**."
     ],
     "calendar": [
       "📅 Kalendarz",
-      "W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię."
+      "W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię. Na telefonie miesiąc zwija się do tygodnia."
     ],
     "focus": [
       "🎯 Skupienie",
@@ -545,7 +545,7 @@
       "W repozytorium na GitHubie: **Settings → Secrets and variables → Actions** — dodaj sekrety `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
       "Uruchom wdrożenie. W ustawieniach Okto pojawi się „Zaloguj przez Google”."
     ],
-    "syncNote": "Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tylko swoje dane. Przypomnienia na stronie działają, dopóki karta jest otwarta.",
+    "syncNote": "Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tylko swoje dane. Przypomnienia na stronie działają, dopóki karta jest otwarta. W aplikacji na Androida przypomnienia przychodzą, nawet gdy Okto jest zamknięte.",
     "dev": "🛠 Rozwój",
     "devTests": "Vitest: powtórki, statystyki, migracja, synchronizacja, kalendarz",
     "devBuild": "build do dist/",

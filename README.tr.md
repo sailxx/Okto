@@ -32,15 +32,15 @@
 
 ### 🏠 Ana sayfa
 
-Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (görev ya da odakla geçen ardışık günler), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür.
+Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (her gün yapılanları gösteren etkinlik haritası, güncel seri ve rekor), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür.
 
 ### ✅ Görevler
 
-Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir.
+Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir. Göreve **fotoğraf ve dosya** eklenebilir.
 
 ### 📅 Takvim
 
-Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri.
+Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri. Telefonda ay görünümü haftaya daralır.
 
 ### 🎯 Odak
 
@@ -72,7 +72,7 @@ Okto varsayılan olarak her şeyi cihazdaki tarayıcıda tutar. Telefonda ve bil
 5. GitHub deposunda: **Settings → Secrets and variables → Actions** — `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` secret’larını ekle.
 6. Yayınlamayı başlat. Okto ayarlarında «Google ile giriş yap» görünür.
 
-Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yalnızca kendi verisini görür. Sitedeki hatırlatıcılar sekme açıkken çalışır.
+Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yalnızca kendi verisini görür. Sitedeki hatırlatıcılar sekme açıkken çalışır. Android uygulamasında hatırlatıcılar Okto kapalıyken de gelir.
 
 </details>
 

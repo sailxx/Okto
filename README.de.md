@@ -32,15 +32,15 @@
 
 ### 🏠 Start
 
-Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Tage am Stück mit Aufgabe oder Fokus), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage.
+Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Aktivitätskarte mit den Erledigungen pro Tag, aktueller Serie und Rekord), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage.
 
 ### ✅ Aufgaben
 
-Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen.
+Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen. An eine Aufgabe lassen sich **Fotos und Dateien** anhängen.
 
 ### 📅 Kalender
 
-Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie.
+Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie. Auf dem Handy klappt der Monat zu einer Woche zusammen.
 
 ### 🎯 Fokus
 
@@ -72,7 +72,7 @@ Standardmäßig speichert Okto alles im Browser des Geräts. Für dieselben Date
 5. Im GitHub-Repo: **Settings → Secrets and variables → Actions** — die Secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` anlegen.
 6. Deploy starten. In den Einstellungen von Okto erscheint „Mit Google anmelden“.
 
-Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, jeder sieht nur seine eigenen Daten. Erinnerungen auf der Website kommen, solange der Tab offen ist.
+Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, jeder sieht nur seine eigenen Daten. Erinnerungen auf der Website kommen, solange der Tab offen ist. In der Android-App kommen Erinnerungen auch bei geschlossenem Okto.
 
 </details>
 

@@ -32,15 +32,15 @@
 
 ### 🏠 Accueil
 
-Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (jours d’affilée avec une tâche ou du focus), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30.
+Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (carte d’activité de ce qui a été fait chaque jour, série en cours et record), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30.
 
 ### ✅ Tâches
 
-Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé.
+Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Terminées — et tes propres **listes** en couleur. Une tâche a une date, une heure et une durée, une **répétition** (chaque jour, jours ouvrés, semaine, mois, intervalle, date de fin), un **rappel**, une priorité, une note et des **sous-tâches**. **Se concentrer sur une tâche** lance Pomodoro et y enregistre les minutes. Sur téléphone, balaye vers la gauche pour « Demain » ou « Supprimer » ; tout peut être annulé. On peut joindre des **photos et des fichiers** à une tâche.
 
 ### 📅 Calendrier
 
-Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série.
+Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série. Sur téléphone, le mois se replie en une semaine.
 
 ### 🎯 Concentration
 
@@ -72,7 +72,7 @@ Par défaut, Okto garde tout dans le navigateur de l’appareil. Pour avoir les 
 5. Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
 6. Lance le déploiement. « Se connecter avec Google » apparaît dans les réglages d’Okto.
 
-Ces clés ne sont pas secrètes : l’accès est protégé par les règles Firestore, chacun ne voit que ses données. Sur le site, les rappels fonctionnent tant que l’onglet est ouvert.
+Ces clés ne sont pas secrètes : l’accès est protégé par les règles Firestore, chacun ne voit que ses données. Sur le site, les rappels fonctionnent tant que l’onglet est ouvert. Dans l’app Android, les rappels arrivent même quand Okto est fermé.
 
 </details>
 

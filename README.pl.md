@@ -32,15 +32,15 @@
 
 ### 🏠 Start
 
-Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu z zadaniem lub skupieniem), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30.
+Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (mapa aktywności z tym, co zrobione każdego dnia, bieżąca seria i rekord), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30.
 
 ### ✅ Zadania
 
-Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć.
+Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć. Do zadania można dołączyć **zdjęcia i pliki**.
 
 ### 📅 Kalendarz
 
-W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię.
+W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię. Na telefonie miesiąc zwija się do tygodnia.
 
 ### 🎯 Skupienie
 
@@ -72,7 +72,7 @@ Domyślnie Okto trzyma wszystko w przeglądarce na urządzeniu. Aby mieć te sam
 5. W repozytorium na GitHubie: **Settings → Secrets and variables → Actions** — dodaj sekrety `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
 6. Uruchom wdrożenie. W ustawieniach Okto pojawi się „Zaloguj przez Google”.
 
-Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tylko swoje dane. Przypomnienia na stronie działają, dopóki karta jest otwarta.
+Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tylko swoje dane. Przypomnienia na stronie działają, dopóki karta jest otwarta. W aplikacji na Androida przypomnienia przychodzą, nawet gdy Okto jest zamknięte.
 
 </details>
 

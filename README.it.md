@@ -32,15 +32,15 @@
 
 ### 🏠 Home
 
-Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (giorni di fila con un’attività o focus), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30.
+Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (mappa delle attività fatte ogni giorno, serie attuale e record), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30.
 
 ### ✅ Attività
 
-Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare.
+Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le tue **liste** a colori. Un’attività ha data, ora e durata, **ripetizione** (ogni giorno, feriali, settimana, mese, intervallo, data di fine), **promemoria**, priorità, nota e **sottoattività**. **Focus su un’attività** avvia il Pomodoro e salva i minuti. Sul telefono scorri a sinistra per «Domani» o «Elimina»; ogni azione si può annullare. A un’attività si possono allegare **foto e file**.
 
 ### 📅 Calendario
 
-In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie.
+In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie. Sul telefono il mese si comprime in una settimana.
 
 ### 🎯 Focus
 
@@ -72,7 +72,7 @@ Di base Okto salva tutto nel browser del dispositivo. Per avere gli stessi dati 
 5. Nel repository GitHub: **Settings → Secrets and variables → Actions** — aggiungi i secret `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
 6. Avvia il deploy. Nelle impostazioni di Okto comparirà «Accedi con Google».
 
-Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestore e ognuno vede solo i propri dati. I promemoria sul sito funzionano finché la scheda è aperta.
+Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestore e ognuno vede solo i propri dati. I promemoria sul sito funzionano finché la scheda è aperta. Nell’app Android i promemoria arrivano anche con Okto chiuso.
 
 </details>
 
