@@ -22,6 +22,7 @@ data class OktoTask(
     val reminder: Int?,     // минуты до начала; только вместе со start
     val repeat: Repeat?,
     val done: Boolean,
+    val doneAt: Long?,      // мс; когда выполнена задача без повтора
     val doneDates: List<String>,
     val skipDates: List<String>,
     val deleted: Boolean,
@@ -78,6 +79,7 @@ data class OktoTask(
                 reminder = (m["reminder"] as? Number)?.toInt()?.coerceIn(0, 10080),
                 repeat = repeat,
                 done = m["done"] == true,
+                doneAt = (m["doneAt"] as? Number)?.toLong(),
                 doneDates = strings(m["doneDates"]),
                 skipDates = strings(m["skipDates"]),
                 deleted = m["deleted"] == true,

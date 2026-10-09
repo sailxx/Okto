@@ -1,22 +1,15 @@
 package com.sailxx.okto.widget
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.Image
-import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.Action
-import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -38,21 +31,18 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
-import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontFamily
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
 import com.sailxx.okto.R
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
 import com.sailxx.okto.data.Status
 import com.sailxx.okto.data.WidgetItem
 import com.sailxx.okto.data.WidgetState
-import com.sailxx.okto.ui.WidgetSettingsActivity
 import com.sailxx.okto.ui.QuickAddActivity
 import kotlin.math.roundToInt
 
@@ -65,15 +55,13 @@ class OktoTasksWidget : GlanceAppWidget() {
         OktoRepository.refreshIfStale(context)
         provideContent {
             val state by OktoRepository.state.collectAsState()
-            WidgetBody(state)
+            WidgetBody(state, textSizes())
         }
     }
 }
 
-private fun cp(c: Color) = ColorProvider(c)
-
 @Composable
-private fun WidgetBody(s: WidgetState) {
+private fun WidgetBody(s: WidgetState, t: TextSizes) {
     val p = s.palette
     Column(
         modifier = GlanceModifier.fillMaxSize().background(p.bg).cornerRadius(24.dp).padding(10.dp),
@@ -82,39 +70,9 @@ private fun WidgetBody(s: WidgetState) {
             Status.LOADING -> Centered { Logo(p) }
             Status.SIGNED_OUT -> SignedOut(p)
             Status.READY -> {
-                Header(s)
-                Spacer(GlanceModifier.height(4.dp))
-                TaskList(s)
-            }
-        }
-    }
-}
-
-@Composable
-private fun Centered(content: @Composable () -> Unit) {
-    Box(GlanceModifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
-}
-
-@Composable
-private fun Logo(p: OktoPalette) {
-    Text("● okto", style = TextStyle(color = cp(p.ink), fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace))
-}
-
-@Composable
-private fun SignedOut(p: OktoPalette) {
-    val ctx = LocalContext.current
-    Centered {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Logo(p)
-            Spacer(GlanceModifier.height(6.dp))
-            Text(ctx.getString(R.string.sign_in_hint), style = TextStyle(color = cp(p.muted), fontSize = 13.sp))
-            Spacer(GlanceModifier.height(12.dp))
-            Box(
-                modifier = GlanceModifier.background(p.accent).cornerRadius(10.dp)
-                    .padding(horizontal = 16.dp, vertical = 10.dp)
-                    .clickable(actionStartActivity<WidgetSettingsActivity>()),
-            ) {
-                Text(ctx.getString(R.string.sign_in), style = TextStyle(color = cp(p.onAccent), fontSize = 14.sp, fontWeight = FontWeight.Medium))
+                Header(s, t)
+                Spacer(GlanceModifier.height(8.dp))
+                TaskList(s, t)
             }
         }
     }
@@ -122,7 +80,7 @@ private fun SignedOut(p: OktoPalette) {
 
 /** «Колодец» с крупным моно-счётчиком 03/07 и сегментной шкалой — как карточки на главной Okto. */
 @Composable
-private fun Header(s: WidgetState) {
+private fun Header(s: WidgetState, t: TextSizes) {
     val p = s.palette
     val ctx = LocalContext.current
     Row(
@@ -134,7 +92,7 @@ private fun Header(s: WidgetState) {
             Text(label, style = TextStyle(color = cp(p.wellDim), fontSize = 10.sp, fontFamily = FontFamily.Monospace), maxLines = 1)
             Text(
                 "%02d/%02d".format(s.doneToday, s.totalToday),
-                style = TextStyle(color = cp(p.wellInk), fontSize = 32.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace),
+                style = TextStyle(color = cp(p.wellInk), fontSize = t.counter, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace),
             )
             Spacer(GlanceModifier.height(6.dp))
             Segments(s.doneToday, s.totalToday, p)
@@ -163,77 +121,51 @@ private fun Segments(done: Int, total: Int, p: OktoPalette) {
 }
 
 @Composable
-private fun KeyButton(icon: Int, description: String, bg: Color, ink: Color, onClick: Action) {
-    Box(
-        modifier = GlanceModifier.size(40.dp).background(bg).cornerRadius(12.dp).clickable(onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Image(ImageProvider(icon), description, GlanceModifier.size(20.dp), colorFilter = ColorFilter.tint(cp(ink)))
-    }
-}
-
-@Composable
-private fun TaskList(s: WidgetState) {
+private fun TaskList(s: WidgetState, t: TextSizes) {
     val p = s.palette
     val ctx = LocalContext.current
     if (s.items.isEmpty()) {
         Centered {
-            Text(ctx.getString(R.string.empty), style = TextStyle(color = cp(p.muted), fontSize = 12.sp, fontFamily = FontFamily.Monospace))
+            Text(ctx.getString(R.string.empty), style = TextStyle(color = cp(p.muted), fontSize = t.meta, fontFamily = FontFamily.Monospace))
         }
         return
     }
     LazyColumn(GlanceModifier.fillMaxSize()) {
-        items(s.items, itemId = { (it.taskId + it.date).hashCode().toLong() }) { TaskRow(it, p) }
+        items(s.items, itemId = { (it.taskId + it.date).hashCode().toLong() }) { TaskCard(it, p, t) }
     }
 }
 
+/** Задача — карточка, залитая цветом её списка; выполненная — нейтральная. */
 @Composable
-private fun TaskRow(item: WidgetItem, p: OktoPalette) {
+private fun TaskCard(item: WidgetItem, p: OktoPalette, t: TextSizes) {
     val ctx = LocalContext.current
-    val openOkto = oktoIntent(ctx, "#/tasks")
-    val toggleParams = if (item.occurrence != null) {
-        actionParametersOf(KeyTaskId to item.taskId, KeyDate to item.occurrence)
-    } else {
-        actionParametersOf(KeyTaskId to item.taskId)
-    }
-    Row(
-        modifier = GlanceModifier.fillMaxWidth().padding(vertical = 7.dp).clickable(actionStartActivity(openOkto)),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            modifier = GlanceModifier.size(48.dp).clickable(actionRunCallback<ToggleTaskAction>(toggleParams)),
-            contentAlignment = Alignment.Center,
+    val tint = item.color?.takeIf { !item.done }
+    val card = tint?.let { lerp(p.bg, it, if (p.isDark) 0.24f else 0.16f) } ?: p.key
+    Box(GlanceModifier.fillMaxWidth().padding(bottom = 6.dp)) {
+        Row(
+            modifier = GlanceModifier.fillMaxWidth().background(card).cornerRadius(14.dp)
+                .padding(end = 12.dp, top = 2.dp, bottom = 2.dp)
+                .clickable(actionStartActivity(oktoIntent(ctx, "#/tasks"))),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                provider = ImageProvider(if (item.done) R.drawable.ic_checked else R.drawable.ic_unchecked),
-                contentDescription = ctx.getString(if (item.done) R.string.mark_undone else R.string.mark_done),
-                modifier = GlanceModifier.size(28.dp),
-                colorFilter = ColorFilter.tint(cp(if (item.done) p.muted else item.color ?: p.ink)),
-            )
-        }
-        Spacer(GlanceModifier.width(4.dp))
-        Column(GlanceModifier.defaultWeight()) {
-            Text(
-                item.title,
-                maxLines = 2,
-                style = TextStyle(
-                    color = cp(if (item.done) p.muted else p.ink),
-                    fontSize = 19.sp,
-                    fontWeight = FontWeight.Medium,
-                    textDecoration = if (item.done) TextDecoration.LineThrough else TextDecoration.None,
-                ),
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                item.color?.takeIf { !item.done }?.let {
-                    Image(ImageProvider(R.drawable.ic_dot), null, GlanceModifier.size(8.dp), colorFilter = ColorFilter.tint(cp(it)))
-                    Spacer(GlanceModifier.width(5.dp))
-                }
+            CheckButton(item.taskId, item.occurrence, item.done, if (item.done) p.muted else tint ?: p.ink, t.check)
+            Column(GlanceModifier.defaultWeight()) {
+                Text(
+                    item.title,
+                    maxLines = 2,
+                    style = TextStyle(
+                        color = cp(if (item.done) p.muted else p.ink),
+                        fontSize = t.title,
+                        fontWeight = FontWeight.Medium,
+                        textDecoration = if (item.done) TextDecoration.LineThrough else TextDecoration.None,
+                    ),
+                )
                 Text(
                     item.meta,
                     maxLines = 1,
                     style = TextStyle(
                         color = cp(if (item.overdue) p.red else p.muted),
-                        fontSize = 14.sp,
+                        fontSize = t.meta,
                         fontFamily = FontFamily.Monospace,
                     ),
                 )

@@ -14,13 +14,13 @@ class ToggleTaskAction : ActionCallback {
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         val taskId = parameters[KeyTaskId] ?: return
         OktoRepository.toggle(context, taskId, parameters[KeyDate])
-        OktoTasksWidget().update(context, glanceId)
+        updateOktoWidgets(context)
     }
 }
 
 class RefreshAction : ActionCallback {
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         OktoRepository.refresh(context)
-        OktoTasksWidget().update(context, glanceId)
+        updateOktoWidgets(context)
     }
 }

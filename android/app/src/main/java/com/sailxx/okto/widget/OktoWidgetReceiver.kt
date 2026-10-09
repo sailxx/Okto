@@ -3,7 +3,6 @@ package com.sailxx.okto.widget
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -12,13 +11,28 @@ import androidx.work.WorkerParameters
 import com.sailxx.okto.data.OktoRepository
 import java.util.concurrent.TimeUnit
 
-class OktoWidgetReceiver : GlanceAppWidgetReceiver() {
-    override val glanceAppWidget: GlanceAppWidget = OktoTasksWidget()
-
+/** Любой виджет Okto на экране включает фоновую синхронизацию. */
+abstract class OktoReceiver : GlanceAppWidgetReceiver() {
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
         SyncWorker.schedule(context)
     }
+}
+
+class OktoWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = OktoTasksWidget()
+}
+
+class NextTaskWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = NextTaskWidget()
+}
+
+class QuickAddWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = QuickAddWidget()
+}
+
+class StreakWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = StreakWidget()
 }
 
 /**
@@ -28,7 +42,7 @@ class OktoWidgetReceiver : GlanceAppWidgetReceiver() {
 class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         OktoRepository.refresh(applicationContext)
-        OktoTasksWidget().updateAll(applicationContext)
+        updateOktoWidgets(applicationContext)
         return Result.success()
     }
 

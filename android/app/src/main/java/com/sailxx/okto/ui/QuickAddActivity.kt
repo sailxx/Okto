@@ -45,13 +45,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.appwidget.updateAll
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.sailxx.okto.R
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
-import com.sailxx.okto.widget.OktoTasksWidget
+import com.sailxx.okto.widget.updateOktoWidgets
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -94,7 +93,7 @@ private fun QuickAdd(onClose: () -> Unit) {
                 When.NONE -> null
             }
             OktoRepository.addTask(ctx, title, date)
-            OktoTasksWidget().updateAll(ctx)
+            updateOktoWidgets(ctx)
             onClose()
         }
     }
