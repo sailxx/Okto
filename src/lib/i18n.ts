@@ -77,7 +77,7 @@ const ru = {
   tasksDone: 'выполнено задач', focusMin: 'минут фокуса', plan: 'план',
   hello: 'Привет! Как вас зовут?', helloSub: 'Имя появится на главной. Его и приветствие можно поменять в любой момент.', namePh: 'Ваше имя', begin: 'Начать', skipName: 'Пропустить',
   profile: 'Профиль', yourName: 'Имя', greetingLabel: 'Приветствие', greetingAuto: 'По времени суток', greetingPh: 'Например: Погнали', editGreeting: 'Изменить приветствие',
-  last14: '14 дней', last7d: '7 дней', last5w: '5 недель', todayLine: 'сегодня', doneOf: (a: number, b: number) => `${a} из ${b}`, noData: 'нет данных', timeline: 'план дня',
+  last14: '14 дней', last7d: '7 дней', bestStreak: (n: number) => `рекорд ${n}`, dayActs: (n: number) => `${n} ${plural(n, 'дело', 'дела', 'дел')}`, actsWord: (n: number) => plural(n, 'дело', 'дела', 'дел'), weeksN: (n: number) => `${n} ${plural(n, 'неделя', 'недели', 'недель')}`, todayLine: 'сегодня', doneOf: (a: number, b: number) => `${a} из ${b}`, noData: 'нет данных', timeline: 'план дня',
   // account
   account: 'Аккаунт', signIn: 'Войти через Google', signOut: 'Выйти',
   syncOff: 'Синхронизация не настроена — данные хранятся на этом устройстве',
@@ -150,7 +150,7 @@ const en: typeof ru = {
   tasksDone: 'tasks completed', focusMin: 'focus minutes', plan: 'plan',
   hello: 'Hi! What should we call you?', helloSub: 'Your name shows on Home. You can change it and the greeting any time.', namePh: 'Your name', begin: 'Start', skipName: 'Skip',
   profile: 'Profile', yourName: 'Name', greetingLabel: 'Greeting', greetingAuto: 'By time of day', greetingPh: 'e.g. Let’s go', editGreeting: 'Edit greeting',
-  last14: '14 days', last7d: '7 days', last5w: '5 weeks', todayLine: 'today', doneOf: (a, b) => `${a} of ${b}`, noData: 'no data', timeline: 'day plan',
+  last14: '14 days', last7d: '7 days', bestStreak: (n) => `best ${n}`, dayActs: (n) => `${n} done`, actsWord: () => 'done', weeksN: (n) => `${n} ${n === 1 ? 'week' : 'weeks'}`, todayLine: 'today', doneOf: (a, b) => `${a} of ${b}`, noData: 'no data', timeline: 'day plan',
   account: 'Account', signIn: 'Sign in with Google', signOut: 'Sign out',
   syncOff: 'Sync is not configured — data stays on this device',
   syncSignedOut: 'Sign in to sync your phone and computer',
