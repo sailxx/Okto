@@ -12,6 +12,7 @@
     <string name="empty">ALL CLEAR · NOTHING DUE</string>
     <string name="add_task">Add task</string>
     <string name="sync">Sync</string>
+    <string name="synced_at">Synced %1$s</string>
     <string name="mark_done">Mark done</string>
     <string name="mark_undone">Mark not done</string>
     <string name="sign_in">Sign in</string>
@@ -58,7 +59,7 @@
     <string name="text_size">Widget text size</string>
     <string name="text_title">Task title</string>
     <string name="text_meta">Time and date</string>
-    <string name="text_counter">Counter</string>
+    <string name="text_counter">Streak number</string>
     <string name="text_fixed">Ignore system font size</string>
     <string name="text_fixed_hint">Sizes are in pixels (sp). When on, the phone\'s font scale does not change them.</string>
     <string name="text_sample_title">Team call</string>

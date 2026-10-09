@@ -12,6 +12,7 @@
     <string name="empty">ВСЁ СДЕЛАНО · ЗАДАЧ НЕТ</string>
     <string name="add_task">Добавить задачу</string>
     <string name="sync">Синхронизировать</string>
+    <string name="synced_at">Обновлено %1$s</string>
     <string name="mark_done">Отметить выполненной</string>
     <string name="mark_undone">Снять отметку</string>
     <string name="sign_in">Войти</string>
@@ -60,7 +61,7 @@
     <string name="text_size">Размер текста в виджетах</string>
     <string name="text_title">Название задачи</string>
     <string name="text_meta">Время и дата</string>
-    <string name="text_counter">Счётчик</string>
+    <string name="text_counter">Число серии</string>
     <string name="text_fixed">Не учитывать системный размер шрифта</string>
     <string name="text_fixed_hint">Размеры в пикселях (sp). Если включено, масштаб шрифта телефона на них не влияет.</string>
     <string name="text_sample_title">Созвон с командой</string>

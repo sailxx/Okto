@@ -14,7 +14,6 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.Action
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
@@ -95,16 +94,6 @@ internal fun SignedOut(p: OktoPalette) {
                 Text(ctx.getString(R.string.sign_in), style = TextStyle(color = cp(p.onAccent), fontSize = 14.sp, fontWeight = FontWeight.Medium))
             }
         }
-    }
-}
-
-@Composable
-internal fun KeyButton(icon: Int, description: String, bg: Color, ink: Color, onClick: Action, size: Dp = 40.dp) {
-    Box(
-        modifier = GlanceModifier.size(size).background(bg).cornerRadius(12.dp).clickable(onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Image(ImageProvider(icon), description, GlanceModifier.size(size / 2), colorFilter = ColorFilter.tint(cp(ink)))
     }
 }
 
