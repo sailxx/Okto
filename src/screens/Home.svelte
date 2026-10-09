@@ -5,11 +5,12 @@
   import ProfileSheet from '../components/ProfileSheet.svelte';
   import Digits from '../components/Digits.svelte';
   import Scrub from '../components/Scrub.svelte';
+  import Heatmap from '../components/Heatmap.svelte';
   import { store } from '../lib/store.svelte';
   import { router } from '../lib/router.svelte';
-  import { addDays, minutesNow, startOfWeek, toMin } from '../lib/date';
+  import { addDays, minutesNow, toMin } from '../lib/date';
   import { fmtLongDay, fmtShortDay, relDay } from '../lib/i18n';
-  import { activeDays, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak } from '../lib/stats';
+  import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
   import { blockSize, GRID_MAX_H, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
@@ -33,11 +34,8 @@
   const doneSeries = $derived(days14.map((d) => doneOnDay(store.tasks, d)));
   const focusSeries = $derived(days7.map((d) => dayFocus(store.sessions, d)));
   const days = $derived(streak(store.tasks, store.sessions, store.today));
-  const active = $derived(activeDays(store.tasks, store.sessions));
-  const heat = $derived.by(() => {
-    const first = addDays(startOfWeek(store.today, store.weekStart), -28);
-    return Array.from({ length: 35 }, (_, i) => addDays(first, i));
-  });
+  const activity = $derived(activityByDay(store.tasks, store.sessions));
+  const best = $derived(bestStreak(activity.keys()));
   const next = $derived(nextUp(store.tasks, store.now));
   const todayTimed = $derived(dayTasks(store.tasks, store.today).filter((i) => i.task.start).sort((a, b) => toMin(a.task.start!) - toMin(b.task.start!)));
   // Today's checklist: open tasks first, timed ones by start.
@@ -50,7 +48,7 @@
   /* ---------- per-widget scrub selection ---------- */
   let selTasks = $state<number | null>(null);
   let selFocus = $state<number | null>(null);
-  let selHeat = $state<number | null>(null);
+  let selHeat = $state<string | null>(null);
   let selLine = $state<number | null>(null);
   let selCounter = $state<Record<string, number | null>>({});
 
@@ -218,22 +216,16 @@
             <div class="chart"><Scrub days={days7} values={focusSeries.map((x) => x.minutes)} bind:sel={selFocus} label="{store.t('focusMin')}, {store.t('last7d')}" /></div>
 
           {:else if b.type === 'streak'}
-            {@const d = selHeat === null ? null : heat[selHeat]}
+            {@const n = selHeat ? activity.get(selHeat) ?? 0 : 0}
             <span class="legend">
-              <span class="label">{store.t('bStreak')}</span>
-              <span class="label">{d ? fmtShortDay(store.lang, d) : store.t('streakDays')(days)}</span>
+              <span class="label">{store.t('bStreak')} · {selHeat ? fmtShortDay(store.lang, selHeat) : store.t('todayLine')}</span>
+              <span class="label">{store.t('bestStreak')(best)}</span>
             </span>
-            <span class="read"><Digits class="big" text={d ? (active.has(d) ? '01' : '00') : p2(days)} delay={i * 90} /></span>
-            <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-            <div class="heat" role="group" tabindex="0" aria-label="{store.t('bStreak')}, {store.t('last5w')}"
-              onpointerleave={() => (selHeat = null)} onclick={(e) => e.stopPropagation()}
-              onkeydown={(e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); selHeat = Math.max(0, Math.min(34, (selHeat ?? 34) + (e.key === 'ArrowLeft' ? -1 : 1))); } }}>
-              {#each heat as k, h (k)}
-                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                <i class:on={active.has(k)} class:today={k === store.today} class:sel={selHeat === h} class:future={k > store.today}
-                  onpointerenter={() => (selHeat = h)}></i>
-              {/each}
-            </div>
+            <span class="read">
+              {#if selHeat}<Digits class="big" text={p2(n)} /><em>{store.t('actsWord')(n)}</em>
+              {:else}<Digits class="big" text={p2(days)} delay={i * 90} /><em>{store.t('streakDays')(days)}</em>{/if}
+            </span>
+            <div class="act"><Heatmap counts={activity} label={store.t('bStreak')} bind:sel={selHeat} /></div>
 
           {:else if b.type === 'next'}
             {@const picked = selLine === null ? null : todayTimed[selLine]}
@@ -389,16 +381,11 @@
   .editing .todo { pointer-events: none; }
 
   /* Small blocks show just the reading. */
-  @container (max-height: 170px) { .chart, .heat, .line, .segs { display: none; } }
+  @container (max-height: 170px) { .chart, .act, .line, .segs { display: none; } }
   @container (max-width: 200px) { .legend .label + .label { display: none; } .nt { display: none; } }
 
-  /* Streak: five weeks of activity */
-  .heat { display: grid; grid-template-columns: repeat(7, minmax(0, min(22px, 9cqh))); gap: 3px; margin-top: auto; outline-offset: 4px; border-radius: 4px; align-self: flex-start; }
-  .heat i { aspect-ratio: 1; border-radius: 3px; background: var(--well-ghost); box-shadow: inset 0 0 0 1px var(--well-ghost); }
-  .heat i.on { background: var(--well-ink); }
-  .heat i.future { opacity: .35; }
-  .heat i.today { box-shadow: inset 0 0 0 1px var(--well-ink), 0 0 0 2px var(--well), 0 0 0 3px var(--well-dim); }
-  .heat i.sel { outline: 2px solid var(--well-ink); outline-offset: 1px; }
+  /* Streak: activity map, as many weeks as fit */
+  .act { flex: 1 1 0; min-height: 0; }
 
   /* Next: today's plan as a strip, 06–24 */
   .line { position: relative; height: 36px; flex: 0 0 auto; margin-top: auto; border-top: 1px solid var(--well-ghost); outline-offset: 4px; border-radius: 2px; }

@@ -3,7 +3,8 @@
   import Bars from './Bars.svelte';
   import { store } from '../lib/store.svelte';
   import { router, type Route } from '../lib/router.svelte';
-  import { activeDays, dayFocus, doneOnDay, lastDays, streak } from '../lib/stats';
+  import Heatmap from './Heatmap.svelte';
+  import { activityByDay, bestStreak, dayFocus, doneOnDay, lastDays, streak } from '../lib/stats';
   import { fmtShortDay } from '../lib/i18n';
   import type { Block } from '../lib/model';
 
@@ -23,7 +24,8 @@
     return { v7: days7.map((d) => doneOnDay(store.tasks, d)), total: days30.reduce((s, d) => s + doneOnDay(store.tasks, d), 0), fmt: (n: number) => String(n) };
   });
 
-  const active = $derived(activeDays(store.tasks, store.sessions));
+  const activity = $derived(activityByDay(store.tasks, store.sessions));
+  let sel = $state<string | null>(null);
   const title = $derived(
     block.type === 'counter' ? counter?.name || store.t('counter')
       : store.t(({ tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext' } as const)[block.type]),
@@ -40,13 +42,10 @@
 
 <Sheet {title} {onclose}>
   {#if block.type === 'streak'}
-    <p class="big">{streak(store.tasks, store.sessions, store.today)} <span>{store.t('streakDays')(streak(store.tasks, store.sessions, store.today))}</span></p>
-    <span class="label">{store.t('last30')(String(days30.filter((d) => active.has(d)).length))}</span>
-    <div class="dots" role="list">
-      {#each days30 as d}
-        <i role="listitem" class:on={active.has(d)} class:today={d === store.today} title={fmtShortDay(store.lang, d)} aria-label="{fmtShortDay(store.lang, d)}: {active.has(d) ? '✓' : '—'}"></i>
-      {/each}
-    </div>
+    {@const run = streak(store.tasks, store.sessions, store.today)}
+    <p class="big">{run} <span>{store.t('streakDays')(run)} · {store.t('bestStreak')(bestStreak(activity.keys()))}</span></p>
+    <span class="label">{sel ? `${fmtShortDay(store.lang, sel)} · ${store.t('dayActs')(activity.get(sel) ?? 0)}` : store.t('last30')(String(days30.filter((d) => activity.has(d)).length))}</span>
+    <div class="map"><Heatmap counts={activity} cell={12} label={title} bind:sel /></div>
   {:else}
     <span class="label">{store.t('last7')} · {block.type === 'focus' ? store.t('focusMin') : block.type === 'counter' ? title : store.t('tasksDone')}</span>
     <Bars days={days7} values={series.v7} format={series.fmt} />
@@ -62,9 +61,6 @@
   .label { margin-bottom: 12px; }
   .big { margin: 0 0 18px; font-family: var(--mono); font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
   .big span { font-family: var(--sans); font-size: 16px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
-  .dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-bottom: 20px; }
-  .dots i { aspect-ratio: 1; border-radius: 6px; background: var(--soft); }
-  .dots i.on { background: var(--accent); }
-  .dots i.today { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--line); }
+  .map { --hm-ink: var(--accent); --hm-ghost: var(--soft); --hm-dim: var(--muted); --hm-bg: var(--bg); margin-bottom: 20px; }
   .total { margin: 14px 2px 18px; color: var(--muted); font-size: 15px; font-weight: 500; }
 </style>

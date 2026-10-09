@@ -18,16 +18,33 @@ export function dayFocus(sessions: Session[], key: string) {
   return { minutes, count };
 }
 
-/** Days on which at least one task was completed or one focus finished. */
-export function activeDays(tasks: Task[], sessions: Session[]): Set<string> {
-  const days = new Set<string>();
+/** How much got done each day: completed tasks plus finished focus sessions. */
+export function activityByDay(tasks: Task[], sessions: Session[]): Map<string, number> {
+  const days = new Map<string, number>();
+  const add = (k: string) => days.set(k, (days.get(k) ?? 0) + 1);
   for (const t of tasks) {
     if (t.deleted) continue;
-    if (t.repeat) t.doneDates.forEach((d) => days.add(d));
-    else if (t.done && t.doneAt) days.add(toKey(new Date(t.doneAt)));
+    if (t.repeat) t.doneDates.forEach(add);
+    else if (t.done && t.doneAt) add(toKey(new Date(t.doneAt)));
   }
-  for (const s of sessions) if (!s.deleted) days.add(toKey(new Date(s.start)));
+  for (const s of sessions) if (!s.deleted) add(toKey(new Date(s.start)));
   return days;
+}
+
+/** Days on which at least one task was completed or one focus finished. */
+export const activeDays = (tasks: Task[], sessions: Session[]): Set<string> => new Set(activityByDay(tasks, sessions).keys());
+
+/** Longest run of consecutive active days ever. */
+export function bestStreak(days: Iterable<string>): number {
+  const set = new Set(days);
+  let best = 0;
+  for (const k of set) {
+    if (set.has(addDays(k, -1))) continue;
+    let n = 1;
+    while (set.has(addDays(k, n))) n += 1;
+    best = Math.max(best, n);
+  }
+  return best;
 }
 
 export const isActiveDay = (tasks: Task[], sessions: Session[], key: string) => activeDays(tasks, sessions).has(key);
