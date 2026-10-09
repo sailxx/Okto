@@ -32,15 +32,15 @@
 
 ### 🏠 Home
 
-Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (days in a row with a task or focus), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total.
+Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (an activity map of what you got done each day, your current streak and record), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total.
 
 ### ✅ Tasks
 
-Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone.
+Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone. You can attach **photos and files** to a task.
 
 ### 📅 Calendar
 
-Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series.
+Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series. On a phone, the month collapses into a week.
 
 ### 🎯 Focus
 
@@ -72,7 +72,7 @@ Out of the box Okto keeps everything in the browser on your device. To have the 
 5. In the GitHub repo: **Settings → Secrets and variables → Actions** — add the secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
 6. Run the deploy. “Sign in with Google” appears in Okto’s settings.
 
-These keys are not secret — access is protected by Firestore rules, so everyone sees only their own data. Reminders on the website fire while the tab is open.
+These keys are not secret — access is protected by Firestore rules, so everyone sees only their own data. Reminders on the website fire while the tab is open. In the Android app, reminders arrive even when Okto is closed.
 
 </details>
 

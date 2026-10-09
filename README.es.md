@@ -32,15 +32,15 @@
 
 ### 🏠 Inicio
 
-Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos con tarea o enfoque), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30.
+Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (mapa de actividad con lo hecho cada día, racha actual y récord), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30.
 
 ### ✅ Tareas
 
-Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer.
+Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer. Puedes adjuntar **fotos y archivos** a una tarea.
 
 ### 📅 Calendario
 
-Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie.
+Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie. En el móvil, el mes se pliega a una semana.
 
 ### 🎯 Enfoque
 
@@ -72,7 +72,7 @@ Por defecto Okto guarda todo en el navegador del dispositivo. Para tener los mis
 5. En el repositorio de GitHub: **Settings → Secrets and variables → Actions** — añade los secretos `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
 6. Lanza el despliegue. En los ajustes de Okto aparecerá «Entrar con Google».
 
-Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y cada uno ve solo sus datos. Los recordatorios en la web funcionan mientras la pestaña está abierta.
+Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y cada uno ve solo sus datos. Los recordatorios en la web funcionan mientras la pestaña está abierta. En la app de Android, los recordatorios llegan aunque Okto esté cerrado.
 
 </details>
 
