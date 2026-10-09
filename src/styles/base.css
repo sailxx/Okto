@@ -119,6 +119,88 @@
   --red: #bf616a;
 }
 
+/* Green phosphor terminal */
+:root[data-theme='matrix'] {
+  color-scheme: dark;
+  --bg: #050a06; --ink: #c8f5d2; --muted: #5f8a69; --line: #12261a; --soft: #08120b;
+  --key: #0c1a10; --key-ink: #c8f5d2; --key-edge: #000; --key-hi: rgb(57 255 106 / 6%);
+  --well: #000; --well-ink: #39ff6a; --well-dim: #2f7a45; --well-ghost: rgb(57 255 106 / 8%); --well-edge: #0f2a17;
+  --primary: #39ff6a; --on-primary: #001a08; --accent: #39ff6a; --on-accent: #001a08;
+  --red: #ff5f56;
+}
+/* 80s neon: violet casing, magenta display */
+:root[data-theme='synthwave'] {
+  color-scheme: dark;
+  --bg: #1a1033; --ink: #f4e9ff; --muted: #9b86c4; --line: #2d1f52; --soft: #21153f;
+  --key: #2a1a4d; --key-ink: #f4e9ff; --key-edge: #0a0518; --key-hi: rgb(255 255 255 / 6%);
+  --well: #0d0720; --well-ink: #ff4fd8; --well-dim: #8a5fb0; --well-ghost: rgb(255 79 216 / 9%); --well-edge: #2d1650;
+  --primary: #ff4fd8; --on-primary: #1a0420; --accent: #ff4fd8; --on-accent: #1a0420;
+  --red: #ff5c7a;
+}
+:root[data-theme='dracula'] {
+  color-scheme: dark;
+  --bg: #282a36; --ink: #f8f8f2; --muted: #9aa3c7; --line: #383a4a; --soft: #2d2f3d;
+  --key: #343746; --key-ink: #f8f8f2; --key-edge: #191a21; --key-hi: rgb(255 255 255 / 6%);
+  --well: #21222c; --well-ink: #bd93f9; --well-dim: #7c84ad; --well-ghost: rgb(189 147 249 / 9%); --well-edge: rgb(0 0 0 / 40%);
+  --primary: #bd93f9; --on-primary: #21222c; --accent: #bd93f9; --on-accent: #21222c;
+  --red: #ff5555;
+}
+:root[data-theme='solarized'] {
+  --bg: #fdf6e3; --ink: #073642; --muted: #657b83; --line: #eee8d5; --soft: #f5eedb;
+  --key: #fffbf0; --key-ink: #073642; --key-edge: #d9cfb3; --key-hi: rgb(255 255 255 / 90%);
+  --well: #eee8d5; --well-ink: #073642; --well-dim: #839496; --well-ghost: rgb(7 54 66 / 7%); --well-edge: rgb(0 0 0 / 10%);
+  --primary: #268bd2; --on-primary: #fff; --accent: #268bd2; --on-accent: #fff;
+  --red: #dc322f;
+}
+/* Four shades of the original handheld's green LCD */
+:root[data-theme='gameboy'] {
+  --bg: #c4cfa1; --ink: #0f380f; --muted: #306230; --line: #aebc86; --soft: #b9c592;
+  --key: #d5deb3; --key-ink: #0f380f; --key-edge: #8b9b5e; --key-hi: rgb(255 255 255 / 45%);
+  --well: #9bbc0f; --well-ink: #0f380f; --well-dim: #306230; --well-ghost: rgb(15 56 15 / 10%); --well-edge: rgb(15 56 15 / 35%);
+  --red: #a33b2b;
+}
+/* Milky casing, espresso display */
+:root[data-theme='latte'] {
+  --bg: #f3eadf; --ink: #2b1d14; --muted: #7a6352; --line: #e3d4c3; --soft: #ece0d2;
+  --key: #fbf6ef; --key-ink: #2b1d14; --key-edge: #d3bfa8; --key-hi: rgb(255 255 255 / 85%);
+  --well: #3b2a1f; --well-ink: #f3e3cf; --well-dim: #a48a74; --well-ghost: rgb(243 227 207 / 8%); --well-edge: rgb(0 0 0 / 45%);
+  --primary: #8b5a3c; --on-primary: #fff; --accent: #8b5a3c; --on-accent: #fff;
+  --red: #c2410c;
+}
+/* Wine-dark casing, rosé display, burgundy primary key */
+:root[data-theme='bordeaux'] {
+  color-scheme: dark;
+  --bg: #2a0f16; --ink: #f6e7ea; --muted: #b08890; --line: #3d1a22; --soft: #31131a;
+  --key: #3a1820; --key-ink: #f6e7ea; --key-edge: #12050a; --key-hi: rgb(255 255 255 / 6%);
+  --well: #1a070c; --well-ink: #f4c2cb; --well-dim: #9a6772; --well-ghost: rgb(244 194 203 / 8%); --well-edge: rgb(0 0 0 / 50%);
+  --primary: #b0213f; --on-primary: #fff; --accent: #b0213f; --on-accent: #fff;
+  --red: #ff6b6b;
+}
+/* Light burgundy: blush casing, wine display */
+:root[data-theme='bordeauxlight'] {
+  --bg: #f7ecee; --ink: #3a0d18; --muted: #7d4a55; --line: #ead2d7; --soft: #f1e0e4;
+  --key: #fff8f9; --key-ink: #3a0d18; --key-edge: #dcb6be; --key-hi: rgb(255 255 255 / 90%);
+  --well: #6d1a2c; --well-ink: #fbe6ea; --well-dim: #c99aa4; --well-ghost: rgb(251 230 234 / 9%); --well-edge: rgb(0 0 0 / 35%);
+  --primary: #8c1c34; --on-primary: #fff; --accent: #8c1c34; --on-accent: #fff;
+  --red: #d33a3f;
+}
+/* Light gold: ivory casing, pale-gold display with deep-gold digits */
+:root[data-theme='goldlight'] {
+  --bg: #f7f1e1; --ink: #2e2410; --muted: #7a6a45; --line: #e8dcbc; --soft: #f0e7cf;
+  --key: #fffaf0; --key-ink: #2e2410; --key-edge: #d9c48e; --key-hi: rgb(255 255 255 / 90%);
+  --well: #f1e4c0; --well-ink: #7a5a00; --well-dim: #9c8550; --well-ghost: rgb(122 90 0 / 10%); --well-edge: rgb(120 90 20 / 18%);
+  --primary: #b8860b; --on-primary: #fff; --accent: #b8860b; --on-accent: #fff;
+  --red: #c0392b;
+}
+/* Dark gold: black lacquer, metallic gold */
+:root[data-theme='golddark'] {
+  color-scheme: dark;
+  --bg: #14110a; --ink: #f3ead2; --muted: #9c8f6e; --line: #2a2414; --soft: #1a160d;
+  --key: #221d11; --key-ink: #f3ead2; --key-edge: #000; --key-hi: rgb(255 255 255 / 5%);
+  --well: #0a0805; --well-ink: #ffd23f; --well-dim: #a08a3c; --well-ghost: rgb(255 210 63 / 9%); --well-edge: #2b2412;
+  --primary: #ffc61a; --on-primary: #1a1300; --accent: #ffc61a; --on-accent: #1a1300;
+  --red: #ff6a5c;
+}
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }

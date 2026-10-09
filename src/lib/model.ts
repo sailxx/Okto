@@ -2,7 +2,7 @@ import { isHm, isKey } from './date';
 
 /* ================= Types ================= */
 export type Lang = 'ru' | 'en';
-export type Theme = 'system' | 'light' | 'dark' | 'soft' | 'softdark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord';
+export type Theme = 'system' | 'light' | 'dark' | 'soft' | 'softdark' | 'paper' | 'mint' | 'midnight' | 'oled' | 'crimson' | 'amber' | 'ocean' | 'sakura' | 'nord' | 'matrix' | 'synthwave' | 'dracula' | 'solarized' | 'gameboy' | 'latte' | 'bordeaux' | 'bordeauxlight' | 'goldlight' | 'golddark';
 export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
@@ -111,6 +111,16 @@ export const THEMES: Record<Theme, [string, string]> = {
   ocean: ['#0b1a22', '#2ec4d6'],
   sakura: ['#fbeff1', '#d6336c'],
   nord: ['#2e3440', '#88c0d0'],
+  matrix: ['#050a06', '#39ff6a'],
+  synthwave: ['#1a1033', '#ff4fd8'],
+  dracula: ['#282a36', '#bd93f9'],
+  solarized: ['#fdf6e3', '#268bd2'],
+  gameboy: ['#9bbc0f', '#0f380f'],
+  latte: ['#f3eadf', '#3b2a1f'],
+  bordeauxlight: ['#f7ecee', '#8c1c34'],
+  bordeaux: ['#2a0f16', '#b0213f'],
+  goldlight: ['#f7f1e1', '#c9a227'],
+  golddark: ['#14110a', '#ffc61a'],
 };
 export const POMO: Record<Exclude<PomoPreset, 'custom'>, PomoCfg> = {
   classic: { work: 25, short: 5, long: 15, every: 4 },
