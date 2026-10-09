@@ -34,4 +34,10 @@
     <string name="icon_ring">Кольцо</string>
     <string name="icon_hint">Лаунчер обновит значок через несколько секунд. Если он пропал с рабочего стола — добавьте его заново из списка приложений.</string>
     <string name="reminders_channel">Напоминания о задачах</string>
+    <string name="calendar_on">Показывать задачи в Google Календаре</string>
+    <string name="calendar_off">Убрать задачи из Google Календаря</string>
+    <string name="calendar_reauth">Снова разрешить доступ к Google Календарю</string>
+    <string name="calendar_explain">Задачи с датой появятся в отдельном календаре «Okto» в вашем Google-аккаунте — и на телефоне, и на calendar.google.com.</string>
+    <string name="calendar_explain_on">Задачи синхронизируются в календарь «Okto». Если выключить, этот календарь удалится.</string>
+    <string name="calendar_denied">Нет доступа к Google Календарю</string>
 </resources>

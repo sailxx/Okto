@@ -197,17 +197,17 @@ private fun TaskRow(item: WidgetItem, p: OktoPalette) {
         actionParametersOf(KeyTaskId to item.taskId)
     }
     Row(
-        modifier = GlanceModifier.fillMaxWidth().padding(vertical = 4.dp).clickable(actionStartActivity(openOkto)),
+        modifier = GlanceModifier.fillMaxWidth().padding(vertical = 7.dp).clickable(actionStartActivity(openOkto)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
-            modifier = GlanceModifier.size(40.dp).clickable(actionRunCallback<ToggleTaskAction>(toggleParams)),
+            modifier = GlanceModifier.size(48.dp).clickable(actionRunCallback<ToggleTaskAction>(toggleParams)),
             contentAlignment = Alignment.Center,
         ) {
             Image(
                 provider = ImageProvider(if (item.done) R.drawable.ic_checked else R.drawable.ic_unchecked),
                 contentDescription = ctx.getString(if (item.done) R.string.mark_undone else R.string.mark_done),
-                modifier = GlanceModifier.size(22.dp),
+                modifier = GlanceModifier.size(28.dp),
                 colorFilter = ColorFilter.tint(cp(if (item.done) p.muted else item.color ?: p.ink)),
             )
         }
@@ -218,14 +218,14 @@ private fun TaskRow(item: WidgetItem, p: OktoPalette) {
                 maxLines = 2,
                 style = TextStyle(
                     color = cp(if (item.done) p.muted else p.ink),
-                    fontSize = 15.sp,
+                    fontSize = 19.sp,
                     fontWeight = FontWeight.Medium,
                     textDecoration = if (item.done) TextDecoration.LineThrough else TextDecoration.None,
                 ),
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 item.color?.takeIf { !item.done }?.let {
-                    Image(ImageProvider(R.drawable.ic_dot), null, GlanceModifier.size(6.dp), colorFilter = ColorFilter.tint(cp(it)))
+                    Image(ImageProvider(R.drawable.ic_dot), null, GlanceModifier.size(8.dp), colorFilter = ColorFilter.tint(cp(it)))
                     Spacer(GlanceModifier.width(5.dp))
                 }
                 Text(
@@ -233,7 +233,7 @@ private fun TaskRow(item: WidgetItem, p: OktoPalette) {
                     maxLines = 1,
                     style = TextStyle(
                         color = cp(if (item.overdue) p.red else p.muted),
-                        fontSize = 11.sp,
+                        fontSize = 14.sp,
                         fontFamily = FontFamily.Monospace,
                     ),
                 )

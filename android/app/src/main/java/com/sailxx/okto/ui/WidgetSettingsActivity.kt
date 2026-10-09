@@ -4,7 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,9 +51,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.sailxx.okto.R
+import com.sailxx.okto.calendar.GoogleCalendar
 import com.sailxx.okto.data.AppIcon
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
@@ -61,6 +66,7 @@ import com.sailxx.okto.widget.OktoTasksWidget
 import com.sailxx.okto.widget.OktoWidgetReceiver
 import com.sailxx.okto.widget.SyncWorker
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class WidgetSettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,6 +148,7 @@ private fun MainScreen(activity: ComponentActivity) {
                 OktoKeyWide(ctx.getString(R.string.sync_now), p, enabled = !busy) {
                     scope.launch { busy = true; sync(); busy = false }
                 }
+                CalendarKey(activity, p)
                 OktoKeyWide(ctx.getString(R.string.open_okto), p) {
                     ctx.startActivity(oktoIntent(ctx))
                 }
@@ -155,6 +162,58 @@ private fun MainScreen(activity: ComponentActivity) {
         Spacer(Modifier.height(28.dp))
         IconPicker(p)
     }
+}
+
+/** Задачи в Google Календаре: включение просит доступ к календарю, выключение удаляет календарь «Okto». */
+@Composable
+private fun CalendarKey(activity: ComponentActivity, p: OktoPalette) {
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(Unit) { GoogleCalendar.load(ctx) }
+    val state by GoogleCalendar.state.collectAsState()
+    var busy by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf<String?>(null) }
+    val consent = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        busy = false
+        runCatching { Identity.getAuthorizationClient(activity).getAuthorizationResultFromIntent(result.data) }
+            .onSuccess { GoogleCalendar.enable(ctx) }
+            .onFailure { error = ctx.getString(R.string.calendar_denied) }
+    }
+
+    val label = ctx.getString(
+        when (state) {
+            GoogleCalendar.State.OFF -> R.string.calendar_on
+            GoogleCalendar.State.ON -> R.string.calendar_off
+            GoogleCalendar.State.NEEDS_AUTH -> R.string.calendar_reauth
+        }
+    )
+    OktoKeyWide(label, p, primary = state == GoogleCalendar.State.NEEDS_AUTH, enabled = !busy) {
+        error = null
+        scope.launch {
+            busy = true
+            if (state == GoogleCalendar.State.ON) {
+                GoogleCalendar.disable(ctx)
+                busy = false
+                return@launch
+            }
+            runCatching { Identity.getAuthorizationClient(activity).authorize(GoogleCalendar.authorizationRequest()).await() }
+                .onSuccess { r ->
+                    val pending = r.pendingIntent
+                    if (r.hasResolution() && pending != null) {
+                        consent.launch(IntentSenderRequest.Builder(pending.intentSender).build())
+                        return@launch
+                    }
+                    GoogleCalendar.enable(ctx)
+                }
+                .onFailure { error = it.localizedMessage }
+            busy = false
+        }
+    }
+    BasicText(
+        ctx.getString(if (state == GoogleCalendar.State.OFF) R.string.calendar_explain else R.string.calendar_explain_on),
+        style = TextStyle(color = p.muted, fontSize = 13.sp),
+    )
+    error?.let { BasicText(it, style = TextStyle(color = p.red, fontSize = 13.sp)) }
 }
 
 @Composable

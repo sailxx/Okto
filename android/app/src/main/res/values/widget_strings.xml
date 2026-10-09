@@ -34,4 +34,10 @@
     <string name="icon_ring">Ring</string>
     <string name="icon_hint">The launcher may take a few seconds to update the icon. If it disappears from the home screen, add it again from the app list.</string>
     <string name="reminders_channel">Task reminders</string>
+    <string name="calendar_on">Show tasks in Google Calendar</string>
+    <string name="calendar_off">Remove tasks from Google Calendar</string>
+    <string name="calendar_reauth">Allow Google Calendar access again</string>
+    <string name="calendar_explain">Tasks with a date will appear in a separate «Okto» calendar in your Google account — on the phone and on calendar.google.com.</string>
+    <string name="calendar_explain_on">Tasks are synced to the «Okto» calendar. Turning this off deletes that calendar.</string>
+    <string name="calendar_denied">No access to Google Calendar</string>
 </resources>
