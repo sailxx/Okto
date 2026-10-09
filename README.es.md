@@ -4,7 +4,7 @@
 
 <br>
 
-<img src="assets/readme/hero-es.svg" width="100%" alt="Okto — planifica tu día, concéntrate en lo importante">
+<picture><source srcset="assets/readme/hero-es.svg"><img src="assets/readme/png/hero-es.png" width="100%" alt="Okto — planifica tu día, concéntrate en lo importante"></picture>
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-es.svg" height="48" alt="Abrir versión web"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-es.svg" height="48" alt="Descargar para Android"></a>
 
@@ -21,14 +21,14 @@
 
 <br>
 
-<img src="assets/readme/android-es.svg" width="100%" alt="Okto 2.1 para Android: widget, una sola app, novedades">
+<picture><source srcset="assets/readme/android-es.svg"><img src="assets/readme/png/android-es.png" width="100%" alt="Okto 2.1 para Android: widget, una sola app, novedades"></picture>
 
 <br>
 
-<img src="assets/readme/sections-es.svg" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque">
+<picture><source srcset="assets/readme/sections-es.svg"><img src="assets/readme/png/sections-es.png" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque"></picture>
 
 <details>
-<summary><b>Más sobre las secciones</b></summary>
+<summary>Más sobre las secciones</summary>
 
 ### 🏠 Inicio
 
@@ -50,18 +50,18 @@ Contador de un toque y Pomodoro: etiquetas con metas, pasos +1/+5/+10, mantener 
 
 <br>
 
-<img src="assets/readme/quality-es.svg" width="100%" alt="CALIDAD EN CIFRAS">
+<picture><source srcset="assets/readme/quality-es.svg"><img src="assets/readme/png/quality-es.png" width="100%" alt="CALIDAD EN CIFRAS"></picture>
 
 <br>
 
-<img src="assets/readme/design-es.svg" width="100%" alt="CÓDIGO DE DISEÑO">
+<picture><source srcset="assets/readme/design-es.svg"><img src="assets/readme/png/design-es.png" width="100%" alt="CÓDIGO DE DISEÑO"></picture>
 
 <br>
 
-<img src="assets/readme/more-es.svg" width="100%" alt="Sincronización, privacidad y aspecto">
+<picture><source srcset="assets/readme/more-es.svg"><img src="assets/readme/png/more-es.png" width="100%" alt="Sincronización, privacidad y aspecto"></picture>
 
 <details>
-<summary><b>Cómo activar la sincronización</b></summary>
+<summary>Cómo activar la sincronización</summary>
 
 Por defecto Okto guarda todo en el navegador del dispositivo. Para tener los mismos datos en el móvil y el ordenador, conecta un proyecto gratuito de Firebase (plan Spark, sin tarjeta):
 
@@ -78,7 +78,7 @@ Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y ca
 
 <br>
 
-<img src="assets/readme/safe-es.svg" width="100%" alt="Seguridad: firma, datos, permisos">
+<picture><source srcset="assets/readme/safe-es.svg"><img src="assets/readme/png/safe-es.png" width="100%" alt="Seguridad: firma, datos, permisos"></picture>
 
 <br>
 

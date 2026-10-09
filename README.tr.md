@@ -4,7 +4,7 @@
 
 <br>
 
-<img src="assets/readme/hero-tr.svg" width="100%" alt="Okto — gününü planla, önemli olana odaklan">
+<picture><source srcset="assets/readme/hero-tr.svg"><img src="assets/readme/png/hero-tr.png" width="100%" alt="Okto — gününü planla, önemli olana odaklan"></picture>
 
 <a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-tr.svg" height="48" alt="Web sürümünü aç"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-tr.svg" height="48" alt="Android için indir"></a>
 
@@ -21,14 +21,14 @@
 
 <br>
 
-<img src="assets/readme/android-tr.svg" width="100%" alt="Android için Okto 2.1: widget, tek uygulama, yenilikler">
+<picture><source srcset="assets/readme/android-tr.svg"><img src="assets/readme/png/android-tr.png" width="100%" alt="Android için Okto 2.1: widget, tek uygulama, yenilikler"></picture>
 
 <br>
 
-<img src="assets/readme/sections-tr.svg" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak">
+<picture><source srcset="assets/readme/sections-tr.svg"><img src="assets/readme/png/sections-tr.png" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak"></picture>
 
 <details>
-<summary><b>Bölümler hakkında daha fazlası</b></summary>
+<summary>Bölümler hakkında daha fazlası</summary>
 
 ### 🏠 Ana sayfa
 
@@ -50,18 +50,18 @@ Tek dokunuşla sayaç ve Pomodoro: hedefli hazır etiketler, +1/+5/+10 adımlar,
 
 <br>
 
-<img src="assets/readme/quality-tr.svg" width="100%" alt="RAKAMLARLA KALİTE">
+<picture><source srcset="assets/readme/quality-tr.svg"><img src="assets/readme/png/quality-tr.png" width="100%" alt="RAKAMLARLA KALİTE"></picture>
 
 <br>
 
-<img src="assets/readme/design-tr.svg" width="100%" alt="TASARIM KODU">
+<picture><source srcset="assets/readme/design-tr.svg"><img src="assets/readme/png/design-tr.png" width="100%" alt="TASARIM KODU"></picture>
 
 <br>
 
-<img src="assets/readme/more-tr.svg" width="100%" alt="Senkronizasyon, gizlilik ve görünüm">
+<picture><source srcset="assets/readme/more-tr.svg"><img src="assets/readme/png/more-tr.png" width="100%" alt="Senkronizasyon, gizlilik ve görünüm"></picture>
 
 <details>
-<summary><b>Senkronizasyonu açma</b></summary>
+<summary>Senkronizasyonu açma</summary>
 
 Okto varsayılan olarak her şeyi cihazdaki tarayıcıda tutar. Telefonda ve bilgisayarda aynı verilere sahip olmak için ücretsiz bir Firebase projesi bağla (Spark planı, kart gerekmez):
 
@@ -78,7 +78,7 @@ Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yaln�
 
 <br>
 
-<img src="assets/readme/safe-tr.svg" width="100%" alt="Güvenlik: imza, veriler, izinler">
+<picture><source srcset="assets/readme/safe-tr.svg"><img src="assets/readme/png/safe-tr.png" width="100%" alt="Güvenlik: imza, veriler, izinler"></picture>
 
 <br>
 
