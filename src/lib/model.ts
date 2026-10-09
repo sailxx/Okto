@@ -120,7 +120,7 @@ export const THEMES: Record<Theme, [string, string]> = {
   bordeauxlight: ['#f7ecee', '#8c1c34'],
   bordeaux: ['#2a0f16', '#b0213f'],
   goldlight: ['#f7f1e1', '#c9a227'],
-  golddark: ['#14110a', '#d4af37'],
+  golddark: ['#14110a', '#ffc61a'],
 };
 export const POMO: Record<Exclude<PomoPreset, 'custom'>, PomoCfg> = {
   classic: { work: 25, short: 5, long: 15, every: 4 },
