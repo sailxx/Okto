@@ -59,7 +59,7 @@
 
 <style>
   .label { margin-bottom: 12px; }
-  .big { margin: 0 0 18px; font-family: var(--mono); font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+  .big { margin: 0 0 18px; font-family: var(--sans); font-variant-numeric: tabular-nums; font-size: 56px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
   .big span { font-family: var(--sans); font-size: 16px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
   .map { --hm-ink: var(--accent); --hm-ghost: var(--soft); --hm-dim: var(--muted); --hm-bg: var(--bg); margin-bottom: 20px; }
   .total { margin: 14px 2px 18px; color: var(--muted); font-size: 15px; font-weight: 500; }

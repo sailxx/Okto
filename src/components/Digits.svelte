@@ -33,7 +33,8 @@
 
 <style>
   /* Ghost and live value share one grid cell, so they line up whatever the alignment around them. */
-  .digits { display: inline-grid; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: pre; }
+  /* Interface font with tabular figures: the mono font's dotted zero reads as noise at display sizes. */
+  .digits { display: inline-grid; font-family: var(--sans); font-variant-numeric: tabular-nums; white-space: pre; }
   .ghost, .live { grid-area: 1 / 1; justify-self: center; }
   .ghost { color: var(--well-ghost); }
   .live { color: inherit; }
