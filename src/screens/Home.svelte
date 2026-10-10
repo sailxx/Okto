@@ -201,7 +201,7 @@
       <div class="blk" class:dragging={dragKey === keyOf(b)} class:resizing={resizing === keyOf(b)} data-key={keyOf(b)}
         style:grid-column="span {sz.w}" style:grid-row="span {sz.h}"
         onpointerdown={(e) => dragDown(e, b)} onpointermove={dragMove} onpointerup={gestureUp} onpointercancel={gestureUp}>
-        <div class="cell {b.type}" class:acc={b.type === 'focus' || b.type === 'streak' || b.type === 'next' || b.type === 'counter'} role="button" tabindex="0" aria-disabled={editing}
+        <div class="cell {b.type}" class:acc={b.type === 'focus' || b.type === 'streak' || b.type === 'next' || b.type === 'tasks' || b.type === 'counter'} role="button" tabindex="0" aria-disabled={editing}
           style:--cc={counter?.color}
           onclick={() => open(b)} onkeydown={(e) => { if (e.key === 'Enter' && e.target === e.currentTarget) open(b); }}>
 
@@ -218,7 +218,7 @@
                 {#each todayList as it (it.task.id + it.date)}
                   {@const done = isDoneOn(it.task, it.date)}
                   <li class:done>
-                    <button type="button" class="ck" style:--p={it.task.priority ? PRIORITY_COLORS[it.task.priority] : 'var(--ink)'}
+                    <button type="button" class="ck" style:--p={it.task.priority ? PRIORITY_COLORS[it.task.priority] : 'var(--t)'}
                       aria-label={store.t('taskDone')} aria-pressed={done} disabled={editing}
                       onclick={() => store.toggleDone(it.task, it.date)}>{#if done}<Icon name="check" size={13} />{/if}</button>
                     <button type="button" class="tt" disabled={editing} onclick={() => store.openTask(it.task, it.date)}>
@@ -316,11 +316,11 @@
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
 
   /* Period tabs; the layout switch sits quietly at the end of the row */
-  .edit-btn { margin: 0 0 10px auto; padding: 0; font-size: 13px; font-weight: 500; color: var(--muted); opacity: .75; transition: color 150ms ease, opacity 150ms ease; }
+  .edit-btn { margin: 0 0 0 auto; padding: 0 0 10px; font-size: 15px; font-weight: 500; line-height: inherit; color: var(--muted); opacity: .8; transition: color 150ms ease, opacity 150ms ease; }
   .edit-btn:hover, .edit-btn.on { color: var(--ink); opacity: 1; }
   .edit-btn.on { font-weight: 600; }
   /* Period tabs */
-  .tabs { display: flex; gap: 22px; margin-top: 18px; border-bottom: 1px solid var(--line); }
+  .tabs { display: flex; align-items: flex-end; gap: 22px; margin-top: 18px; border-bottom: 1px solid var(--line); }
   .tabs button { position: relative; padding: 0 0 10px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 150ms ease; }
   .tabs button[aria-selected='true'] { color: var(--ink); font-weight: 600; }
   .tabs button[aria-selected='true']::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
@@ -355,10 +355,11 @@
   .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 20px 34px -22px rgb(0 0 0 / 50%); }
   .cell.focus { --t: var(--on-primary); --td: color-mix(in srgb, var(--on-primary) 74%, transparent); --tg: color-mix(in srgb, var(--on-primary) 22%, transparent); color: var(--on-primary); background: linear-gradient(150deg, var(--primary), color-mix(in srgb, var(--primary) 62%, var(--on-primary))); }
   .cell.streak { background: linear-gradient(150deg, #ff9142, #e5484d); }
+  .cell.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
   .cell.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
   .cell.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
   .cell.focus::after { background: var(--on-primary); color: var(--primary); }
-  .cell.streak::after, .cell.next::after, .cell.counter::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
+  .cell.streak::after, .cell.next::after, .cell.tasks::after, .cell.counter::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
 
   .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
   .chip :global(svg) { stroke-width: 2; }
@@ -392,24 +393,25 @@
   .todo { display: none; margin: 0; padding: 0 2px 0 0; list-style: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   @container (min-width: 520px) and (min-height: 190px) {
     .tk { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px; }
-    .todo { display: block; border-left: 1px solid var(--line); padding: 36px 0 0 22px; }
+    .todo { display: block; border-left: 1px solid var(--tg); padding: 36px 0 0 22px; }
   }
   @container (max-width: 519px) and (min-height: 250px) {
     .tk { grid-template-rows: auto minmax(0, 1fr); }
-    .todo { display: block; border-top: 1px solid var(--line); padding-top: 2px; }
+    .todo { display: block; border-top: 1px solid var(--tg); padding-top: 2px; }
   }
-  .todo li { display: flex; align-items: center; gap: 12px; min-height: 40px; border-bottom: 1px solid var(--line); }
+  .todo li { display: flex; align-items: center; gap: 12px; min-height: 40px; border-bottom: 1px solid var(--tg); }
   .todo li:last-child { border-bottom: 0; }
   .todo .empty { color: var(--td); font-size: 14px; }
   .ck {
     flex: 0 0 auto; width: 22px; height: 22px; display: grid; place-items: center;
-    border: 2px solid var(--p); border-radius: 50%; color: var(--bg);
+    border: 2px solid var(--p); border-radius: 50%; color: var(--ck, var(--bg));
     transition: background-color 150ms ease, transform 120ms ease;
   }
   .ck:active { transform: scale(.88); }
   .ck[aria-pressed='true'] { background: var(--p); }
+  .cell.tasks { --ck: #12856f; }
   .ck :global(svg) { stroke-width: 3.5; }
-  .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--ink); }
+  .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 13px; color: var(--td); font-variant-numeric: tabular-nums; }
   .tt:hover .tn { text-decoration: underline; text-decoration-color: var(--td); text-underline-offset: 3px; }
