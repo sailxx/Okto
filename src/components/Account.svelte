@@ -13,8 +13,7 @@
   );
 </script>
 
-<div class="group">
-  <span class="label">{store.t('account')}</span>
+<div>
   {#if sync.user}
     <div class="acct">
       <div class="who">

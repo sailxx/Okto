@@ -4,7 +4,7 @@
   import Icon from './Icon.svelte';
   import { store } from '../lib/store.svelte';
 
-  let { title, onclose, children, head }: { title: string; onclose: () => void; children: Snippet; head?: Snippet } = $props();
+  let { title, onclose, children, head, top = false }: { title: string; onclose: () => void; children: Snippet; head?: Snippet; top?: boolean } = $props();
   let dialog: HTMLDialogElement;
 
   onMount(() => {
@@ -16,6 +16,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
   class="sheet"
+  class:top
   bind:this={dialog}
   aria-label={title}
   onclose={onclose}

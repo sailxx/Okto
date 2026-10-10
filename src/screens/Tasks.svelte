@@ -124,7 +124,8 @@
 {#if listEdit}<ListEditor id={listEdit.id} onclose={() => (listEdit = null)} />{/if}
 
 <style>
-  .tags { margin-top: 18px; }
+  .tags { margin-top: 12px; }
+  @media (min-width: 900px) { .tags { margin-top: 18px; } }
   .tag.plain::before { display: none; }
   .tag.plain { padding: 0 14px; }
   .sep { flex: 0 0 1px; align-self: stretch; margin: 6px 2px; background: var(--line); }

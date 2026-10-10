@@ -263,7 +263,8 @@
     .nav { margin-left: auto; }
     .nav .icon-btn { width: 38px; }
   }
-  .views { margin: 12px 0 10px; }
+  .views { margin: 10px 0 8px; }
+  @media (min-width: 900px) { .views { margin: 12px 0 10px; } }
   .views { grid-template-columns: repeat(3, 1fr); }
   .cal-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 

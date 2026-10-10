@@ -96,6 +96,8 @@ Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopy
 
 ## 🗂 Sürüm geçmişi
 
+**3.0** — fotoğraf ve dosya ekleyebileceğiniz Notlar bölümü; yumuşak renkli kartlar ve Bugün / Hafta / Toplam sekmeleriyle yeni Ana sayfa; yüzen gezinme çubukları ve masaüstünde daraltılabilir kenar çubuğu; daraltılabilir bölümlü ayarlar; yenilenen Odak; Android widget düzeltmeleri.
+
 **2.2–2.8** — seçilebilir uygulama simgesi; görevlerde fotoğraf ve dosyalar, çevrimdışı açılış; takvimde daraltılabilir ay; Android'de görev hatırlatıcıları; Google Takvim'de görevler; 14 yeni açık ve koyu tema; yazı boyutu ve üç yeni widget; ana sayfada etkinlik haritası.
 
 **2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.

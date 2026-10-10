@@ -2,19 +2,20 @@ import { addDays, toKey, toMin, fromKey } from './date';
 import { DICT, weekStartOf, type Key } from './i18n';
 import { migrateLegacy } from './migrate';
 import {
-  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newSession, newTask, normData, normDevice, normSettings, POMO,
-  type Collection, type Counter, type Data, type Device, type Lang, type List, type OptionalSection, type Settings, type Task,
+  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
+  type Collection, type Counter, type Data, type Device, type Lang, type List, type Note, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
 import { buzz, chime, inAndroidApp, systemNotify } from './alerts';
 
 const KEY = 'okto-v3';
-const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter };
+const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter, notes: newNote };
 const browserLang: Lang = (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en';
 
 export type Scope = 'one' | 'future' | 'all';
 type Listener = (coll: Collection, rec: { id: string }) => void;
 
+export interface NoteEditor { note: Note; isNew: boolean }
 export interface Editor { task: Task; occurrence: string | null; isNew: boolean }
 export interface Toast { text: string; action?: () => void; label?: string; icon?: string; ms: number; id: number }
 
@@ -40,6 +41,7 @@ class Store {
   now = $state(new Date());
   toastMsg = $state<Toast | null>(null);
   editor = $state<Editor | null>(null);
+  noteEditor = $state<NoteEditor | null>(null);
   storageOk = true;
   private listeners: Listener[] = [];
   private saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -68,11 +70,13 @@ class Store {
   sessions = $derived(live(this.data.sessions));
   /** Catalog numbers: every task keeps its creation order, like a factory catalog. */
   taskNo = $derived(new Map(Object.values(this.data.tasks).sort((a, b) => a.createdAt - b.createdAt || a.id.localeCompare(b.id)).map((t, i) => [t.id, i + 1])));
+  /** Pinned first, then most recently edited. */
+  notes = $derived(live(this.data.notes).sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt));
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
 
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
 
-  /** Calls and Focus can be switched off in Settings; everything else is always on. */
+  /** Calls, Notes and Focus can be switched off in Settings; everything else is always on. */
   shows(section: string) { return !(this.data.settings.hiddenSections as string[]).includes(section); }
   toggleSection(section: OptionalSection, on: boolean) {
     const rest = this.data.settings.hiddenSections.filter((s) => s !== section);
@@ -137,7 +141,7 @@ class Store {
   }
 
   /** Files that live tasks still point to; everything else on the device may go. */
-  attachedFiles() { return new Set(live(this.data.tasks).flatMap((t) => t.attachments.map((a) => a.id))); }
+  attachedFiles() { return new Set([...live(this.data.tasks), ...live(this.data.notes)].flatMap((t) => t.attachments.map((a) => a.id))); }
 
   /** Full snapshot for the initial cloud merge. */
   snapshot() { return $state.snapshot(this.data) as Data; }
@@ -158,6 +162,17 @@ class Store {
     this.listeners.forEach((l) => l('settings', snap));
   }
   setDevice(patch: Partial<Device>) { Object.assign(this.device, patch); this.schedule(); }
+
+  /* ---------- notes ---------- */
+  openNewNote() { this.noteEditor = { note: newNote(), isNew: true }; }
+  openNote(note: Note) { this.noteEditor = { note: $state.snapshot(note) as Note, isNew: false }; }
+  saveNote(note: Note) { this.commit('notes', newNote($state.snapshot(note))); }
+  deleteNote(note: Note) {
+    const before = $state.snapshot(this.data.notes[note.id] ?? note) as Note;
+    this.commit('notes', newNote({ ...before, deleted: true }));
+    this.toast(this.t('noteDeleted'), () => this.commit('notes', newNote({ ...before })), this.t('undoAction'), 'trash');
+  }
+  toggleNotePin(note: Note) { this.commit('notes', newNote({ ...$state.snapshot(this.data.notes[note.id]), pinned: !note.pinned })); }
 
   /* ---------- tasks ---------- */
   openNewTask(p: Partial<Task> = {}) {
