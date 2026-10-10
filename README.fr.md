@@ -32,7 +32,7 @@
 
 ### 🏠 Accueil
 
-Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (carte d’activité de ce qui a été fait chaque jour, série en cours et record), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30.
+Cartes douces et colorées : **Focus** (minutes de Pomodoro), **Série** (jours d’affilée et record), **Ensuite** (la tâche la plus proche avec la frise du jour), **Tâches** (faites sur prévues, plus la liste du jour) et **compteurs** pour n’importe quelle étiquette. Les onglets **Aujourd’hui · Semaine · Totaux** changent les valeurs. Ajoutez, retirez, déplacez et redimensionnez les cartes avec « Modifier » ; « Réinitialiser » rétablit l’ordre par défaut. Touchez une carte pour un graphique sur 7 jours et le total sur 30.
 
 ### ✅ Tâches
 
@@ -41,6 +41,10 @@ Filtres : Aujourd’hui (avec les retards), À venir, Toutes, Sans date, Termin�
 ### 📅 Calendrier
 
 Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série. Sur téléphone, le mois se replie en une semaine.
+
+### 📝 Notes
+
+Titre, texte, couleur et épinglage, plus recherche dans toutes les notes. Joignez des **photos de l’appareil, des images et n’importe quel fichier** ; les fichiers restent sur l’appareil et seule leur description est synchronisée. La section peut être masquée dans les réglages.
 
 ### 🎯 Concentration
 

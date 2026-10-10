@@ -32,7 +32,7 @@
 
 ### 🏠 Home
 
-Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (an activity map of what you got done each day, your current streak and record), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total.
+Soft coloured cards: **Focus** (Pomodoro minutes), **Streak** (days in a row and your record), **Up next** (the nearest task with a day strip), **Tasks** (done out of planned, plus today’s list) and **counters** for any tag. The **Today · Week · Totals** tabs switch the values. Add, remove, drag and resize cards with “Edit”; “Reset layout” restores the default order. Tap a card for a 7-day chart and a 30-day total.
 
 ### ✅ Tasks
 
@@ -41,6 +41,10 @@ Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your o
 ### 📅 Calendar
 
 Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series. On a phone, the month collapses into a week.
+
+### 📝 Notes
+
+A title, text, colour and pinning, plus search across all notes. Attach **camera photos, pictures and any files**; the files stay on the device and only their description syncs. You can hide the section in Settings.
 
 ### 🎯 Focus
 

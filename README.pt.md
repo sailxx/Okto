@@ -32,7 +32,7 @@
 
 ### 🏠 Início
 
-Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (mapa de atividade com o que foi feito a cada dia, sequência atual e recorde), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30.
+Cartões suaves e coloridos: **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos e recorde), **Próxima** (a tarefa mais próxima com a linha do dia), **Tarefas** (feitas das planejadas e a lista de hoje) e **contadores** para qualquer etiqueta. As abas **Hoje · Semana · Totais** alternam os valores. Adicione, remova, arraste e redimensione cartões em «Editar»; «Redefinir» volta à ordem padrão. Toque num cartão para ver um gráfico de 7 dias e o total de 30.
 
 ### ✅ Tarefas
 
@@ -41,6 +41,10 @@ Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e sua
 ### 📅 Calendário
 
 No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira. No celular, o mês recolhe para uma semana.
+
+### 📝 Notas
+
+Título, texto, cor e fixação, mais busca em todas as notas. Anexe **fotos da câmera, imagens e qualquer arquivo**; os arquivos ficam no dispositivo e só a descrição é sincronizada. A seção pode ser ocultada nas configurações.
 
 ### 🎯 Foco
 

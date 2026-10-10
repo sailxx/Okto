@@ -32,7 +32,7 @@
 
 ### 🏠 Start
 
-Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Aktivitätskarte mit den Erledigungen pro Tag, aktueller Serie und Rekord), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage.
+Weiche, farbige Karten: **Fokus** (Pomodoro-Minuten), **Serie** (Tage in Folge und Rekord), **Als Nächstes** (die nächste Aufgabe mit Tagesleiste), **Aufgaben** (erledigt von geplant, dazu die Liste für heute) und **Zähler** für jedes Tag. Die Tabs **Heute · Woche · Gesamt** schalten die Werte um. Karten lassen sich mit „Bearbeiten“ hinzufügen, entfernen, verschieben und vergrößern; „Zurücksetzen“ stellt die Standardordnung wieder her. Tippen Sie auf eine Karte für ein 7-Tage-Diagramm und die 30-Tage-Summe.
 
 ### ✅ Aufgaben
 
@@ -41,6 +41,10 @@ Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — d
 ### 📅 Kalender
 
 Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie. Auf dem Handy klappt der Monat zu einer Woche zusammen.
+
+### 📝 Notizen
+
+Titel, Text, Farbe und Anheften sowie Suche über alle Notizen. Hängen Sie **Kamerafotos, Bilder und beliebige Dateien** an; die Dateien bleiben auf dem Gerät, nur die Beschreibung wird synchronisiert. Der Bereich lässt sich in den Einstellungen ausblenden.
 
 ### 🎯 Fokus
 

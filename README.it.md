@@ -32,7 +32,7 @@
 
 ### 🏠 Home
 
-Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (mappa delle attività fatte ogni giorno, serie attuale e record), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30.
+Schede morbide e colorate: **Focus** (minuti di Pomodoro), **Serie** (giorni di fila e record), **Prossima** (l’attività più vicina con la linea del giorno), **Attività** (completate su pianificate, più la lista di oggi) e **contatori** per qualsiasi tag. Le schede **Oggi · Settimana · Totali** cambiano i valori. Aggiungi, rimuovi, trascina e ridimensiona le schede con «Modifica»; «Ripristina» riporta l’ordine predefinito. Tocca una scheda per un grafico di 7 giorni e il totale di 30.
 
 ### ✅ Attività
 
@@ -41,6 +41,10 @@ Filtri: Oggi (con le scadute), In arrivo, Tutte, Senza data, Completate — e le
 ### 📅 Calendario
 
 In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie. Sul telefono il mese si comprime in una settimana.
+
+### 📝 Note
+
+Titolo, testo, colore e fissaggio, più ricerca in tutte le note. Allega **foto della fotocamera, immagini e qualsiasi file**; i file restano sul dispositivo e si sincronizza solo la descrizione. La sezione si può nascondere nelle impostazioni.
 
 ### 🎯 Focus
 
