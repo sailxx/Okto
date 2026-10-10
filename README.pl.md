@@ -30,9 +30,9 @@
 <details>
 <summary>Więcej o sekcjach</summary>
 
-### 🏠 Start
+### 🏠 Ekran główny
 
-Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (mapa aktywności z tym, co zrobione każdego dnia, bieżąca seria i rekord), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30.
+Miękkie kolorowe karty: **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu i rekord), **Dalej** (najbliższe zadanie z osią dnia), **Zadania** (wykonane z zaplanowanych i lista na dziś) oraz **liczniki** dla dowolnego tagu. Zakładki **Dziś · Tydzień · Podsumowanie** przełączają wartości. Karty można dodawać, usuwać, przeciągać i rozciągać przyciskiem «Edytuj»; «Przywróć» wraca do domyślnego układu. Dotknij karty, by zobaczyć wykres z 7 dni i sumę z 30.
 
 ### ✅ Zadania
 
@@ -41,6 +41,10 @@ Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — 
 ### 📅 Kalendarz
 
 W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię. Na telefonie miesiąc zwija się do tygodnia.
+
+### 📝 Notatki
+
+Tytuł, tekst, kolor i przypinanie oraz wyszukiwanie we wszystkich notatkach. Dołącz **zdjęcia z aparatu, obrazy i dowolne pliki**; pliki zostają na urządzeniu, synchronizowany jest tylko opis. Sekcję można ukryć w ustawieniach.
 
 ### 🎯 Skupienie
 

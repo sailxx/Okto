@@ -32,7 +32,7 @@
 
 ### 🏠 Ana sayfa
 
-Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (her gün yapılanları gösteren etkinlik haritası, güncel seri ve rekor), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür.
+Yumuşak renkli kartlar: **Odak** (Pomodoro dakikaları), **Seri** (art arda günler ve rekor), **Sıradaki** (gün şeridiyle en yakın görev), **Görevler** (planlananlardan tamamlananlar ve bugünün listesi) ve her etiket için **sayaçlar**. **Bugün · Hafta · Toplam** sekmeleri değerleri değiştirir. Kartları «Düzenle» ile ekleyin, kaldırın, sürükleyin ve boyutlandırın; «Sıfırla» varsayılan düzene döner. 7 günlük grafik ve 30 günlük toplam için karta dokunun.
 
 ### ✅ Görevler
 
@@ -41,6 +41,10 @@ Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve
 ### 📅 Takvim
 
 Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri. Telefonda ay görünümü haftaya daralır.
+
+### 📝 Notlar
+
+Başlık, metin, renk ve sabitleme; tüm notlarda arama. **Kamera fotoğrafları, resimler ve her türlü dosya** ekleyebilirsiniz; dosyalar cihazda kalır, yalnızca açıklaması eşitlenir. Bölüm ayarlardan gizlenebilir.
 
 ### 🎯 Odak
 

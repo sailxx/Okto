@@ -445,7 +445,7 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <details>
 <summary>${m.more}</summary>
 
-${["home", "tasks", "calendar", "focus"].map(sec).join("\n")}
+${["home", "tasks", "calendar", "notes", "focus"].map(sec).join("\n")}
 </details>
 
 <br>

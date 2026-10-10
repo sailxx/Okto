@@ -17,7 +17,7 @@
     "more": "Подробнее о разделах",
     "home": [
       "🏠 Главная",
-      "Блоки продуктивности: **Задачи** (выполнено из запланированного), **Фокус** (минуты Pomodoro), **Серия** (карта активности: сколько дел сделано за каждый день, текущая серия и рекорд), **Дальше** (ближайшая задача) и **счётчики** по любому тегу. Блоки можно добавлять, убирать и перетаскивать — кнопка «Изменить». Тап по блоку показывает график за 7 дней и итог за 30."
+      "Мягкие цветные карточки: **Фокус** (минуты Pomodoro), **Серия** (дни подряд и рекорд), **Дальше** (ближайшая задача с лентой дня), **Задачи** (выполнено из запланированного и список на сегодня) и **счётчики** по любому тегу. Вкладки **Сегодня · Неделя · Итоги** переключают значения. Карточки можно добавлять, убирать, перетаскивать и растягивать — кнопка «Изменить», «Сбросить вид» возвращает порядок по умолчанию. Тап по карточке показывает график за 7 дней и итог за 30."
     ],
     "tasks": [
       "✅ Задачи",
@@ -26,6 +26,10 @@
     "calendar": [
       "📅 Календарь",
       "В стиле Apple Calendar: **День · Неделя · Месяц**, красная линия текущего времени, строка «весь день». Новая задача сразу появляется в календаре. Блоки можно **перетаскивать** на другое время и день и **растягивать** за нижний край (шаг 15 минут; на телефоне — после долгого нажатия). Для повторяющихся задач Okto спросит: только эту, все будущие или всю серию. На телефоне месяц сворачивается до недели."
+    ],
+    "notes": [
+      "📝 Заметки",
+      "Заголовок, текст, цвет и закрепление, поиск по всем заметкам. К заметке можно прикрепить **фото с камеры, картинки и любые файлы**; сами файлы хранятся на устройстве, синхронизируется только описание. Раздел можно скрыть в настройках."
     ],
     "focus": [
       "🎯 Фокус",
@@ -74,7 +78,7 @@
     "more": "More about the sections",
     "home": [
       "🏠 Home",
-      "Productivity blocks: **Tasks** (done out of planned), **Focus** (Pomodoro minutes), **Streak** (an activity map of what you got done each day, your current streak and record), **Next** (the nearest task) and **counters** for any tag. Add, remove and drag blocks with the “Edit” button. Tap a block for a 7-day chart and a 30-day total."
+      "Soft coloured cards: **Focus** (Pomodoro minutes), **Streak** (days in a row and your record), **Up next** (the nearest task with a day strip), **Tasks** (done out of planned, plus today’s list) and **counters** for any tag. The **Today · Week · Totals** tabs switch the values. Add, remove, drag and resize cards with “Edit”; “Reset layout” restores the default order. Tap a card for a 7-day chart and a 30-day total."
     ],
     "tasks": [
       "✅ Tasks",
@@ -83,6 +87,10 @@
     "calendar": [
       "📅 Calendar",
       "Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series. On a phone, the month collapses into a week."
+    ],
+    "notes": [
+      "📝 Notes",
+      "A title, text, colour and pinning, plus search across all notes. Attach **camera photos, pictures and any files**; the files stay on the device and only their description syncs. You can hide the section in Settings."
     ],
     "focus": [
       "🎯 Focus",
@@ -131,7 +139,7 @@
     "more": "Más sobre las secciones",
     "home": [
       "🏠 Inicio",
-      "Bloques de productividad: **Tareas** (hechas de las planificadas), **Enfoque** (minutos de Pomodoro), **Racha** (mapa de actividad con lo hecho cada día, racha actual y récord), **Siguiente** (la tarea más próxima) y **contadores** por cualquier etiqueta. Añade, quita y arrastra bloques con el botón «Editar». Toca un bloque para ver un gráfico de 7 días y el total de 30."
+      "Tarjetas suaves de colores: **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos y récord), **Siguiente** (la tarea más próxima con la línea del día), **Tareas** (hechas de las planeadas y la lista de hoy) y **contadores** para cualquier etiqueta. Las pestañas **Hoy · Semana · Totales** cambian los valores. Añade, quita, arrastra y redimensiona tarjetas con «Editar»; «Restablecer» devuelve el orden inicial. Toca una tarjeta para ver un gráfico de 7 días y el total de 30."
     ],
     "tasks": [
       "✅ Tareas",
@@ -140,6 +148,10 @@
     "calendar": [
       "📅 Calendario",
       "Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie. En el móvil, el mes se pliega a una semana."
+    ],
+    "notes": [
+      "📝 Notas",
+      "Título, texto, color y fijado, más búsqueda en todas las notas. Adjunta **fotos de la cámara, imágenes y cualquier archivo**; los archivos se quedan en el dispositivo y solo se sincroniza su descripción. La sección se puede ocultar en los ajustes."
     ],
     "focus": [
       "🎯 Enfoque",
@@ -188,7 +200,7 @@
     "more": "Mais sobre as seções",
     "home": [
       "🏠 Início",
-      "Blocos de produtividade: **Tarefas** (feitas das planejadas), **Foco** (minutos de Pomodoro), **Sequência** (mapa de atividade com o que foi feito a cada dia, sequência atual e recorde), **Próxima** (a tarefa mais próxima) e **contadores** por qualquer etiqueta. Adicione, remova e arraste blocos pelo botão «Editar». Toque num bloco para ver o gráfico de 7 dias e o total de 30."
+      "Cartões suaves e coloridos: **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos e recorde), **Próxima** (a tarefa mais próxima com a linha do dia), **Tarefas** (feitas das planejadas e a lista de hoje) e **contadores** para qualquer etiqueta. As abas **Hoje · Semana · Totais** alternam os valores. Adicione, remova, arraste e redimensione cartões em «Editar»; «Redefinir» volta à ordem padrão. Toque num cartão para ver um gráfico de 7 dias e o total de 30."
     ],
     "tasks": [
       "✅ Tarefas",
@@ -197,6 +209,10 @@
     "calendar": [
       "📅 Calendário",
       "No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira. No celular, o mês recolhe para uma semana."
+    ],
+    "notes": [
+      "📝 Notas",
+      "Título, texto, cor e fixação, mais busca em todas as notas. Anexe **fotos da câmera, imagens e qualquer arquivo**; os arquivos ficam no dispositivo e só a descrição é sincronizada. A seção pode ser ocultada nas configurações."
     ],
     "focus": [
       "🎯 Foco",
@@ -245,7 +261,7 @@
     "more": "Mehr zu den Bereichen",
     "home": [
       "🏠 Start",
-      "Produktivitätsblöcke: **Aufgaben** (erledigt von geplant), **Fokus** (Pomodoro-Minuten), **Serie** (Aktivitätskarte mit den Erledigungen pro Tag, aktueller Serie und Rekord), **Als Nächstes** (die nächste Aufgabe) und **Zähler** für beliebige Tags. Blöcke über „Bearbeiten“ hinzufügen, entfernen und verschieben. Ein Tipp auf einen Block zeigt ein 7-Tage-Diagramm und die Summe über 30 Tage."
+      "Weiche, farbige Karten: **Fokus** (Pomodoro-Minuten), **Serie** (Tage in Folge und Rekord), **Als Nächstes** (die nächste Aufgabe mit Tagesleiste), **Aufgaben** (erledigt von geplant, dazu die Liste für heute) und **Zähler** für jedes Tag. Die Tabs **Heute · Woche · Gesamt** schalten die Werte um. Karten lassen sich mit „Bearbeiten“ hinzufügen, entfernen, verschieben und vergrößern; „Zurücksetzen“ stellt die Standardordnung wieder her. Tippen Sie auf eine Karte für ein 7-Tage-Diagramm und die 30-Tage-Summe."
     ],
     "tasks": [
       "✅ Aufgaben",
@@ -254,6 +270,10 @@
     "calendar": [
       "📅 Kalender",
       "Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie. Auf dem Handy klappt der Monat zu einer Woche zusammen."
+    ],
+    "notes": [
+      "📝 Notizen",
+      "Titel, Text, Farbe und Anheften sowie Suche über alle Notizen. Hängen Sie **Kamerafotos, Bilder und beliebige Dateien** an; die Dateien bleiben auf dem Gerät, nur die Beschreibung wird synchronisiert. Der Bereich lässt sich in den Einstellungen ausblenden."
     ],
     "focus": [
       "🎯 Fokus",
@@ -302,7 +322,7 @@
     "more": "En savoir plus sur les sections",
     "home": [
       "🏠 Accueil",
-      "Blocs de productivité : **Tâches** (faites sur prévues), **Focus** (minutes de Pomodoro), **Série** (carte d’activité de ce qui a été fait chaque jour, série en cours et record), **Ensuite** (la tâche la plus proche) et **compteurs** pour n’importe quel tag. Ajoute, retire et déplace les blocs avec le bouton « Modifier ». Touche un bloc pour un graphique sur 7 jours et le total sur 30."
+      "Cartes douces et colorées : **Focus** (minutes de Pomodoro), **Série** (jours d’affilée et record), **Ensuite** (la tâche la plus proche avec la frise du jour), **Tâches** (faites sur prévues, plus la liste du jour) et **compteurs** pour n’importe quelle étiquette. Les onglets **Aujourd’hui · Semaine · Totaux** changent les valeurs. Ajoutez, retirez, déplacez et redimensionnez les cartes avec « Modifier » ; « Réinitialiser » rétablit l’ordre par défaut. Touchez une carte pour un graphique sur 7 jours et le total sur 30."
     ],
     "tasks": [
       "✅ Tâches",
@@ -311,6 +331,10 @@
     "calendar": [
       "📅 Calendrier",
       "Façon Apple Calendrier : **Jour · Semaine · Mois**, ligne rouge de l’heure actuelle et ligne « toute la journée ». Une nouvelle tâche apparaît tout de suite dans le calendrier. **Déplace** les blocs vers une autre heure ou un autre jour et **étire-les** par le bord inférieur (pas de 15 minutes ; sur téléphone après un appui long). Pour les tâches répétées, Okto demande : celle-ci, toutes les suivantes ou toute la série. Sur téléphone, le mois se replie en une semaine."
+    ],
+    "notes": [
+      "📝 Notes",
+      "Titre, texte, couleur et épinglage, plus recherche dans toutes les notes. Joignez des **photos de l’appareil, des images et n’importe quel fichier** ; les fichiers restent sur l’appareil et seule leur description est synchronisée. La section peut être masquée dans les réglages."
     ],
     "focus": [
       "🎯 Concentration",
@@ -359,7 +383,7 @@
     "more": "Di più sulle sezioni",
     "home": [
       "🏠 Home",
-      "Blocchi di produttività: **Attività** (fatte su pianificate), **Focus** (minuti di Pomodoro), **Serie** (mappa delle attività fatte ogni giorno, serie attuale e record), **Prossima** (l’attività più vicina) e **contatori** per qualsiasi tag. Aggiungi, togli e trascina i blocchi con il pulsante «Modifica». Tocca un blocco per il grafico di 7 giorni e il totale di 30."
+      "Schede morbide e colorate: **Focus** (minuti di Pomodoro), **Serie** (giorni di fila e record), **Prossima** (l’attività più vicina con la linea del giorno), **Attività** (completate su pianificate, più la lista di oggi) e **contatori** per qualsiasi tag. Le schede **Oggi · Settimana · Totali** cambiano i valori. Aggiungi, rimuovi, trascina e ridimensiona le schede con «Modifica»; «Ripristina» riporta l’ordine predefinito. Tocca una scheda per un grafico di 7 giorni e il totale di 30."
     ],
     "tasks": [
       "✅ Attività",
@@ -368,6 +392,10 @@
     "calendar": [
       "📅 Calendario",
       "In stile Apple Calendario: **Giorno · Settimana · Mese**, linea rossa dell’ora attuale e riga «tutto il giorno». Una nuova attività compare subito nel calendario. **Trascina** i blocchi su un’altra ora o giorno e **allungali** dal bordo inferiore (passi di 15 minuti; sul telefono dopo una pressione lunga). Per le attività ripetute Okto chiede: solo questa, tutte le future o l’intera serie. Sul telefono il mese si comprime in una settimana."
+    ],
+    "notes": [
+      "📝 Note",
+      "Titolo, testo, colore e fissaggio, più ricerca in tutte le note. Allega **foto della fotocamera, immagini e qualsiasi file**; i file restano sul dispositivo e si sincronizza solo la descrizione. La sezione si può nascondere nelle impostazioni."
     ],
     "focus": [
       "🎯 Focus",
@@ -416,7 +444,7 @@
     "more": "Bölümler hakkında daha fazlası",
     "home": [
       "🏠 Ana sayfa",
-      "Verimlilik blokları: **Görevler** (planlananlardan yapılanlar), **Odak** (Pomodoro dakikaları), **Seri** (her gün yapılanları gösteren etkinlik haritası, güncel seri ve rekor), **Sıradaki** (en yakın görev) ve herhangi bir etiket için **sayaçlar**. «Düzenle» düğmesiyle blok ekle, kaldır ve sürükle. Bir bloğa dokununca 7 günlük grafik ve 30 günlük toplam görünür."
+      "Yumuşak renkli kartlar: **Odak** (Pomodoro dakikaları), **Seri** (art arda günler ve rekor), **Sıradaki** (gün şeridiyle en yakın görev), **Görevler** (planlananlardan tamamlananlar ve bugünün listesi) ve her etiket için **sayaçlar**. **Bugün · Hafta · Toplam** sekmeleri değerleri değiştirir. Kartları «Düzenle» ile ekleyin, kaldırın, sürükleyin ve boyutlandırın; «Sıfırla» varsayılan düzene döner. 7 günlük grafik ve 30 günlük toplam için karta dokunun."
     ],
     "tasks": [
       "✅ Görevler",
@@ -425,6 +453,10 @@
     "calendar": [
       "📅 Takvim",
       "Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri. Telefonda ay görünümü haftaya daralır."
+    ],
+    "notes": [
+      "📝 Notlar",
+      "Başlık, metin, renk ve sabitleme; tüm notlarda arama. **Kamera fotoğrafları, resimler ve her türlü dosya** ekleyebilirsiniz; dosyalar cihazda kalır, yalnızca açıklaması eşitlenir. Bölüm ayarlardan gizlenebilir."
     ],
     "focus": [
       "🎯 Odak",
@@ -473,7 +505,7 @@
     "more": "Докладніше про розділи",
     "home": [
       "🏠 Головна",
-      "Блоки продуктивності: **Завдання** (виконано із запланованого), **Фокус** (хвилини Pomodoro), **Серія** (карта активності: скільки справ зроблено щодня, поточна серія й рекорд), **Далі** (найближче завдання) і **лічильники** за будь-яким тегом. Блоки можна додавати, прибирати й перетягувати — кнопка «Змінити». Тап по блоку показує графік за 7 днів і підсумок за 30."
+      "М’які кольорові картки: **Фокус** (хвилини Pomodoro), **Серія** (днів поспіль і рекорд), **Далі** (найближче завдання зі стрічкою дня), **Завдання** (виконано із запланованого та список на сьогодні) і **лічильники** за будь-яким тегом. Вкладки **Сьогодні · Тиждень · Підсумки** перемикають значення. Картки можна додавати, прибирати, перетягувати й розтягувати — кнопка «Змінити», «Скинути вигляд» повертає порядок за замовчуванням. Тап по картці показує графік за 7 днів і підсумок за 30."
     ],
     "tasks": [
       "✅ Завдання",
@@ -482,6 +514,10 @@
     "calendar": [
       "📅 Календар",
       "У стилі Apple Calendar: **День · Тиждень · Місяць**, червона лінія поточного часу, рядок «увесь день». Нове завдання одразу з’являється в календарі. Блоки можна **перетягувати** на інший час і день та **розтягувати** за нижній край (крок 15 хвилин; на телефоні — після довгого натискання). Для повторюваних завдань Okto спитає: лише це, усі майбутні чи всю серію. На телефоні місяць згортається до тижня."
+    ],
+    "notes": [
+      "📝 Нотатки",
+      "Заголовок, текст, колір і закріплення, пошук по всіх нотатках. До нотатки можна прикріпити **фото з камери, зображення й будь-які файли**; самі файли зберігаються на пристрої, синхронізується лише опис. Розділ можна приховати в налаштуваннях."
     ],
     "focus": [
       "🎯 Фокус",
@@ -529,8 +565,8 @@
     "anywhere": "**Okto działa na każdym urządzeniu** — iPhone i Android, tablet, Windows, macOS i Linux. Wystarczy przeglądarka, a na telefonie i komputerze Okto instaluje się jak aplikacja. Na Androida jest też osobna aplikacja z widżetem zadań — znajdziesz ją także w [Komi Store](https://github.com/komi-store/komi-store).",
     "more": "Więcej o sekcjach",
     "home": [
-      "🏠 Start",
-      "Bloki produktywności: **Zadania** (wykonane z zaplanowanych), **Skupienie** (minuty Pomodoro), **Seria** (mapa aktywności z tym, co zrobione każdego dnia, bieżąca seria i rekord), **Dalej** (najbliższe zadanie) i **liczniki** dla dowolnego tagu. Bloki dodasz, usuniesz i przeciągniesz przyciskiem „Edytuj”. Dotknięcie bloku pokazuje wykres z 7 dni i sumę z 30."
+      "🏠 Ekran główny",
+      "Miękkie kolorowe karty: **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu i rekord), **Dalej** (najbliższe zadanie z osią dnia), **Zadania** (wykonane z zaplanowanych i lista na dziś) oraz **liczniki** dla dowolnego tagu. Zakładki **Dziś · Tydzień · Podsumowanie** przełączają wartości. Karty można dodawać, usuwać, przeciągać i rozciągać przyciskiem «Edytuj»; «Przywróć» wraca do domyślnego układu. Dotknij karty, by zobaczyć wykres z 7 dni i sumę z 30."
     ],
     "tasks": [
       "✅ Zadania",
@@ -539,6 +575,10 @@
     "calendar": [
       "📅 Kalendarz",
       "W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię. Na telefonie miesiąc zwija się do tygodnia."
+    ],
+    "notes": [
+      "📝 Notatki",
+      "Tytuł, tekst, kolor i przypinanie oraz wyszukiwanie we wszystkich notatkach. Dołącz **zdjęcia z aparatu, obrazy i dowolne pliki**; pliki zostają na urządzeniu, synchronizowany jest tylko opis. Sekcję można ukryć w ustawieniach."
     ],
     "focus": [
       "🎯 Skupienie",
