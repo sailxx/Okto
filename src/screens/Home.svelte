@@ -220,7 +220,11 @@
                   <li class:done>
                     <button type="button" class="ck" style:--p={it.task.priority ? PRIORITY_COLORS[it.task.priority] : 'var(--t)'}
                       aria-label={store.t('taskDone')} aria-pressed={done} disabled={editing}
-                      onclick={() => store.toggleDone(it.task, it.date)}>{#if done}<Icon name="check" size={13} />{/if}</button>
+                      onclick={() => store.toggleDone(it.task, it.date)}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        {#if done}<circle class="fill" cx="12" cy="12" r="11" /><path class="tick" d="m7.4 12.4 3.2 3.2 6-6.6" />{:else}<circle class="ring" cx="12" cy="12" r="10" />{/if}
+                      </svg>
+                    </button>
                     <button type="button" class="tt" disabled={editing} onclick={() => store.openTask(it.task, it.date)}>
                       <span class="tn">{it.task.title || '—'}</span>
                       {#if it.task.start}<span class="tm">{it.task.start}</span>{/if}
@@ -402,15 +406,14 @@
   .todo li { display: flex; align-items: center; gap: 12px; min-height: 40px; border-bottom: 1px solid var(--tg); }
   .todo li:last-child { border-bottom: 0; }
   .todo .empty { color: var(--td); font-size: 14px; }
-  .ck {
-    flex: 0 0 auto; width: 22px; height: 22px; display: grid; place-items: center;
-    border: 2px solid var(--p); border-radius: 50%; color: var(--ck, var(--bg));
-    transition: background-color 150ms ease, transform 120ms ease;
-  }
+  /* Drawn as SVG so the ring stays crisp at any pixel density, even on a gradient card. */
+  .ck { flex: 0 0 auto; width: 24px; height: 24px; padding: 0; color: var(--p); transition: transform 120ms ease; }
   .ck:active { transform: scale(.88); }
-  .ck[aria-pressed='true'] { background: var(--p); }
+  .ck svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .ck .ring { fill: none; stroke: currentColor; stroke-width: 2.2; }
+  .ck .fill { fill: currentColor; }
+  .ck .tick { fill: none; stroke: var(--ck, var(--bg)); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
   .cell.tasks { --ck: #12856f; }
-  .ck :global(svg) { stroke-width: 3.5; }
   .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 13px; color: var(--td); font-variant-numeric: tabular-nums; }
