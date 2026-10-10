@@ -1,6 +1,9 @@
 package com.sailxx.okto.widget
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,7 +22,8 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.appwidget.updateAll
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
@@ -39,13 +43,36 @@ import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.WidgetText
 import com.sailxx.okto.data.WidgetTextStore
 import com.sailxx.okto.ui.WidgetSettingsActivity
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
-/** Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия». */
-suspend fun updateOktoWidgets(context: Context) {
-    OktoTasksWidget().updateAll(context)
-    NextTaskWidget().updateAll(context)
-    QuickAddWidget().updateAll(context)
-    StreakWidget().updateAll(context)
+private val updateLock = Mutex()
+
+/**
+ * Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия».
+ *
+ * Каждый виджет обновляется строго по id своего приёмника, а не через `updateAll`: тот ищет id по
+ * сохранённой связке «виджет → приёмник», и при сбое связки содержимое одного виджета рисовалось
+ * на другом (маленькая «Серия» показывала копию большого списка). Вызовы идут по очереди.
+ */
+suspend fun updateOktoWidgets(context: Context) = updateLock.withLock {
+    val app = context.applicationContext
+    refresh(app, OktoTasksWidget(), OktoWidgetReceiver::class.java)
+    refresh(app, NextTaskWidget(), NextTaskWidgetReceiver::class.java)
+    refresh(app, QuickAddWidget(), QuickAddWidgetReceiver::class.java)
+    refresh(app, StreakWidget(), StreakWidgetReceiver::class.java)
+}
+
+private suspend fun refresh(context: Context, widget: GlanceAppWidget, receiver: Class<*>) {
+    val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, receiver))
+    val manager = GlanceAppWidgetManager(context)
+    for (id in ids) {
+        try {
+            widget.update(context, manager.getGlanceIdBy(id))
+        } catch (e: Exception) {
+            Log.w("OktoWidgets", "update failed for ${receiver.simpleName} #$id", e)
+        }
+    }
 }
 
 internal fun cp(c: Color) = ColorProvider(c)

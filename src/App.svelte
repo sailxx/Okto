@@ -9,6 +9,8 @@
   import Tasks from './screens/Tasks.svelte';
   import Calendar from './screens/Calendar.svelte';
   import Calls from './screens/Calls.svelte';
+  import Notes from './screens/Notes.svelte';
+  import NoteEditor from './components/NoteEditor.svelte';
   import Focus from './screens/Focus.svelte';
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
@@ -64,10 +66,10 @@
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
-      const routes = (['home', 'tasks', 'calls', 'calendar', 'focus'] as const).filter((r) => store.shows(r));
+      const routes = (['home', 'tasks', 'calls', 'calendar', 'notes', 'focus'] as const).filter((r) => store.shows(r));
       const n = Number(e.key);
       if (n >= 1 && n <= routes.length) { e.preventDefault(); router.go(routes[n - 1]); }
-      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else store.openNewTask(); }
+      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else if (router.route === 'notes') store.openNewNote(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
     return () => { clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
@@ -75,18 +77,20 @@
 
 </script>
 
-<div class="shell" class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
+<div class="shell" class:side-folded={store.device.sideFolded} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
     {#if router.route === 'home'}<Home />
     {:else if router.route === 'tasks'}<Tasks />
     {:else if router.route === 'calls'}<Calls />
     {:else if router.route === 'calendar'}<Calendar />
+    {:else if router.route === 'notes'}<Notes />
     {:else}<Focus />{/if}
   </div>
 </div>
 
 {#if store.editor}<TaskEditor />{/if}
+{#if store.noteEditor}<NoteEditor />{/if}
 {#if settingsOpen}<Settings onclose={() => (settingsOpen = false)} />{/if}
 {#if welcome}<ProfileSheet welcome onclose={() => (welcome = false)} />{/if}
 <Toast />

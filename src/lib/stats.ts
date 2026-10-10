@@ -70,6 +70,9 @@ export function nextUp(tasks: Task[], now: Date): Instance | null {
   return list[0] ?? null;
 }
 
+/** Every completion ever recorded: one per finished one-off task, one per ticked day of a repeating one. */
+export const totalDone = (tasks: Task[]) => tasks.reduce((n, t) => (t.deleted ? n : n + (t.repeat ? t.doneDates.length : t.done ? 1 : 0)), 0);
+
 /** n day keys ending with today, oldest first. */
 export const lastDays = (n: number, today: string) => Array.from({ length: n }, (_, i) => addDays(today, i - n + 1));
 

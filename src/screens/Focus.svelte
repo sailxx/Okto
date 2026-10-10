@@ -322,6 +322,8 @@
     onclick={click}
   >
     <div class="block well">
+      <span class="chip"><Icon name={isPomo ? 'tomato' : isSw || isTimer ? 'clock' : 'focus'} size={17} /></span>
+      <span class="ttl">{isPomo ? store.t('phase')[phase] : isSw ? store.t('modeStopwatch') : isTimer ? store.t('modeTimer') : counterName(counter)}</span>
       <button class="count" class:tick={tickAnim} type="button" bind:this={countEl}
         aria-label={isPomo ? `${store.t('phase')[phase]} ${display}` : isSw || isTimer ? `${store.t(isSw ? 'modeStopwatch' : 'modeTimer')} ${display}` : `${counterName(counter)}: ${counter.count}`}>
         <Digits text={display} />
@@ -469,6 +471,26 @@
 {/if}
 
 <style>
+  /* Same square keys and display, just calmer: softer card, cleaner numerals, plain-text captions. */
+  .focus-page :global(.ghost) { display: none; }
+  /* The display is one of the Home cards: soft surface, icon chip, title, big value. */
+  .focus-page :global(.block.well) {
+    --well-ink: var(--ink); --well-dim: var(--muted); --well-ghost: color-mix(in srgb, var(--ink) 12%, transparent);
+    background: color-mix(in srgb, var(--soft) 78%, var(--bg)); border-radius: 24px; padding: 18px 20px 18px;
+    box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
+  }
+  .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--well-ghost); color: var(--ink); }
+  .chip :global(svg) { stroke-width: 2; }
+  .ttl { display: block; margin: 8px 0 6px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .focus-page :global(.count) { font-family: var(--sans); text-align: left; }
+  .focus-page :global(.count .digits) { justify-self: start; }
+  .focus-page :global(.count .live) { justify-self: start; }
+  .focus-page :global(.progress) { height: 6px; gap: 3px; margin-top: 22px; }
+  .focus-page :global(.progress span) { border-radius: 3px; }
+  .focus-page :global(.progress-line) { font-family: var(--sans); font-size: 13px; letter-spacing: 0; margin-top: 12px; }
+  .focus-page :global(.meta) { font-family: var(--sans); font-size: 14px; letter-spacing: 0; }
+  .focus-page :global(.hint) { font-family: var(--sans); font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; opacity: .8; }
+  .focus-page :global(.name) { font-weight: 650; }
   .modes { margin-top: 6px; }
   .linked {
     display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;

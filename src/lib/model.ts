@@ -8,7 +8,7 @@ export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
 export type Phase = 'work' | 'short' | 'long';
 export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'counter';
-export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'settings';
+export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'settings';
 
 export interface Repeat { freq: Freq; interval: number; until: string | null }
 export interface Subtask { id: string; title: string; done: boolean }
@@ -43,6 +43,16 @@ export interface Task {
   deleted: boolean;
 }
 
+/** A free-form note; photos and files ride along as attachments (bytes stay on the device, see files.ts). */
+export interface Note {
+  id: string; title: string; body: string;
+  /** Own colour stripe; null = none. */
+  color: string | null;
+  pinned: boolean;
+  attachments: Attachment[];
+  createdAt: number; updatedAt: number; deleted: boolean;
+}
+
 export interface List { id: string; name: string; color: string; order: number; updatedAt: number; deleted: boolean }
 export interface Session { id: string; start: number; minutes: number; taskId: string | null; updatedAt: number; deleted: boolean }
 export interface Counter {
@@ -64,13 +74,14 @@ export interface Settings {
   hiddenSections: OptionalSection[];
   updatedAt: number;
 }
-export type OptionalSection = 'calls' | 'focus';
-export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'focus'];
+export type OptionalSection = 'calls' | 'notes' | 'focus';
+export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'notes', 'focus'];
 export interface Data {
   tasks: Record<string, Task>;
   lists: Record<string, List>;
   sessions: Record<string, Session>;
   counters: Record<string, Counter>;
+  notes: Record<string, Note>;
   settings: Settings;
 }
 /** Per-device state, never synced. */
@@ -90,6 +101,8 @@ export interface Device {
   calExpanded: boolean;
   /** Phone month view folded down to the selected week. */
   calFolded: boolean;
+  /** Desktop side panel folded down to icons. */
+  sideFolded: boolean;
   /** System notifications: permission is per device, so the switch is too. */
   notify: boolean;
 }
@@ -140,10 +153,13 @@ export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
 export const MAX_ATTACHMENTS = 20;
 /** Per file, bytes. */
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
-export const DEFAULT_DASHBOARD: Block[] = [{ type: 'tasks', w: 3, h: 2 }, { type: 'focus', w: 3, h: 2 }, { type: 'streak', w: 2, h: 2 }, { type: 'next', w: 4, h: 2 }];
+export const DEFAULT_DASHBOARD: Block[] = [{ type: 'focus' }, { type: 'streak' }, { type: 'next' }, { type: 'tasks' }];
 export const GRID_MAX_W = 6, GRID_MAX_H = 4;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
-export const blockSize = (b: Block) => ({ w: b.w ?? (b.type === 'streak' ? 2 : b.type === 'next' ? 4 : 3), h: b.h ?? 2 });
+/** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
+const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], tasks: [6, 4, 2], counter: [2, 2, 1] };
+const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, tasks: 3, counter: 2 };
+export const blockSize = (b: Block, cols = 6) => ({ w: b.w ?? DEFAULT_W[b.type][cols >= 6 ? 0 : cols >= 4 ? 1 : 2], h: b.h ?? DEFAULT_H[b.type] });
 
 /* ================= Validators ================= */
 export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3);
@@ -200,6 +216,23 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
     createdAt: ts(r.createdAt, now),
     updatedAt: ts(r.updatedAt, now),
     deleted: r.deleted === true,
+  };
+}
+
+const normAttachments = (v: unknown, now: number): Attachment[] => Array.isArray(v)
+  ? v.filter(isObj).slice(0, MAX_ATTACHMENTS).map((a) => ({
+    id: id(a.id), name: str(a.name, 200) || 'file', type: str(a.type, 100), size: int(a.size, 0, Number.MAX_SAFE_INTEGER, 0), addedAt: ts(a.addedAt, now),
+  }))
+  : [];
+
+export function newNote(p: Partial<Note> | Record<string, unknown> = {}): Note {
+  const r = p as Record<string, any>;
+  const now = Date.now();
+  return {
+    id: id(r.id), title: str(r.title, 200), body: str(r.body, 20000),
+    color: COLORS.includes(r.color) ? r.color : null, pinned: r.pinned === true,
+    attachments: normAttachments(r.attachments, now),
+    createdAt: ts(r.createdAt, now), updatedAt: ts(r.updatedAt, now), deleted: r.deleted === true,
   };
 }
 
@@ -294,7 +327,7 @@ function normMap<T extends { id: string }>(raw: unknown, make: (r: any) => T): R
 
 export function defaultData(lang: Lang): Data {
   return {
-    tasks: {}, lists: byId(defaultLists(lang)), sessions: {},
+    tasks: {}, lists: byId(defaultLists(lang)), sessions: {}, notes: {},
     counters: byId([newCounter({ updatedAt: 0 })]), settings: defaultSettings(lang),
   };
 }
@@ -306,6 +339,7 @@ export function normData(raw: unknown, lang: Lang): Data {
     lists: normMap(r.lists, newList),
     sessions: normMap(r.sessions, newSession),
     counters: normMap(r.counters, newCounter),
+    notes: normMap(r.notes, newNote),
     settings: normSettings(r.settings, lang),
   };
   if (!Object.values(d.lists).some((l) => !l.deleted)) Object.assign(d.lists, byId(defaultLists(d.settings.lang)));
@@ -319,7 +353,7 @@ export function defaultDevice(): Device {
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, notify: false,
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, sideFolded: false, notify: false,
   };
 }
 
@@ -352,6 +386,7 @@ export function normDevice(raw: unknown): Device {
     calZoom: int(raw.calZoom, 0, CAL_ZOOM.length - 1, 1),
     calExpanded: raw.calExpanded === true,
     calFolded: raw.calFolded === true,
+    sideFolded: raw.sideFolded === true,
     notify: raw.notify === true,
   };
 }

@@ -12,13 +12,15 @@
 
   let { onSettings }: { onSettings: () => void } = $props();
 
-  const ALL: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navFocus' }[] = [
+  const ALL: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navNotes' | 'navFocus' }[] = [
     { route: 'home', icon: 'home', label: 'navHome' },
     { route: 'tasks', icon: 'tasks', label: 'navTasks' },
     { route: 'calls', icon: 'call', label: 'navCalls' },
     { route: 'calendar', icon: 'calendar', label: 'navCalendar' },
+    { route: 'notes', icon: 'note', label: 'navNotes' },
     { route: 'focus', icon: 'focus', label: 'navFocus' },
   ];
+  const folded = $derived(store.device.sideFolded);
   const items = $derived(ALL.filter((it) => store.shows(it.route)));
   const pad = (n: number) => String(n).padStart(2, '0');
   const clock = $derived(`${pad(store.now.getHours())}:${pad(store.now.getMinutes())}`);
@@ -43,9 +45,8 @@
 
 <nav class="tabbar" aria-label="Okto">
   {#each items as it}
-    <button class="tab" type="button" aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
+    <button class="tab" type="button" aria-label={store.t(it.label)} title={store.t(it.label)} aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
       <Icon name={it.icon} />
-      <span>{store.t(it.label)}</span>
     </button>
   {/each}
 </nav>
@@ -58,16 +59,19 @@
 <aside class="side">
   {@render brand()}
   <div class="side-clock">{stamp} · {clock}</div>
+  <div class="side-nav">
   {#each items as it, i}
-    <button class="side-link" type="button" aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
+    <button class="side-link" type="button" title={store.t(it.label)} aria-label={store.t(it.label)} aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
       <Icon name={it.icon} />
       <span>{store.t(it.label)}</span>
       <kbd>{i + 1}</kbd>
     </button>
   {/each}
-  <button class="side-new" type="button" onclick={() => store.openNewTask()}><Icon name="plus" />{store.t('newTask')}<kbd class="nk">N</kbd></button>
+  </div>
+  <button class="side-new" type="button" title={store.t('newTask')} aria-label={store.t('newTask')} onclick={() => store.openNewTask()}><Icon name="plus" /><span>{store.t('newTask')}</span><kbd class="nk">N</kbd></button>
   <div class="side-foot">
-    <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
+    <button class="icon-btn" type="button" title={store.t('settings')} aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
+    <button class="icon-btn side-fold" type="button" title={folded ? store.t('sideUnfold') : store.t('sideFold')} aria-label={folded ? store.t('sideUnfold') : store.t('sideFold')} aria-expanded={!folded} onclick={() => store.setDevice({ sideFolded: !folded })}><Icon name="left" /></button>
   </div>
 </aside>
 
