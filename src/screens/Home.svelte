@@ -384,8 +384,8 @@
   .cell.acc.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
   .cell.acc.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
   .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
-  .cell.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
-  .cell.tint, .cell.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
+  .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
+  .cell.acc.tint, .cell.acc.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
   .cell.acc.focus::after { background: var(--on-primary); color: var(--primary); }
   .cell.acc.streak::after, .cell.acc.next::after, .cell.acc.tasks::after, .cell.acc.counter::after, .cell.tint::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
 
@@ -457,7 +457,7 @@
   .editing .blk.dragging { opacity: .7; cursor: grabbing; z-index: 1; }
   .cell[aria-disabled='true'] { cursor: grab; }
   .rm { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--red); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
-  .paint { position: absolute; top: 8px; left: 8px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
+  .paint { position: absolute; top: 8px; right: 40px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
   .paint:hover { background: var(--ink); color: var(--bg); }
   .rm:hover { background: var(--red); color: #fff; }
   .grip { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: var(--td, var(--muted)); pointer-events: none; opacity: .7; }
