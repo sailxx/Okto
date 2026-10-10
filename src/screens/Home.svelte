@@ -10,12 +10,13 @@
   import { relDay } from '../lib/i18n';
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
-  import { blockSize, DEFAULT_DASHBOARD, GRID_MAX_H, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
+  import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
   let adding = $state(false);
   let profile = $state(false);
   let detail = $state<Block | null>(null);
+  let painting = $state<string | null>(null);
 
   /* ---------- greeting ---------- */
   const hour = $derived(store.now.getHours());
@@ -85,6 +86,11 @@
     const rank = (b: Block) => { const i = DEFAULT_DASHBOARD.findIndex((d) => d.type === b.type); return i < 0 ? 99 : i; };
     setBlocks([...blocks].sort((a, b) => rank(a) - rank(b)).map((b) => (b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type })));
   }
+  const painted = $derived(blocks.find((b) => keyOf(b) === painting) ?? null);
+  /** Без `tint` карточка возвращает стандартный цвет. */
+  function paint(b: Block, tint?: string) {
+    setBlocks(blocks.map((x) => { if (keyOf(x) !== keyOf(b)) return x; const { tint: _, ...rest } = x; return tint ? { ...rest, tint } : rest; }));
+  }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
     ...(['tasks', 'focus', 'streak', 'next'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
@@ -119,7 +125,7 @@
   let resizing = $state<string | null>(null);
 
   function dragDown(e: PointerEvent, b: Block) {
-    if (!editing || e.button !== 0 || (e.target as Element).closest('.rm, .rz')) return;
+    if (!editing || e.button !== 0 || (e.target as Element).closest('.rm, .rz, .paint')) return;
     e.preventDefault();
     dragKey = keyOf(b); lastSwap = null;
     draft = blocks.map((x) => ({ ...x }));
@@ -201,8 +207,8 @@
       <div class="blk" class:dragging={dragKey === keyOf(b)} class:resizing={resizing === keyOf(b)} data-key={keyOf(b)}
         style:grid-column="span {sz.w}" style:grid-row="span {sz.h}"
         onpointerdown={(e) => dragDown(e, b)} onpointermove={dragMove} onpointerup={gestureUp} onpointercancel={gestureUp}>
-        <div class="cell {b.type}" class:acc={b.type === 'focus' || b.type === 'streak' || b.type === 'next' || b.type === 'tasks' || b.type === 'counter'} role="button" tabindex="0" aria-disabled={editing}
-          style:--cc={counter?.color}
+        <div class="cell {b.type}" class:acc={b.tint !== 'none'} class:tint={b.tint && b.tint !== 'none'} role="button" tabindex="0" aria-disabled={editing}
+          style:--cc={counter?.color} style:--bc={b.tint !== 'none' ? b.tint : undefined}
           onclick={() => open(b)} onkeydown={(e) => { if (e.key === 'Enter' && e.target === e.currentTarget) open(b); }}>
 
           {#if b.type === 'tasks'}
@@ -272,6 +278,7 @@
           {/if}
         </div>
         {#if editing}
+          <button type="button" class="paint" aria-label={store.t('cardColor')} title={store.t('cardColor')} onclick={() => (painting = keyOf(b))}><Icon name="palette" size={14} /></button>
           <button type="button" class="rm" aria-label={store.t('remove')} onclick={() => remove(b)}><Icon name="minus" size={14} /></button>
           <span class="grip" aria-hidden="true"><Icon name="grip" size={16} /></span>
           <span class="rz" role="button" tabindex="-1" aria-label={store.t('resize')} title={store.t('resize')}
@@ -306,6 +313,21 @@
     {:else}
       <p class="sub">{store.t('allAdded')}</p>
     {/if}
+  </Sheet>
+{/if}
+
+{#if painted}
+  <Sheet title={store.t('cardColor')} onclose={() => (painting = null)}>
+    <div class="swatches">
+      <button type="button" class="sw plain" class:on={painted.tint === 'none'} aria-label={store.t('cardPlain')} title={store.t('cardPlain')} onclick={() => paint(painted, 'none')}></button>
+      {#each COLORS as c}
+        <button type="button" class="sw" class:on={painted.tint?.toLowerCase() === c} style:--c={c} aria-label={c} onclick={() => paint(painted, c)}></button>
+      {/each}
+      <label class="sw custom" class:on={!!painted.tint && painted.tint !== 'none' && !COLORS.includes(painted.tint.toLowerCase())} title={store.t('cardCustom')}>
+        <input type="color" value={painted.tint && painted.tint !== 'none' ? painted.tint : '#0090ff'} aria-label={store.t('cardCustom')} onchange={(e) => paint(painted, e.currentTarget.value)} />
+      </label>
+    </div>
+    <button type="button" class="reset-tint" onclick={() => paint(painted)}>{store.t('cardDefault')}</button>
   </Sheet>
 {/if}
 
@@ -357,13 +379,15 @@
 
   /* Coloured cards: Focus takes the theme colour, Streak is warm, a counter brings its own. */
   .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 20px 34px -22px rgb(0 0 0 / 50%); }
-  .cell.focus { --t: var(--on-primary); --td: color-mix(in srgb, var(--on-primary) 74%, transparent); --tg: color-mix(in srgb, var(--on-primary) 22%, transparent); color: var(--on-primary); background: linear-gradient(150deg, var(--primary), color-mix(in srgb, var(--primary) 62%, var(--on-primary))); }
-  .cell.streak { background: linear-gradient(150deg, #ff9142, #e5484d); }
-  .cell.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
-  .cell.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
-  .cell.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
-  .cell.focus::after { background: var(--on-primary); color: var(--primary); }
-  .cell.streak::after, .cell.next::after, .cell.tasks::after, .cell.counter::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
+  .cell.acc.focus { --t: var(--on-primary); --td: color-mix(in srgb, var(--on-primary) 74%, transparent); --tg: color-mix(in srgb, var(--on-primary) 22%, transparent); color: var(--on-primary); background: linear-gradient(150deg, var(--primary), color-mix(in srgb, var(--primary) 62%, var(--on-primary))); }
+  .cell.acc.streak { background: linear-gradient(150deg, #ff9142, #e5484d); }
+  .cell.acc.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
+  .cell.acc.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
+  .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
+  .cell.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
+  .cell.tint, .cell.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
+  .cell.acc.focus::after { background: var(--on-primary); color: var(--primary); }
+  .cell.acc.streak::after, .cell.acc.next::after, .cell.acc.tasks::after, .cell.acc.counter::after, .cell.tint::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
 
   .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
   .chip :global(svg) { stroke-width: 2; }
@@ -433,6 +457,8 @@
   .editing .blk.dragging { opacity: .7; cursor: grabbing; z-index: 1; }
   .cell[aria-disabled='true'] { cursor: grab; }
   .rm { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--red); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
+  .paint { position: absolute; top: 8px; left: 8px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line); z-index: 2; }
+  .paint:hover { background: var(--ink); color: var(--bg); }
   .rm:hover { background: var(--red); color: #fff; }
   .grip { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: var(--td, var(--muted)); pointer-events: none; opacity: .7; }
   .grip :global(svg) { transform: rotate(90deg); }
@@ -446,5 +472,13 @@
   .avail { display: flex; flex-direction: column; }
   .avail-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; border-bottom: 1px solid var(--line); font-size: 16px; text-align: left; }
   .avail-row span:nth-child(2) { flex: 1; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 12px; padding: 4px 0 8px; }
+  .sw { position: relative; width: 38px; height: 38px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 12%); }
+  .sw.on { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ink); }
+  .sw.plain { background: color-mix(in srgb, var(--soft) 78%, var(--bg)); box-shadow: inset 0 0 0 1px var(--line); }
+  .sw.plain.on { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ink); }
+  .sw input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+  .sw.custom { background: conic-gradient(#e5484d, #ffb224, #30a46c, #0090ff, #8e4ec6, #e5484d); }
+  .reset-tint { margin-top: 6px; padding: 8px 0; color: var(--muted); font-size: 14px; }
   .dot { width: 9px; height: 9px; border-radius: 2px; background: var(--c); }
 </style>

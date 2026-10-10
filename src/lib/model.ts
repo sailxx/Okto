@@ -61,7 +61,8 @@ export interface Counter {
 }
 export interface PomoCfg { work: number; short: number; long: number; every: number }
 /** w/h: footprint in Home grid columns and rows. */
-export interface Block { type: BlockType; counterId?: string; w?: number; h?: number }
+/** `tint`: undefined — стандартный цвет карточки, 'none' — без цвета, иначе #rrggbb. */
+export interface Block { type: BlockType; counterId?: string; w?: number; h?: number; tint?: string }
 export interface Settings {
   id: 'main';
   lang: Lang; theme: Theme; sound: boolean; vibrate: boolean;
@@ -288,6 +289,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
         if (typeof b.h === 'number') out.h = int(b.h, 1, GRID_MAX_H, 2);
+        if (b.tint === 'none' || (typeof b.tint === 'string' && /^#[0-9a-f]{6}$/i.test(b.tint))) out.tint = b.tint;
         return out;
       })
     : d.dashboard;
