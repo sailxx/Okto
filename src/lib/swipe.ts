@@ -8,7 +8,7 @@ const ORDER: Route[] = ['home', 'tasks', 'calls', 'calendar', 'notes', 'focus'];
 // Places with their own drag gestures, where a sideways drag must not change the section.
 const OWN = 'input, textarea, select, [contenteditable], .editing, .ev, .tabbar, .mobile-top';
 const LOCK = 10; // px before the direction is decided
-const EASE = 'cubic-bezier(.22,.8,.24,1)';
+const EASE = 'cubic-bezier(.2,.9,.25,1)';
 
 export function sectionSwipe(shown: (r: Route) => boolean): () => void {
   let x0 = 0, y0 = 0, dx = 0, axis: 'x' | 'y' | null = null, live = false, busy = false;
@@ -39,7 +39,6 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
   };
   const done = () => {
     if (main) { main.style.transition = ''; main.style.transform = ''; main.style.opacity = ''; main.style.willChange = ''; }
-    document.documentElement.style.overflowX = '';
     busy = false;
   };
   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -51,18 +50,35 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
     setTimeout(() => document.removeEventListener('click', stop, { capture: true }), 400);
   };
 
-  async function go(next: Route, dir: 1 | -1) {
+  // The old screen (a static copy) and the new one slide side by side, like pages.
+  async function go(next: Route, dir: 1 | -1, v: number) {
+    if (!main) return;
     busy = true;
-    const w = window.innerWidth;
-    style(`transform 170ms ${EASE}, opacity 170ms ease-out`, dir * w * 0.6, 0);
-    await wait(170);
+    const w = window.innerWidth, r = main.getBoundingClientRect();
+    // The copy sits in a clipping layer: anything poking past the screen edge would make the
+    // phone browser zoom out mid-swipe.
+    const layer = document.createElement('div');
+    Object.assign(layer.style, { position: 'fixed', inset: '0', overflow: 'hidden', pointerEvents: 'none', zIndex: '2' });
+    const ghost = main.cloneNode(true) as HTMLElement;
+    Object.assign(ghost.style, {
+      position: 'absolute', top: `${r.top}px`, left: `${r.left}px`, width: `${r.width}px`, margin: '0',
+      background: 'var(--bg)', transition: 'none', transform: `translate3d(${dx}px,0,0)`, opacity: '', willChange: 'transform',
+    });
+    layer.append(ghost);
+    document.body.append(layer);
     router.go(next);
     await tick();
     window.scrollTo(0, 0);
-    style('none', -dir * w * 0.25, 0);
-    void main?.offsetWidth; // commit the start position before animating
-    style(`transform 300ms ${EASE}, opacity 240ms ease-out`, 0, 1);
-    await wait(310);
+    style('none', dx - dir * w, 1);
+    void main.offsetWidth; // commit the start positions before animating
+    // Finish at the finger's pace: a fast flick lands quickly, a slow drag glides.
+    const ms = Math.round(Math.min(360, Math.max(200, (w - Math.abs(dx)) / Math.max(Math.abs(v), 1.4))));
+    const t = `transform ${ms}ms ${EASE}`;
+    ghost.style.transition = t;
+    ghost.style.transform = `translate3d(${dir * w}px,0,0)`;
+    style(t, 0, 1);
+    await wait(ms + 20);
+    layer.remove();
     done();
   }
 
@@ -92,14 +108,12 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
       axis = adx > ady ? 'x' : 'y';
       if (axis === 'y' || (rowOnly && dx < 0)) { live = false; return; }
       x0 += Math.sign(dx) * LOCK; dx = x - x0; // no jump when the drag picks up
-      document.documentElement.style.overflowX = 'hidden';
       if (main) main.style.willChange = 'transform';
     }
     samples.push({ x, t: e.timeStamp });
     if (samples.length > 6) samples.shift();
-    const w = window.innerWidth;
     const off = target(dx < 0 ? 1 : -1) ? dx : dx / 4; // rubber band past the ends
-    style('none', off, 1 - Math.min(Math.abs(off) / w, 1) * 0.5);
+    style('none', off, 1);
   }
 
   function end(e: TouchEvent) {
@@ -113,10 +127,10 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
     const dir: 1 | -1 = dx > 0 ? 1 : -1;
     const next = e.type === 'touchend' ? target(dir > 0 ? -1 : 1) : undefined;
     const far = Math.abs(dx) > w * 0.25, flick = Math.abs(v) > 0.35 && Math.sign(v) === dir;
-    if (next && (far || flick)) { void go(next, dir); return; }
+    if (next && (far || flick)) { void go(next, dir, v); return; }
     busy = true;
-    style(`transform 260ms ${EASE}, opacity 200ms ease-out`, 0, 1);
-    setTimeout(done, 270);
+    style(`transform 280ms ${EASE}`, 0, 1);
+    setTimeout(done, 290);
   }
 
   document.addEventListener('touchstart', start, { passive: true });
