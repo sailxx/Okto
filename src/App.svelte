@@ -72,7 +72,31 @@
       else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else if (router.route === 'notes') store.openNewNote(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
-    return () => { clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
+    // Touch: a horizontal swipe on the screen moves to the neighbouring section.
+    let sx = 0, sy = 0, st = 0, sOk = false;
+    const blocked = (el: Element | null) => {
+      for (; el && el !== document.body; el = el.parentElement) {
+        if (el.matches('input, textarea, select, [contenteditable], .editing, .blk, .tags, .fold, .day-list, .tabbar, .row-wrap')) return true;
+        if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true;
+      }
+      return false;
+    };
+    const onTStart = (e: TouchEvent) => {
+      sOk = e.touches.length === 1 && router.route !== 'calendar' && !document.querySelector('dialog[open]') && !blocked(e.target as Element);
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
+    };
+    const onTEnd = (e: TouchEvent) => {
+      if (!sOk) return;
+      sOk = false;
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || Date.now() - st > 600) return;
+      const routes = (['home', 'tasks', 'calls', 'calendar', 'notes', 'focus'] as const).filter((r) => store.shows(r));
+      const next = routes[routes.indexOf(router.route) + (dx < 0 ? 1 : -1)];
+      if (next) router.go(next);
+    };
+    document.addEventListener('touchstart', onTStart, { passive: true });
+    document.addEventListener('touchend', onTEnd, { passive: true });
+    return () => { document.removeEventListener('touchstart', onTStart); document.removeEventListener('touchend', onTEnd); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
   });
 
 </script>
