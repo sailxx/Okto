@@ -1,6 +1,6 @@
 // Phones: drag the screen sideways to move between sections in tab-bar order.
-// Swipe right opens the next section (Home → Tasks → … → Focus), swipe left the previous one.
-// The screen follows the finger, then slides out and the new section slides in.
+// Like turning pages: drag left to open the next section (Home → Tasks → … → Focus), drag right
+// for the previous one. The screen follows the finger, then slides out and the new one slides in.
 import { tick } from 'svelte';
 import { router, type Route } from './router.svelte';
 
@@ -98,7 +98,7 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
     samples.push({ x, t: e.timeStamp });
     if (samples.length > 6) samples.shift();
     const w = window.innerWidth;
-    const off = target(dx > 0 ? 1 : -1) ? dx : dx / 4; // rubber band past the ends
+    const off = target(dx < 0 ? 1 : -1) ? dx : dx / 4; // rubber band past the ends
     style('none', off, 1 - Math.min(Math.abs(off) / w, 1) * 0.5);
   }
 
@@ -111,7 +111,7 @@ export function sectionSwipe(shown: (r: Route) => boolean): () => void {
     const first = samples[0], last = samples[samples.length - 1];
     const v = last.t > first.t ? (last.x - first.x) / (last.t - first.t) : 0; // px/ms
     const dir: 1 | -1 = dx > 0 ? 1 : -1;
-    const next = e.type === 'touchend' ? target(dir) : undefined;
+    const next = e.type === 'touchend' ? target(dir > 0 ? -1 : 1) : undefined;
     const far = Math.abs(dx) > w * 0.25, flick = Math.abs(v) > 0.35 && Math.sign(v) === dir;
     if (next && (far || flick)) { void go(next, dir); return; }
     busy = true;
