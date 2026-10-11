@@ -1,7 +1,7 @@
 /* ---------- Shell: casing top, key-row tab bar, desktop key column ---------- */
 :root { --tabbar: 72px; --side: 236px; }
 .shell { min-height: 100svh; }
-.main { min-width: 0; transition: opacity 400ms var(--ease); }
+.main { touch-action: pan-y; min-width: 0; transition: opacity 400ms var(--ease); }
 
 /* Wordmark with power LED */
 .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: .02em; }
