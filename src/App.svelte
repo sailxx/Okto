@@ -85,18 +85,20 @@
       sOk = e.touches.length === 1 && router.route !== 'calendar' && !document.querySelector('dialog[open]') && !blocked(e.target as Element);
       sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
     };
-    const onTEnd = (e: TouchEvent) => {
+    // Decided mid-gesture: the browser may cancel a touch once it starts to scroll.
+    const onTMove = (e: TouchEvent) => {
       if (!sOk) return;
+      const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+      if (Math.abs(dy) > 40 && Math.abs(dy) > Math.abs(dx)) { sOk = false; return; }
+      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || Date.now() - st > 800) return;
       sOk = false;
-      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2 || Date.now() - st > 600) return;
       const routes = (['home', 'tasks', 'calls', 'calendar', 'notes', 'focus'] as const).filter((r) => store.shows(r));
       const next = routes[routes.indexOf(router.route) + (dx < 0 ? 1 : -1)];
       if (next) router.go(next);
     };
     document.addEventListener('touchstart', onTStart, { passive: true });
-    document.addEventListener('touchend', onTEnd, { passive: true });
-    return () => { document.removeEventListener('touchstart', onTStart); document.removeEventListener('touchend', onTEnd); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
+    document.addEventListener('touchmove', onTMove, { passive: true });
+    return () => { document.removeEventListener('touchstart', onTStart); document.removeEventListener('touchmove', onTMove); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
   });
 
 </script>
