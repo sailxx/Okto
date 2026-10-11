@@ -9,7 +9,7 @@ const parse = (): Route => {
 class Router {
   route = $state<Route>(parse());
   constructor() { window.addEventListener('hashchange', () => { this.route = parse(); }); }
-  go(r: Route) { if (r !== this.route) location.hash = r === 'home' ? '/' : `/${r}`; }
+  go(r: Route) { if (r !== this.route) { this.route = r; location.hash = r === 'home' ? '/' : `/${r}`; } }
 }
 
 export const router = new Router();
