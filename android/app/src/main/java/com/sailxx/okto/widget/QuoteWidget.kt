@@ -108,20 +108,20 @@ private fun QuoteCard(p: com.sailxx.okto.data.OktoPalette, index: Int, t: TextSi
         Text(
             ctx.getString(R.string.quote_caption),
             maxLines = 1,
-            style = TextStyle(color = cp(p.muted), fontSize = t.meta * 0.8f, fontFamily = FontFamily.Monospace),
+            style = TextStyle(color = cp(p.muted), fontSize = t.meta * 0.9f, fontFamily = FontFamily.Monospace),
         )
         Spacer(GlanceModifier.height(8.dp))
         Text(
             "«${if (ru) q.ru else q.en}»",
-            maxLines = 6,
+            maxLines = 7,
             modifier = GlanceModifier.fillMaxWidth(),
-            style = TextStyle(color = cp(p.ink), fontSize = t.title * 0.9f, fontWeight = FontWeight.Medium),
+            style = TextStyle(color = cp(p.ink), fontSize = t.title * 1.3f, fontWeight = FontWeight.Medium),
         )
         Spacer(GlanceModifier.height(10.dp))
         Text(
             "— " + (if (ru) q.authorRu else q.authorEn).uppercase(),
             maxLines = 1,
-            style = TextStyle(color = cp(p.muted), fontSize = t.meta * 0.85f, fontFamily = FontFamily.Monospace),
+            style = TextStyle(color = cp(p.muted), fontSize = t.meta * 1.05f, fontFamily = FontFamily.Monospace),
         )
     }
 }
