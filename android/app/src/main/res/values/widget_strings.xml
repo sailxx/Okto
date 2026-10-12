@@ -66,4 +66,7 @@
     <string name="text_sample_meta">TODAY · 10:00–10:30</string>
     <string name="decrease">Decrease</string>
     <string name="increase">Increase</string>
+    <string name="quote_widget_name">Okto · Quote</string>
+    <string name="quote_widget_description">A stoic quote on discipline for every day. Tap for the next one.</string>
+    <string name="quote_caption">QUOTE OF THE DAY</string>
 </resources>

@@ -23,7 +23,7 @@ object CheckAnim {
     fun key(taskId: String, occurrence: String?) = if (occurrence != null) "$taskId@$occurrence" else taskId
     fun frame(taskId: String, occurrence: String?): Int = frames[key(taskId, occurrence)] ?: 0
     internal fun set(key: String, frame: Int) { if (frame == 0) frames.remove(key) else frames[key] = frame }
-    internal fun running(key: String) = key in frames
+    internal fun running(key: String) = frames.containsKey(key)
 }
 
 /** Тап по кружку: отметить задачу (оптимистично — виджет обновляется сразу, запись уходит в Firestore). */
