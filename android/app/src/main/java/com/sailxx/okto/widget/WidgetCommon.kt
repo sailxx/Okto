@@ -49,7 +49,7 @@ import kotlinx.coroutines.sync.withLock
 private val updateLock = Mutex()
 
 /**
- * Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия».
+ * Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия», «Цитата».
  *
  * Каждый виджет обновляется строго по id своего приёмника, а не через `updateAll`: тот ищет id по
  * сохранённой связке «виджет → приёмник», и при сбое связки содержимое одного виджета рисовалось
@@ -61,6 +61,7 @@ suspend fun updateOktoWidgets(context: Context) = updateLock.withLock {
     refresh(app, NextTaskWidget(), NextTaskWidgetReceiver::class.java)
     refresh(app, QuickAddWidget(), QuickAddWidgetReceiver::class.java)
     refresh(app, StreakWidget(), StreakWidgetReceiver::class.java)
+    refresh(app, QuoteWidget(), QuoteWidgetReceiver::class.java)
 }
 
 private suspend fun refresh(context: Context, widget: GlanceAppWidget, receiver: Class<*>) {
@@ -133,14 +134,23 @@ internal fun CheckButton(taskId: String, occurrence: String?, done: Boolean, tin
     } else {
         actionParametersOf(KeyTaskId to taskId)
     }
+    val frame = CheckAnim.frame(taskId, occurrence)
+    val icon = when (frame) {
+        CheckAnim.RING -> R.drawable.ic_check_ring
+        CheckAnim.FILL -> R.drawable.ic_check_fill
+        CheckAnim.CHECK -> R.drawable.ic_checked
+        else -> if (done) R.drawable.ic_checked else R.drawable.ic_unchecked
+    }
+    // Заливка чуть «надувает» кружок, галочка возвращает его к обычному размеру.
+    val iconSize = if (frame == CheckAnim.FILL) size + 4.dp else size
     Box(
         modifier = GlanceModifier.size(size + 16.dp).clickable(actionRunCallback<ToggleTaskAction>(params)),
         contentAlignment = Alignment.Center,
     ) {
         Image(
-            provider = ImageProvider(if (done) R.drawable.ic_checked else R.drawable.ic_unchecked),
+            provider = ImageProvider(icon),
             contentDescription = ctx.getString(if (done) R.string.mark_undone else R.string.mark_done),
-            modifier = GlanceModifier.size(size),
+            modifier = GlanceModifier.size(iconSize),
             colorFilter = ColorFilter.tint(cp(tint)),
         )
     }

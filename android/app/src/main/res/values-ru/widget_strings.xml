@@ -68,4 +68,7 @@
     <string name="text_sample_meta">СЕГОДНЯ · 10:00–10:30</string>
     <string name="decrease">Уменьшить</string>
     <string name="increase">Увеличить</string>
+    <string name="quote_widget_name">Okto · Цитата</string>
+    <string name="quote_widget_description">Цитата о дисциплине и стоицизме на каждый день. Тап — следующая.</string>
+    <string name="quote_caption">ЦИТАТА ДНЯ</string>
 </resources>

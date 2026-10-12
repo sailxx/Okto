@@ -125,7 +125,9 @@ private fun SyncRow(s: WidgetState, t: TextSizes) {
 @Composable
 private fun TaskCard(item: WidgetItem, p: OktoPalette, t: TextSizes) {
     val ctx = LocalContext.current
-    val tint = item.color?.takeIf { !item.done }
+    // На последнем кадре отметки строка уже выглядит выполненной, хотя ещё стоит на месте.
+    val done = item.done || CheckAnim.frame(item.taskId, item.occurrence) == CheckAnim.CHECK
+    val tint = item.color?.takeIf { !done }
     val card = tint?.let { lerp(p.bg, it, if (p.isDark) 0.24f else 0.16f) } ?: p.key
     Box(GlanceModifier.fillMaxWidth().padding(bottom = 6.dp)) {
         Row(
@@ -134,16 +136,16 @@ private fun TaskCard(item: WidgetItem, p: OktoPalette, t: TextSizes) {
                 .clickable(actionStartActivity(oktoIntent(ctx, "#/tasks"))),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CheckButton(item.taskId, item.occurrence, item.done, if (item.done) p.muted else tint ?: p.ink, t.check)
+            CheckButton(item.taskId, item.occurrence, item.done, if (item.done) p.muted else item.color ?: p.ink, t.check)
             Column(GlanceModifier.defaultWeight()) {
                 Text(
                     item.title,
                     maxLines = 2,
                     style = TextStyle(
-                        color = cp(if (item.done) p.muted else p.ink),
+                        color = cp(if (done) p.muted else p.ink),
                         fontSize = t.title,
                         fontWeight = FontWeight.Medium,
-                        textDecoration = if (item.done) TextDecoration.LineThrough else TextDecoration.None,
+                        textDecoration = if (done) TextDecoration.LineThrough else TextDecoration.None,
                     ),
                 )
                 Text(
