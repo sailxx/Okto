@@ -69,7 +69,7 @@ const ru = {
   // home
   greetMorning: 'Доброе утро', greetDay: 'Добрый день', greetEvening: 'Добрый вечер', greetNight: 'Доброй ночи',
   edit: 'Изменить', noColor: 'Цвет списка', editHint: 'Перетаскивайте блоки, чтобы поменять их местами. Уголок справа внизу — размер.', resize: 'Изменить размер', addBlock: 'Добавить блок', remove: 'Убрать',
-  bTasks: 'Задачи', bFocus: 'Фокус', bStreak: 'Серия', bNext: 'Дальше', bCounter: 'Счётчик', cardColor: 'Цвет карточки', cardDefault: 'Стандартный', cardPlain: 'Без цвета', cardCustom: 'Свой цвет',
+  bTasks: 'Задачи', bFocus: 'Фокус', bStreak: 'Серия', bNext: 'Дальше', bGithub: 'GitHub', ghUserPh: 'Ваш логин на GitHub', ghLink: 'Привязать', ghChange: 'Сменить аккаунт', ghUnlink: 'Отвязать', ghHint: 'Показываются публичные вклады. Токен не нужен — отправляется только логин.', ghBad: 'Некорректный логин', ghFail: 'Не удалось загрузить вклады', ghRetry: 'Повторить', ghTotal: (n: number) => `${n} ${plural(n, 'вклад', 'вклада', 'вкладов')} за год`, ghLoading: 'Загружаю…', bCounter: 'Счётчик', cardColor: 'Цвет карточки', cardDefault: 'Стандартный', cardPlain: 'Без цвета', cardCustom: 'Свой цвет',
   focusCount: (n: number) => `${n} ${plural(n, 'фокус', 'фокуса', 'фокусов')}`,
   streakDays: (n: number) => `${plural(n, 'день', 'дня', 'дней')} подряд`,
   nothingNext: 'Ничего не запланировано', hm: (h: number, m: number) => (h ? `${h} ч ${m} м` : `${m} мин`),
@@ -142,7 +142,7 @@ const en: typeof ru = {
   prev: 'Previous', nextP: 'Next',
   greetMorning: 'Good morning', greetDay: 'Good afternoon', greetEvening: 'Good evening', greetNight: 'Good night',
   edit: 'Edit', noColor: 'List colour', editHint: 'Drag blocks to swap them. Bottom-right corner resizes.', resize: 'Resize', addBlock: 'Add block', remove: 'Remove',
-  bTasks: 'Tasks', bFocus: 'Focus', bStreak: 'Streak', bNext: 'Up next', bCounter: 'Counter', cardColor: 'Card colour', cardDefault: 'Default', cardPlain: 'No colour', cardCustom: 'Custom colour',
+  bTasks: 'Tasks', bFocus: 'Focus', bStreak: 'Streak', bNext: 'Up next', bGithub: 'GitHub', ghUserPh: 'Your GitHub username', ghLink: 'Link', ghChange: 'Change account', ghUnlink: 'Unlink', ghHint: 'Shows public contributions. No token needed — only the username is sent.', ghBad: 'Invalid username', ghFail: 'Could not load contributions', ghRetry: 'Retry', ghTotal: (n) => `${n} ${n === 1 ? 'contribution' : 'contributions'} in the last year`, ghLoading: 'Loading…', bCounter: 'Counter', cardColor: 'Card colour', cardDefault: 'Default', cardPlain: 'No colour', cardCustom: 'Custom colour',
   focusCount: (n) => `${n} ${n === 1 ? 'focus' : 'focuses'}`,
   streakDays: (n) => `${n === 1 ? 'day' : 'days'} in a row`,
   nothingNext: 'Nothing scheduled', hm: (h, m) => (h ? `${h} h ${m} m` : `${m} min`),

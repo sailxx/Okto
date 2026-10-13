@@ -7,6 +7,7 @@
   import { FLAGS } from './Nav.svelte';
   import { store } from '../lib/store.svelte';
   import { OPTIONAL_SECTIONS, THEMES, type OptionalSection, type Theme, type PomoCfg } from '../lib/model';
+  import { cleanLogin } from '../lib/github';
   import { sync } from '../lib/sync.svelte';
   import { buzz, chime, notifyGranted, requestNotify, systemNotify, unlockAudio } from '../lib/alerts';
 
@@ -16,6 +17,16 @@
   const themes = Object.entries(THEMES) as [Theme, [string, string]][];
   const SECTION_LABEL: Record<OptionalSection, 'navCalls' | 'navNotes' | 'navFocus'> = { calls: 'navCalls', notes: 'navNotes', focus: 'navFocus' };
   const vibrateSupported = 'vibrate' in navigator;
+
+  let ghDraft = $state(store.data.settings.github);
+  let ghBad = $state(false);
+  function setGithub() {
+    const v = cleanLogin(ghDraft);
+    ghBad = !!ghDraft.trim() && !v;
+    if (ghBad) return;
+    ghDraft = v;
+    store.updateSettings({ github: v });
+  }
 
   async function toggleNotify(e: Event) {
     const input = e.currentTarget as HTMLInputElement;
@@ -49,6 +60,11 @@
 
   <SettingsGroup id="profile" icon="user" title={store.t('profile')} summary={s.name || store.t('namePh')}>
     <button class="line-btn wide" type="button" onclick={() => (profile = true)}>{s.name || store.t('namePh')} · {store.t('editGreeting')}</button>
+  </SettingsGroup>
+
+  <SettingsGroup id="github" icon="github" title="GitHub" summary={s.github || '—'}>
+    <label class="field"><input type="text" bind:value={ghDraft} placeholder={store.t('ghUserPh')} autocapitalize="none" autocomplete="off" spellcheck="false" aria-invalid={ghBad} onchange={setGithub} /></label>
+    <p class="sub">{ghBad ? store.t('ghBad') : store.t('ghHint')}</p>
   </SettingsGroup>
 
   <SettingsGroup id="language" icon="globe" title={store.t('language')} summary={s.lang === 'ru' ? 'Русский' : 'English'}>
