@@ -39,6 +39,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.WidgetText
 import com.sailxx.okto.data.WidgetTextStore
@@ -90,7 +91,7 @@ internal class TextSizes(t: WidgetText, fontScale: Float) {
 
 @Composable
 internal fun textSizes(): TextSizes {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val text by WidgetTextStore.state.collectAsState()
     return TextSizes(text ?: WidgetTextStore.load(ctx), ctx.resources.configuration.fontScale)
 }
@@ -107,7 +108,7 @@ internal fun Logo(p: OktoPalette) {
 
 @Composable
 internal fun SignedOut(p: OktoPalette) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     Centered {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Logo(p)
@@ -128,7 +129,7 @@ internal fun SignedOut(p: OktoPalette) {
 /** Кружок-галочка: тап отмечает задачу (для повторяющейся — только [occurrence]). */
 @Composable
 internal fun CheckButton(taskId: String, occurrence: String?, done: Boolean, tint: Color, size: Dp) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val params = if (occurrence != null) {
         actionParametersOf(KeyTaskId to taskId, KeyDate to occurrence)
     } else {

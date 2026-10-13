@@ -108,7 +108,7 @@ object OktoRepository {
         val ref = userRef()
         if (ref == null) {
             tasks.clear()
-            Reminders.schedule(context, emptyList())
+            Reminders.schedule(AppLang.wrap(context), emptyList())
             _state.value = WidgetState(Status.SIGNED_OUT, OktoPalettes.forTheme(context, themeName))
             return@withLock
         }
@@ -130,7 +130,9 @@ object OktoRepository {
                 listColors = lists.mapNotNull { d -> OktoPalettes.parseHex(d.getString("color"))?.let { d.id to it } }.toMap()
                 firstListId = lists.firstOrNull()?.id ?: ""
 
-                themeName = s.await().getString("theme")
+                val settings = s.await()
+                themeName = settings.getString("theme")
+                AppLang.set(context, settings.getString("lang"))
                 focusDays = f.await().documents
                     .filter { it.getBoolean("deleted") != true }
                     .mapNotNull { (it.get("start") as? Number)?.toLong()?.let(::dayOf) }
@@ -169,9 +171,10 @@ object OktoRepository {
         val settingsReg = ref.collection("settings").document("main")
             .addSnapshotListener { snap, _ ->
                 val theme = snap?.getString("theme") ?: return@addSnapshotListener
+                val langChanged = AppLang.set(app, snap.getString("lang"))
                 liveScope.launch {
                     mutex.withLock {
-                        if (theme == themeName) return@launch
+                        if (theme == themeName && !langChanged) return@launch
                         themeName = theme
                         publish(app)
                     }
@@ -257,8 +260,9 @@ object OktoRepository {
     }
 
     /** Собирает список для виджета (задачи на сегодня + просроченные, выполненные — внизу) и перепланирует напоминания. */
-    private fun publish(context: Context, offline: Boolean = _state.value.offline) {
-        Reminders.schedule(context, tasks.values)
+    private fun publish(base: Context, offline: Boolean = _state.value.offline) {
+        val context = AppLang.wrap(base)
+        Reminders.schedule(AppLang.wrap(context), tasks.values)
         GoogleCalendar.onTasks(context, tasks.values)
         val today = LocalDate.now()
         val t = today.toString()
@@ -319,7 +323,7 @@ object OktoRepository {
             val dayLabel = when (offset) {
                 0L -> context.getString(R.string.today)
                 1L -> context.getString(R.string.tomorrow)
-                else -> day.format(DateTimeFormatter.ofPattern("d MMM", Locale.getDefault()))
+                else -> day.format(DateTimeFormatter.ofPattern("d MMM", AppLang.locale(context)))
             }
             return NextUp(
                 taskId = task.id,
@@ -374,7 +378,7 @@ object OktoRepository {
             when (ChronoUnit.DAYS.between(d, today)) {
                 0L -> context.getString(R.string.today)
                 1L -> context.getString(R.string.yesterday)
-                else -> d.format(DateTimeFormatter.ofPattern("d MMM", Locale.getDefault()))
+                else -> d.format(DateTimeFormatter.ofPattern("d MMM", AppLang.locale(context)))
             }
         )
         val start = task.start

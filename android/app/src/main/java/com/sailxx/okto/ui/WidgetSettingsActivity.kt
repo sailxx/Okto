@@ -59,6 +59,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.calendar.GoogleCalendar
 import com.sailxx.okto.data.AppIcon
 import com.sailxx.okto.data.OktoPalette
@@ -87,7 +88,7 @@ class WidgetSettingsActivity : ComponentActivity() {
 
 @Composable
 private fun MainScreen(activity: ComponentActivity) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val state by OktoRepository.state.collectAsState()
     val p = state.palette
     val scope = rememberCoroutineScope()
@@ -177,7 +178,7 @@ private fun MainScreen(activity: ComponentActivity) {
 /** Задачи в Google Календаре: включение просит доступ к календарю, выключение удаляет календарь «Okto». */
 @Composable
 private fun CalendarKey(activity: ComponentActivity, p: OktoPalette) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val scope = rememberCoroutineScope()
     LaunchedEffect(Unit) { GoogleCalendar.load(ctx) }
     val state by GoogleCalendar.state.collectAsState()
@@ -229,7 +230,7 @@ private fun CalendarKey(activity: ComponentActivity, p: OktoPalette) {
 /** Размеры текста виджетов: превью, пресеты и пошаговая настройка по 1 sp. */
 @Composable
 private fun TextSizePicker(p: OktoPalette, sample: WidgetItem?) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val stored by WidgetTextStore.state.collectAsState()
     val t = stored ?: WidgetTextStore.load(ctx)
     val fontScale = LocalDensity.current.fontScale
@@ -297,7 +298,7 @@ private fun TextSizePicker(p: OktoPalette, sample: WidgetItem?) {
 
 @Composable
 private fun SizeStepper(label: String, value: Int, range: IntRange, p: OktoPalette, onChange: (Int) -> Unit) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         BasicText(label, Modifier.weight(1f), style = TextStyle(color = p.ink, fontSize = 15.sp))
         StepKey("−", ctx.getString(R.string.decrease), p, enabled = value > range.first) { onChange(value - 1) }
@@ -342,7 +343,7 @@ private val SampleColor = Color(0xFF4A8FE0)
 
 @Composable
 private fun IconPicker(p: OktoPalette) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     var icon by remember { mutableStateOf(AppIcon.current(ctx)) }
     MonoLabel(ctx.getString(R.string.app_icon), p.muted)
     Spacer(Modifier.height(10.dp))

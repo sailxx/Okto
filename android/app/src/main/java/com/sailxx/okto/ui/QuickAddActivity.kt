@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
 import com.sailxx.okto.widget.updateOktoWidgets
@@ -72,7 +73,7 @@ private enum class When { TODAY, TOMORROW, NONE }
 
 @Composable
 private fun QuickAdd(onClose: () -> Unit) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val p = OktoRepository.state.collectAsState().value.palette
     val scope = rememberCoroutineScope()
     val focus = remember { FocusRequester() }
