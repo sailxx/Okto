@@ -147,15 +147,6 @@
     store.updateSettings({ hiddenLists: hidden.includes(id) ? hidden.filter((x) => x !== id) : [...hidden, id] });
   }
 
-  /* Horizontal swipe on phones flips the period. */
-  let sx = 0, sy = 0, swiping = false;
-  function tDown(e: PointerEvent) { if (e.pointerType === 'mouse') return; sx = e.clientX; sy = e.clientY; swiping = true; }
-  function tUp(e: PointerEvent) {
-    if (!swiping) return;
-    swiping = false;
-    const dx = e.clientX - sx, dy = e.clientY - sy;
-    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
-  }
 </script>
 
 <div class="page full cal" class:desktop class:expanded>
@@ -197,7 +188,7 @@
       {/each}
     </div>
 
-    <div class="cal-body" bind:this={bodyEl} onpointerdown={tDown} onpointerup={tUp} onpointercancel={() => (swiping = false)} role="presentation">
+    <div class="cal-body" bind:this={bodyEl}>
       {#if view === 'month'}
         {#if foldable}
           <div class="fold" onpointerdown={fDown} onpointermove={fMove} onpointerup={fUp} onpointercancel={fUp} onclickcapture={fClick} role="presentation">

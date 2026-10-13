@@ -316,6 +316,7 @@
   <div
     class="zone"
     class:locked={mode === 'counter' && store.device.locked}
+    class:sw={isSw}
     class:paused={(isPomo && !running && left < total) || (isSw && !swRunning && swLive > 0) || (isTimer && !tRunning && store.device.timer.remaining !== null)}
     onpointerdown={down} onpointermove={move} onpointerup={up} onpointercancel={up} onpointerleave={up}
     oncontextmenu={(e) => e.preventDefault()}

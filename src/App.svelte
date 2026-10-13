@@ -18,6 +18,7 @@
   import { unlockAudio } from './lib/alerts';
   import { boot } from './lib/boot.svelte';
   import { gcFiles } from './lib/files';
+  import { sectionSwipe } from './lib/swipe';
   import './styles/shell.css';
 
   let settingsOpen = $state(false);
@@ -72,7 +73,8 @@
       else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else if (router.route === 'notes') store.openNewNote(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
-    return () => { clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
+    const stopSwipe = sectionSwipe((r) => store.shows(r));
+    return () => { stopSwipe(); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
   });
 
 </script>

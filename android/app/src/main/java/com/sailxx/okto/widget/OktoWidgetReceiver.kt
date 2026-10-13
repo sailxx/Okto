@@ -35,6 +35,10 @@ class StreakWidgetReceiver : OktoReceiver() {
     override val glanceAppWidget: GlanceAppWidget = StreakWidget()
 }
 
+class QuoteWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = QuoteWidget()
+}
+
 /**
  * Фоновая синхронизация: подтягивает изменения из веб-Okto, переключает «сегодня» после полуночи
  * и перепланирует напоминания — поэтому работает и без виджета на экране.

@@ -184,6 +184,12 @@ object OktoRepository {
     suspend fun tasks(): List<OktoTask> = mutex.withLock { tasks.values.toList() }
 
     /** Отметить/снять отметку. Для повторяющейся задачи — только конкретный день, как в Okto. */
+    /** Отмечена ли задача (для повторяющейся — её [occurrence]). */
+    suspend fun isDone(taskId: String, occurrence: String?): Boolean = mutex.withLock {
+        val task = tasks[taskId] ?: return false
+        if (task.repeat != null && occurrence != null) occurrence in task.doneDates else task.done
+    }
+
     suspend fun toggle(context: Context, taskId: String, occurrence: String?) {
         val ref = userRef() ?: return
         val now = System.currentTimeMillis()

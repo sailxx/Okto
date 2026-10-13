@@ -1,6 +1,6 @@
 /* ---------- Shell: casing top, key-row tab bar, desktop key column ---------- */
 :root { --tabbar: 72px; --side: 236px; }
-.shell { min-height: 100svh; }
+.shell { min-height: 100svh; touch-action: pan-y; overflow-x: clip; } /* a screen sliding past the edge must not widen the page */
 .main { min-width: 0; transition: opacity 400ms var(--ease); }
 
 /* Wordmark with power LED */
