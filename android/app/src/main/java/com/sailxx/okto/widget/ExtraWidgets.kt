@@ -39,6 +39,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.HEAT_DAYS
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
@@ -81,7 +82,7 @@ class NextTaskWidget : GlanceAppWidget() {
 @Composable
 private fun NextTask(s: WidgetState, t: TextSizes) {
     val p = s.palette
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val next = s.next
     if (next == null) {
         Column(
@@ -127,7 +128,7 @@ class QuickAddWidget : GlanceAppWidget() {
 
 @Composable
 private fun QuickAddButton(p: OktoPalette) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     Box(
         GlanceModifier.fillMaxSize().background(p.accent).cornerRadius(24.dp).clickable(actionStartActivity<QuickAddActivity>()),
         contentAlignment = Alignment.Center,
@@ -157,7 +158,7 @@ class StreakWidget : GlanceAppWidget() {
 @Composable
 private fun Streak(s: WidgetState, t: TextSizes) {
     val p = s.palette
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     Column(GlanceModifier.fillMaxSize().clickable(actionStartActivity(oktoIntent(ctx, "#/")))) {
         MonoCaption(ctx.getString(R.string.streak_caption), p.muted)
         Row(verticalAlignment = Alignment.Bottom) {

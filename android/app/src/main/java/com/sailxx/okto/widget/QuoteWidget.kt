@@ -30,6 +30,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.OktoRepository
 import java.time.LocalDate
 
@@ -97,8 +98,8 @@ class QuoteWidget : GlanceAppWidget() {
 
 @Composable
 private fun QuoteCard(p: com.sailxx.okto.data.OktoPalette, index: Int, t: TextSizes) {
-    val ctx = LocalContext.current
-    val ru = ctx.resources.configuration.locales[0].language == "ru"
+    val ctx = AppLang.wrap(LocalContext.current)
+    val ru = AppLang.isRu(ctx)
     val q = QUOTES[index]
     Column(
         GlanceModifier.fillMaxSize().background(p.bg).cornerRadius(24.dp).padding(16.dp)

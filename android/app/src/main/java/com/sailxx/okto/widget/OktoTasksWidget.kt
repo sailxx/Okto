@@ -42,6 +42,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextDecoration
 import androidx.glance.text.TextStyle
 import com.sailxx.okto.R
+import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
 import com.sailxx.okto.data.Status
@@ -79,7 +80,7 @@ private fun WidgetBody(s: WidgetState, t: TextSizes) {
 @Composable
 private fun TaskList(s: WidgetState, t: TextSizes) {
     val p = s.palette
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     if (s.items.isEmpty()) {
         Centered {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -101,7 +102,7 @@ private const val SYNC_ROW_ID = Long.MIN_VALUE
 @Composable
 private fun SyncRow(s: WidgetState, t: TextSizes) {
     val p = s.palette
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     val time = s.syncedAt.takeIf { it > 0 }?.let {
         Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("HH:mm"))
     }
@@ -124,7 +125,7 @@ private fun SyncRow(s: WidgetState, t: TextSizes) {
 /** Задача — карточка, залитая цветом её списка; выполненная — нейтральная. */
 @Composable
 private fun TaskCard(item: WidgetItem, p: OktoPalette, t: TextSizes) {
-    val ctx = LocalContext.current
+    val ctx = AppLang.wrap(LocalContext.current)
     // На последнем кадре отметки строка уже выглядит выполненной, хотя ещё стоит на месте.
     val done = item.done || CheckAnim.frame(item.taskId, item.occurrence) == CheckAnim.CHECK
     val tint = item.color?.takeIf { !done }
