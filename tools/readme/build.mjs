@@ -21,10 +21,9 @@ const K = createKit({
 const { P, T, card, chip, sectionHead, badge, iconBox, lines, wrap, one, fitSize, fitText, delay, svg, plain } = K;
 const RED = "#EF5A5F", W = 880;
 
-// Логотип Okto — осьминог из assets/logo/okto-logo.svg
-const logo = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s / 512})"><rect width="512" height="512" rx="112" fill="#17181b" stroke="#3a3a3a" stroke-width="10"/>
-<path d="M182.08,253.36Q160.96,349.72 104.2,356.32M220.36,274.48Q212.44,366.88 187.36,415.72M291.64,274.48Q299.56,366.88 324.64,415.72M329.92,253.36Q351.04,349.72 407.8,356.32" fill="none" stroke="#fafafa" stroke-width="34.32" stroke-linecap="round"/>
-<path d="M150.4,184.72a105.6,105.6 0 1,1 211.2,0a105.6,105.6 0 1,1 -211.2,0zM201.88,175.48a18.48,18.48 0 1,1 36.96,0a18.48,18.48 0 1,1 -36.96,0zM273.16,175.48a18.48,18.48 0 1,1 36.96,0a18.48,18.48 0 1,1 -36.96,0z" fill="#fafafa" fill-rule="evenodd" stroke="#17181b" stroke-width="10.56" paint-order="stroke"/></g>`;
+// Логотип Okto — assets/logo/okto-logo.svg (рисует tools/icons/build.mjs), id с префиксом, чтобы не пересечься с плашкой
+const LOGO = fs.readFileSync("assets/logo/okto-logo.svg", "utf8").trim().replace(/^<svg[^>]*>|<\/svg>$/g, "").replace(/(id="|url\(#)o/g, "$1lo");
+const logo = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s / 104})">${LOGO}</g>`;
 
 // Пункт списка: «›» и текст с акцентами
 function bullets(x, y, items, maxW, size = 14, lh = 20, gap = 8) {
