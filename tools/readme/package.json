@@ -1,0 +1,8 @@
+{
+  "name": "okto-readme",
+  "private": true,
+  "type": "module",
+  "description": "Генератор картинок и README",
+  "scripts": { "build": "node build.mjs" },
+  "devDependencies": { "fontkit": "^2.0.4", "subset-font": "^2.4.0" }
+}
