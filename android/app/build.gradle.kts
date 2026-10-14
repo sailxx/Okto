@@ -1,11 +1,11 @@
-import java.util.Properties
+﻿import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    // Читает google-services.json: Firebase-проект okto-2102026, тот же, что у сайта
+    // Ð§Ð¸Ñ‚Ð°ÐµÑ‚ google-services.json: Firebase-Ð¿Ñ€Ð¾ÐµÐºÑ‚ okto-2102026, Ñ‚Ð¾Ñ‚ Ð¶Ðµ, Ñ‡Ñ‚Ð¾ Ñƒ ÑÐ°Ð¹Ñ‚Ð°
     id("com.google.gms.google-services")
 }
 
@@ -17,11 +17,11 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 27
+        versionCode = 28
         versionName = "3.6.0"
     }
 
-    // Ключ подписи хранится вне репозитория; путь и пароли — в keystore.properties (в .gitignore)
+    // ÐšÐ»ÑŽÑ‡ Ð¿Ð¾Ð´Ð¿Ð¸ÑÐ¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð²Ð½Ðµ Ñ€ÐµÐ¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€Ð¸Ñ; Ð¿ÑƒÑ‚ÑŒ Ð¸ Ð¿Ð°Ñ€Ð¾Ð»Ð¸ â€” Ð² keystore.properties (Ð² .gitignore)
     val keystoreFile = rootProject.file("keystore.properties")
     val releaseSigning = if (keystoreFile.exists()) {
         val props = Properties().apply { keystoreFile.inputStream().use { load(it) } }
@@ -47,7 +47,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-        // Виджет считает даты через java.time — на Android 7 (API 24–25) его даёт desugaring
+        // Ð’Ð¸Ð´Ð¶ÐµÑ‚ ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚ Ð´Ð°Ñ‚Ñ‹ Ñ‡ÐµÑ€ÐµÐ· java.time â€” Ð½Ð° Android 7 (API 24â€“25) ÐµÐ³Ð¾ Ð´Ð°Ñ‘Ñ‚ desugaring
         isCoreLibraryDesugaringEnabled = true
     }
 
@@ -63,31 +63,31 @@ kotlin {
 }
 
 dependencies {
-    // Trusted Web Activity: открывает PWA через движок Chrome на весь экран
+    // Trusted Web Activity: Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ PWA Ñ‡ÐµÑ€ÐµÐ· Ð´Ð²Ð¸Ð¶Ð¾Ðº Chrome Ð½Ð° Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½
     implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.7.4")
 
-    // Виджет задач на рабочем столе
+    // Ð’Ð¸Ð´Ð¶ÐµÑ‚ Ð·Ð°Ð´Ð°Ñ‡ Ð½Ð° Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ¼ ÑÑ‚Ð¾Ð»Ðµ
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
-    // Экраны «Настройки виджета» и «Новая задача»
+    // Ð­ÐºÑ€Ð°Ð½Ñ‹ Â«ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð²Ð¸Ð´Ð¶ÐµÑ‚Ð°Â» Ð¸ Â«ÐÐ¾Ð²Ð°Ñ Ð·Ð°Ð´Ð°Ñ‡Ð°Â»
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.activity:activity-compose:1.9.3")
 
-    // Задачи из того же Firestore, что и у сайта (users/{uid}/tasks)
+    // Ð—Ð°Ð´Ð°Ñ‡Ð¸ Ð¸Ð· Ñ‚Ð¾Ð³Ð¾ Ð¶Ðµ Firestore, Ñ‡Ñ‚Ð¾ Ð¸ Ñƒ ÑÐ°Ð¹Ñ‚Ð° (users/{uid}/tasks)
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
 
-    // Вход через Google
+    // Ð’Ñ…Ð¾Ð´ Ñ‡ÐµÑ€ÐµÐ· Google
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
-    // Доступ к Google Календарю (AuthorizationClient): задачи в календаре «Okto»
+    // Ð”Ð¾ÑÑ‚ÑƒÐ¿ Ðº Google ÐšÐ°Ð»ÐµÐ½Ð´Ð°Ñ€ÑŽ (AuthorizationClient): Ð·Ð°Ð´Ð°Ñ‡Ð¸ Ð² ÐºÐ°Ð»ÐµÐ½Ð´Ð°Ñ€Ðµ Â«OktoÂ»
     implementation("com.google.android.gms:play-services-auth:21.3.0")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")

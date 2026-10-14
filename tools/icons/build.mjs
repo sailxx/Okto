@@ -110,41 +110,68 @@ const vector = (comment, w, vp, body) => `<?xml version="1.0" encoding="utf-8"?>
     android:viewportHeight="${vp}">
 ${body}</vector>
 `;
-const grad = (attr, y1, y2, stops) => `        <aapt:attr name="android:${attr}">
+const items = (stops) => stops.map(([o, c]) => `                <item android:offset="${o}" android:color="${c}" />`).join("\n");
+const aapt = (attr, gradient, stops) => `        <aapt:attr name="android:${attr}">
             <gradient
-                android:type="linear"
-                android:startX="0"
-                android:startY="${n(y1)}"
-                android:endX="0"
-                android:endY="${n(y2)}">
-${stops.map(([o, c]) => `                <item android:offset="${o}" android:color="${c}" />`).join("\n")}
+${gradient}>
+${items(stops)}
             </gradient>
         </aapt:attr>
 `;
+/** Линейный градиент; по умолчанию вертикальный */
+const grad = (attr, y1, y2, stops, x1 = 0, x2 = 0) => aapt(attr, `                android:type="linear"
+                android:startX="${n(x1)}"
+                android:startY="${n(y1)}"
+                android:endX="${n(x2)}"
+                android:endY="${n(y2)}"`, stops);
+const radial = (attr, cx, cy, r, stops) => aapt(attr, `                android:type="radial"
+                android:centerX="${n(cx)}"
+                android:centerY="${n(cy)}"
+                android:gradientRadius="${n(r)}"`, stops);
+const ellipse = (cx, cy, rx, ry) => `M${n(cx - rx)},${n(cy)}a${n(rx)},${n(ry)} 0 1,1 ${n(2 * rx)},0a${n(rx)},${n(ry)} 0 1,1 ${n(-2 * rx)},0z`;
 const TILE = [["0", "#FF2A2A2E"], ["0.55", "#FF0E0E10"], ["1", "#FF000000"]];
 const BODY = [["0", "#FFFFFFFF"], ["1", "#FFDCDCE2"]];
+const vpath = (attrs, paint = "") => paint ? `    <path\n${attrs}>\n${paint}    </path>\n` : `    <path\n${attrs} />\n`;
 function octoVector(k, c) {
   const o = octo(k, c, c);
   const top = o.Y(15), bottom = o.Y(92);
-  return `    <path
-        android:pathData="${o.arms}"
+  return vpath(`        android:pathData="${o.arms}"
         android:strokeWidth="${o.arm}"
-        android:strokeLineCap="round">
-${grad("strokeColor", top, bottom, BODY)}    </path>
-    <path
-        android:fillType="evenOdd"
-        android:pathData="${o.head}">
-${grad("fillColor", top, bottom, BODY)}    </path>
-`;
+        android:strokeLineCap="round"`, grad("strokeColor", top, bottom, BODY)) +
+    vpath(`        android:fillType="evenOdd"
+        android:pathData="${o.head}"`, grad("fillColor", top, bottom, BODY));
 }
-// Адаптивный значок 108dp: рисунок ~55dp, внутри безопасного круга 66dp
-fs.writeFileSync(res("drawable/ic_launcher_foreground.xml"), vector("Осьминог Okto", 108, 108, octoVector(0.68, 54)));
-fs.writeFileSync(res("drawable/ic_launcher_background.xml"), vector("Фон значка Okto: тёмное стекло с бликом сверху", 108, 108, `    <path android:pathData="M0,0h108v108h-108z">
-${grad("fillColor", 0, 108, TILE)}    </path>
-    <path
-        android:fillColor="#24FFFFFF"
-        android:pathData="M0,0h108v39.5Q54,54 0,39.5z" />
-`));
+/** Осьминог как на iPhone с Liquid Glass: стеклянное тело, световой кант по голове (ярче сверху слева и снизу справа), блик */
+function octoGlassVector(k, c) {
+  const o = octo(k, c, c);
+  const h = { x: o.X(O.head.cx), y: o.Y(O.head.cy), r: O.head.r * k };
+  const top = o.Y(15), bottom = o.Y(92);
+  return vpath(`        android:pathData="${o.arms}"
+        android:strokeWidth="${o.arm}"
+        android:strokeLineCap="round"`, grad("strokeColor", top, bottom, [["0", "#FFFFFFFF"], ["1", "#FFD4D4DC"]])) +
+    vpath(`        android:pathData="${o.body}"`, grad("fillColor", h.y - h.r, h.y + h.r, [["0", "#FFFFFFFF"], ["1", "#FFD4D4DC"]])) +
+    vpath(`        android:pathData="${circle(h.x, h.y, h.r - 0.5 * k)}"
+        android:strokeWidth="${n(1.1 * k)}"`, grad("strokeColor", h.y - h.r, h.y + h.r, [["0", "#FFFFFFFF"], ["0.4", "#26FFFFFF"], ["0.75", "#10FFFFFF"], ["1", "#99FFFFFF"]], h.x - h.r * 0.6, h.x + h.r * 0.6)) +
+    vpath(`        android:pathData="${ellipse(h.x - 6 * k, h.y - 12 * k, 12 * k, 6 * k)}"`, radial("fillColor", h.x - 6 * k, h.y - 12 * k, 12 * k, [["0", "#F2FFFFFF"], ["1", "#00FFFFFF"]])) +
+    vpath(`        android:fillColor="#FF000000"
+        android:pathData="${o.eyes}"`);
+}
+// Адаптивный значок 108dp, видна середина 72dp (круг r36, у скруглённых масок углы до r≈45): рисунок ~53dp
+const K = 0.66;
+fs.writeFileSync(res("drawable/ic_launcher_foreground.xml"), vector("Осьминог Okto: Liquid Glass", 108, 108, octoGlassVector(K, 54)));
+// Монохромный значок Android 13+: плоский силуэт, глаза — дырки
+fs.writeFileSync(res("drawable/ic_launcher_monochrome.xml"), vector("Осьминог Okto: монохромный", 108, 108, vpath(`        android:pathData="${octo(K, 54, 54).arms}"
+        android:strokeWidth="${octo(K, 54, 54).arm}"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeLineCap="round"`) + vpath(`        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="${octo(K, 54, 54).head}"`)));
+// Фон — тёмное стекло: плавный градиент, блик сверху и мягкое свечение за осьминогом (кант по краю не рисуем: форма маски у лаунчеров разная)
+const SQ = "M0,0h108v108h-108z";
+fs.writeFileSync(res("drawable/ic_launcher_background.xml"), vector("Фон значка Okto: тёмное стекло Liquid Glass", 108, 108,
+  vpath(`        android:pathData="${SQ}"`, grad("fillColor", 18, 90, TILE)) +
+  vpath(`        android:pathData="${SQ}"`, radial("fillColor", 54, 50, 30, [["0", "#1FFFFFFF"], ["1", "#00FFFFFF"]])) +
+  vpath(`        android:pathData="${SQ}"`, grad("fillColor", 18, 56, [["0", "#26FFFFFF"], ["1", "#00FFFFFF"]]))));
 // Заставка TWA: скруглённый квадрат, как favicon
 fs.writeFileSync(res("drawable/splash.xml"), vector("Заставка: осьминог Okto", 96, 64, `    <path android:pathData="M16,0h32a16,16 0,0 1,16 16v32a16,16 0,0 1,-16 16h-32a16,16 0,0 1,-16 -16v-32a16,16 0,0 1,16 -16z">
 ${grad("fillColor", 0, 64, TILE)}    </path>
