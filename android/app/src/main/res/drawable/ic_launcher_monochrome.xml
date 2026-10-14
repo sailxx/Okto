@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Осьминог Okto: монохромный — сгенерировано tools/icons/build.mjs -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M43.44,56.97Q38.16,67.53 30.24,69.51M50.7,60.93Q48.72,71.49 44.1,76.77M57.3,60.93Q59.28,71.49 63.9,76.77M64.56,56.97Q69.84,67.53 77.76,69.51"
+        android:strokeWidth="5.28"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M37.5,45.09a16.5,16.5 0 1,1 33,0a16.5,16.5 0 1,1 -33,0zM45.42,43.11a2.97,2.97 0 1,1 5.94,0a2.97,2.97 0 1,1 -5.94,0zM56.64,43.11a2.97,2.97 0 1,1 5.94,0a2.97,2.97 0 1,1 -5.94,0z" />
+</vector>
