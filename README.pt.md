@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-pt.svg"><img src="assets/readme/png/sections-pt.png" width="100%" alt="Seções do Okto: Início, Tarefas, Calendário, Foco"></picture>
 
-<details>
-<summary>Mais sobre as seções</summary>
-
-### 🏠 Início
-
-Cartões suaves e coloridos: **Foco** (minutos de Pomodoro), **Sequência** (dias seguidos e recorde), **Próxima** (a tarefa mais próxima com a linha do dia), **Tarefas** (feitas das planejadas e a lista de hoje) e **contadores** para qualquer etiqueta. As abas **Hoje · Semana · Totais** alternam os valores. Adicione, remova, arraste e redimensione cartões em «Editar»; «Redefinir» volta à ordem padrão. Toque num cartão para ver um gráfico de 7 dias e o total de 30.
-
-### ✅ Tarefas
-
-Filtros: Hoje (com atrasadas), Próximas, Todas, Sem data, Concluídas — e suas próprias **listas** com cores. A tarefa tem data, hora e duração, **repetição** (diária, dias úteis, semanal, mensal, intervalo, data final), **lembrete**, prioridade, nota e **subtarefas**. **Focar numa tarefa** inicia o Pomodoro e salva os minutos nela. No celular, deslize para a esquerda para «Amanhã» ou «Apagar»; tudo pode ser desfeito. Dá para anexar **fotos e arquivos** a uma tarefa.
-
-### 📅 Calendário
-
-No estilo Apple Calendar: **Dia · Semana · Mês**, linha vermelha da hora atual e linha «dia inteiro». Uma tarefa nova aparece no calendário na hora. **Arraste** blocos para outro horário ou dia e **estique** pela borda inferior (passos de 15 minutos; no celular após um toque longo). Em tarefas repetidas o Okto pergunta: só esta, todas as futuras ou a série inteira. No celular, o mês recolhe para uma semana.
-
-### 📝 Notas
-
-Título, texto, cor e fixação, mais busca em todas as notas. Anexe **fotos da câmera, imagens e qualquer arquivo**; os arquivos ficam no dispositivo e só a descrição é sincronizada. A seção pode ser ocultada nas configurações.
-
-### 🎯 Foco
-
-Contador de um toque e Pomodoro: etiquetas com metas, passos +1/+5/+10, segurar para zerar, quatro modos de Pomodoro, cronômetro e «não apagar a tela».
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-pt.svg"><img src="assets/readme/png/quality-pt.png" width="100%" alt="QUALIDADE EM NÚMEROS"></picture>
@@ -86,18 +61,6 @@ Essas chaves não são secretas: o acesso é protegido pelas regras do Firestore
 
 <br>
 
-## 🛠 Desenvolvimento
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: repetições, estatísticas, migração, sincronização, calendário
-npm run check    # svelte-check
-npm run build    # gera o build em dist/
-```
-
-Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha as chaves. O GitHub Pages publica automaticamente a cada mudança em `main`.
-
 ## 🗂 Histórico de versões
 
 **3.0** — seção Notas com fotos e arquivos; novo Início com cartões suaves e coloridos e abas Hoje / Semana / Totais; barras de navegação flutuantes e barra lateral recolhível no computador; configurações com seções recolhíveis; Foco renovado; correções dos widgets no Android.
@@ -113,8 +76,3 @@ Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha a
 ## ⚖️ Licenças
 
 A fonte [Inter](https://rsms.me/inter/) usa a licença SIL Open Font License 1.1. As imagens do README usam [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
-
-<div align="center">
-<br>
-<sub>Feito por [Vlad](https://t.me/arkhitkovv). Se o Okto te ajudou, deixe uma ⭐ no repositório.</sub>
-</div>

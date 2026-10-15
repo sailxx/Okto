@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-pl.svg"><img src="assets/readme/png/sections-pl.png" width="100%" alt="Sekcje Okto: Start, Zadania, Kalendarz, Skupienie"></picture>
 
-<details>
-<summary>Więcej o sekcjach</summary>
-
-### 🏠 Ekran główny
-
-Miękkie kolorowe karty: **Skupienie** (minuty Pomodoro), **Seria** (dni z rzędu i rekord), **Dalej** (najbliższe zadanie z osią dnia), **Zadania** (wykonane z zaplanowanych i lista na dziś) oraz **liczniki** dla dowolnego tagu. Zakładki **Dziś · Tydzień · Podsumowanie** przełączają wartości. Karty można dodawać, usuwać, przeciągać i rozciągać przyciskiem «Edytuj»; «Przywróć» wraca do domyślnego układu. Dotknij karty, by zobaczyć wykres z 7 dni i sumę z 30.
-
-### ✅ Zadania
-
-Filtry: Dziś (z zaległymi), Nadchodzące, Wszystkie, Bez daty, Ukończone — oraz własne kolorowe **listy**. Zadanie ma datę, godzinę i czas trwania, **powtarzanie** (codziennie, dni robocze, co tydzień, co miesiąc, interwał, data końca), **przypomnienie**, priorytet, notatkę i **podzadania**. **Skupienie na zadaniu** uruchamia Pomodoro i zapisuje minuty w zadaniu. Na telefonie przesuń w lewo: „Na jutro” lub „Usuń”; każdą akcję można cofnąć. Do zadania można dołączyć **zdjęcia i pliki**.
-
-### 📅 Kalendarz
-
-W stylu Apple Calendar: **Dzień · Tydzień · Miesiąc**, czerwona linia bieżącej godziny i wiersz „cały dzień”. Nowe zadanie od razu pojawia się w kalendarzu. Bloki można **przeciągać** na inną godzinę lub dzień i **rozciągać** za dolną krawędź (krok 15 minut; na telefonie po długim przytrzymaniu). Przy zadaniach cyklicznych Okto zapyta: tylko to, wszystkie przyszłe czy całą serię. Na telefonie miesiąc zwija się do tygodnia.
-
-### 📝 Notatki
-
-Tytuł, tekst, kolor i przypinanie oraz wyszukiwanie we wszystkich notatkach. Dołącz **zdjęcia z aparatu, obrazy i dowolne pliki**; pliki zostają na urządzeniu, synchronizowany jest tylko opis. Sekcję można ukryć w ustawieniach.
-
-### 🎯 Skupienie
-
-Licznik jednym dotknięciem i Pomodoro: gotowe tagi z celami, kroki +1/+5/+10, przytrzymanie — reset, cztery tryby Pomodoro, stoper i „nie wygaszaj ekranu”.
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-pl.svg"><img src="assets/readme/png/quality-pl.png" width="100%" alt="JAKOŚĆ W LICZBACH"></picture>
@@ -86,18 +61,6 @@ Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tyl
 
 <br>
 
-## 🛠 Rozwój
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: powtórki, statystyki, migracja, synchronizacja, kalendarz
-npm run check    # svelte-check
-npm run build    # build do dist/
-```
-
-Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.
-
 ## 🗂 Historia wersji
 
 **3.0** — sekcja Notatki ze zdjęciami i plikami; nowy ekran główny z miękkimi kolorowymi kartami i zakładkami Dziś / Tydzień / Podsumowanie; pływające paski nawigacji i zwijany panel boczny na komputerze; ustawienia ze zwijanymi sekcjami; odświeżony Fokus; poprawki widgetów na Androidzie.
@@ -113,8 +76,3 @@ Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij k
 ## ⚖️ Licencje
 
 Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
-
-<div align="center">
-<br>
-<sub>Zrobił [Vlad](https://t.me/arkhitkovv). Jeśli Okto ci się przydał, zostaw ⭐ w repozytorium.</sub>
-</div>

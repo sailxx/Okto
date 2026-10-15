@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-en.svg"><img src="assets/readme/png/sections-en.png" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus"></picture>
 
-<details>
-<summary>More about the sections</summary>
-
-### 🏠 Home
-
-Soft coloured cards: **Focus** (Pomodoro minutes), **Streak** (days in a row and your record), **Up next** (the nearest task with a day strip), **Tasks** (done out of planned, plus today’s list) and **counters** for any tag. The **Today · Week · Totals** tabs switch the values. Add, remove, drag and resize cards with “Edit”; “Reset layout” restores the default order. Tap a card for a 7-day chart and a 30-day total.
-
-### ✅ Tasks
-
-Filters: Today (with overdue), Upcoming, All, No date, Completed — plus your own coloured **lists**. A task has a date, time and duration, a **repeat** (daily, weekdays, weekly, monthly, interval, end date), a **reminder**, priority, a note and **subtasks**. **Focus on a task** starts Pomodoro and logs the minutes to it. On a phone, swipe left for “Tomorrow” or “Delete”; every action can be undone. You can attach **photos and files** to a task.
-
-### 📅 Calendar
-
-Apple Calendar style: **Day · Week · Month**, a red current-time line and an all-day row. A new task shows up in the calendar right away. **Drag** blocks to another time or day and **stretch** them by the bottom edge (15-minute steps; on a phone after a long press). For repeating tasks Okto asks: this one, all future ones or the whole series. On a phone, the month collapses into a week.
-
-### 📝 Notes
-
-A title, text, colour and pinning, plus search across all notes. Attach **camera photos, pictures and any files**; the files stay on the device and only their description syncs. You can hide the section in Settings.
-
-### 🎯 Focus
-
-A one-tap counter and Pomodoro: preset tags with goals, +1/+5/+10 steps, hold to reset, four Pomodoro modes, a stopwatch and “keep screen on”.
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-en.svg"><img src="assets/readme/png/quality-en.png" width="100%" alt="QUALITY IN NUMBERS"></picture>
@@ -86,18 +61,6 @@ These keys are not secret — access is protected by Firestore rules, so everyon
 
 <br>
 
-## 🛠 Development
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: repeats, stats, data migration, sync, calendar layout
-npm run check    # svelte-check
-npm run build    # build into dist/
-```
-
-For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.
-
 ## 🗂 Version history
 
 **3.0** — a Notes section with photos and files; a new Home with soft coloured cards and Today / Week / Totals tabs; floating navigation bars and a collapsible sidebar on desktop; Settings with collapsible sections; a refreshed Focus screen; Android widget fixes.
@@ -113,8 +76,3 @@ For sync during local development, copy `.env.example` to `.env.local` and fill 
 ## ⚖️ Licenses
 
 The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
-
-<div align="center">
-<br>
-<sub>Made by [Vlad](https://t.me/arkhitkovv). If Okto helped you, give the repo a ⭐</sub>
-</div>
