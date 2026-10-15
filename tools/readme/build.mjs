@@ -330,7 +330,6 @@ const langs = Object.keys(md);
 for (const lang of langs) {
   const m = md[lang];
   const sw = langs.map((l) => (l === lang ? `**${md[l].name}**` : `[${md[l].name}](${md[l].file})`)).join(" · ");
-  const sec = (k) => `### ${m[k][0]}\n\n${m[k][1]}\n`;
   const text = `<div align="center">
 
 ${sw}
@@ -356,12 +355,6 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <br>
 
 <picture><source srcset="assets/readme/sections-${lang}.svg"><img src="assets/readme/png/sections-${lang}.png" width="100%" alt="${m.alt[2]}"></picture>
-
-<details>
-<summary>${m.more}</summary>
-
-${["home", "tasks", "calendar", "notes", "focus"].map(sec).join("\n")}
-</details>
 
 <br>
 
@@ -392,18 +385,6 @@ ${m.syncNote}
 
 <br>
 
-## ${m.dev}
-
-\`\`\`bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # ${m.devTests}
-npm run check    # svelte-check
-npm run build    # ${m.devBuild}
-\`\`\`
-
-${m.devEnv}
-
 ## ${m.history}
 
 ${m.h30}
@@ -419,11 +400,6 @@ ${m.h1}
 ## ${m.license}
 
 ${m.lic}
-
-<div align="center">
-<br>
-<sub>${m.footer}</sub>
-</div>
 `;
   fs.writeFileSync(m.file, text);
 }

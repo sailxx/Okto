@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-tr.svg"><img src="assets/readme/png/sections-tr.png" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak"></picture>
 
-<details>
-<summary>Bölümler hakkında daha fazlası</summary>
-
-### 🏠 Ana sayfa
-
-Yumuşak renkli kartlar: **Odak** (Pomodoro dakikaları), **Seri** (art arda günler ve rekor), **Sıradaki** (gün şeridiyle en yakın görev), **Görevler** (planlananlardan tamamlananlar ve bugünün listesi) ve her etiket için **sayaçlar**. **Bugün · Hafta · Toplam** sekmeleri değerleri değiştirir. Kartları «Düzenle» ile ekleyin, kaldırın, sürükleyin ve boyutlandırın; «Sıfırla» varsayılan düzene döner. 7 günlük grafik ve 30 günlük toplam için karta dokunun.
-
-### ✅ Görevler
-
-Filtreler: Bugün (gecikenlerle), Yaklaşan, Tümü, Tarihsiz, Tamamlanan — ve kendi renkli **listelerin**. Bir görevin tarihi, saati ve süresi, **tekrarı** (her gün, hafta içi, haftalık, aylık, aralık, bitiş tarihi), **hatırlatıcısı**, önceliği, notu ve **alt görevleri** vardır. **Bir göreve odaklanmak** Pomodoro’yu başlatır ve dakikaları göreve yazar. Telefonda sola kaydır: «Yarına» ya da «Sil»; her işlem geri alınabilir. Göreve **fotoğraf ve dosya** eklenebilir.
-
-### 📅 Takvim
-
-Apple Takvim tarzında: **Gün · Hafta · Ay**, şu anki saati gösteren kırmızı çizgi ve «tüm gün» satırı. Yeni görev hemen takvimde görünür. Blokları başka bir saate ya da güne **sürükle** ve alt kenarından **uzat** (15 dakikalık adımlar; telefonda uzun basınca). Tekrarlanan görevlerde Okto sorar: yalnızca bu, sonrakilerin hepsi ya da tüm seri. Telefonda ay görünümü haftaya daralır.
-
-### 📝 Notlar
-
-Başlık, metin, renk ve sabitleme; tüm notlarda arama. **Kamera fotoğrafları, resimler ve her türlü dosya** ekleyebilirsiniz; dosyalar cihazda kalır, yalnızca açıklaması eşitlenir. Bölüm ayarlardan gizlenebilir.
-
-### 🎯 Odak
-
-Tek dokunuşla sayaç ve Pomodoro: hedefli hazır etiketler, +1/+5/+10 adımlar, sıfırlamak için basılı tut, dört Pomodoro modu, kronometre ve «ekranı açık tut».
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-tr.svg"><img src="assets/readme/png/quality-tr.png" width="100%" alt="RAKAMLARLA KALİTE"></picture>
@@ -86,18 +61,6 @@ Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yaln�
 
 <br>
 
-## 🛠 Geliştirme
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: tekrarlar, istatistik, veri taşıma, senkronizasyon, takvim
-npm run check    # svelte-check
-npm run build    # dist/ içine derler
-```
-
-Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.
-
 ## 🗂 Sürüm geçmişi
 
 **3.0** — fotoğraf ve dosya ekleyebileceğiniz Notlar bölümü; yumuşak renkli kartlar ve Bugün / Hafta / Toplam sekmeleriyle yeni Ana sayfa; yüzen gezinme çubukları ve masaüstünde daraltılabilir kenar çubuğu; daraltılabilir bölümlü ayarlar; yenilenen Odak; Android widget düzeltmeleri.
@@ -113,8 +76,3 @@ Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopy
 ## ⚖️ Lisanslar
 
 [Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) ile dizilmiştir.
-
-<div align="center">
-<br>
-<sub>[Vlad](https://t.me/arkhitkovv) tarafından yapıldı. Okto işine yaradıysa depoya bir ⭐ bırak.</sub>
-</div>

@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-de.svg"><img src="assets/readme/png/sections-de.png" width="100%" alt="Bereiche von Okto: Start, Aufgaben, Kalender, Fokus"></picture>
 
-<details>
-<summary>Mehr zu den Bereichen</summary>
-
-### 🏠 Start
-
-Weiche, farbige Karten: **Fokus** (Pomodoro-Minuten), **Serie** (Tage in Folge und Rekord), **Als Nächstes** (die nächste Aufgabe mit Tagesleiste), **Aufgaben** (erledigt von geplant, dazu die Liste für heute) und **Zähler** für jedes Tag. Die Tabs **Heute · Woche · Gesamt** schalten die Werte um. Karten lassen sich mit „Bearbeiten“ hinzufügen, entfernen, verschieben und vergrößern; „Zurücksetzen“ stellt die Standardordnung wieder her. Tippen Sie auf eine Karte für ein 7-Tage-Diagramm und die 30-Tage-Summe.
-
-### ✅ Aufgaben
-
-Filter: Heute (mit überfälligen), Demnächst, Alle, Ohne Datum, Erledigt — dazu eigene farbige **Listen**. Eine Aufgabe hat Datum, Uhrzeit und Dauer, **Wiederholung** (täglich, werktags, wöchentlich, monatlich, Intervall, Enddatum), **Erinnerung**, Priorität, Notiz und **Unteraufgaben**. **Fokus auf eine Aufgabe** startet Pomodoro und schreibt die Minuten zur Aufgabe. Am Handy nach links wischen für „Morgen“ oder „Löschen“; alles lässt sich rückgängig machen. An eine Aufgabe lassen sich **Fotos und Dateien** anhängen.
-
-### 📅 Kalender
-
-Im Stil von Apple Kalender: **Tag · Woche · Monat**, rote Linie für die aktuelle Zeit und eine Ganztägig-Zeile. Eine neue Aufgabe erscheint sofort im Kalender. Blöcke auf eine andere Zeit oder einen anderen Tag **ziehen** und am unteren Rand **verlängern** (15-Minuten-Schritte; am Handy nach langem Drücken). Bei wiederkehrenden Aufgaben fragt Okto: nur diese, alle künftigen oder die ganze Serie. Auf dem Handy klappt der Monat zu einer Woche zusammen.
-
-### 📝 Notizen
-
-Titel, Text, Farbe und Anheften sowie Suche über alle Notizen. Hängen Sie **Kamerafotos, Bilder und beliebige Dateien** an; die Dateien bleiben auf dem Gerät, nur die Beschreibung wird synchronisiert. Der Bereich lässt sich in den Einstellungen ausblenden.
-
-### 🎯 Fokus
-
-Zähler mit einem Tipp und Pomodoro: Vorlagen-Tags mit Zielen, Schritte +1/+5/+10, Halten zum Zurücksetzen, vier Pomodoro-Modi, Stoppuhr und „Bildschirm anlassen“.
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-de.svg"><img src="assets/readme/png/quality-de.png" width="100%" alt="QUALITÄT IN ZAHLEN"></picture>
@@ -86,18 +61,6 @@ Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, 
 
 <br>
 
-## 🛠 Entwicklung
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: Wiederholungen, Statistik, Migration, Synchronisierung, Kalender
-npm run check    # svelte-check
-npm run build    # Build nach dist/
-```
-
-Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.
-
 ## 🗂 Versionen
 
 **3.0** — Bereich „Notizen“ mit Fotos und Dateien; neue Startseite mit weichen, farbigen Karten und Tabs Heute / Woche / Gesamt; schwebende Navigationsleisten und einklappbare Seitenleiste am Desktop; Einstellungen mit einklappbaren Bereichen; überarbeiteter Fokus; Widget-Korrekturen unter Android.
@@ -113,8 +76,3 @@ Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Sc
 ## ⚖️ Lizenzen
 
 Die Schrift [Inter](https://rsms.me/inter/) steht unter der SIL Open Font License 1.1. Die README-Bilder sind in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) gesetzt.
-
-<div align="center">
-<br>
-<sub>Gemacht von [Vlad](https://t.me/arkhitkovv). Wenn dir Okto hilft, gib dem Repo einen ⭐</sub>
-</div>

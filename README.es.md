@@ -27,31 +27,6 @@
 
 <picture><source srcset="assets/readme/sections-es.svg"><img src="assets/readme/png/sections-es.png" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque"></picture>
 
-<details>
-<summary>Más sobre las secciones</summary>
-
-### 🏠 Inicio
-
-Tarjetas suaves de colores: **Enfoque** (minutos de Pomodoro), **Racha** (días seguidos y récord), **Siguiente** (la tarea más próxima con la línea del día), **Tareas** (hechas de las planeadas y la lista de hoy) y **contadores** para cualquier etiqueta. Las pestañas **Hoy · Semana · Totales** cambian los valores. Añade, quita, arrastra y redimensiona tarjetas con «Editar»; «Restablecer» devuelve el orden inicial. Toca una tarjeta para ver un gráfico de 7 días y el total de 30.
-
-### ✅ Tareas
-
-Filtros: Hoy (con vencidas), Próximas, Todas, Sin fecha, Completadas — y tus propias **listas** con colores. Una tarea tiene fecha, hora y duración, **repetición** (diaria, laborables, semanal, mensual, intervalo, fecha de fin), **recordatorio**, prioridad, nota y **subtareas**. **Enfocarse en una tarea** inicia Pomodoro y guarda los minutos en ella. En el móvil, desliza a la izquierda para «Mañana» o «Borrar»; todo se puede deshacer. Puedes adjuntar **fotos y archivos** a una tarea.
-
-### 📅 Calendario
-
-Al estilo Apple Calendar: **Día · Semana · Mes**, línea roja de la hora actual y fila «todo el día». Una tarea nueva aparece enseguida en el calendario. **Arrastra** bloques a otra hora o día y **estíralos** por el borde inferior (pasos de 15 minutos; en el móvil tras una pulsación larga). En las tareas repetidas Okto pregunta: solo esta, todas las futuras o toda la serie. En el móvil, el mes se pliega a una semana.
-
-### 📝 Notas
-
-Título, texto, color y fijado, más búsqueda en todas las notas. Adjunta **fotos de la cámara, imágenes y cualquier archivo**; los archivos se quedan en el dispositivo y solo se sincroniza su descripción. La sección se puede ocultar en los ajustes.
-
-### 🎯 Enfoque
-
-Contador de un toque y Pomodoro: etiquetas con metas, pasos +1/+5/+10, mantener para reiniciar, cuatro modos de Pomodoro, cronómetro y «no apagar la pantalla».
-
-</details>
-
 <br>
 
 <picture><source srcset="assets/readme/quality-es.svg"><img src="assets/readme/png/quality-es.png" width="100%" alt="CALIDAD EN CIFRAS"></picture>
@@ -86,18 +61,6 @@ Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y ca
 
 <br>
 
-## 🛠 Desarrollo
-
-```bash
-npm install
-npm run dev      # http://localhost:5173
-npm test         # Vitest: repeticiones, estadísticas, migración, sincronización, calendario
-npm run check    # svelte-check
-npm run build    # compila en dist/
-```
-
-Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las claves. GitHub Pages publica automáticamente con cada cambio en `main`.
-
 ## 🗂 Historial de versiones
 
 **3.0** — sección Notas con fotos y archivos; nuevo Inicio con tarjetas suaves de colores y pestañas Hoy / Semana / Totales; barras de navegación flotantes y barra lateral plegable en escritorio; ajustes con secciones plegables; Foco renovado; correcciones de widgets en Android.
@@ -113,8 +76,3 @@ Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las cla
 ## ⚖️ Licencias
 
 La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).
-
-<div align="center">
-<br>
-<sub>Hecho por [Vlad](https://t.me/arkhitkovv). Si Okto te sirvió, dale una ⭐ al repositorio.</sub>
-</div>
