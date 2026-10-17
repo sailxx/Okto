@@ -1,6 +1,6 @@
 import { addDays, toKey, toMin, fromKey } from './date';
-import { DICT, weekStartOf, type Key } from './i18n';
-import { fromLive, pomoSessionId, toLive } from './live';
+import { fromLive, pomoSessionId, toLive } from './focusSync';
+import { DICT, locale, weekStartOf, type Key } from './i18n';
 import { migrateLegacy } from './migrate';
 import {
   defaultData, defaultDevice, defaultLists, live, newCounter, newList, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
@@ -384,6 +384,27 @@ class Store {
     if (t.endsAt) this.setDevice({ timer: { ...t, endsAt: t.endsAt + ms } });
     else if (t.remaining !== null) this.setDevice({ timer: { ...t, remaining: t.remaining + ms } });
     else this.setDevice({ timer: { ...t, duration: Math.min(24 * 3600000, t.duration + ms) } });
+  }
+
+  /* ---------- stopwatch and counter steps (Focus screen and the live notification) ---------- */
+  swAt(t = Date.now()) { const sw = this.device.stopwatch; return sw.elapsed + (sw.startedAt ? Math.max(0, t - sw.startedAt) : 0); }
+  swToggle() {
+    const sw = this.device.stopwatch;
+    this.setDevice({ stopwatch: sw.startedAt ? { ...sw, elapsed: this.swAt(), startedAt: null } : { ...sw, startedAt: Date.now() } });
+  }
+  swReset() { this.setDevice({ stopwatch: { elapsed: 0, startedAt: null, laps: [] } }); }
+  /** One step of the active counter; false when nothing changed. */
+  counterStep(dir: 1 | -1) {
+    const c = this.activeCounter();
+    if (this.device.locked && dir > 0) { this.toast(this.t('locked')); return false; }
+    const next = Math.max(0, c.count + dir * c.step);
+    if (next === c.count) return false;
+    this.saveCounter({ ...$state.snapshot(c), count: next, history: [...c.history, c.count].slice(-50) });
+    if (dir > 0 && c.count < c.target && next >= c.target) {
+      const target = new Intl.NumberFormat(locale(this.lang)).format(c.target);
+      this.alert(this.t('goalReachedTitle'), this.t('goalReachedBody')(c.name || this.t('counter'), target));
+    }
+    return true;
   }
 
   pomoToday() { return this.sessions.filter((s) => toKey(new Date(s.start)) === this.today).length; }

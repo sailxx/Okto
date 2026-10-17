@@ -46,7 +46,7 @@
     return () => cancelAnimationFrame(raf);
   });
   /** Elapsed at a moment: the frame clock only adds smoothness, the app ticker keeps it right when frames pause. */
-  const swAt = (t: number) => { const sw = store.device.stopwatch; return sw.elapsed + (sw.startedAt ? Math.max(0, t - sw.startedAt) : 0); };
+  const swAt = (t: number) => store.swAt(t);
   const swLive = $derived(swAt(Math.max(isSw ? frame : 0, store.now.getTime())));
   const laps = $derived(store.device.stopwatch.laps);
   const lastLap = $derived(laps.length ? laps[laps.length - 1] : 0);
@@ -60,7 +60,7 @@
     store.setDevice({ stopwatch: { ...store.device.stopwatch, laps: [...laps, swAt(Date.now())].slice(-99) } });
     if (store.data.settings.vibrate) buzz(10);
   }
-  function resetSw() { store.setDevice({ stopwatch: { elapsed: 0, startedAt: null, laps: [] } }); }
+  const resetSw = () => store.swReset();
 
   /* ---------- timer view ---------- */
   const TIMER_PRESETS = [1, 3, 5, 10, 15, 30, 60];
@@ -99,16 +99,9 @@
     store.saveCounter({ ...$state.snapshot(c), count, history });
   }
   function changeCount(dir: 1 | -1) {
-    const c = counter;
-    if (store.device.locked && dir > 0) { store.toast(store.t('locked')); return; }
-    const next = Math.max(0, c.count + dir * c.step);
-    if (next === c.count) return;
-    setCount(c, next);
+    if (!store.counterStep(dir)) return;
     tickAnim = false; requestAnimationFrame(() => { tickAnim = true; });
     if (store.data.settings.vibrate) buzz(6);
-    if (dir > 0 && c.count < c.target && next >= c.target) {
-      store.alert(store.t('goalReachedTitle'), store.t('goalReachedBody')(counterName(c), fmt.format(c.target)));
-    }
   }
   function resetCount() {
     if (counter.count === 0) return;
@@ -122,10 +115,7 @@
     const history = c.history.slice(0, -1);
     setCount(c, c.history[c.history.length - 1], history);
   }
-  function toggleStopwatch() {
-    const sw = store.device.stopwatch;
-    store.setDevice({ stopwatch: sw.startedAt ? { ...sw, elapsed: swAt(Date.now()), startedAt: null } : { ...sw, startedAt: Date.now() } });
-  }
+  const toggleStopwatch = () => store.swToggle();
 
   function primary() {
     if (isPomo) { if (running) store.pomoPause(); else store.pomoStart(); if (store.data.settings.vibrate) buzz(8); }

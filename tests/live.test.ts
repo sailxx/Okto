@@ -1,38 +1,45 @@
 import { describe, it, expect } from 'vitest';
-import { defaultDevice, normDevice, POMO } from '../src/lib/model';
-import { fromLive, pomoSessionId, toLive } from '../src/lib/live';
+import { liveView, pomoBar } from '../src/lib/live';
+import { defaultDevice, POMO } from '../src/lib/model';
+import { DICT } from '../src/lib/i18n';
 
-const device = () => ({ ...defaultDevice(), liveAt: 100, stopwatch: { elapsed: 5000, startedAt: null, laps: [1000, 3000] } });
+const t = DICT.ru;
+const now = 1_000_000_000;
+const dev = (patch: object = {}) => ({ ...defaultDevice(), ...patch });
 
-describe('shared clocks (live/focus)', () => {
-  it('round-trips the clocks', () => {
-    const d = { ...device(), timer: { duration: 600000, endsAt: 9_000_000, remaining: null } };
-    const live = { ...toLive(d, POMO.classic), updatedAt: 200 };
-    const patch = fromLive(device(), live)!;
-    expect(patch.timer).toEqual({ duration: 600000, endsAt: 9_000_000, remaining: null });
-    expect(patch.liveAt).toBe(200);
-    expect(live.cfg).toEqual(POMO.classic);
+describe('live notification', () => {
+  it('nothing going on — no notification', () => {
+    expect(liveView(dev(), POMO.classic, null, now, t)).toBeNull();
   });
-  it('ignores records that are not newer', () => {
-    expect(fromLive(device(), { ...toLive(device(), POMO.classic), updatedAt: 100 })).toBeNull();
-    expect(fromLive(device(), { ...toLive(device(), POMO.classic), updatedAt: 50 })).toBeNull();
+  it('running Pomodoro: time left, next phase, end time and buttons', () => {
+    const v = liveView(dev({ focusMode: 'pomodoro', pomo: { phase: 'work', round: 1, remaining: null, endsAt: now + 120_000 } }), POMO.classic, null, now, t)!;
+    expect(v.title).toBe('Фокус · осталось 2 мин');
+    expect(v.body.split('\n')[0]).toBe('Дальше: перерыв 5 мин');
+    expect(v.timestamp).toBe(now + 120_000);
+    expect(v.actions.map((a) => a.action)).toEqual(['pomodoro:pause', 'pomodoro:skip']);
   });
-  it('rejects broken records', () => {
-    expect(fromLive(device(), null)).toBeNull();
-    expect(fromLive(device(), { updatedAt: 500 })).toBeNull();
-    expect(fromLive(device(), { ...toLive(device(), POMO.classic), pomo: { phase: 'nap', round: 1 }, updatedAt: 500 })).toBeNull();
+  it('paused timer offers to resume and shows what is left', () => {
+    const v = liveView(dev({ focusMode: 'timer', timer: { duration: 600_000, endsAt: null, remaining: 90_000 } }), POMO.classic, null, now, t)!;
+    expect(v.title).toBe('Таймер · на паузе');
+    expect(v.body.startsWith('01:30')).toBe(true);
+    expect(v.actions[0].action).toBe('timer:resume');
   });
-  it('keeps laps locally and clears them on a reset elsewhere', () => {
-    const run = fromLive(device(), { ...toLive(device(), POMO.classic), stopwatch: { elapsed: 5000, startedAt: 7000 }, updatedAt: 300 })!;
-    expect(run.stopwatch!.laps).toEqual([1000, 3000]);
-    const reset = fromLive(device(), { ...toLive(device(), POMO.classic), stopwatch: { elapsed: 0, startedAt: null }, updatedAt: 300 })!;
-    expect(reset.stopwatch!.laps).toEqual([]);
+  it('a running timer shows from another Focus mode', () => {
+    const v = liveView(dev({ focusMode: 'stopwatch', timer: { duration: 60_000, endsAt: now + 30_000, remaining: null } }), POMO.classic, null, now, t)!;
+    expect(v.kind).toBe('timer');
   });
-  it('remembers liveAt across reloads', () => {
-    expect(normDevice({ liveAt: 1234 }).liveAt).toBe(1234);
-    expect(normDevice({}).liveAt).toBe(0);
+  it('counter only when given', () => {
+    const d = dev({ focusMode: 'counter' });
+    expect(liveView(d, POMO.classic, null, now, t)).toBeNull();
+    const v = liveView(d, POMO.classic, { name: '', count: 12, target: 33, step: 1 }, now, t)!;
+    expect(v.title).toBe('Счётчик · 12');
+    expect(v.actions.map((a) => a.title)).toEqual(['+1', '−1']);
   });
-  it('gives one session id per finished phase', () => {
-    expect(pomoSessionId(1700000000000)).toBe('pomo-1700000000000');
+  it('Pomodoro bar: one segment per phase, passed ones full', () => {
+    const bar = pomoBar(POMO.classic, 'short', 1, 0);
+    const parts = bar.split(' ');
+    expect(parts).toHaveLength(8);
+    expect(parts[0]).toMatch(/^━+$/);
+    expect(parts[2]).toMatch(/^─+$/);
   });
 });

@@ -16,6 +16,7 @@
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
   import { unlockAudio } from './lib/alerts';
+  import { liveSync } from './lib/liveNotify';
   import { boot } from './lib/boot.svelte';
   import { gcFiles } from './lib/files';
   import { sectionSwipe } from './lib/swipe';
@@ -24,6 +25,7 @@
   let settingsOpen = $state(false);
   let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
+  let hidden = $state(document.hidden);
 
   const pomodoro = $derived(router.route === 'focus' && store.device.focusMode === 'pomodoro');
 
@@ -43,6 +45,12 @@
     if (!(router.route === 'focus' && store.pomoRunning())) document.title = store.t('appTitle');
   });
 
+  // Live Focus notification: follows the clock, Focus state and language.
+  $effect(() => {
+    void store.now;
+    liveSync(hidden);
+  });
+
   // A switched-off section is not reachable, even from an old link.
   $effect(() => {
     if (!store.shows(router.route)) router.go('home');
@@ -53,7 +61,7 @@
     const onScheme = () => { systemDark = mq.matches; };
     mq.addEventListener('change', onScheme);
     const timer = setInterval(() => store.tick(), 250);
-    const onVisible = () => { if (!document.hidden) store.tick(); };
+    const onVisible = () => { hidden = document.hidden; if (!hidden) store.tick(); };
     document.addEventListener('visibilitychange', onVisible);
     document.addEventListener('pointerdown', unlockAudio, { once: true });
     if (!store.storageOk) store.toast(store.t('storageFail'));
