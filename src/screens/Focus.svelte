@@ -22,6 +22,8 @@
   const linked = $derived(store.device.focusTask ? store.data.tasks[store.device.focusTask] : null);
 
   let editing = $state<{ id: string | null } | null>(null);
+  /** Pomodoro preset or counter list, opened from a card row. */
+  let picker = $state<'pomo' | 'counter' | null>(null);
   let countEl: HTMLButtonElement;
   let tickAnim = $state(false);
 
@@ -32,10 +34,6 @@
     const p = (n: number) => String(n).padStart(2, '0');
     return h ? `${h}:${p(m)}:${p(s)}` : `${p(m)}:${p(s)}`;
   }
-  const swMs = $derived.by(() => {
-    const sw = store.device.stopwatch;
-    return sw.elapsed + (sw.startedAt ? store.now.getTime() - sw.startedAt : 0);
-  });
 
   /* ---------- stopwatch view: hundredths need a frame clock ---------- */
   let frame = $state(Date.now());
@@ -159,7 +157,7 @@
   let pressTimer: ReturnType<typeof setTimeout> | undefined;
   let pressStart: { x: number; y: number } | null = null;
   let suppressClick = false;
-  const isControl = (n: EventTarget | null) => n instanceof Element && n.closest('button, input, a, dialog') && !n.closest('.count');
+  const isControl = (n: EventTarget | null) => n instanceof Element && n.closest('button, input, a, dialog, .frows') && !n.closest('.count');
 
   function down(e: PointerEvent) {
     if (e.button !== 0 || isControl(e.target)) return;
@@ -262,23 +260,6 @@
     {/each}
   </div>
 
-  <section class="heading">
-    <button class="name" type="button" onclick={() => (mode === 'counter' ? (editing = { id: counter.id }) : isTimer ? openCustom() : null)}>
-      {isPomo ? store.t('phase')[phase] : isSw ? store.t('modeStopwatch') : isTimer ? store.t('modeTimer') : counterName(counter)}
-    </button>
-    <p class="meta">
-      {#if isSw}
-        {laps.length ? store.t('laps')(laps.length) : store.t('noLaps')}
-      {:else if isTimer}
-        {store.t('timerFor')(durLabel(tDur))}
-      {:else if isPomo}
-        {store.t('round')(store.device.pomo.round, cfg.every)} · {store.t('todayFocuses')(store.pomoToday())}
-      {:else}
-        {store.t('goalLine')(fmt.format(counter.target))}{#if counter.count >= counter.target} · <b>{store.t('goalDone')}</b>{/if}
-      {/if}
-    </p>
-  </section>
-
   {#if isPomo && linked && !linked.deleted}
     <div class="linked" style:--c={store.colorOf(linked)}>
       <span class="ldot"></span><span class="ltitle">{linked.title}</span>
@@ -286,32 +267,7 @@
     </div>
   {/if}
 
-  {#if !isSw}
-  <div class="tags" role="listbox">
-    {#if isTimer}
-      {#each TIMER_PRESETS as m}
-        <button type="button" class="tag" role="option" aria-selected={tDur === m * 60000} style:--c="var(--ink)" onclick={() => store.timerSet(m * 60000)}>{store.t('durMin')(m)}</button>
-      {/each}
-      <button type="button" class="tag add" role="option" aria-selected={!TIMER_PRESETS.some((m) => m * 60000 === tDur)} onclick={openCustom}>{store.t('customTime')}</button>
-    {:else if isPomo}
-      {#each presets as key}
-        <button type="button" class="tag" role="option" aria-selected={store.data.settings.pomo.preset === key} style:--c="var(--ink)" onclick={() => pickPreset(key)}>
-          {store.t('pomo')[key]}<small>{presetCfg(key).work}/{presetCfg(key).short}</small>
-        </button>
-      {/each}
-    {:else}
-      {#each store.counters as c (c.id)}
-        <button type="button" class="tag" role="option" aria-selected={c.id === counter.id} style:--c={c.color} onclick={() => pickCounter(c.id)}>
-          {counterName(c)}<small>{fmt.format(c.target)}</small>
-        </button>
-      {/each}
-      {#if store.counters.length < 20}
-        <button type="button" class="tag add" onclick={() => (editing = { id: null })}>+ {store.t('add')}</button>
-      {/if}
-    {/if}
-  </div>
-  {/if}
-
+  <!-- The card is the tap zone: tap — main action, hold — reset. Its rows are controls of their own. -->
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div
     class="zone"
@@ -322,141 +278,135 @@
     oncontextmenu={(e) => e.preventDefault()}
     onclick={click}
   >
-    <div class="block well">
-      <span class="chip"><Icon name={isPomo ? 'tomato' : isSw || isTimer ? 'clock' : 'focus'} size={17} /></span>
-      <span class="ttl">{isPomo ? store.t('phase')[phase] : isSw ? store.t('modeStopwatch') : isTimer ? store.t('modeTimer') : counterName(counter)}</span>
+    <div class="fcard">
+      <div class="ftop">
+        <span class="ftitle">{isPomo ? store.t('phase')[phase] : isSw ? store.t('modeStopwatch') : isTimer ? store.t('modeTimer') : counterName(counter)}</span>
+        {#if isPomo}
+          <span class="rdots" role="img" aria-label={store.t('round')(store.device.pomo.round, cfg.every)}>
+            {#each Array(cfg.every) as _, k}<i class:done={k < store.device.pomo.round - 1} class:cur={k === store.device.pomo.round - 1}></i>{/each}
+          </span>
+        {:else}
+          <span class="fmeta">
+            {#if isSw}{laps.length ? store.t('laps')(laps.length) : store.t('noLaps')}
+            {:else if isTimer}{store.t('timerFor')(durLabel(tDur))}
+            {:else}{store.t('goalLine')(fmt.format(counter.target))}{#if counter.count >= counter.target} · {store.t('goalDone')}{/if}{/if}
+          </span>
+        {/if}
+      </div>
       <button class="count" class:tick={tickAnim} type="button" bind:this={countEl}
         aria-label={isPomo ? `${store.t('phase')[phase]} ${display}` : isSw || isTimer ? `${store.t(isSw ? 'modeStopwatch' : 'modeTimer')} ${display}` : `${counterName(counter)}: ${counter.count}`}>
         <Digits text={display} />
       </button>
-      <div class="progress" aria-hidden="true">
-        {#each Array(24) as _, s}<span class:on={s < Math.round(ratio * 24)}></span>{/each}
-      </div>
-      <div class="progress-line">
+      <div class="fbar" aria-hidden="true"><i style:width="{ratio * 100}%"></i></div>
+
+      <div class="frows">
         {#if isSw}
-          <span>{store.t('lap')} {laps.length + 1} · {fmtSw(swLive - lastLap)}</span>
-          <span>{store.t('laps')(laps.length)}</span>
+          <div class="flaps">
+            <div class="frow"><span>{store.t('lap')} {laps.length + 1}</span><span class="fv"><b>{fmtSw(swLive - lastLap)}</b></span></div>
+            {#each [...laps].reverse() as at, k (laps.length - k)}
+              {@const n = laps.length - k}
+              <div class="frow"><span>{store.t('lap')} {n}</span><span class="fv"><b>{fmtSw(at - (laps[n - 2] ?? 0))}</b><small>{fmtSw(at)}</small></span></div>
+            {/each}
+          </div>
         {:else if isTimer}
-          <span>{mmss(tLeft)} {store.t('timerLeft')}</span>
-          <span>{store.t('timerOf')(durLabel(tDur))}</span>
+          <button type="button" class="frow" onclick={openCustom}><span>{store.t('rowTime')}</span><span class="fv"><b>{durLabel(tDur)}</b>{@render chev()}</span></button>
+          <button type="button" class="frow" onclick={() => store.timerAdd(60000)}><span>{store.t('addMinute')}</span>{@render chev()}</button>
+          {@render soundRow()}
         {:else if isPomo}
-          <span>{store.t('next')(store.t('phase')[nextPhase], cfg[nextPhase])}</span>
-          <span>{cfg[phase]} {store.t('min')}</span>
+          {@const pc = presetCfg(store.data.settings.pomo.preset)}
+          <button type="button" class="frow" onclick={() => (picker = 'pomo')}><span>{store.t('rowMode')}</span><span class="fv"><b>{store.t('pomo')[store.data.settings.pomo.preset]} {pc.work}/{pc.short}</b>{@render chev()}</span></button>
+          <div class="frow"><span class="fdim">{store.t('next')(store.t('phase')[nextPhase], cfg[nextPhase])}</span></div>
+          <button type="button" class="frow" onclick={() => store.pomoAdvance(false)}><span>{store.t('skip')}</span>{@render chev()}</button>
+          {@render soundRow()}
         {:else}
-          <span>{store.t('of')(fmt.format(counter.count), fmt.format(counter.target))}{#if swMs > 0 || store.device.stopwatch.startedAt} · {mmss(swMs)}{/if}</span>
-          <span>{percent}%</span>
+          <button type="button" class="frow" onclick={() => (picker = 'counter')}><span>{store.t('counter')}</span><span class="fv"><b>{counterName(counter)}</b>{@render chev()}</span></button>
+          <button type="button" class="frow" onclick={() => (editing = { id: counter.id })}><span>{store.t('goalLine')(fmt.format(counter.target))}</span><span class="fv"><b>{percent}%</b>{@render chev()}</span></button>
+          <button type="button" class="frow" aria-label={store.t('stepLabel')(counter.step)}
+            onclick={() => store.saveCounter({ ...$state.snapshot(counter), step: STEPS[(STEPS.indexOf(counter.step) + 1) % STEPS.length] })}>
+            <span>{store.t('rowStep')}</span><span class="fv"><b>+{counter.step}</b>{@render chev()}</span>
+          </button>
+          <button type="button" class="frow" role="switch" aria-checked={store.device.locked} onclick={() => store.setDevice({ locked: !store.device.locked })}>
+            <span>{store.t('lock')}</span><i class="tg" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="frow" disabled={!counter.history.length} onclick={undo}><span>{store.t('undoLast')}</span>{@render chev()}</button>
+        {/if}
+        {#if wakeSupported}
+          <button type="button" class="frow" role="switch" aria-checked={wakeWanted} onclick={toggleWake}><span>{store.t('wake')}</span><i class="tg" aria-hidden="true"></i></button>
         {/if}
       </div>
-      {#if isSw && laps.length}
-        <ol class="laps" aria-label={store.t('laps')(laps.length)}>
-          {#each [...laps].reverse() as at, k (laps.length - k)}
-            {@const n = laps.length - k}
-            <li><span>{store.t('lap')} {n}</span><b>{fmtSw(at - (laps[n - 2] ?? 0))}</b><small>{fmtSw(at)}</small></li>
-          {/each}
-        </ol>
-      {/if}
     </div>
   </div>
 
-  <footer class="bottom">
-    <p class="hint">{isSw ? store.t('hintStopwatch') : isTimer ? store.t('hintTimer') : isPomo ? store.t('hintPomo') : store.device.locked ? store.t('hintLocked') : store.t('hintCounter')}</p>
-
+  <div class="fkeys">
     {#if isSw}
-      <div class="circles">
-        <button class="circle" type="button" aria-label={store.t('reset')} title={store.t('reset')} disabled={!swRunning && swLive === 0} onclick={resetSw}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
-        </button>
-        <button class="circle big" type="button" aria-label={swRunning ? store.t('pause') : store.t('start')} onclick={() => primary()}>
-          {#if swRunning}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13M15 5.5v13" stroke-width="3"/></svg>{:else}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>{/if}
-        </button>
-        <button class="circle" type="button" aria-label="{store.t('lap')} (L)" title="{store.t('lap')} (L)" disabled={!swRunning} onclick={lap}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4M6 4h11l-2 4 2 4H6"/></svg>
-        </button>
-        {#if wakeSupported}{@render wake()}{/if}
-      </div>
+      {#if swRunning}
+        <button type="button" class="key" title="{store.t('lap')} (L)" onclick={lap}>{store.t('lap')}</button>
+      {:else}
+        <button type="button" class="key" disabled={swLive === 0} onclick={resetSw}>{store.t('resetKey')}</button>
+      {/if}
     {:else if isTimer}
-      <div class="circles">
-        <button class="circle" type="button" aria-label={store.t('reset')} title={store.t('reset')} disabled={!tRunning && store.device.timer.remaining === null} onclick={() => store.timerReset()}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
-        </button>
-        <button class="circle big" type="button" aria-label={tRunning ? store.t('pause') : store.t('start')} onclick={() => { unlockAudio(); primary(); }}>
-          {#if tRunning}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13M15 5.5v13" stroke-width="3"/></svg>{:else}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>{/if}
-        </button>
-        <button class="circle text" type="button" aria-label={store.t('addMinute')} title={store.t('addMinute')} onclick={() => store.timerAdd(60000)}>+1</button>
-        {@render sound()}
-        {#if wakeSupported}{@render wake()}{/if}
-      </div>
+      <button type="button" class="key" disabled={!tRunning && store.device.timer.remaining === null} onclick={() => store.timerReset()}>{store.t('resetKey')}</button>
     {:else if isPomo}
-      <div class="circles" class:running>
-        <button class="circle" type="button" aria-label={store.t('pomoReset')} title={store.t('pomoReset')} onclick={() => store.pomoResetPhase()}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
-        </button>
-        <button class="circle big" type="button" aria-label={running ? store.t('pause') : store.t('start')} onclick={() => { unlockAudio(); primary(); }}>
-          {#if running}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13M15 5.5v13" stroke-width="3"/></svg>
-          {:else}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
-          {/if}
-        </button>
-        <button class="circle" type="button" aria-label={store.t('skip')} title={store.t('skip')} onclick={() => store.pomoAdvance(false)}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5v13l9-6.5z"/><path d="M18.5 5.5v13"/></svg>
-        </button>
-        <button class="circle sound" type="button" aria-pressed={store.data.settings.sound} aria-label={store.t('sound')} title={store.t('sound')}
-          onclick={() => { unlockAudio(); store.updateSettings({ sound: !store.data.settings.sound }); }}>
-          {#if store.data.settings.sound}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
-          {:else}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
-          {/if}
-        </button>
-        {#if wakeSupported}{@render wake()}{/if}
-      </div>
+      <button type="button" class="key" title={store.t('pomoReset')} onclick={() => store.pomoResetPhase()}>{store.t('resetKey')}</button>
     {:else}
-      <div class="circles">
-        <button class="circle" type="button" aria-pressed={store.device.locked} aria-label={store.device.locked ? store.t('unlock') : store.t('lock')}
-          title={store.device.locked ? store.t('unlock') : store.t('lock')} onclick={() => store.setDevice({ locked: !store.device.locked })}>
-          {#if store.device.locked}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>
-          {:else}
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 6.8-1.2"/></svg>
-          {/if}
-        </button>
-        <button class="circle" type="button" aria-label={store.t('undo')} title={store.t('undo')} disabled={!counter.history.length} onclick={undo}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
-        </button>
-        <button class="circle" type="button" aria-label={store.t('minus')} title={store.t('minus')} disabled={counter.count === 0} onclick={() => changeCount(-1)}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg>
-        </button>
-        <button class="circle text" type="button" aria-label={store.t('stepLabel')(counter.step)}
-          onclick={() => store.saveCounter({ ...$state.snapshot(counter), step: STEPS[(STEPS.indexOf(counter.step) + 1) % STEPS.length] })}>+{counter.step}</button>
-        <button class="circle" type="button" aria-pressed={Boolean(store.device.stopwatch.startedAt)} aria-label={store.t('stopwatch')} title={store.t('stopwatch')} onclick={toggleStopwatch}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V10M10 3h4"/></svg>
-        </button>
-        {#if wakeSupported}{@render wake()}{/if}
-      </div>
+      <button type="button" class="key" aria-label={store.t('minus')} disabled={counter.count === 0} onclick={() => changeCount(-1)}>−{counter.step}</button>
     {/if}
-  </footer>
+    {#if mode === 'counter'}
+      <button type="button" class="key pri" aria-label={store.t('stepLabel')(counter.step)} onclick={() => changeCount(1)}><Icon name="plus" size={18} />{counter.step}</button>
+    {:else}
+      {@const on = isSw ? swRunning : isTimer ? tRunning : running}
+      <button type="button" class="key pri" onclick={() => { unlockAudio(); primary(); }}>
+        {#if on}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13M15 5.5v13" stroke-width="3"/></svg>{:else}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>{/if}
+        {on ? store.t('pause') : store.t('start')}
+      </button>
+    {/if}
+  </div>
 </div>
 
-{#snippet sound()}
-  <button class="circle sound" type="button" aria-pressed={store.data.settings.sound} aria-label={store.t('sound')} title={store.t('sound')}
+{#snippet chev()}<span class="chev" aria-hidden="true"><Icon name="right" size={16} /></span>{/snippet}
+
+{#snippet soundRow()}
+  <button type="button" class="frow" role="switch" aria-checked={store.data.settings.sound}
     onclick={() => { unlockAudio(); store.updateSettings({ sound: !store.data.settings.sound }); }}>
-    {#if store.data.settings.sound}
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
-    {:else}
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
-    {/if}
+    <span>{store.t('sound')}</span><i class="tg" aria-hidden="true"></i>
   </button>
 {/snippet}
 
-{#snippet wake()}
-  <button class="circle" type="button" aria-pressed={wakeWanted} aria-label={store.t('wake')} title={store.t('wake')} onclick={toggleWake}>
-    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="M10 9.5l1.5 1.5 3-3"/></svg>
-  </button>
-{/snippet}
+{#if picker === 'pomo'}
+  <Sheet title="Pomodoro" onclose={() => (picker = null)}>
+    <div class="plist" role="listbox">
+      {#each presets as key}
+        <button type="button" class="tag" role="option" aria-selected={store.data.settings.pomo.preset === key} style:--c="var(--ink)" onclick={() => { pickPreset(key); picker = null; }}>
+          {store.t('pomo')[key]}<small>{presetCfg(key).work}/{presetCfg(key).short}</small>
+        </button>
+      {/each}
+    </div>
+  </Sheet>
+{/if}
+
+{#if picker === 'counter'}
+  <Sheet title={store.t('modeCounter')} onclose={() => (picker = null)}>
+    <div class="plist" role="listbox">
+      {#each store.counters as c (c.id)}
+        <button type="button" class="tag" role="option" aria-selected={c.id === counter.id} style:--c={c.color} onclick={() => { pickCounter(c.id); picker = null; }}>
+          {counterName(c)}<small>{fmt.format(c.target)}</small>
+        </button>
+      {/each}
+      {#if store.counters.length < 20}
+        <button type="button" class="tag add" onclick={() => { editing = { id: null }; picker = null; }}>+ {store.t('newCounter')}</button>
+      {/if}
+    </div>
+  </Sheet>
+{/if}
 
 {#if customOpen}
-  <Sheet title={store.t('customTime')} onclose={() => (customOpen = false)}>
+  <Sheet title={store.t('rowTime')} onclose={() => (customOpen = false)}>
+    <div class="plist" role="listbox">
+      {#each TIMER_PRESETS as m}
+        <button type="button" class="tag" role="option" aria-selected={tDur === m * 60000} style:--c="var(--ink)" onclick={() => { store.timerSet(m * 60000); customOpen = false; }}>{store.t('durMin')(m)}</button>
+      {/each}
+    </div>
+    <p class="plabel">{store.t('customTime')}</p>
     <form method="dialog" onsubmit={saveCustom}>
       <div class="nums two">
         <label><span>{store.t('minutes')}</span><input type="number" min="0" max="1439" inputmode="numeric" bind:value={cMin} /></label>
@@ -472,26 +422,54 @@
 {/if}
 
 <style>
-  /* Same square keys and display, just calmer: softer card, cleaner numerals, plain-text captions. */
-  .focus-page :global(.ghost) { display: none; }
-  /* The display is one of the Home cards: soft surface, icon chip, title, big value. */
-  .focus-page :global(.block.well) {
-    --well-ink: var(--ink); --well-dim: var(--muted); --well-ghost: color-mix(in srgb, var(--ink) 12%, transparent);
-    background: color-mix(in srgb, var(--soft) 78%, var(--bg)); border-radius: 24px; padding: 18px 20px 18px;
+  /* D5: one Home-style card — title, big value, thin bar, then settings-like rows. Two keys at the bottom. */
+  .focus-page .zone { flex: 0 0 auto; display: block; min-height: 0; padding: 16px 0 0; }
+  .fcard {
+    border-radius: 24px; padding: 16px 18px 0; overflow: hidden;
+    background: color-mix(in srgb, var(--soft) 78%, var(--bg));
     box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
   }
-  .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--well-ghost); color: var(--ink); }
-  .chip :global(svg) { stroke-width: 2; }
-  .ttl { display: block; margin: 8px 0 6px; font-size: 14px; font-weight: 500; color: var(--muted); }
-  .focus-page :global(.count) { font-family: var(--sans); text-align: left; }
-  .focus-page :global(.count .digits) { justify-self: start; }
-  .focus-page :global(.count .live) { justify-self: start; }
-  .focus-page :global(.progress) { height: 6px; gap: 3px; margin-top: 22px; }
-  .focus-page :global(.progress span) { border-radius: 3px; }
-  .focus-page :global(.progress-line) { font-family: var(--sans); font-size: 13px; letter-spacing: 0; margin-top: 12px; }
-  .focus-page :global(.meta) { font-family: var(--sans); font-size: 14px; letter-spacing: 0; }
-  .focus-page :global(.hint) { font-family: var(--sans); font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; opacity: .8; }
-  .focus-page :global(.name) { font-weight: 650; }
+  .ftop { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 22px; font-size: 14px; color: var(--muted); }
+  .ftitle { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-size: 15px; font-weight: 600; }
+  .fmeta { flex: none; }
+  .rdots { display: inline-flex; gap: 5px; }
+  .rdots i { width: 7px; height: 7px; border-radius: 50%; box-shadow: inset 0 0 0 1.3px var(--muted); }
+  .rdots i.done, .rdots i.cur { background: var(--ink); box-shadow: none; }
+  .rdots i.cur { width: 16px; border-radius: 4px; }
+  .focus-page .fcard .count { margin: 10px 0 14px; font-family: var(--sans); font-size: clamp(56px, 17vw, 96px); font-weight: 650; letter-spacing: -.045em; text-align: left; }
+  .focus-page :global(.count .digits), .focus-page :global(.count .live) { justify-self: start; }
+  .fbar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
+  .fbar i { display: block; height: 100%; border-radius: 2px; background: var(--ink); }
+  .frows { margin: 14px -18px 0; border-top: 1px solid var(--line); }
+  .frow {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 0 18px;
+    color: var(--ink); font-size: 15px; text-align: left; font-variant-numeric: tabular-nums; cursor: default;
+  }
+  .frow + .frow, .flaps + .frow { border-top: 1px solid var(--line); }
+  button.frow { cursor: pointer; transition: background-color 150ms ease; }
+  button.frow:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+  button.frow:disabled { opacity: .4; cursor: default; background: none; }
+  .fv { display: inline-flex; align-items: center; gap: 8px; min-width: 0; color: var(--muted); }
+  .fv b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-weight: 500; }
+  .fv small { font-size: 12px; }
+  .fdim { color: var(--muted); }
+  .chev { display: grid; color: var(--muted); opacity: .7; }
+  .flaps { max-height: 192px; overflow-y: auto; }
+  /* Switch: the row is the control, this is its state. */
+  .tg { position: relative; flex: none; width: 40px; height: 24px; border-radius: 12px; background: color-mix(in srgb, var(--ink) 16%, transparent); transition: background-color 150ms ease; }
+  .tg::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); box-shadow: 0 1px 2px rgb(0 0 0 / 25%); transition: transform 180ms var(--ease); }
+  [aria-checked='true'] .tg { background: var(--primary); }
+  [aria-checked='true'] .tg::after { background: var(--on-primary); transform: translateX(16px); }
+  .fkeys { margin-top: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding-top: 16px; }
+  .fkeys .key {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 56px;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .fkeys .key.pri { --k-bg: var(--primary); --k-ink: var(--on-primary); }
+  .fkeys .key:disabled { opacity: .35; cursor: default; transform: none; }
+  .fkeys svg { width: 18px; height: 18px; }
+  .plist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .plabel { margin: 4px 0 10px; color: var(--muted); font-size: 13px; }
   .modes { margin-top: 6px; }
   .linked {
     display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
@@ -503,11 +481,6 @@
   .ltitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .linked button { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; color: var(--muted); }
   .linked button:hover { background: var(--soft); color: var(--ink); }
-  .laps { list-style: none; margin: 14px 0 0; padding: 10px 0 0; max-height: 168px; overflow-y: auto; border-top: 1px solid var(--well-ghost); font-family: var(--mono); font-variant-numeric: tabular-nums; }
-  .laps li { display: grid; grid-template-columns: 1fr auto auto; align-items: baseline; gap: 16px; padding: 5px 2px; color: var(--well-dim); font-size: 13px; }
-  .laps b { color: var(--well-ink); font-size: 15px; font-weight: 600; }
-  .laps small { min-width: 86px; text-align: right; font-size: 12px; }
   .nums.two { grid-template-columns: 1fr 1fr; margin-bottom: 16px; }
   .set-time { margin-top: 4px; }
-  .circle.sound[aria-pressed='true'] { --k-bg: var(--key); --k-ink: var(--key-ink); transform: none; box-shadow: inset 0 1px 0 var(--key-hi), 0 1px 0 var(--key-edge), var(--key-drop, 0 2px 3px -1px rgb(0 0 0 / 22%)); }
 </style>
