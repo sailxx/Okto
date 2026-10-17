@@ -99,6 +99,22 @@ class Sync {
           .catch((e: unknown) => { console.error(e); this.state = 'error'; })
           .finally(() => { this.pending -= 1; });
       }));
+      // 4. Pomodoro, timer and stopwatch: one record shared with the Android widget, newer wins.
+      const liveRef = fs.doc(db, 'users', uid, 'live', 'focus');
+      let liveTimer: ReturnType<typeof setTimeout> | undefined;
+      const pushLive = () => {
+        clearTimeout(liveTimer);
+        liveTimer = setTimeout(() => {
+          fs.setDoc(liveRef, clean(store.liveDoc())).catch((e: unknown) => console.error(e));
+        }, 250);
+      };
+      const first = await fs.getDoc(liveRef).catch(() => null);
+      if (!(first?.exists() && store.applyLive(first.data())) && store.device.liveAt > (first?.data()?.updatedAt ?? 0)) pushLive();
+      this.stops.push(fs.onSnapshot(liveRef, (snap: any) => {
+        if (snap.exists() && !snap.metadata.hasPendingWrites) store.applyLive(snap.data());
+      }, (e: unknown) => console.error(e)));
+      this.stops.push(store.onLive(pushLive));
+      this.stops.push(() => clearTimeout(liveTimer));
       this.state = navigator.onLine ? 'synced' : 'offline';
     } catch (e) {
       console.error(e);

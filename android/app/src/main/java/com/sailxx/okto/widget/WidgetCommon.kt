@@ -50,7 +50,7 @@ import kotlinx.coroutines.sync.withLock
 private val updateLock = Mutex()
 
 /**
- * Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия», «Цитата».
+ * Перерисовать все виджеты Okto: задачи, «Следующая», «Быстрая задача», «Серия», «Цитата», «Фокус».
  *
  * Каждый виджет обновляется строго по id своего приёмника, а не через `updateAll`: тот ищет id по
  * сохранённой связке «виджет → приёмник», и при сбое связки содержимое одного виджета рисовалось
@@ -63,6 +63,12 @@ suspend fun updateOktoWidgets(context: Context) = updateLock.withLock {
     refresh(app, QuickAddWidget(), QuickAddWidgetReceiver::class.java)
     refresh(app, StreakWidget(), StreakWidgetReceiver::class.java)
     refresh(app, QuoteWidget(), QuoteWidgetReceiver::class.java)
+    refresh(app, FocusWidget(), FocusWidgetReceiver::class.java)
+}
+
+/** Только «Фокус»: кнопки таймера не трогают остальные виджеты. */
+suspend fun updateFocusWidgets(context: Context) = updateLock.withLock {
+    refresh(context.applicationContext, FocusWidget(), FocusWidgetReceiver::class.java)
 }
 
 private suspend fun refresh(context: Context, widget: GlanceAppWidget, receiver: Class<*>) {

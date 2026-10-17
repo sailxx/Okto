@@ -108,6 +108,8 @@ export interface Device {
   sideFolded: boolean;
   /** System notifications: permission is per device, so the switch is too. */
   notify: boolean;
+  /** When Pomodoro, timer or stopwatch last changed here or arrived from the account (live/focus), ms. */
+  liveAt: number;
 }
 
 /* ================= Constants ================= */
@@ -370,7 +372,7 @@ export function defaultDevice(): Device {
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, sideFolded: false, notify: false,
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, sideFolded: false, notify: false, liveAt: 0,
   };
 }
 
@@ -405,6 +407,7 @@ export function normDevice(raw: unknown): Device {
     calFolded: raw.calFolded === true,
     sideFolded: raw.sideFolded === true,
     notify: raw.notify === true,
+    liveAt: ts(raw.liveAt, 0),
   };
 }
 

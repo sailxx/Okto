@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Живые часы виджета «Фокус»: Chronometer тикает сам, виджет не перерисовывается каждую секунду -->
+<Chronometer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chrono"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif-medium"
+    android:fontFeatureSettings="tnum"
+    android:includeFontPadding="false"
+    android:letterSpacing="-0.03"
+    android:maxLines="1"
+    android:textSize="40sp" />
