@@ -49,7 +49,7 @@ import com.sailxx.okto.ui.QuickAddActivity
 
 /** Каркас маленьких виджетов: фон темы, скругление и общие состояния «загрузка» / «не выполнен вход». */
 @Composable
-private fun Frame(s: WidgetState, padding: Int = 14, content: @Composable () -> Unit) {
+internal fun Frame(s: WidgetState, padding: Int = 14, content: @Composable () -> Unit) {
     val p = s.palette
     Box(GlanceModifier.fillMaxSize().background(p.bg).cornerRadius(24.dp).padding(padding.dp)) {
         when (s.status) {

@@ -39,6 +39,10 @@ class QuoteWidgetReceiver : OktoReceiver() {
     override val glanceAppWidget: GlanceAppWidget = QuoteWidget()
 }
 
+class FocusWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = FocusWidget()
+}
+
 /**
  * Фоновая синхронизация: подтягивает изменения из веб-Okto, переключает «сегодня» после полуночи
  * и перепланирует напоминания — поэтому работает и без виджета на экране.

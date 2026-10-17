@@ -17,8 +17,8 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 28
-        versionName = "3.6.0"
+        versionCode = 29
+        versionName = "3.7.0"
     }
 
     // ÐšÐ»ÑŽÑ‡ Ð¿Ð¾Ð´Ð¿Ð¸ÑÐ¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð²Ð½Ðµ Ñ€ÐµÐ¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€Ð¸Ñ; Ð¿ÑƒÑ‚ÑŒ Ð¸ Ð¿Ð°Ñ€Ð¾Ð»Ð¸ â€” Ð² keystore.properties (Ð² .gitignore)
@@ -69,6 +69,7 @@ dependencies {
     // Ð’Ð¸Ð´Ð¶ÐµÑ‚ Ð·Ð°Ð´Ð°Ñ‡ Ð½Ð° Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ¼ ÑÑ‚Ð¾Ð»Ðµ
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
+    testImplementation("junit:junit:4.13.2")
 
     // Ð­ÐºÑ€Ð°Ð½Ñ‹ Â«ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð²Ð¸Ð´Ð¶ÐµÑ‚Ð°Â» Ð¸ Â«ÐÐ¾Ð²Ð°Ñ Ð·Ð°Ð´Ð°Ñ‡Ð°Â»
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))

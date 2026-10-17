@@ -1,5 +1,6 @@
 import { addDays, toKey, toMin, fromKey } from './date';
 import { DICT, weekStartOf, type Key } from './i18n';
+import { fromLive, pomoSessionId, toLive } from './live';
 import { migrateLegacy } from './migrate';
 import {
   defaultData, defaultDevice, defaultLists, live, newCounter, newList, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
@@ -44,6 +45,7 @@ class Store {
   noteEditor = $state<NoteEditor | null>(null);
   storageOk = true;
   private listeners: Listener[] = [];
+  private liveListeners: (() => void)[] = [];
   private saveTimer: ReturnType<typeof setTimeout> | undefined;
   private toastTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -161,7 +163,27 @@ class Store {
     const snap = $state.snapshot(this.data.settings);
     this.listeners.forEach((l) => l('settings', snap));
   }
-  setDevice(patch: Partial<Device>) { Object.assign(this.device, patch); this.schedule(); }
+  setDevice(patch: Partial<Device>) {
+    Object.assign(this.device, patch);
+    // Clocks are shared through the account; everything else on the device stays local.
+    if (patch.pomo || patch.timer || patch.stopwatch) {
+      this.device.liveAt = Math.max(Date.now(), this.device.liveAt + 1);
+      this.liveListeners.forEach((l) => l());
+    }
+    this.schedule();
+  }
+
+  /* ---------- shared clocks (live/focus) ---------- */
+  onLive(fn: () => void) { this.liveListeners.push(fn); return () => { this.liveListeners = this.liveListeners.filter((l) => l !== fn); }; }
+  liveDoc() { return toLive($state.snapshot(this.device), this.pomoCfg()); }
+  /** A newer record from the widget or another device; true when it was applied. */
+  applyLive(raw: unknown) {
+    const patch = fromLive(this.device, raw);
+    if (!patch) return false;
+    Object.assign(this.device, patch);
+    this.schedule();
+    return true;
+  }
 
   /* ---------- notes ---------- */
   openNewNote() { this.noteEditor = { note: newNote(), isNew: true }; }
@@ -303,8 +325,8 @@ class Store {
   }
 
   /* ---------- sessions ---------- */
-  addSession(minutes: number, taskId: string | null) {
-    this.commit('sessions', newSession({ start: Date.now() - minutes * 60000, minutes, taskId }));
+  addSession(minutes: number, taskId: string | null, id?: string) {
+    this.commit('sessions', newSession({ id, start: Date.now() - minutes * 60000, minutes, taskId }));
     const t = taskId ? this.data.tasks[taskId] : null;
     if (t && !t.deleted) this.commit('tasks', newTask({ ...$state.snapshot(t), focusMinutes: t.focusMinutes + minutes }));
   }
@@ -328,7 +350,7 @@ class Store {
     const cfg = this.pomoCfg();
     const finished = p.phase;
     if (finished === 'work') {
-      if (natural) this.addSession(cfg.work, this.device.focusTask && this.data.tasks[this.device.focusTask] ? this.device.focusTask : null);
+      if (natural) this.addSession(cfg.work, this.device.focusTask && this.data.tasks[this.device.focusTask] ? this.device.focusTask : null, p.endsAt ? pomoSessionId(p.endsAt) : undefined);
       p.phase = p.round % cfg.every === 0 ? 'long' : 'short';
     } else {
       p.round = finished === 'long' ? 1 : p.round + 1;

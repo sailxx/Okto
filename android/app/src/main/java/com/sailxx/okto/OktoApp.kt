@@ -5,7 +5,9 @@ import android.app.Application
 import android.os.Bundle
 import com.google.androidbrowserhelper.trusted.LauncherActivity
 import com.google.firebase.firestore.ListenerRegistration
+import com.sailxx.okto.data.FocusRepository
 import com.sailxx.okto.data.OktoRepository
+import com.sailxx.okto.widget.updateFocusWidgets
 import com.sailxx.okto.widget.updateOktoWidgets
 import com.sailxx.okto.widget.SyncWorker
 
@@ -22,7 +24,10 @@ class OktoApp : Application() {
             override fun onActivityCreated(activity: Activity, state: Bundle?) {
                 if (activity !is LauncherActivity) return
                 SyncWorker.schedule(this@OktoApp)
-                if (live.isEmpty()) live = OktoRepository.listen(this@OktoApp) { updateOktoWidgets(this@OktoApp) }
+                if (live.isEmpty()) {
+                    live = OktoRepository.listen(this@OktoApp) { updateOktoWidgets(this@OktoApp) } +
+                        listOfNotNull(FocusRepository.listen(this@OktoApp) { updateFocusWidgets(this@OktoApp) })
+                }
             }
 
             override fun onActivityDestroyed(activity: Activity) {

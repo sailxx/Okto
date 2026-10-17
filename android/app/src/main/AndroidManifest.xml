@@ -210,6 +210,23 @@
                 android:resource="@xml/quote_widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".widget.FocusWidgetReceiver"
+            android:exported="true"
+            android:label="@string/focus_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/focus_widget_info" />
+        </receiver>
+
+        <!-- Конец фазы помодоро и таймера: виджет, сессия фокуса, уведомление -->
+        <receiver
+            android:name=".notify.FocusAlarmReceiver"
+            android:exported="false" />
+
         <!-- ===== Напоминания о задачах ===== -->
 
         <receiver
