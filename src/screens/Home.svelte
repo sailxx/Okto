@@ -11,7 +11,7 @@
   import { relDay } from '../lib/i18n';
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
-  import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
+  import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, GRID_PHONE_W, isPhoneGrid, phoneDefault, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
   let adding = $state(false);
@@ -82,10 +82,17 @@
     const hidden = s.dashboard.filter((b) => !store.shows(b.type));
     store.updateSettings({ dashboard: [...list, ...hidden].map((b) => ({ ...b })) });
   }
-  /** Back to the default order and sizes, which are picked so rows fill up. */
+  /** Phone sizes as they look now, so desktop edits stop leaking into them. */
+  const freezePhone = (b: Block): Block => { const { w, h } = blockSize(b, 2); return { ...b, pw: b.pw ?? Math.min(w, GRID_PHONE_W), ph: b.ph ?? h }; };
+  /** Back to the default order and sizes, which are picked so rows fill up. Only this device's sizes reset. */
   function resetLayout() {
     const rank = (b: Block) => { const i = DEFAULT_DASHBOARD.findIndex((d) => d.type === b.type); return i < 0 ? 99 : i; };
-    setBlocks([...blocks].sort((a, b) => rank(a) - rank(b)).map((b) => (b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type })));
+    const phone = isPhoneGrid(cols);
+    setBlocks([...blocks].sort((a, b) => rank(a) - rank(b)).map((b) => {
+      if (phone) return { ...b, ...phoneDefault(b) };
+      const { w: _w, h: _h, ...rest } = freezePhone(b);
+      return rest;
+    }));
   }
   const painted = $derived(blocks.find((b) => keyOf(b) === painting) ?? null);
   /** Без `tint` карточка возвращает стандартный цвет. */
@@ -148,7 +155,8 @@
     const { w, h } = blockSize(b, cols);
     rz = { key: keyOf(b), x: e.clientX, y: e.clientY, w: Math.min(w, cols), h, full: w };
     resizing = rz.key;
-    draft = blocks.map((x) => ({ ...x }));
+    const phone = isPhoneGrid(cols);
+    draft = blocks.map((x) => (phone || keyOf(x) !== rz!.key ? { ...x } : freezePhone(x)));
     (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
   }
   function resizeMove(e: PointerEvent) {
@@ -157,8 +165,10 @@
     const w = Math.max(1, Math.min(cols, rz.w + Math.round((e.clientX - rz.x) / (cell + GAP))));
     const h = Math.max(1, Math.min(GRID_MAX_H, rz.h + Math.round((e.clientY - rz.y) / (ROW + GAP))));
     const b = draft.find((x) => keyOf(x) === rz!.key);
-    // On a narrow screen an untouched width keeps its wider desktop value.
-    if (b) { b.w = w === rz.w ? rz.full : w; b.h = h; }
+    if (!b) return;
+    if (isPhoneGrid(cols)) { b.pw = w; b.ph = h; return; }
+    // On a narrow desktop grid an untouched width keeps its wider value.
+    b.w = w === rz.w ? rz.full : w; b.h = h;
   }
   function gestureUp() {
     if (draft && (dragKey || rz)) setBlocks(draft);

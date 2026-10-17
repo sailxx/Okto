@@ -60,9 +60,9 @@ export interface Counter {
   history: number[]; daily: Record<string, number>; order: number; updatedAt: number; deleted: boolean;
 }
 export interface PomoCfg { work: number; short: number; long: number; every: number }
-/** w/h: footprint in Home grid columns and rows. */
+/** w/h: footprint in Home grid columns and rows; pw/ph — отдельно для телефона (2 колонки), без них берутся w/h. */
 /** `tint`: undefined — стандартный цвет карточки, 'none' — без цвета, иначе #rrggbb. */
-export interface Block { type: BlockType; counterId?: string; w?: number; h?: number; tint?: string }
+export interface Block { type: BlockType; counterId?: string; w?: number; h?: number; pw?: number; ph?: number; tint?: string }
 export interface Settings {
   id: 'main';
   lang: Lang; theme: Theme; sound: boolean; vibrate: boolean;
@@ -157,12 +157,22 @@ export const MAX_ATTACHMENTS = 20;
 /** Per file, bytes. */
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const DEFAULT_DASHBOARD: Block[] = [{ type: 'focus' }, { type: 'streak' }, { type: 'next' }, { type: 'tasks' }];
-export const GRID_MAX_W = 6, GRID_MAX_H = 4;
+export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
 const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], tasks: [6, 4, 2], counter: [2, 2, 1] };
 const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, tasks: 3, counter: 2 };
-export const blockSize = (b: Block, cols = 6) => ({ w: b.w ?? DEFAULT_W[b.type][cols >= 6 ? 0 : cols >= 4 ? 1 : 2], h: b.h ?? DEFAULT_H[b.type] });
+/** Телефон — сетка в 2 колонки: у него свои размеры плиток. */
+export const isPhoneGrid = (cols: number) => cols < 4;
+export const blockSize = (b: Block, cols = 6) => {
+  const phone = isPhoneGrid(cols);
+  return {
+    w: (phone ? b.pw : undefined) ?? b.w ?? DEFAULT_W[b.type][cols >= 6 ? 0 : cols >= 4 ? 1 : 2],
+    h: (phone ? b.ph : undefined) ?? b.h ?? DEFAULT_H[b.type],
+  };
+};
+/** Default footprint on the phone grid. */
+export const phoneDefault = (b: Block) => ({ pw: DEFAULT_W[b.type][2], ph: DEFAULT_H[b.type] });
 
 /* ================= Validators ================= */
 export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3);
@@ -291,6 +301,8 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
         if (typeof b.h === 'number') out.h = int(b.h, 1, GRID_MAX_H, 2);
+        if (typeof b.pw === 'number') out.pw = int(b.pw, 1, GRID_PHONE_W, 1);
+        if (typeof b.ph === 'number') out.ph = int(b.ph, 1, GRID_MAX_H, 2);
         if (b.tint === 'none' || (typeof b.tint === 'string' && /^#[0-9a-f]{6}$/i.test(b.tint))) out.tint = b.tint;
         return out;
       })
