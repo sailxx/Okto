@@ -46,11 +46,25 @@ self.addEventListener('fetch', (event) => {
   })());
 });
 
+// The live Focus notification (src/lib/liveNotify.ts) stays up: its buttons go to the open
+// page without bringing it forward; with Okto closed they open it with ?live=<action>.
+const LIVE = 'okto-live';
+const windows = () => self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+
 self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
+  const live = event.notification.tag === LIVE;
+  if (!live) event.notification.close();
+  const action = live ? event.action || 'open' : '';
   event.waitUntil((async () => {
-    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const all = await windows();
+    if (action && all.length) all[0].postMessage({ type: LIVE, action });
+    if (action && action !== 'open' && all.length) return;
     if (all.length) return all[0].focus();
-    return self.clients.openWindow('./');
+    return self.clients.openWindow(action ? `./?live=${encodeURIComponent(action)}#/focus` : './');
   })());
+});
+
+self.addEventListener('notificationclose', (event) => {
+  if (event.notification.tag !== LIVE) return;
+  event.waitUntil(windows().then((all) => all.forEach((c) => c.postMessage({ type: LIVE, action: 'dismiss' }))));
 });
