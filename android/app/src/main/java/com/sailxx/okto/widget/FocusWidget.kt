@@ -53,19 +53,37 @@ import com.sailxx.okto.data.FocusRepository
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
 import com.sailxx.okto.data.WidgetState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-/** Какой режим показывает виджет. Пока не выбран — тот, что идёт, иначе помодоро. */
+/**
+ * Какой режим показывает виджет. Пока не выбран — тот, что идёт, иначе помодоро.
+ * Это поток, а не просто настройка: Glance перерисовывает виджет, только когда меняется то,
+ * что он наблюдает, и без потока вкладки не переключались.
+ */
 object FocusWidgetMode {
     private const val PREFS = "focus_widget"
+    private val chosen = MutableStateFlow<FocusMode?>(null)
+    @Volatile private var loaded = false
 
-    fun get(context: Context, live: FocusLive?): FocusMode =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("mode", null)
-            ?.let { runCatching { FocusMode.valueOf(it) }.getOrNull() }
-            ?: FocusMode.entries.firstOrNull { live?.running(it) == true }
-            ?: FocusMode.POMO
+    fun flow(context: Context): StateFlow<FocusMode?> {
+        if (!loaded) {
+            loaded = true
+            chosen.value = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("mode", null)
+                ?.let { runCatching { FocusMode.valueOf(it) }.getOrNull() }
+        }
+        return chosen.asStateFlow()
+    }
 
-    fun set(context: Context, mode: FocusMode) =
+    fun resolve(chosen: FocusMode?, live: FocusLive?): FocusMode =
+        chosen ?: FocusMode.entries.firstOrNull { live?.running(it) == true } ?: FocusMode.POMO
+
+    fun set(context: Context, mode: FocusMode) {
+        loaded = true
+        chosen.value = mode
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString("mode", mode.name).apply()
+    }
 }
 
 /** «Фокус»: помодоро, таймер и секундомер — общие с сайтом, часы тикают сами (Chronometer). */
@@ -78,24 +96,29 @@ class FocusWidget : GlanceAppWidget() {
         provideContent {
             val state by OktoRepository.state.collectAsState()
             val live by FocusRepository.state.collectAsState()
-            Frame(state, padding = 12) { Focus(state, live ?: FocusLive.DEFAULT) }
+            val chosen by FocusWidgetMode.flow(context).collectAsState()
+            Frame(state, padding = 12) { Focus(state, live ?: FocusLive.DEFAULT, FocusWidgetMode.resolve(chosen, live)) }
         }
     }
 }
 
 @Composable
-private fun Focus(s: WidgetState, live: FocusLive) {
+private fun Focus(s: WidgetState, live: FocusLive, mode: FocusMode) {
     val p = s.palette
     val app = LocalContext.current
     val ctx = AppLang.wrap(app)
-    val mode = FocusWidgetMode.get(app, live)
     val now = System.currentTimeMillis()
     val running = live.running(mode)
     val ended = live.ended(mode, now)
-    val big = LocalSize.current.height >= 150.dp
+    val (ms, down) = when (mode) {
+        FocusMode.POMO -> live.pomoLeft(now) to true
+        FocusMode.TIMER -> live.timerLeft(now) to true
+        FocusMode.STOPWATCH -> live.swAt(now) to false
+    }
+    val fit = FocusFit(LocalSize.current.width.value, LocalSize.current.height.value, hours = ms >= 3_600_000)
 
     Column(GlanceModifier.fillMaxSize()) {
-        Row(GlanceModifier.fillMaxWidth().padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Tab(ctx.getString(R.string.focus_tab_pomo), FocusMode.POMO, mode, p)
             Tab(ctx.getString(R.string.focus_tab_timer), FocusMode.TIMER, mode, p)
             Tab(ctx.getString(R.string.focus_tab_sw), FocusMode.STOPWATCH, mode, p)
@@ -105,23 +128,21 @@ private fun Focus(s: WidgetState, live: FocusLive) {
                 .clickable(actionStartActivity(oktoIntent(ctx, "#/focus"))),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val (ms, down) = when (mode) {
-                FocusMode.POMO -> live.pomoLeft(now) to true
-                FocusMode.TIMER -> live.timerLeft(now) to true
-                FocusMode.STOPWATCH -> live.swAt(now) to false
-            }
+            // Высота задана явно: без неё блок часов забирал всё место, и подпись пропадала.
             AndroidRemoteViews(
-                chrono(app, if (ended) 0 else ms, down, running && !ended, if (ended) p.red else p.ink, if (big) 52f else 40f),
-                GlanceModifier.fillMaxWidth(),
+                chrono(app, if (ended) 0 else ms, down, running && !ended, if (ended) p.red else p.ink, fit.digits),
+                GlanceModifier.fillMaxWidth().height(fit.digitsBox.dp),
             )
-            Text(
-                caption(ctx, live, mode, running, ended),
-                maxLines = 1,
-                style = TextStyle(color = cp(if (ended) p.red else p.muted), fontSize = 12.sp),
-            )
+            if (fit.caption) {
+                Text(
+                    caption(ctx, live, mode, running, ended),
+                    maxLines = 1,
+                    style = TextStyle(color = cp(if (ended) p.red else p.muted), fontSize = fit.captionSp.sp),
+                )
+            }
         }
         Row(GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconKey(R.drawable.ic_focus_reset, ctx.getString(R.string.focus_reset), FocusOp.RESET, mode, p, enabled = live.started(mode) && !ended)
+            IconKey(R.drawable.ic_focus_reset, ctx.getString(R.string.focus_reset), FocusOp.RESET, mode, p, enabled = live.started(mode) && !ended, size = fit.key)
             Spacer(GlanceModifier.width(8.dp))
             val label = when {
                 ended && mode == FocusMode.POMO -> ctx.getString(R.string.focus_next)
@@ -131,24 +152,24 @@ private fun Focus(s: WidgetState, live: FocusLive) {
             }
             val icon = if (running && !ended) R.drawable.ic_focus_pause else R.drawable.ic_focus_play
             Box(
-                GlanceModifier.defaultWeight().height(44.dp).background(p.accent).cornerRadius(12.dp)
+                GlanceModifier.defaultWeight().height(fit.key.dp).background(p.accent).cornerRadius(12.dp)
                     .clickable(actionRunCallback<FocusAction>(params(if (ended) FocusOp.FINISH else FocusOp.TOGGLE, mode))),
                 contentAlignment = Alignment.Center,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(ImageProvider(icon), null, GlanceModifier.size(18.dp), colorFilter = ColorFilter.tint(cp(p.onAccent)))
                     Spacer(GlanceModifier.width(6.dp))
-                    Text(label, maxLines = 1, style = TextStyle(color = cp(p.onAccent), fontSize = 14.sp, fontWeight = FontWeight.Medium))
+                    Text(label, maxLines = 1, style = TextStyle(color = cp(p.onAccent), fontSize = fit.keySp.sp, fontWeight = FontWeight.Medium))
                 }
             }
             when (mode) {
                 FocusMode.POMO -> {
                     Spacer(GlanceModifier.width(8.dp))
-                    IconKey(R.drawable.ic_focus_skip, ctx.getString(R.string.focus_skip), FocusOp.SKIP, mode, p, enabled = !ended)
+                    IconKey(R.drawable.ic_focus_skip, ctx.getString(R.string.focus_skip), FocusOp.SKIP, mode, p, enabled = !ended, size = fit.key)
                 }
                 FocusMode.TIMER -> {
                     Spacer(GlanceModifier.width(8.dp))
-                    TextKey(ctx.getString(R.string.focus_add_min), FocusOp.ADD_MINUTE, mode, p, enabled = !ended)
+                    TextKey(ctx.getString(R.string.focus_add_min), FocusOp.ADD_MINUTE, mode, p, enabled = !ended, size = fit.key, sp = fit.keySp)
                 }
                 FocusMode.STOPWATCH -> Unit
             }
@@ -185,14 +206,32 @@ private fun durLabel(ctx: Context, ms: Long): String {
     return if (sec == 0L) ctx.getString(R.string.min_short, min.toInt()) else "%d:%02d".format(min, sec)
 }
 
+/**
+ * Размеры под фактический размер виджета (dp): цифры занимают всё свободное место по высоте,
+ * но не шире виджета. «04:54» в sans-serif-medium с моноширинными цифрами — около 2,6 em, «1:04:54» — 3,4 em.
+ */
+internal class FocusFit(width: Float, height: Float, hours: Boolean) {
+    private val roomy = height >= 170
+    val key: Float = when { roomy -> 52f; height < 130 -> 36f; else -> 44f }
+    val keySp: Float = when { roomy -> 15f; height < 130 -> 13f; else -> 14f }
+    val captionSp: Float = if (roomy) 13f else 12f
+    // Рамка 12 + 12, вкладки 26, кнопки, зазор.
+    private val free = height - 24 - 26 - key - 6
+    val caption: Boolean = free >= 64
+    private val forDigits = free - (if (caption) captionSp + 8 else 0f)
+    val digits: Float = minOf(forDigits / 1.15f, (width - 32) / (if (hours) 3.6f else 2.75f)).coerceIn(22f, 140f)
+    val digitsBox: Float = digits * 1.15f
+}
+
 /** Живые часы: Chronometer сам тикает на рабочем столе, без перерисовки виджета каждую секунду. */
-private fun chrono(context: Context, ms: Long, countDown: Boolean, running: Boolean, color: Color, sizeSp: Float): RemoteViews {
+private fun chrono(context: Context, ms: Long, countDown: Boolean, running: Boolean, color: Color, sizeDp: Float): RemoteViews {
     val rv = RemoteViews(context.packageName, R.layout.focus_chrono)
     val now = SystemClock.elapsedRealtime()
     rv.setChronometer(R.id.chrono, if (countDown) now + ms else now - ms, null, running)
     rv.setChronometerCountDown(R.id.chrono, countDown)
     rv.setTextColor(R.id.chrono, color.toArgb())
-    rv.setTextViewTextSize(R.id.chrono, TypedValue.COMPLEX_UNIT_SP, sizeSp)
+    // dp, а не sp: размер подобран под место в виджете, системный масштаб шрифта его бы ломал.
+    rv.setTextViewTextSize(R.id.chrono, TypedValue.COMPLEX_UNIT_DIP, sizeDp)
     return rv
 }
 
@@ -210,19 +249,19 @@ private fun androidx.glance.layout.RowScope.Tab(label: String, mode: FocusMode, 
 }
 
 @Composable
-private fun IconKey(icon: Int, label: String, op: FocusOp, mode: FocusMode, p: OktoPalette, enabled: Boolean) {
+private fun IconKey(icon: Int, label: String, op: FocusOp, mode: FocusMode, p: OktoPalette, enabled: Boolean, size: Float) {
     val tint = if (enabled) p.keyInk else p.keyInk.copy(alpha = 0.35f)
-    val m = GlanceModifier.size(44.dp).background(p.key).cornerRadius(12.dp)
+    val m = GlanceModifier.size(size.dp).background(p.key).cornerRadius(12.dp)
     Box(if (enabled) m.clickable(actionRunCallback<FocusAction>(params(op, mode))) else m, contentAlignment = Alignment.Center) {
         Image(ImageProvider(icon), label, GlanceModifier.size(20.dp), colorFilter = ColorFilter.tint(cp(tint)))
     }
 }
 
 @Composable
-private fun TextKey(label: String, op: FocusOp, mode: FocusMode, p: OktoPalette, enabled: Boolean) {
-    val m = GlanceModifier.height(44.dp).background(p.key).cornerRadius(12.dp).padding(horizontal = 12.dp)
+private fun TextKey(label: String, op: FocusOp, mode: FocusMode, p: OktoPalette, enabled: Boolean, size: Float, sp: Float) {
+    val m = GlanceModifier.height(size.dp).background(p.key).cornerRadius(12.dp).padding(horizontal = 12.dp)
     Box(if (enabled) m.clickable(actionRunCallback<FocusAction>(params(op, mode))) else m, contentAlignment = Alignment.Center) {
-        Text(label, maxLines = 1, style = TextStyle(color = cp(if (enabled) p.keyInk else p.muted), fontSize = 13.sp, fontWeight = FontWeight.Medium))
+        Text(label, maxLines = 1, style = TextStyle(color = cp(if (enabled) p.keyInk else p.muted), fontSize = sp.sp, fontWeight = FontWeight.Medium))
     }
 }
 
