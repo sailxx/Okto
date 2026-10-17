@@ -38,7 +38,6 @@
 <header class="mobile-top">
   {@render brand()}
   <div class="top-actions">
-    <span class="clock">{stamp} · {clock}</span>
     <button class="icon-btn" type="button" aria-label={store.t('settings')} onclick={onSettings}><Icon name="settings" /></button>
   </div>
 </header>
@@ -77,5 +76,4 @@
 
 <style>
   .nk { font-family: var(--mono); font-size: 11px; opacity: .6; margin-left: 4px; }
-  @media (max-width: 400px) { .clock { margin-right: 2px; } }
 </style>

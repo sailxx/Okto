@@ -23,7 +23,6 @@
   border-bottom: 1px solid transparent;
 }
 .top-actions { display: flex; gap: 2px; align-items: center; }
-.clock { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 6px; }
 
 /* Floating tab bar: one soft capsule, the current section is a tinted pill. */
 .tabbar {
