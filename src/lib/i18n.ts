@@ -43,6 +43,7 @@ const ru = {
   notifyOn: 'Уведомления включены', wakeOn: 'Экран не будет гаснуть', wakeOff: 'Экран может гаснуть', wakeFail: 'Не удалось удержать экран',
   stepLabel: (s: number) => `Шаг: ${s}`, invalidGoal: 'Укажите число от 1 до 999 999', min: 'мин',
   focusOn: 'Фокус на задаче', unlinkTask: 'Отвязать задачу',
+  rowTime: 'Время', rowMode: 'Режим', rowStep: 'Шаг', undoLast: 'Отменить последнее', resetKey: 'Сброс', newCounter: 'Новый счётчик',
   // tasks
   task: 'Задача', tasks: 'Задачи', todayOf: (a: number, b: number) => `Сегодня ${a} из ${b}`,
   fToday: 'Сегодня', fUpcoming: 'Предстоящие', fAll: 'Все', fNoDate: 'Без даты', fDone: 'Выполненные',
@@ -119,6 +120,7 @@ const en: typeof ru = {
   notifyOn: 'Notifications on', wakeOn: 'Screen will stay on', wakeOff: 'Screen may turn off', wakeFail: 'Could not keep the screen on',
   stepLabel: (s) => `Step: ${s}`, invalidGoal: 'Enter a number from 1 to 999,999', min: 'min',
   focusOn: 'Focus on task', unlinkTask: 'Unlink task',
+  rowTime: 'Time', rowMode: 'Mode', rowStep: 'Step', undoLast: 'Undo last', resetKey: 'Reset', newCounter: 'New counter',
   task: 'Task', tasks: 'Tasks', todayOf: (a, b) => `Today ${a} of ${b}`,
   fToday: 'Today', fUpcoming: 'Upcoming', fAll: 'All', fNoDate: 'No date', fDone: 'Completed',
   addList: 'List', newList: 'New list', editList: 'List', overdue: 'Overdue',
