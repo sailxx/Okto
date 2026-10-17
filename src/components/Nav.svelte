@@ -23,7 +23,6 @@
   const folded = $derived(store.device.sideFolded);
   const items = $derived(ALL.filter((it) => store.shows(it.route)));
   const pad = (n: number) => String(n).padStart(2, '0');
-  const clock = $derived(`${pad(store.now.getHours())}:${pad(store.now.getMinutes())}`);
   const stamp = $derived(`${new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'short' }).format(store.now).replace('.', '').toUpperCase()} ${pad(store.now.getDate())}.${pad(store.now.getMonth() + 1)}`);
 </script>
 
@@ -57,7 +56,7 @@
 
 <aside class="side">
   {@render brand()}
-  <div class="side-clock">{stamp} · {clock}</div>
+  <div class="side-clock">{stamp}</div>
   <div class="side-nav">
   {#each items as it, i}
     <button class="side-link" type="button" title={store.t(it.label)} aria-label={store.t(it.label)} aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
