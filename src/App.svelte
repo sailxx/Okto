@@ -87,7 +87,7 @@
 
 </script>
 
-<div class="shell" class:side-folded={store.device.sideFolded} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
+<div class="shell" class:side-folded={store.device.sideFolded} class:cal-route={router.route === 'calendar'} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
     {#if router.route === 'home'}<Home />
