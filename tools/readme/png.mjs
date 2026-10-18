@@ -11,7 +11,7 @@ import { pathToFileURL } from "node:url";
 const src = "assets/readme/";
 const out = "assets/readme/png/";
 const SCALE = 1.5;
-export const PNG_IMAGES = ["hero", "sections", "quality", "safe"];
+export const PNG_IMAGES = ["hero", "sections", "safe"];
 
 const chrome = [
   process.env.CHROME,

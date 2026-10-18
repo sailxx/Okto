@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-tr.svg"><img src="assets/readme/png/quality-tr.png" width="100%" alt="RAKAMLARLA KALİTE"></picture>
-
-<br>
-
 <details>
 <summary>Senkronizasyonu açma</summary>
 

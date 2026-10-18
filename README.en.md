@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-en.svg"><img src="assets/readme/png/quality-en.png" width="100%" alt="QUALITY IN NUMBERS"></picture>
-
-<br>
-
 <details>
 <summary>How to turn on sync</summary>
 

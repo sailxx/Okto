@@ -315,7 +315,6 @@ for (const [lang, s] of Object.entries(strings)) {
     [`safe-${lang}.svg`]: safeSvg(s),
     [`btn-web-${lang}.svg`]: btnSvg(md[lang].btnWeb, "web"),
     [`btn-android-${lang}.svg`]: btnSvg(md[lang].btnApk, "android"),
-    [`quality-${lang}.svg`]: qualitySvg(cards2[lang], lang),
   });
 }
 await K.build(out, images, "Okto›↗↓↻/:.,");
@@ -348,10 +347,6 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <br>
 
 <picture><source srcset="assets/readme/sections-${lang}.svg"><img src="assets/readme/png/sections-${lang}.png" width="100%" alt="${m.alt[2]}"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/quality-${lang}.svg"><img src="assets/readme/png/quality-${lang}.png" width="100%" alt="${cards2[lang].q.label}"></picture>
 
 <br>
 

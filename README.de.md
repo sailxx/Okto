@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-de.svg"><img src="assets/readme/png/quality-de.png" width="100%" alt="QUALITÄT IN ZAHLEN"></picture>
-
-<br>
-
 <details>
 <summary>Synchronisierung einschalten</summary>
 

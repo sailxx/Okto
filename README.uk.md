@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-uk.svg"><img src="assets/readme/png/quality-uk.png" width="100%" alt="ЯКІСТЬ У ЦИФРАХ"></picture>
-
-<br>
-
 <details>
 <summary>Як увімкнути синхронізацію</summary>
 

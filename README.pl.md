@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-pl.svg"><img src="assets/readme/png/quality-pl.png" width="100%" alt="JAKOŚĆ W LICZBACH"></picture>
-
-<br>
-
 <details>
 <summary>Jak włączyć synchronizację</summary>
 

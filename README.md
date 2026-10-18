@@ -22,10 +22,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-ru.svg"><img src="assets/readme/png/quality-ru.png" width="100%" alt="КАЧЕСТВО В ЦИФРАХ"></picture>
-
-<br>
-
 <details>
 <summary>Как включить синхронизацию</summary>
 

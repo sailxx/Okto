@@ -25,10 +25,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/quality-pt.svg"><img src="assets/readme/png/quality-pt.png" width="100%" alt="QUALIDADE EM NÚMEROS"></picture>
-
-<br>
-
 <details>
 <summary>Como ativar a sincronização</summary>
 
