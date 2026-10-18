@@ -18,10 +18,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-ru.svg"><img src="assets/readme/png/android-ru.png" width="100%" alt="Okto для Android: виджеты, одно приложение, что нового"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-ru.svg"><img src="assets/readme/png/sections-ru.png" width="100%" alt="Разделы Okto: Главная, Задачи, Календарь, Фокус"></picture>
 
 <br>
@@ -29,12 +25,6 @@
 <picture><source srcset="assets/readme/quality-ru.svg"><img src="assets/readme/png/quality-ru.png" width="100%" alt="КАЧЕСТВО В ЦИФРАХ"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-ru.svg"><img src="assets/readme/png/design-ru.png" width="100%" alt="ДИЗАЙН-КОД"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-ru.svg"><img src="assets/readme/png/more-ru.png" width="100%" alt="Синхронизация, приватность и оформление"></picture>
 
 <details>
 <summary>Как включить синхронизацию</summary>

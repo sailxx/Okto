@@ -312,13 +312,10 @@ for (const [lang, s] of Object.entries(strings)) {
   images[lang] = () => ({
     [`hero-${lang}.svg`]: heroSvg(s),
     [`sections-${lang}.svg`]: sectionsSvg(s),
-    [`more-${lang}.svg`]: moreSvg(s),
-    [`android-${lang}.svg`]: androidSvg(s),
     [`safe-${lang}.svg`]: safeSvg(s),
     [`btn-web-${lang}.svg`]: btnSvg(md[lang].btnWeb, "web"),
     [`btn-android-${lang}.svg`]: btnSvg(md[lang].btnApk, "android"),
     [`quality-${lang}.svg`]: qualitySvg(cards2[lang], lang),
-    [`design-${lang}.svg`]: designSvg(cards2[lang], lang),
   });
 }
 await K.build(out, images, "Okto›↗↓↻/:.,");
@@ -350,10 +347,6 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 
 <br>
 
-<picture><source srcset="assets/readme/android-${lang}.svg"><img src="assets/readme/png/android-${lang}.png" width="100%" alt="${m.alt[4]}"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-${lang}.svg"><img src="assets/readme/png/sections-${lang}.png" width="100%" alt="${m.alt[2]}"></picture>
 
 <br>
@@ -361,12 +354,6 @@ ${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
 <picture><source srcset="assets/readme/quality-${lang}.svg"><img src="assets/readme/png/quality-${lang}.png" width="100%" alt="${cards2[lang].q.label}"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-${lang}.svg"><img src="assets/readme/png/design-${lang}.png" width="100%" alt="${cards2[lang].d.label}"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-${lang}.svg"><img src="assets/readme/png/more-${lang}.png" width="100%" alt="${m.alt[3]}"></picture>
 
 <details>
 <summary>${m.syncTitle}</summary>

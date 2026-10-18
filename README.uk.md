@@ -21,10 +21,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-uk.svg"><img src="assets/readme/png/android-uk.png" width="100%" alt="Okto для Android: віджети, один застосунок, що нового"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-uk.svg"><img src="assets/readme/png/sections-uk.png" width="100%" alt="Розділи Okto: Головна, Завдання, Календар, Фокус"></picture>
 
 <br>
@@ -32,12 +28,6 @@
 <picture><source srcset="assets/readme/quality-uk.svg"><img src="assets/readme/png/quality-uk.png" width="100%" alt="ЯКІСТЬ У ЦИФРАХ"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-uk.svg"><img src="assets/readme/png/design-uk.png" width="100%" alt="ДИЗАЙН-КОД"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-uk.svg"><img src="assets/readme/png/more-uk.png" width="100%" alt="Синхронізація, приватність і вигляд"></picture>
 
 <details>
 <summary>Як увімкнути синхронізацію</summary>

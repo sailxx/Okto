@@ -21,10 +21,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-tr.svg"><img src="assets/readme/png/android-tr.png" width="100%" alt="Android için Okto: widget'lar, tek uygulama, yenilikler"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-tr.svg"><img src="assets/readme/png/sections-tr.png" width="100%" alt="Okto bölümleri: Ana sayfa, Görevler, Takvim, Odak"></picture>
 
 <br>
@@ -32,12 +28,6 @@
 <picture><source srcset="assets/readme/quality-tr.svg"><img src="assets/readme/png/quality-tr.png" width="100%" alt="RAKAMLARLA KALİTE"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-tr.svg"><img src="assets/readme/png/design-tr.png" width="100%" alt="TASARIM KODU"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-tr.svg"><img src="assets/readme/png/more-tr.png" width="100%" alt="Senkronizasyon, gizlilik ve görünüm"></picture>
 
 <details>
 <summary>Senkronizasyonu açma</summary>

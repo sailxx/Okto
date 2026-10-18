@@ -21,10 +21,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-en.svg"><img src="assets/readme/png/android-en.png" width="100%" alt="Okto for Android: widgets, one app, what's new"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-en.svg"><img src="assets/readme/png/sections-en.png" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus"></picture>
 
 <br>
@@ -32,12 +28,6 @@
 <picture><source srcset="assets/readme/quality-en.svg"><img src="assets/readme/png/quality-en.png" width="100%" alt="QUALITY IN NUMBERS"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-en.svg"><img src="assets/readme/png/design-en.png" width="100%" alt="DESIGN CODE"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-en.svg"><img src="assets/readme/png/more-en.png" width="100%" alt="Sync, privacy and look"></picture>
 
 <details>
 <summary>How to turn on sync</summary>

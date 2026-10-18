@@ -21,10 +21,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-pl.svg"><img src="assets/readme/png/android-pl.png" width="100%" alt="Okto na Androida: widżety, jedna aplikacja, nowości"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-pl.svg"><img src="assets/readme/png/sections-pl.png" width="100%" alt="Sekcje Okto: Start, Zadania, Kalendarz, Skupienie"></picture>
 
 <br>
@@ -32,12 +28,6 @@
 <picture><source srcset="assets/readme/quality-pl.svg"><img src="assets/readme/png/quality-pl.png" width="100%" alt="JAKOŚĆ W LICZBACH"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-pl.svg"><img src="assets/readme/png/design-pl.png" width="100%" alt="KOD DESIGNU"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-pl.svg"><img src="assets/readme/png/more-pl.png" width="100%" alt="Synchronizacja, prywatność i wygląd"></picture>
 
 <details>
 <summary>Jak włączyć synchronizację</summary>

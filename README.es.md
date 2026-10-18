@@ -21,10 +21,6 @@
 
 <br>
 
-<picture><source srcset="assets/readme/android-es.svg"><img src="assets/readme/png/android-es.png" width="100%" alt="Okto para Android: widgets, una sola app, novedades"></picture>
-
-<br>
-
 <picture><source srcset="assets/readme/sections-es.svg"><img src="assets/readme/png/sections-es.png" width="100%" alt="Secciones de Okto: Inicio, Tareas, Calendario, Enfoque"></picture>
 
 <br>
@@ -32,12 +28,6 @@
 <picture><source srcset="assets/readme/quality-es.svg"><img src="assets/readme/png/quality-es.png" width="100%" alt="CALIDAD EN CIFRAS"></picture>
 
 <br>
-
-<picture><source srcset="assets/readme/design-es.svg"><img src="assets/readme/png/design-es.png" width="100%" alt="CÓDIGO DE DISEÑO"></picture>
-
-<br>
-
-<picture><source srcset="assets/readme/more-es.svg"><img src="assets/readme/png/more-es.png" width="100%" alt="Sincronización, privacidad y aspecto"></picture>
 
 <details>
 <summary>Cómo activar la sincronización</summary>
