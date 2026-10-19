@@ -59,6 +59,23 @@ class FocusLiveTest {
         assertEquals(6 * 60_000L, paused.timer.remaining)
     }
 
+    @Test fun subMinuteNeverBelowOneMinute() {
+        assertEquals(4 * 60_000L, base.subMinute(now).timer.duration)
+        val run = base.toggle(FocusMode.TIMER, now).subMinute(now)
+        assertEquals(now + 4 * 60_000L, run.timer.endsAt)
+        // Осталось 1:30 → 1:00; осталось 0:30 → не трогаем.
+        assertEquals(now + 3 * 60_000L + 30_000, run.subMinute(now + 2 * 60_000L + 30_000).timer.endsAt)
+        assertEquals(now + 4 * 60_000L, run.subMinute(now + 3 * 60_000L + 30_000).timer.endsAt)
+        val short = base.setTimer(1, now)
+        assertEquals(60_000L, short.subMinute(now).timer.duration)
+    }
+
+    @Test fun presetStopsAndSetsTimer() {
+        val p = base.toggle(FocusMode.TIMER, now).setTimer(25, now + 1_000)
+        assertEquals(TimerClock(25 * 60_000L, null, null), p.timer)
+        assertFalse(p.started(FocusMode.TIMER))
+    }
+
     @Test fun stopwatch() {
         val run = base.toggle(FocusMode.STOPWATCH, now)
         assertEquals(3_000L, run.swAt(now + 3_000))

@@ -102,6 +102,20 @@ data class FocusLive(
         return copy(timer = t.copy(duration = minOf(24 * 3_600_000L, maxOf(t.duration, left))), updatedAt = stamp(now))
     }
 
+    /** Минус минута, но не меньше минуты. Не запущенный таймер укорачивает саму длительность. */
+    fun subMinute(now: Long): FocusLive {
+        val t = when {
+            timer.endsAt != null -> timer.copy(endsAt = maxOf(timer.endsAt - 60_000, minOf(timer.endsAt, now + 60_000)))
+            timer.remaining != null -> timer.copy(remaining = maxOf(timer.remaining - 60_000, minOf(timer.remaining, 60_000)))
+            else -> timer.copy(duration = maxOf(timer.duration - 60_000, minOf(timer.duration, 60_000)))
+        }
+        return copy(timer = t, updatedAt = stamp(now))
+    }
+
+    /** Пресет: новый таймер на [minutes] мин, ещё не запущен. */
+    fun setTimer(minutes: Int, now: Long): FocusLive =
+        copy(timer = TimerClock(minutes.coerceIn(1, 24 * 60) * 60_000L, null, null), updatedAt = stamp(now))
+
     /**
      * Следующая фаза помодоро. [natural] — фаза дошла до конца: тогда законченный «Фокус» даёт сессию
      * с id по endsAt — его же выберет сайт, так что сессия не задвоится. Автостарт следующей фазы — только на сайте.
