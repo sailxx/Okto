@@ -12,7 +12,13 @@ export function occursOn(task: Task, key: string): boolean {
   switch (r.freq) {
     case 'day': return diffDays(task.date, key) % r.interval === 0;
     case 'weekday': { const w = weekday(key); return w !== 0 && w !== 6; }
-    case 'week': return diffDays(task.date, key) % (7 * r.interval) === 0;
+    case 'week': {
+      if (!r.days?.length) return diffDays(task.date, key) % (7 * r.interval) === 0;
+      // Chosen weekdays, in every r.interval-th week counted from the (Monday-based) week of the start date.
+      if (!r.days.includes(weekday(key))) return false;
+      const weeks = Math.floor((diffDays(task.date, key) + ((weekday(task.date) + 6) % 7)) / 7);
+      return weeks % r.interval === 0;
+    }
     case 'month': {
       const [sy, sm, sd] = task.date.split('-').map(Number);
       const [y, m, d] = key.split('-').map(Number);

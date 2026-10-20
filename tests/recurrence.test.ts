@@ -37,4 +37,12 @@ describe('recurrence', () => {
     expect(isDoneOn(t({ done: true }), '2026-10-05')).toBe(true);
   });
   it('deleted never occurs', () => expect(occursOn(t({ deleted: true }), '2026-10-05')).toBe(false));
+  it('weekly on chosen weekdays', () => {
+    const task = t({ repeat: { freq: 'week', interval: 1, until: null, days: [1, 3, 5] } }); // Mon, Wed, Fri
+    expect(occurrences(task, '2026-10-05', '2026-10-12')).toEqual(['2026-10-05', '2026-10-07', '2026-10-09', '2026-10-12']);
+  });
+  it('chosen weekdays every second week', () => {
+    const task = t({ repeat: { freq: 'week', interval: 2, until: null, days: [2, 6] } }); // Tue, Sat
+    expect(occurrences(task, '2026-10-05', '2026-10-25')).toEqual(['2026-10-06', '2026-10-10', '2026-10-20', '2026-10-24']);
+  });
 });

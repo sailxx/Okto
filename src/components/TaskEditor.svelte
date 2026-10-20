@@ -7,8 +7,8 @@
   import { store, type Scope } from '../lib/store.svelte';
   import { router } from '../lib/router.svelte';
   import { deleteFiles } from '../lib/files';
-  import { addDays, monthStart, toMin, fromMin } from '../lib/date';
-  import { relDay } from '../lib/i18n';
+  import { addDays, monthStart, startOfWeek, todayKey, toMin, fromMin, weekday } from '../lib/date';
+  import { fmtWeekdayShort, relDay } from '../lib/i18n';
   import { COLORS, DURATIONS, PRIORITY_COLORS, REMINDERS, normLink, uid, type Freq, type Task } from '../lib/model';
 
   const ed = untrack(() => store.editor!);
@@ -40,15 +40,29 @@
   const dateLabel = $derived(draft.date ? relDay(store.lang, draft.date, store.today, addDays(store.today, 1), addDays(store.today, -1)) : store.t('noDate'));
   const timeLabel = $derived(draft.start ? `${draft.start}–${fromMin(toMin(draft.start) + draft.duration)}` : store.t('noTime'));
   const repeatLabels: Record<Freq, 'rDay' | 'rWeekday' | 'rWeek' | 'rMonth'> = { day: 'rDay', weekday: 'rWeekday', week: 'rWeek', month: 'rMonth' };
-  const repeatLabel = $derived(draft.repeat ? store.t(repeatLabels[draft.repeat.freq]) + (draft.repeat.interval > 1 ? ` ×${draft.repeat.interval}` : '') : store.t('rNone'));
+  const repeatLabel = $derived.by(() => {
+    const r = draft.repeat;
+    if (!r) return store.t('rNone');
+    const picked = r.freq === 'week' && r.days?.length ? weekDays.filter((d) => r.days!.includes(d.n)).map((d) => d.label).join(' ') : '';
+    return (picked || store.t(repeatLabels[r.freq])) + (r.interval > 1 ? ` ×${r.interval}` : '');
+  });
   const remLabel = (m: number | null) => (m === null ? store.t('remNone') : m === 0 ? store.t('remAt') : store.t('remBefore')(m));
   const list = $derived(store.lists.find((l) => l.id === draft.listId) ?? store.lists[0]);
 
   /* ---------- edits ---------- */
   function setDate(k: string | null) { draft.date = k; if (!k) { draft.repeat = null; } panel = null; }
   function setStart(v: string) { draft.start = v || null; if (!v) draft.reminder = null; }
+  const weekDays = $derived.by(() => {
+    const s = startOfWeek(todayKey(), store.weekStart);
+    return Array.from({ length: 7 }, (_, i) => { const k = addDays(s, i); return { n: weekday(k), label: fmtWeekdayShort(store.lang, k) }; });
+  });
+  function toggleDay(n: number) {
+    if (!draft.repeat) return;
+    const cur = draft.repeat.days ?? [];
+    draft.repeat.days = (cur.includes(n) ? cur.filter((x) => x !== n) : [...cur, n]).sort();
+  }
   function setRepeat(freq: Freq | null) {
-    draft.repeat = freq ? { freq, interval: draft.repeat?.freq === freq ? draft.repeat.interval : 1, until: draft.repeat?.until ?? null } : null;
+    draft.repeat = freq ? { freq, interval: draft.repeat?.freq === freq ? draft.repeat.interval : 1, until: draft.repeat?.until ?? null, days: freq === 'week' ? draft.repeat?.days ?? [] : [] } : null;
     if (freq && !draft.date) draft.date = store.today;
   }
   function addSub() {
@@ -172,6 +186,13 @@
         </div>
         {#if draft.repeat}
           <div class="rep-opts">
+            {#if draft.repeat.freq === 'week'}
+              <div class="wdays" role="group" aria-label={store.t('rDays')}>
+                {#each weekDays as d}
+                  <button type="button" class="tag plain" aria-pressed={draft.repeat.days?.includes(d.n) ?? false} onclick={() => toggleDay(d.n)}>{d.label}</button>
+                {/each}
+              </div>
+            {/if}
             {#if draft.repeat.freq !== 'weekday'}
               <label class="field inline"><span>{store.t('every2')}</span><input type="number" min="1" max="99" value={draft.repeat.interval}
                 onchange={(e) => { const v = parseInt(e.currentTarget.value, 10); if (draft.repeat) draft.repeat.interval = v >= 1 && v <= 99 ? v : 1; }} /></label>
@@ -292,6 +313,7 @@
   .tag.plain::before { display: none; }
   .tag.plain { padding: 0 14px; }
   .time-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 12px; }
+  .wdays { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; }
   .rep-opts { display: flex; gap: 10px; flex-wrap: wrap; }
   .field.inline { margin: 0; flex: 1; min-width: 130px; }
   .field.inline input { background: var(--bg); height: 46px; font-size: 16px; }
