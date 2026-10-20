@@ -181,11 +181,24 @@ object FocusRepository {
 
     private fun liveRef() = userRef()?.collection("live")?.document("focus")
 
+    @Volatile private var refreshedAt = 0L
+
+    /** Только кэш Firestore: мгновенно, для первой отрисовки виджета. */
+    suspend fun loadCached(context: Context) = mutex.withLock {
+        val ref = liveRef() ?: return@withLock
+        val snap = runCatching { ref.get(Source.CACHE).await() }.getOrNull() ?: return@withLock
+        FocusLive.fromMap(snap.data)?.let { accept(context, it) }
+    }
+
+    suspend fun refreshIfStale(context: Context, maxAgeMs: Long = 30_000): FocusLive? =
+        if (_state.value != null && System.currentTimeMillis() - refreshedAt < maxAgeMs) _state.value else refresh(context)
+
     /** Свежий документ с сервера, без сети — из кэша Firestore. */
     suspend fun refresh(context: Context): FocusLive? = mutex.withLock {
         val ref = liveRef() ?: return@withLock null.also { _state.value = null }
         val snap = runCatching { ref.get().await() }.getOrNull() ?: runCatching { ref.get(Source.CACHE).await() }.getOrNull()
         val live = FocusLive.fromMap(snap?.data) ?: _state.value ?: FocusLive.DEFAULT
+        refreshedAt = System.currentTimeMillis()
         accept(context, live)
         live
     }
