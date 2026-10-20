@@ -5,6 +5,7 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,7 @@ import com.sailxx.okto.data.FocusMode
 import com.sailxx.okto.data.FocusRepository
 import com.sailxx.okto.data.OktoPalette
 import com.sailxx.okto.data.OktoRepository
+import com.sailxx.okto.data.Status
 import com.sailxx.okto.data.WidgetState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -92,9 +94,15 @@ class FocusWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        OktoRepository.refreshIfStale(context)
-        FocusRepository.refresh(context)
+        // Рисуем сразу из того, что есть; свежие данные подтягиваем уже под открытым виджетом.
+        // Раньше обновление ждало сеть до первой отрисовки, и вкладки переключались с задержкой.
+        if (OktoRepository.state.value.status != Status.READY) OktoRepository.refreshIfStale(context)
+        if (FocusRepository.state.value == null) FocusRepository.loadCached(context)
         provideContent {
+            LaunchedEffect(Unit) {
+                OktoRepository.refreshIfStale(context)
+                FocusRepository.refreshIfStale(context)
+            }
             val state by OktoRepository.state.collectAsState()
             val live by FocusRepository.state.collectAsState()
             val chosen by FocusWidgetMode.flow(context).collectAsState()
