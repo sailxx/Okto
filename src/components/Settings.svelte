@@ -127,7 +127,7 @@
 
 <style>
   .wide { width: 100%; justify-items: start; padding: 0 16px; font-weight: 500; }
-  .ask { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 12px 14px; border-radius: 20px; color: var(--ink); text-decoration: none; background: color-mix(in srgb, var(--soft) 78%, var(--bg)); box-shadow: inset 0 0 0 1px var(--line); }
+  .ask { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 12px 14px; border-radius: 20px; color: var(--ink); text-decoration: none; background: var(--glass-fill); box-shadow: var(--glass-edge); }
   .ask:hover { box-shadow: inset 0 0 0 1px var(--key-edge); }
   .ask .chip { display: grid; place-items: center; flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 8%, transparent); }
   .ask .chip :global(svg) { stroke-width: 2; }

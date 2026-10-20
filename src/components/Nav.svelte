@@ -20,6 +20,45 @@
     { route: 'notes', icon: 'note', label: 'navNotes' },
     { route: 'focus', icon: 'focus', label: 'navFocus' },
   ];
+  let tabbarEl = $state<HTMLElement>();
+  let sideNavEl = $state<HTMLElement>();
+  const last = new WeakMap<HTMLElement, { x: number; y: number }>();
+
+  /* The glass lens glides to the current section and stretches along the move. */
+  function glide(nav: HTMLElement | undefined) {
+    const g = nav?.querySelector<HTMLElement>(':scope > .glide');
+    const cur = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!nav || !g) return;
+    if (!cur || !cur.offsetWidth) { g.style.opacity = '0'; return; }
+    const x = cur.offsetLeft, y = cur.offsetTop;
+    g.style.width = `${cur.offsetWidth}px`;
+    g.style.height = `${cur.offsetHeight}px`;
+    g.style.transform = `translate(${x}px, ${y}px)`;
+    g.style.opacity = '1';
+    const prev = last.get(nav);
+    last.set(nav, { x, y });
+    if (prev && (prev.x !== x || prev.y !== y) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const vertical = nav === sideNavEl;
+      const d = Math.hypot(x - prev.x, y - prev.y) / (vertical ? cur.offsetHeight : cur.offsetWidth);
+      const k = 1 + Math.min(0.7, d * 0.22);
+      const mid = vertical ? `scale(${2 - k}, ${k})` : `scale(${k}, ${2 - k})`;
+      g.firstElementChild?.animate([{ transform: 'scale(1)' }, { transform: mid, offset: 0.4 }, { transform: 'scale(1)' }], { duration: 560, easing: 'ease-out' });
+    }
+    requestAnimationFrame(() => g.classList.add('ready'));
+  }
+
+  $effect(() => {
+    void router.route; void items; void folded;
+    glide(tabbarEl); glide(sideNavEl);
+  });
+
+  $effect(() => {
+    if (!tabbarEl || !sideNavEl) return;
+    const ro = new ResizeObserver(() => { glide(tabbarEl); glide(sideNavEl); });
+    ro.observe(tabbarEl); ro.observe(sideNavEl);
+    return () => ro.disconnect();
+  });
+
   const folded = $derived(store.device.sideFolded);
   const items = $derived(ALL.filter((it) => store.shows(it.route)));
   const pad = (n: number) => String(n).padStart(2, '0');
@@ -41,7 +80,8 @@
   </div>
 </header>
 
-<nav class="tabbar" aria-label="Okto">
+<nav class="tabbar" aria-label="Okto" bind:this={tabbarEl}>
+  <span class="glide" aria-hidden="true"><i></i></span>
   {#each items as it}
     <button class="tab" type="button" aria-label={store.t(it.label)} title={store.t(it.label)} aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
       <Icon name={it.icon} />
@@ -57,7 +97,8 @@
 <aside class="side">
   {@render brand()}
   <div class="side-clock">{stamp}</div>
-  <div class="side-nav">
+  <div class="side-nav" bind:this={sideNavEl}>
+  <span class="glide" aria-hidden="true"><i></i></span>
   {#each items as it, i}
     <button class="side-link" type="button" title={store.t(it.label)} aria-label={store.t(it.label)} aria-current={router.route === it.route ? 'page' : undefined} onclick={() => router.go(it.route)}>
       <Icon name={it.icon} />

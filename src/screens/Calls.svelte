@@ -170,7 +170,7 @@
   .group-sec .label { margin: 0 0 2px 2px; }
   .call {
     position: relative; display: flex; align-items: center; gap: 16px; padding: 14px 16px 14px 20px;
-    border-radius: 12px; background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); cursor: pointer; overflow: hidden;
+    border-radius: 16px; background: var(--glass-fill); box-shadow: var(--glass-edge); cursor: pointer; overflow: hidden;
   }
   .call::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--c); }
   .call:hover { box-shadow: inset 0 0 0 1px var(--muted); }

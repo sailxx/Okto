@@ -38,7 +38,13 @@
     const tag = store.activeCounter()?.color;
     root.style.setProperty('--tag', tag ?? '#0090ff');
     const meta = document.querySelector('meta[name="theme-color"]');
-    requestAnimationFrame(() => meta?.setAttribute('content', getComputedStyle(document.body).backgroundColor));
+    requestAnimationFrame(() => {
+      const bg = getComputedStyle(document.body).backgroundColor;
+      meta?.setAttribute('content', bg);
+      // Dark or light casing, whatever the theme: the glass bar reads it.
+      const [r = 0, g = 0, b = 0] = bg.match(/[d.]+/g)?.map(Number) ?? [];
+      root.dataset.tone = (r * 299 + g * 587 + b * 114) / 1000 < 128 ? 'dark' : 'light';
+    });
   });
 
   $effect(() => {

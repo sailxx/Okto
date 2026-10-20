@@ -1,4 +1,22 @@
 /* ---------- Shell: casing top, key-row tab bar, desktop key column ---------- */
+/* Liquid glass recipe shared by the bars, chips, segments and cards.
+   Light themes: clear glass tinted by the ink. Dark themes (data-tone, set in App): frosted dark. */
+:root {
+  --glass-fill: color-mix(in srgb, var(--ink) 7%, transparent);
+  --glass-blur: blur(14px) saturate(1.8);
+  --glass-edge: inset 0 1px 1px rgb(255 255 255 / 50%), inset 0 -1px 1px rgb(255 255 255 / 15%), inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+  --glass-lift: 0 16px 36px -12px rgb(0 0 0 / 50%);
+  --glass-lens: color-mix(in srgb, var(--ink) 20%, transparent);
+  --glass-lens-edge: inset 0 1px 1px rgb(255 255 255 / 60%), 0 4px 10px -4px rgb(0 0 0 / 30%);
+}
+:root[data-tone='dark'] {
+  --glass-fill: linear-gradient(160deg, rgb(40 40 46 / 62%), rgb(20 20 24 / 50%));
+  --glass-blur: blur(34px) saturate(2) brightness(.9);
+  --glass-edge: inset 0 0 0 .5px rgb(255 255 255 / 18%), inset 0 1px 0 rgb(255 255 255 / 25%);
+  --glass-lift: 0 20px 40px -14px rgb(0 0 0 / 70%);
+  --glass-lens: rgb(255 255 255 / 14%);
+  --glass-lens-edge: inset 0 0 0 .5px rgb(255 255 255 / 22%), inset 0 1px 0 rgb(255 255 255 / 25%);
+}
 :root { --tabbar: 72px; --side: 236px; }
 .shell { min-height: 100svh; touch-action: pan-y; overflow-x: clip; } /* a screen sliding past the edge must not widen the page */
 .main { min-width: 0; transition: opacity 400ms var(--ease); }
@@ -31,9 +49,17 @@
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
   padding: 6px;
   border-radius: 24px;
-  background: color-mix(in srgb, var(--soft) 88%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
-  box-shadow: inset 0 0 0 1px var(--line), inset 0 1px 0 var(--key-hi), 0 12px 28px -14px rgb(0 0 0 / 40%);
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), var(--glass-lift);
+}
+/* Dark themes lose the bright rim: the edge comes from --glass-edge. */
+:root[data-tone='dark'] .tabbar::after, :root[data-tone='dark'] .side::after { display: none; }
+/* Specular rim: a 1px gradient edge, bright at the top-left and bottom-right. */
+.tabbar::after, .side::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(160deg, rgb(255 255 255 / 85%), rgb(255 255 255 / 5%) 30%, rgb(255 255 255 / 5%) 70%, rgb(255 255 255 / 50%));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
 }
 .tab {
   position: relative;
@@ -46,7 +72,7 @@
 .tab span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tab svg { width: 24px; height: 24px; }
 .tab:active { transform: scale(.96); }
-.tab[aria-current='page'] { color: var(--primary); background: color-mix(in srgb, var(--primary) 14%, transparent); }
+.tab[aria-current='page'] { color: var(--primary); }
 .main { padding-bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 8px); }
 :root { --chrome: calc(60px + var(--tabbar) + 8px + env(safe-area-inset-bottom) + env(safe-area-inset-top)); }
 
@@ -77,30 +103,30 @@
     position: sticky; top: 12px; align-self: start; height: auto; max-height: calc(100svh - 24px); margin: 12px 0 12px 12px;
     display: flex; flex-direction: column; gap: 6px; overflow: hidden;
     padding: 18px 10px 12px;
-    border-radius: 30px;
-    background: color-mix(in srgb, var(--soft) 82%, transparent);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
-    box-shadow: inset 0 0 0 1px var(--line), inset 0 1px 0 var(--key-hi), 0 14px 34px -16px rgb(0 0 0 / 35%);
+    border-radius: 34px;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-edge), var(--glass-lift);
   }
   .side .brand { padding: 0 12px; height: 40px; margin-bottom: 4px; white-space: nowrap; }
   .side-clock { padding: 0 12px 14px; margin-bottom: 8px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .side-nav { display: flex; flex-direction: column; gap: 6px; }
   .side-link {
     position: relative; display: flex; align-items: center; gap: 12px;
-    height: 44px; padding: 0 12px; border-radius: 16px;
+    height: 44px; padding: 0 12px; border-radius: 20px;
     color: var(--muted); font-size: 15px; font-weight: 500; text-align: left; white-space: nowrap;
     transition: background-color 150ms ease, color 150ms ease;
   }
   .side-link svg { flex: none; }
   .side-link:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
-  .side-link[aria-current='page'] { color: var(--primary); background: color-mix(in srgb, var(--primary) 16%, transparent); }
+  .side-link[aria-current='page'] { color: var(--primary); }
   .side-link[aria-current='page']::after { content: none; }
   .side-link kbd { margin-left: auto; margin-right: 4px; font-family: var(--mono); font-size: 11px; color: var(--muted); opacity: .7; }
   .side-new {
-    margin-top: 12px; height: 46px; border-radius: 16px; white-space: nowrap;
+    margin-top: 12px; height: 46px; border-radius: 20px; white-space: nowrap;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     background: var(--primary); color: var(--on-primary); font-weight: 600; font-size: 15px;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 2px 0 var(--key-edge);
+    box-shadow: inset 0 1px 1px #fff, 0 8px 16px -6px rgb(0 0 0 / 50%);
     transition: transform 90ms var(--ease);
   }
   .side-new:active { transform: translateY(2px); }
@@ -167,3 +193,19 @@ textarea { font: inherit; color: inherit; }
 .shell.cal-full .side, .shell.cal-full .tabbar, .shell.cal-full .mobile-top, .shell.cal-full .fab { display: none; }
 .shell.cal-full .main { padding-bottom: 0; }
 .shell.cal-full .page { padding-top: 12px; }
+
+/* Liquid glide: one glass lens flows between the sections; it stretches along the move. */
+.tabbar, .side-nav { position: relative; }
+.tabbar { position: fixed; }
+.glide {
+  position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; opacity: 0;
+  will-change: transform, width, height;
+}
+.glide.ready { transition: transform 560ms cubic-bezier(.3, 1.35, .5, 1), width 560ms cubic-bezier(.3, 1.35, .5, 1), height 560ms cubic-bezier(.3, 1.35, .5, 1), opacity 200ms ease; }
+.glide i {
+  display: block; width: 100%; height: 100%; border-radius: 18px;
+  background: var(--glass-lens); box-shadow: var(--glass-lens-edge);
+  -webkit-backdrop-filter: blur(4px) saturate(1.6); backdrop-filter: blur(4px) saturate(1.6);
+}
+.side-nav .glide i { border-radius: 20px; }
+@media (prefers-reduced-motion: reduce) { .glide.ready { transition: opacity 200ms ease; } }
