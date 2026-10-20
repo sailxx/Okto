@@ -37,5 +37,6 @@
   .inner { min-height: 0; overflow: hidden; padding: 0 16px; }
   .open .inner { padding: 4px 16px 16px; }
   .inner :global(.sub:first-child) { margin-top: 2px; }
+  @media (max-width: 560px) { .sg { margin-bottom: 8px; } .head { padding: 9px 12px; } .chip { width: 34px; height: 34px; } }
   @media (prefers-reduced-motion: reduce) { .body, .chev { transition: none; } }
 </style>

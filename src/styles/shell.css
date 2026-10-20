@@ -168,7 +168,10 @@
 .sheet.top[open] { animation-name: sheet-down; }
 @keyframes sheet-down { from { transform: translateY(-18px); opacity: 0; } }
 @media (max-width: 560px) {
-  .sheet.top { width: calc(100% - 24px); max-width: none; margin: max(20px, calc(env(safe-area-inset-top) + 8px)) auto auto; border-radius: 22px; padding: 20px; max-height: calc(100svh - 40px); }
+  /* Settings: a full-height sheet down to the bottom edge; the Done key stays pinned. */
+  .sheet.top { width: 100%; max-width: none; margin: max(20px, calc(env(safe-area-inset-top) + 8px)) auto 0; border-radius: 24px 24px 0 0; padding: 20px 16px 0; height: calc(100svh - max(20px, calc(env(safe-area-inset-top) + 8px))); max-height: none; }
+  .sheet.top > form:last-child { position: sticky; bottom: 0; z-index: 1; padding: 10px 0 max(16px, env(safe-area-inset-bottom)); background: var(--bg); }
+  .sheet.top > form:last-child .solid-btn { height: 48px; }
 }
 .sheet[open] { animation: sheet-in 260ms var(--ease); }
 @keyframes sheet-in { from { transform: translateY(18px); opacity: 0; } }
