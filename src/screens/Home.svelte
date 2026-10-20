@@ -434,7 +434,7 @@
   /* Tasks: summary, and today's checklist beside it (wide) or under it (tall) */
   .tk { flex: 1; width: 100%; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .tk-stats { min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-  .todo { display: none; margin: 0; padding: 0 2px 0 0; list-style: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .todo { display: none; margin: 0; padding: 0 2px 0 0; list-style: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   @container (min-width: 520px) and (min-height: 190px) {
     .tk { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px; }
     .todo { display: block; border-left: 1px solid var(--tg); padding: 36px 0 0 22px; }
