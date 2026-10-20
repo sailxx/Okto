@@ -5,7 +5,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-data class Repeat(val freq: String, val interval: Int, val until: String?)
+data class Repeat(val freq: String, val interval: Int, val until: String?, val days: Set<Int> = emptySet())
 
 /** Задача Okto в том виде, в каком веб-версия хранит её в Firestore: users/{uid}/tasks/{id}. */
 data class OktoTask(
@@ -38,7 +38,12 @@ data class OktoTask(
         return when (r.freq) {
             "day" -> days % r.interval == 0L
             "weekday" -> to.dayOfWeek != DayOfWeek.SATURDAY && to.dayOfWeek != DayOfWeek.SUNDAY
-            "week" -> days % (7L * r.interval) == 0L
+            "week" -> if (r.days.isEmpty()) days % (7L * r.interval) == 0L else {
+                // Выбранные дни недели (0 = воскресенье) в каждой interval-й неделе от недели старта (с понедельника).
+                val dow = to.dayOfWeek.value % 7
+                val weeks = (days + from.dayOfWeek.value - 1) / 7
+                dow in r.days && weeks % r.interval == 0L
+            }
             "month" -> {
                 val months = (to.year - from.year) * 12 + (to.monthValue - from.monthValue)
                 months % r.interval == 0 && to.dayOfMonth == minOf(from.dayOfMonth, to.lengthOfMonth())
@@ -63,6 +68,7 @@ data class OktoTask(
                     freq = freq!!,
                     interval = ((r["interval"] as? Number)?.toInt() ?: 1).coerceIn(1, 99),
                     until = isoDate(r["until"]),
+                    days = (r["days"] as? List<*>)?.mapNotNull { (it as? Number)?.toInt() }?.filter { it in 0..6 }?.toSet() ?: emptySet(),
                 )
             } else null
             return OktoTask(

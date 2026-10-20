@@ -10,7 +10,8 @@ export type Phase = 'work' | 'short' | 'long';
 export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'counter';
 export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'settings';
 
-export interface Repeat { freq: Freq; interval: number; until: string | null }
+/** `days`: for a weekly repeat, the weekdays it falls on (0 = Sunday … 6 = Saturday); empty or missing = the weekday of the start date. */
+export interface Repeat { freq: Freq; interval: number; until: string | null; days?: number[] }
 export interface Subtask { id: string; title: string; done: boolean }
 /** A photo or file pinned to a task. Only this description syncs; the bytes stay on the device (see files.ts). */
 export interface Attachment { id: string; name: string; type: string; size: number; addedAt: number }
@@ -195,11 +196,13 @@ export function normLink(v: unknown): string {
 }
 
 /* ================= Factories / normalizers ================= */
+const weekdays = (v: unknown): number[] => (Array.isArray(v) ? [...new Set(v.filter((n): n is number => Number.isInteger(n) && n >= 0 && n <= 6))].sort() : []);
+
 export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
   const r = p as Record<string, any>;
   const now = Date.now();
   const repeat = isObj(r.repeat) && ['day', 'weekday', 'week', 'month'].includes(r.repeat.freq)
-    ? { freq: r.repeat.freq as Freq, interval: int(r.repeat.interval, 1, 99, 1), until: isKey(r.repeat.until) ? r.repeat.until : null }
+    ? { freq: r.repeat.freq as Freq, interval: int(r.repeat.interval, 1, 99, 1), until: isKey(r.repeat.until) ? r.repeat.until : null, days: weekdays(r.repeat.days) }
     : null;
   return {
     id: id(r.id),
