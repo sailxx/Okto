@@ -40,6 +40,8 @@
   background: var(--bg);
   border-bottom: 1px solid transparent;
 }
+.mobile-top { transition: transform 260ms var(--ease), opacity 200ms ease; }
+.shell.top-hidden .mobile-top { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 .top-actions { display: flex; gap: 2px; align-items: center; }
 
 /* Floating tab bar: one soft capsule, the current section is a tinted pill. */

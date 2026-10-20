@@ -26,6 +26,8 @@
   let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
   let hidden = $state(document.hidden);
+  // Phone header (logo, settings) shows only at the very top of the page.
+  let topHidden = $state(false);
 
   const pomodoro = $derived(router.route === 'focus' && store.device.focusMode === 'pomodoro');
 
@@ -67,6 +69,9 @@
     const onScheme = () => { systemDark = mq.matches; };
     mq.addEventListener('change', onScheme);
     const timer = setInterval(() => store.tick(), 250);
+    const onScroll = () => { const y = window.scrollY; if (y > 24) topHidden = true; else if (y < 6) topHidden = false; };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     const onVisible = () => { hidden = document.hidden; if (!hidden) store.tick(); };
     document.addEventListener('visibilitychange', onVisible);
     document.addEventListener('pointerdown', unlockAudio, { once: true });
@@ -88,12 +93,12 @@
     };
     document.addEventListener('keydown', onKey);
     const stopSwipe = sectionSwipe((r) => store.shows(r));
-    return () => { stopSwipe(); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); };
+    return () => { stopSwipe(); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); window.removeEventListener('scroll', onScroll); };
   });
 
 </script>
 
-<div class="shell" class:side-folded={store.device.sideFolded} class:no-top={router.route !== 'home'} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
+<div class="shell" class:side-folded={store.device.sideFolded} class:top-hidden={topHidden} class:no-top={router.route !== 'home'} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
     {#if router.route === 'home'}<Home />
