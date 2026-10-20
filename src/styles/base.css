@@ -253,9 +253,16 @@ button { -webkit-tap-highlight-color: transparent; cursor: pointer; background: 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 ::selection { background: color-mix(in srgb, var(--ink) 18%, transparent); color: var(--ink); }
 input, textarea { caret-color: var(--primary); }
-* { scrollbar-width: thin; scrollbar-color: var(--key-edge) transparent; }
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: var(--key-edge); border-radius: 8px; border: 2px solid var(--bg); }
+/* Scrollbar: a 4px hairline that stays invisible until you hover its container. */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; border-radius: 6px; border: 1px solid transparent; background-clip: padding-box; }
+:hover::-webkit-scrollbar-thumb { background-color: color-mix(in srgb, var(--ink) 22%, transparent); }
+::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--ink) 45%, transparent); }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  *:hover { scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent; }
+}
 svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .mono, .tnum { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
