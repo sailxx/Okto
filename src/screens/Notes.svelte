@@ -75,7 +75,7 @@
   .add-note:active { transform: translateY(2px); }
   .add-note :global(svg) { stroke-width: 2.4; }
 
-  .search { display: flex; align-items: center; gap: 10px; margin: 18px 0 14px; height: 46px; padding: 0 14px; border-radius: var(--r-well); background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+  .search { display: flex; align-items: center; gap: 10px; margin: 18px 0 14px; height: 46px; padding: 0 14px; border-radius: 18px; background: var(--glass-fill); box-shadow: var(--glass-edge); color: var(--muted); }
   .search input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; outline: none; font: inherit; font-size: 16px; color: var(--ink); }
 
   .masonry { columns: 2 220px; column-gap: 12px; margin-top: 18px; }
@@ -83,7 +83,7 @@
   .note {
     position: relative; display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 0 0 12px; padding: 14px;
     break-inside: avoid; text-align: left; overflow: hidden;
-    border-radius: 16px; background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink);
+    border-radius: 20px; background: var(--glass-fill); box-shadow: var(--glass-edge); color: var(--ink);
     transition: transform 120ms var(--ease), box-shadow 150ms ease;
   }
   .note:hover { box-shadow: inset 0 0 0 1px var(--key-edge), 0 8px 20px -14px rgb(0 0 0 / 45%); }

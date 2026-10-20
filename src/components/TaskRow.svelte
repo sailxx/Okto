@@ -99,7 +99,7 @@
 
 <style>
   /* Each task is a card with a colour bar: its own colour, or its list's. */
-  .row-wrap { position: relative; overflow: hidden; border-radius: 12px; background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); }
+  .row-wrap { position: relative; overflow: hidden; border-radius: 16px; background: var(--glass-fill); box-shadow: var(--glass-edge); }
   .row-wrap::before { content: ''; position: absolute; z-index: 1; left: 0; top: 0; bottom: 0; width: 5px; background: var(--tc); pointer-events: none; }
   .row-wrap.tinted { background: color-mix(in srgb, var(--tc) 14%, var(--bg)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tc) 30%, transparent); }
   .swipe-actions { position: absolute; inset: 0 0 0 auto; display: flex; visibility: hidden; }

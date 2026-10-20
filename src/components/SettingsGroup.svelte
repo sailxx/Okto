@@ -23,7 +23,7 @@
 </section>
 
 <style>
-  .sg { margin-bottom: 10px; border-radius: 20px; background: color-mix(in srgb, var(--soft) 78%, var(--bg)); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+  .sg { margin-bottom: 10px; border-radius: 20px; background: var(--glass-fill); box-shadow: var(--glass-edge); overflow: hidden; }
   .head { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; text-align: left; }
   .chip { display: grid; place-items: center; flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); }
   .chip :global(svg) { stroke-width: 2; }
