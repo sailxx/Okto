@@ -181,11 +181,11 @@ textarea { font: inherit; color: inherit; }
 .main { transition: opacity 420ms var(--ease), transform 520ms var(--ease); }
 .shell.focusing .focus-page .modes, .shell.focusing .focus-page .linked, .shell.focusing .focus-page .frows, .shell.focusing .focus-page .fkeys .key:not(.pri) { opacity: .3; transition: opacity 600ms var(--ease); }
 
-/* Phone calendar: no logo row — the month header takes its place. */
+/* Phone: only Home has the logo row; other screens start with their own header. */
 @media (max-width: 899px) {
-  .shell.cal-route .mobile-top { display: none; }
-  .shell.cal-route { --chrome: calc(var(--tabbar) + 8px + env(safe-area-inset-bottom) + max(10px, env(safe-area-inset-top))); }
-  .shell.cal-route .main { padding-top: max(10px, env(safe-area-inset-top)); }
+  .shell.no-top .mobile-top { display: none; }
+  .shell.no-top { --chrome: calc(var(--tabbar) + 8px + env(safe-area-inset-bottom) + max(10px, env(safe-area-inset-top))); }
+  .shell.no-top .main { padding-top: max(10px, env(safe-area-inset-top)); }
 }
 
 /* Calendar expanded: the calendar takes the whole window, chrome steps aside. */
