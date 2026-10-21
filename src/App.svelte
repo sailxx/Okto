@@ -20,6 +20,7 @@
   import { boot } from './lib/boot.svelte';
   import { gcFiles } from './lib/files';
   import { sectionSwipe } from './lib/swipe';
+  import { rgbOf } from './lib/tone';
   import './styles/shell.css';
 
   let settingsOpen = $state(false);
@@ -41,10 +42,11 @@
     root.style.setProperty('--tag', tag ?? '#0090ff');
     const meta = document.querySelector('meta[name="theme-color"]');
     requestAnimationFrame(() => {
-      const bg = getComputedStyle(document.body).backgroundColor;
+      // The theme's own --bg, not body's colour: body fades between themes for 300ms.
+      const bg = getComputedStyle(root).getPropertyValue('--bg').trim();
       meta?.setAttribute('content', bg);
       // Dark or light casing, whatever the theme: the glass bar reads it.
-      const [r = 0, g = 0, b = 0] = bg.match(/[d.]+/g)?.map(Number) ?? [];
+      const [r, g, b] = rgbOf(bg);
       root.dataset.tone = (r * 299 + g * 587 + b * 114) / 1000 < 128 ? 'dark' : 'light';
     });
   });
