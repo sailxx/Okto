@@ -1,6 +1,7 @@
 import { addDays, toKey, toMin, fromKey } from './date';
 import { fromLive, pomoSessionId, toLive } from './focusSync';
 import { DICT, locale, weekStartOf, type Key } from './i18n';
+import { leetcodePlan } from './leetcode';
 import { migrateLegacy } from './migrate';
 import {
   defaultData, defaultDevice, defaultLists, live, newCounter, newList, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
@@ -305,6 +306,20 @@ class Store {
     const fallback = this.lists.find((x) => x.id !== id)!.id;
     for (const t of this.tasks.filter((x) => x.listId === id)) this.commit('tasks', newTask({ ...$state.snapshot(t), listId: fallback }));
     if (this.device.taskFilter === `list:${id}`) this.setDevice({ taskFilter: 'today' });
+  }
+
+  /** Adds the two-week LeetCode plan from today; problems already in the list are kept as they are. Returns how many were added. */
+  addLeetcodePlan(): number {
+    const plan = leetcodePlan(this.today, this.lang);
+    if (!this.data.lists[plan.list.id!] || this.data.lists[plan.list.id!].deleted) this.saveList(plan.list);
+    let added = 0;
+    for (const t of plan.tasks) {
+      const cur = this.data.tasks[t.id!];
+      if (cur && !cur.deleted) continue;
+      this.commit('tasks', newTask(t));
+      added += 1;
+    }
+    return added;
   }
 
   /* ---------- counters ---------- */

@@ -5,12 +5,14 @@
   import ProfileSheet from '../components/ProfileSheet.svelte';
   import Digits from '../components/Digits.svelte';
   import GithubCard from '../components/GithubCard.svelte';
+  import LeetcodeCard from '../components/LeetcodeCard.svelte';
   import { store } from '../lib/store.svelte';
   import { router } from '../lib/router.svelte';
   import { addDays, minutesNow, toMin } from '../lib/date';
   import { relDay } from '../lib/i18n';
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
+  import { currentProblem, leetcodeTasks, problemUrl } from '../lib/leetcode';
   import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, GRID_PHONE_W, isPhoneGrid, phoneDefault, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
@@ -75,7 +77,7 @@
   });
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -101,7 +103,7 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['tasks', 'focus', 'streak', 'next', 'github'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['tasks', 'focus', 'streak', 'next', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
@@ -109,6 +111,12 @@
     if (editing) return;
     if (b.type === 'next') { router.go('calendar'); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
+    if (b.type === 'leetcode') {
+      const cur = currentProblem(leetcodeTasks(store.tasks));
+      const url = cur && problemUrl(cur);
+      if (url) window.open(url, '_blank', 'noopener');
+      return;
+    }
     detail = b;
   }
 
@@ -257,6 +265,9 @@
           {:else if b.type === 'github'}
             <GithubCard disabled={editing} look={b.tint === 'none' ? 'plain' : b.tint ? 'tint' : 'dark'} />
 
+          {:else if b.type === 'leetcode'}
+            <LeetcodeCard disabled={editing} index={i} />
+
           {:else if b.type === 'focus'}
             {@render head('focus', store.t('bFocus'))}
             {@render value(tile.focus.big, tile.focus.unit, i * 90)}
@@ -399,11 +410,12 @@
   .cell.acc.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
   .cell.acc.github { background: #0d1117; color: #fff; --t: #fff; --td: rgb(255 255 255 / 70%); --tg: rgb(255 255 255 / 14%); }
   .cell.acc.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
+  .cell.acc.leetcode { background: linear-gradient(150deg, #ffa116, #f76b15); }
   .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
   .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
   .cell.acc.tint, .cell.acc.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
   .cell.acc.focus::after { background: var(--on-primary); color: var(--primary); }
-  .cell.acc.streak::after, .cell.acc.next::after, .cell.acc.github::after, .cell.acc.tasks::after, .cell.acc.counter::after, .cell.tint::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
+  .cell.acc.streak::after, .cell.acc.next::after, .cell.acc.github::after, .cell.acc.leetcode::after, .cell.acc.tasks::after, .cell.acc.counter::after, .cell.tint::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
 
   .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
   .chip :global(svg) { stroke-width: 2; }
