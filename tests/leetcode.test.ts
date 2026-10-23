@@ -16,6 +16,15 @@ describe('leetcode plan', () => {
     expect(new Set(tasks.map((t) => t.id)).size).toBe(14);
   });
 
+  it('writes the plan in the interface language', () => {
+    const ru = leetcodePlan('2026-10-23', 'ru').tasks, en = leetcodePlan('2026-10-23', 'en').tasks;
+    expect(ru[0].note).toBe('https://leetcode.com/problems/two-sum/\nЛёгкая · хеш-таблица');
+    expect(en[0].note).toBe('https://leetcode.com/problems/two-sum/\nEasy · hash map');
+    expect(ru[4].note).toContain('Средняя');
+    expect(ru[13].title).toBe('LeetCode: повторить сложную задачу');
+    expect(en[13].title).toBe('LeetCode: redo a hard one');
+  });
+
   it('keeps a problem link on the first line of the note', () => {
     const [two] = plan();
     expect(problemUrl(two)).toBe('https://leetcode.com/problems/two-sum/');
