@@ -7,7 +7,7 @@ export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
 export type Phase = 'work' | 'short' | 'long';
-export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'counter';
+export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'leetcode' | 'counter';
 export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'settings';
 
 /** `days`: for a weekly repeat, the weekdays it falls on (0 = Sunday … 6 = Saturday); empty or missing = the weekday of the start date. */
@@ -163,8 +163,8 @@ export const DEFAULT_DASHBOARD: Block[] = [{ type: 'focus' }, { type: 'streak' }
 export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
-const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], tasks: [6, 4, 2], counter: [2, 2, 1] };
-const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, tasks: 3, counter: 2 };
+const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], counter: [2, 2, 1] };
+const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 2, tasks: 3, counter: 2 };
 /** Телефон — сетка в 2 колонки: у него свои размеры плиток. */
 export const isPhoneGrid = (cols: number) => cols < 4;
 export const blockSize = (b: Block, cols = 6) => {
@@ -301,7 +301,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
   if (!isObj(raw)) return d;
   const p = isObj(raw.pomo) ? raw.pomo : {};
   const dashboard = Array.isArray(raw.dashboard)
-    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
+    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
       .map((b: any) => {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
