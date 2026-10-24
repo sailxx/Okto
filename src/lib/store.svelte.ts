@@ -60,6 +60,10 @@ class Store {
       const add = (['finance', 'habits', 'health'] as const).filter((t) => !have.has(t)).map((type) => ({ type }));
       this.updateSettings({ dashboard: [...this.data.settings.dashboard, ...add], lifeCards: true });
     }
+    if (!this.data.settings.scoreCard) {
+      const d = this.data.settings.dashboard;
+      this.updateSettings({ dashboard: d.some((b) => b.type === 'score') ? d : [{ type: 'score' }, ...d], scoreCard: true });
+    }
     const counters = this.counters;
     if (!this.device.activeCounter || !counters.some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = counters[0]?.id ?? null;
     window.addEventListener('pagehide', () => this.flush());

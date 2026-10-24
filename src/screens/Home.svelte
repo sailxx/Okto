@@ -97,7 +97,7 @@
   ]);
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -123,13 +123,14 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['score', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
   function open(b: Block) {
     if (editing) return;
     if (b.type === 'next') { router.go('calendar'); return; }
+    if (b.type === 'score') return;
     if (b.type === 'habits' || b.type === 'health' || b.type === 'finance') { router.go(b.type); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
     if (b.type === 'leetcode') {
@@ -240,24 +241,6 @@
     <button type="button" class="edit-btn" class:on={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('edit')}</button>
   </div>
 
-  <section class="score" aria-label={store.t('dayScore')}>
-    <svg class="rings" viewBox="0 0 140 140" aria-hidden="true">
-      {#each scoreParts as part, k}
-        <circle class="trk" cx="70" cy="70" r={RINGS[k]} />
-        <circle class="arc" cx="70" cy="70" r={RINGS[k]} stroke={part.color} stroke-dasharray="{2 * Math.PI * RINGS[k] * part.r} 1000" />
-      {/each}
-    </svg>
-    <div class="sc-body">
-      <span class="sc-ttl">{store.t('dayScore')}</span>
-      <div class="sc-head"><b class="sc-num">{score}</b><span class="sc-state">{store.t(scoreState)}</span></div>
-      <ul class="sc-parts">
-        {#each scoreParts as part}
-          <li style:--c={part.color}><span>{part.label}</span><b>{part.text}</b></li>
-        {/each}
-      </ul>
-    </div>
-  </section>
-
   {#if editing}<p class="edit-hint">{store.t('editHint')}</p>{/if}
 
   <div class="blocks" class:editing bind:this={gridEl} style:--cols={cols} style:--row="{ROW}px" style:--gap="{GAP}px">
@@ -308,6 +291,24 @@
 
           {:else if b.type === 'leetcode'}
             <LeetcodeCard disabled={editing} index={i} />
+
+          {:else if b.type === 'score'}
+            <div class="sc">
+              <svg class="rings" viewBox="0 0 140 140" aria-hidden="true">
+                {#each scoreParts as part, k}
+                  <circle class="trk" cx="70" cy="70" r={RINGS[k]} />
+                  <circle class="arc" cx="70" cy="70" r={RINGS[k]} stroke={part.color} stroke-dasharray="{2 * Math.PI * RINGS[k] * part.r} 1000" />
+                {/each}
+              </svg>
+              <div class="sc-body">
+                {@render head('check', store.t('dayScore'))}
+                <span class="read"><Digits class="big" text={String(score)} delay={i * 90} /></span>
+                <span class="meta">{store.t(scoreState)}</span>
+                <ul class="sc-parts">
+                  {#each scoreParts as part}<li style:--c={part.color}><span>{part.label}</span><b>{part.text}</b></li>{/each}
+                </ul>
+              </div>
+            </div>
 
           {:else if b.type === 'finance'}
             {@render head('wallet', store.t('fSpent'))}
@@ -424,23 +425,6 @@
   .hello { min-width: 0; }
   .greet-sub { margin: 4px 0 0; font-size: clamp(18px, 4.6vw, 22px); font-weight: 500; letter-spacing: -.015em; color: var(--muted); opacity: .75; }
 
-  /* Day score: four nested rings, one per part */
-  .score { display: flex; align-items: center; gap: 22px; margin-top: 18px; padding: 16px 24px 16px 18px; border-radius: 30px; width: fit-content; max-width: 100%;
-    background: color-mix(in srgb, var(--soft) 78%, var(--bg)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), inset 0 0 0 1px var(--line); }
-  .rings { flex: 0 0 auto; width: 132px; height: 132px; transform: rotate(-90deg); }
-  .rings circle { fill: none; stroke-width: 8; stroke-linecap: round; }
-  .rings .trk { stroke: color-mix(in srgb, var(--ink) 10%, transparent); }
-  .rings .arc { transition: stroke-dasharray 700ms var(--ease); }
-  .sc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .sc-ttl { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .sc-head { display: flex; align-items: baseline; gap: 10px; margin: 2px 0 8px; flex-wrap: wrap; }
-  .sc-num { font: 400 52px/1 var(--sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
-  .sc-state { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
-  .sc-parts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-  .sc-parts li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
-  .sc-parts li::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: 0 0 auto; }
-  .sc-parts b { margin-left: auto; padding-left: 18px; font: 500 13px var(--mono); color: var(--ink); }
-  @media (max-width: 430px) { .score { gap: 14px; padding: 14px; } .rings { width: 104px; height: 104px; } .sc-num { font-size: 42px; } }
   .greet { display: block; max-width: 100%; text-align: left; border-radius: 8px; }
   .greet .page-title { overflow-wrap: anywhere; font-size: clamp(24px, 6vw, 30px); font-weight: 650; letter-spacing: -.025em; }
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
@@ -484,6 +468,7 @@
   .cell.acc.finance { background: linear-gradient(150deg, #ff8a7a, #d63f58); }
   .cell.acc.habits { background: linear-gradient(150deg, #4fd49a, #1f9d78); }
   .cell.acc.health { background: linear-gradient(150deg, #43b8ff, #2670f0); }
+  .cell.acc.score { background: linear-gradient(150deg, #2c3070, #181a34); }
   .cell.acc.leetcode { background: linear-gradient(150deg, #ffa116, #f76b15); }
   .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
   .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
@@ -502,6 +487,21 @@
   .segs { display: flex; width: 100%; height: 6px; margin: 6px 0 2px; border-radius: 99px; overflow: hidden; background: var(--tg); }
   .segs i { flex: 1; background: transparent; transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
+
+  /* Day score: nested rings, the number and (when wide) what it is made of */
+  .sc { display: flex; align-items: center; gap: 16px; width: 100%; height: 100%; min-height: 0; }
+  .rings { flex: 0 0 auto; --rs: clamp(56px, min(44cqw, 100cqh - 32px), 150px); width: var(--rs); height: var(--rs); transform: rotate(-90deg); }
+  .rings circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+  .rings .trk { stroke: rgb(255 255 255 / 16%); }
+  .rings .arc { transition: stroke-dasharray 700ms var(--ease); }
+  .sc-body { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; flex: 1; }
+  .sc-body .ttl { margin: 0; }
+  .sc-body .read { margin-top: 0; }
+  .sc-parts { display: none; list-style: none; margin: 6px 0 0; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; }
+  .sc-parts li { display: flex; align-items: center; gap: 7px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--td); }
+  .sc-parts li::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: 0 0 auto; }
+  .sc-parts b { margin-left: auto; padding-left: 6px; font: 500 12px var(--mono); color: var(--t); }
+  @container (min-width: 380px) and (min-height: 128px) { .sc-parts { display: grid; } }
 
   /* Up next: time and title, plus the day strip when there is room */
   .nxt { align-items: flex-end; gap: 14px; width: 100%; }

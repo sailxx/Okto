@@ -30,7 +30,7 @@ describe('normalizers', () => {
     expect(d.habits).toEqual({}); expect(d.health).toEqual({}); expect(d.money).toEqual({});
   });
   it('keeps the new cards in the dashboard', () => {
-    expect(normSettings({ dashboard: [{ type: 'finance' }, { type: 'habits' }, { type: 'health' }] }, 'ru').dashboard.map((b) => b.type)).toEqual(['finance', 'habits', 'health']);
+    expect(normSettings({ dashboard: [{ type: 'score' }, { type: 'finance' }, { type: 'habits' }, { type: 'health' }] }, 'ru').dashboard.map((b) => b.type)).toEqual(['score', 'finance', 'habits', 'health']);
   });
 });
 
