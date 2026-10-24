@@ -232,6 +232,14 @@
     </div>
   </div>
 
+
+  <div class="tabs" role="tablist">
+    {#each PERIODS as [key, label]}
+      <button type="button" role="tab" aria-selected={period === key} onclick={() => (period = key)}>{store.t(label)}</button>
+    {/each}
+    <button type="button" class="edit-btn" class:on={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('edit')}</button>
+  </div>
+
   <section class="score" aria-label={store.t('dayScore')}>
     <svg class="rings" viewBox="0 0 140 140" aria-hidden="true">
       {#each scoreParts as part, k}
@@ -249,13 +257,6 @@
       </ul>
     </div>
   </section>
-
-  <div class="tabs" role="tablist">
-    {#each PERIODS as [key, label]}
-      <button type="button" role="tab" aria-selected={period === key} onclick={() => (period = key)}>{store.t(label)}</button>
-    {/each}
-    <button type="button" class="edit-btn" class:on={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('edit')}</button>
-  </div>
 
   {#if editing}<p class="edit-hint">{store.t('editHint')}</p>{/if}
 
