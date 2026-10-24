@@ -47,11 +47,11 @@
 <style>
   .lc { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .top { display: flex; align-items: center; gap: 10px; max-width: 100%; }
-  .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
+  .chip { display: none; }
   .chip :global(svg) { stroke-width: 2; }
   .ttl { font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin-top: auto; }
-  .read :global(.big) { font-size: clamp(30px, min(17cqi, 30cqh), 56px); font-weight: 700; letter-spacing: -.04em; line-height: .95; }
+  .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 500; letter-spacing: -.04em; line-height: .95; }
   .read em { font-style: normal; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; }
   .meta { font-size: 13px; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .segs { display: flex; gap: 4px; width: 100%; max-width: 160px; height: 4px; margin: 4px 0 2px; }

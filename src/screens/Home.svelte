@@ -449,7 +449,7 @@
     width: 100%; height: 100%; padding: 16px 18px;
     display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; cursor: pointer; overflow: hidden;
     background: color-mix(in srgb, var(--soft) 78%, var(--bg)); color: var(--t);
-    border-radius: 24px;
+    border-radius: 28px;
     box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
     transition: box-shadow 150ms ease, transform 150ms var(--ease);
   }
@@ -457,30 +457,31 @@
   .cell:active { transform: scale(.992); }
   /* Coloured cards: Focus takes the theme colour, Streak is warm, a counter brings its own. */
   .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 20px 34px -22px rgb(0 0 0 / 50%); }
-  .cell.acc.focus { --t: var(--on-primary); --td: color-mix(in srgb, var(--on-primary) 74%, transparent); --tg: color-mix(in srgb, var(--on-primary) 22%, transparent); color: var(--on-primary); background: linear-gradient(150deg, var(--primary), color-mix(in srgb, var(--primary) 62%, var(--on-primary))); }
-  .cell.acc.streak { background: linear-gradient(150deg, #ff9142, #e5484d); }
-  .cell.acc.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
+  .cell.acc.focus { background: linear-gradient(150deg, #3b6bff, #2a38c8); }
+  .cell.acc.streak { background: linear-gradient(150deg, #ffa24a, #ee5a3a); }
+  .cell.acc.tasks { background: linear-gradient(150deg, #ec4d5e, #a3283a); }
   .cell.acc.github { background: #0d1117; color: #fff; --t: #fff; --td: rgb(255 255 255 / 70%); --tg: rgb(255 255 255 / 14%); }
-  .cell.acc.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
-  .cell.acc.finance { background: linear-gradient(150deg, #f08f8a, #d9534f); }
-  .cell.acc.habits { background: linear-gradient(150deg, #5ec78f, #2f9e6b); }
-  .cell.acc.health { background: linear-gradient(150deg, #4aa8ff, #2f6df0); }
+  .cell.acc.next { background: linear-gradient(150deg, #9d7cff, #5a63f0); }
+  .cell.acc.finance { background: linear-gradient(150deg, #ff8a7a, #d63f58); }
+  .cell.acc.habits { background: linear-gradient(150deg, #4fd49a, #1f9d78); }
+  .cell.acc.health { background: linear-gradient(150deg, #43b8ff, #2670f0); }
   .cell.acc.leetcode { background: linear-gradient(150deg, #ffa116, #f76b15); }
   .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
   .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
   .cell.acc.tint, .cell.acc.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
 
-  .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
-  .chip :global(svg) { stroke-width: 2; }
-  .ttl { margin-top: 6px; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  /* No icons: the title and the figure carry the card. */
+  .chip { display: none; }
+  .ttl { margin-top: 0; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin-top: auto; }
-  .read :global(.big) { font-size: clamp(30px, min(17cqi, 30cqh), 56px); font-weight: 700; letter-spacing: -.04em; line-height: .95; }
+  .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 500; letter-spacing: -.045em; line-height: .95; }
   .read :global(.big.dim) { color: var(--td); }
   .read em { font-style: normal; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; }
   .meta { font-size: 13px; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-  .segs { display: flex; gap: 4px; width: 100%; max-width: 160px; height: 4px; margin: 4px 0 2px; }
-  .segs i { flex: 1; border-radius: 3px; background: var(--tg); transition: background-color 300ms ease; }
+  /* One continuous bar; the lit part is the progress. */
+  .segs { display: flex; width: 100%; height: 6px; margin: 6px 0 2px; border-radius: 99px; overflow: hidden; background: var(--tg); }
+  .segs i { flex: 1; background: transparent; transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
 
   /* Up next: time and title, plus the day strip when there is room */
@@ -502,14 +503,13 @@
   .todo { display: none; margin: 0; padding: 0 2px 0 0; list-style: none; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
   @container (min-width: 520px) and (min-height: 190px) {
     .tk { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 22px; }
-    .todo { display: block; border-left: 1px solid var(--tg); padding: 36px 0 0 22px; }
+    .todo { display: block; padding: 8px 0 0; }
   }
   @container (max-width: 519px) and (min-height: 250px) {
     .tk { grid-template-rows: auto minmax(0, 1fr); }
     .todo { display: block; border-top: 1px solid var(--tg); padding-top: 2px; }
   }
-  .todo li { display: flex; align-items: center; gap: 12px; min-height: 40px; border-bottom: 1px solid var(--tg); }
-  .todo li:last-child { border-bottom: 0; }
+  .todo li { display: flex; align-items: center; gap: 12px; min-height: 40px; margin: 3px 0; padding: 0 14px; border-radius: 16px; background: color-mix(in srgb, var(--t) 11%, transparent); }
   .todo .empty { color: var(--td); font-size: 14px; }
   /* Drawn as SVG so the ring stays crisp at any pixel density, even on a gradient card. */
   .ck { flex: 0 0 auto; width: 24px; height: 24px; padding: 0; color: var(--p); transition: transform 120ms ease; }
@@ -518,7 +518,7 @@
   .ck .ring { fill: none; stroke: currentColor; stroke-width: 2.2; }
   .ck .fill { fill: currentColor; }
   .ck .tick { fill: none; stroke: var(--ck, var(--bg)); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-  .cell.tasks { --ck: #12856f; }
+  .cell.tasks { --ck: #b83245; }
   .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 13px; color: var(--td); font-variant-numeric: tabular-nums; }
