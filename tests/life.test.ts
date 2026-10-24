@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { byCategory, habitStreak, monthTotals, ratio } from '../src/lib/life';
+import { byCategory, dayScore, habitStreak, monthTotals, ratio } from '../src/lib/life';
 import { newHabit, newHealthDay, newMoney, normData, normSettings } from '../src/lib/model';
 
 describe('habitStreak', () => {
@@ -32,4 +32,11 @@ describe('normalizers', () => {
   it('keeps the new cards in the dashboard', () => {
     expect(normSettings({ dashboard: [{ type: 'finance' }, { type: 'habits' }, { type: 'health' }] }, 'ru').dashboard.map((b) => b.type)).toEqual(['finance', 'habits', 'health']);
   });
+});
+
+describe('dayScore', () => {
+  const none = { tasksDone: 0, tasksTotal: 0, focusMin: 0, habitsDone: 0, habitsTotal: 0, water: 0, waterGoal: 8 };
+  it('is 0 on an empty day', () => expect(dayScore(none)).toBe(0));
+  it('averages what applies', () => expect(dayScore({ ...none, tasksDone: 2, tasksTotal: 4, focusMin: 60 })).toBe(75));
+  it('is 100 when everything is done', () => expect(dayScore({ tasksDone: 3, tasksTotal: 3, focusMin: 90, habitsDone: 2, habitsTotal: 2, water: 8, waterGoal: 8 })).toBe(100));
 });
