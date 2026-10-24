@@ -63,7 +63,7 @@
   .plain { --btn: var(--ink); --btn-ink: var(--bg); }
   .gh { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .top { display: flex; align-items: center; gap: 10px; max-width: 100%; }
-  .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
+  .chip { display: none; }
   .chip :global(svg) { stroke-width: 2; }
   .ttl { font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { font-size: 13px; color: var(--td); max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
