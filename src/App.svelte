@@ -12,6 +12,9 @@
   import Notes from './screens/Notes.svelte';
   import NoteEditor from './components/NoteEditor.svelte';
   import Focus from './screens/Focus.svelte';
+  import Habits from './screens/Habits.svelte';
+  import Health from './screens/Health.svelte';
+  import Finance from './screens/Finance.svelte';
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
@@ -88,10 +91,10 @@
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
-      const routes = (['home', 'tasks', 'calls', 'calendar', 'notes', 'focus'] as const).filter((r) => store.shows(r));
+      const routes = (['home', 'tasks', 'calls', 'calendar', 'notes', 'habits', 'health', 'finance', 'focus'] as const).filter((r) => store.shows(r));
       const n = Number(e.key);
       if (n >= 1 && n <= routes.length) { e.preventDefault(); router.go(routes[n - 1]); }
-      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus') { e.preventDefault(); if (router.route === 'calls') store.openNewCall(); else if (router.route === 'notes') store.openNewNote(); else store.openNewTask(); }
+      else if ((e.key === 'n' || e.key === 'т') && router.route !== 'focus' && router.route !== 'health') { e.preventDefault(); if (router.route === 'habits' || router.route === 'finance') document.querySelector<HTMLInputElement>('.page form input')?.focus(); else if (router.route === 'calls') store.openNewCall(); else if (router.route === 'notes') store.openNewNote(); else store.openNewTask(); }
     };
     document.addEventListener('keydown', onKey);
     const stopSwipe = sectionSwipe((r) => store.shows(r));
@@ -108,6 +111,9 @@
     {:else if router.route === 'calls'}<Calls />
     {:else if router.route === 'calendar'}<Calendar />
     {:else if router.route === 'notes'}<Notes />
+    {:else if router.route === 'habits'}<Habits />
+    {:else if router.route === 'health'}<Health />
+    {:else if router.route === 'finance'}<Finance />
     {:else}<Focus />{/if}
   </div>
 </div>

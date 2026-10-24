@@ -1,4 +1,4 @@
-import { isHm, isKey } from './date';
+import { isHm, isKey, toKey } from './date';
 
 /* ================= Types ================= */
 export type Lang = 'ru' | 'en';
@@ -7,8 +7,8 @@ export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
 export type Phase = 'work' | 'short' | 'long';
-export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'leetcode' | 'counter';
-export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'settings';
+export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'leetcode' | 'habits' | 'health' | 'finance' | 'counter';
+export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'habits' | 'health' | 'money' | 'settings';
 
 /** `days`: for a weekly repeat, the weekdays it falls on (0 = Sunday … 6 = Saturday); empty or missing = the weekday of the start date. */
 export interface Repeat { freq: Freq; interval: number; until: string | null; days?: number[] }
@@ -56,6 +56,12 @@ export interface Note {
 
 export interface List { id: string; name: string; color: string; order: number; updatedAt: number; deleted: boolean }
 export interface Session { id: string; start: number; minutes: number; taskId: string | null; updatedAt: number; deleted: boolean }
+/** A habit: the days it was done are kept as date keys. */
+export interface Habit { id: string; name: string; color: string; doneDates: string[]; order: number; createdAt: number; updatedAt: number; deleted: boolean }
+/** One day of body metrics; the id is the date key, so a day has exactly one record. */
+export interface HealthDay { id: string; water: number; sleep: number; weight: number; updatedAt: number; deleted: boolean }
+/** An expense or income. `amount` is in whole currency units, always positive. */
+export interface Money { id: string; kind: 'expense' | 'income'; amount: number; category: string; note: string; date: string; createdAt: number; updatedAt: number; deleted: boolean }
 export interface Counter {
   id: string; name: string; target: number; step: number; count: number; color: string;
   history: number[]; daily: Record<string, number>; order: number; updatedAt: number; deleted: boolean;
@@ -71,6 +77,12 @@ export interface Settings {
   name: string; greeting: string; onboarded: boolean;
   /** GitHub login for the contributions card; empty = not linked. */
   github: string;
+  /** Monthly spending limit for the Finance card; 0 = none. */
+  budget: number;
+  /** Daily goals: water in glasses, sleep in hours. */
+  waterGoal: number; sleepGoal: number;
+  /** The Finance, Habits and Health cards were put on Home once (older dashboards get them on first launch). */
+  lifeCards: boolean;
   pomo: { preset: PomoPreset; custom: PomoCfg; autoStart: boolean };
   dashboard: Block[];
   hiddenLists: string[];
@@ -78,14 +90,17 @@ export interface Settings {
   hiddenSections: OptionalSection[];
   updatedAt: number;
 }
-export type OptionalSection = 'calls' | 'notes' | 'focus';
-export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'notes', 'focus'];
+export type OptionalSection = 'calls' | 'notes' | 'habits' | 'health' | 'finance' | 'focus';
+export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'notes', 'habits', 'health', 'finance', 'focus'];
 export interface Data {
   tasks: Record<string, Task>;
   lists: Record<string, List>;
   sessions: Record<string, Session>;
   counters: Record<string, Counter>;
   notes: Record<string, Note>;
+  habits: Record<string, Habit>;
+  health: Record<string, HealthDay>;
+  money: Record<string, Money>;
   settings: Settings;
 }
 /** Per-device state, never synced. */
@@ -159,12 +174,12 @@ export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
 export const MAX_ATTACHMENTS = 20;
 /** Per file, bytes. */
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
-export const DEFAULT_DASHBOARD: Block[] = [{ type: 'focus' }, { type: 'streak' }, { type: 'next' }, { type: 'tasks' }];
+export const DEFAULT_DASHBOARD: Block[] = [{ type: 'focus' }, { type: 'finance' }, { type: 'streak' }, { type: 'next' }, { type: 'habits' }, { type: 'health' }, { type: 'tasks' }];
 export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
-const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], counter: [2, 2, 1] };
-const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, counter: 2 };
+const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], counter: [2, 2, 1] };
+const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, habits: 2, health: 2, finance: 2, counter: 2 };
 /** Телефон — сетка в 2 колонки: у него свои размеры плиток. */
 export const isPhoneGrid = (cols: number) => cols < 4;
 export const blockSize = (b: Block, cols = 6) => {
@@ -254,6 +269,34 @@ export function newNote(p: Partial<Note> | Record<string, unknown> = {}): Note {
   };
 }
 
+export function newHabit(p: Partial<Habit> | Record<string, unknown> = {}): Habit {
+  const r = p as Record<string, any>;
+  const now = Date.now();
+  return {
+    id: id(r.id), name: str(r.name, 80), color: COLORS.includes(r.color) ? r.color : COLORS[1],
+    doneDates: keys(r.doneDates), order: int(r.order, 0, 1e9, 0),
+    createdAt: ts(r.createdAt, now), updatedAt: ts(r.updatedAt, now), deleted: r.deleted === true,
+  };
+}
+
+/** The id is the date key (yyyy-mm-dd). */
+export function newHealthDay(p: Partial<HealthDay> | Record<string, unknown> = {}): HealthDay {
+  const r = p as Record<string, any>;
+  const num = (v: unknown, max: number) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= max ? Math.round(v * 10) / 10 : 0);
+  return { id: id(r.id), water: int(r.water, 0, 99, 0), sleep: num(r.sleep, 24), weight: num(r.weight, 700), updatedAt: ts(r.updatedAt, Date.now()), deleted: r.deleted === true };
+}
+
+export function newMoney(p: Partial<Money> | Record<string, unknown> = {}): Money {
+  const r = p as Record<string, any>;
+  const now = Date.now();
+  return {
+    id: id(r.id), kind: r.kind === 'income' ? 'income' : 'expense',
+    amount: typeof r.amount === 'number' && Number.isFinite(r.amount) && r.amount > 0 && r.amount <= 1e9 ? Math.round(r.amount * 100) / 100 : 0,
+    category: str(r.category, 40), note: str(r.note, 200), date: isKey(r.date) ? r.date : toKey(new Date()),
+    createdAt: ts(r.createdAt, now), updatedAt: ts(r.updatedAt, now), deleted: r.deleted === true,
+  };
+}
+
 export function newList(p: Partial<List> | Record<string, unknown> = {}): List {
   const r = p as Record<string, any>;
   return {
@@ -290,7 +333,7 @@ const normPomoCfg = (c: any, def: PomoCfg): PomoCfg => ({
 export function defaultSettings(lang: Lang): Settings {
   return {
     id: 'main', lang, theme: 'system', sound: true, vibrate: true,
-    name: '', greeting: '', onboarded: false, github: '',
+    name: '', greeting: '', onboarded: false, github: '', budget: 0, waterGoal: 8, sleepGoal: 8, lifeCards: true,
     pomo: { preset: 'classic', custom: { ...POMO.classic }, autoStart: true },
     dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], hiddenSections: [], updatedAt: 0,
   };
@@ -301,7 +344,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
   if (!isObj(raw)) return d;
   const p = isObj(raw.pomo) ? raw.pomo : {};
   const dashboard = Array.isArray(raw.dashboard)
-    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
+    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'habits', 'health', 'finance', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
       .map((b: any) => {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
@@ -319,6 +362,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
     sound: raw.sound !== false, vibrate: raw.vibrate !== false,
     name: str(raw.name, 40).trim(), greeting: str(raw.greeting, 80).trim(), onboarded: raw.onboarded === true,
     github: /^[a-zd](?:[a-zd]|-(?=[a-zd])){0,38}$/i.test(String(raw.github ?? '')) ? String(raw.github) : '',
+    budget: int(raw.budget, 0, 1e9, 0), waterGoal: int(raw.waterGoal, 1, 30, 8), sleepGoal: int(raw.sleepGoal, 1, 16, 8), lifeCards: raw.lifeCards === true,
     pomo: {
       preset: ['classic', 'short', 'deep', 'custom'].includes(p.preset) ? p.preset : 'classic',
       custom: normPomoCfg(p.custom, POMO.classic),
@@ -349,7 +393,7 @@ function normMap<T extends { id: string }>(raw: unknown, make: (r: any) => T): R
 
 export function defaultData(lang: Lang): Data {
   return {
-    tasks: {}, lists: byId(defaultLists(lang)), sessions: {}, notes: {},
+    tasks: {}, lists: byId(defaultLists(lang)), sessions: {}, notes: {}, habits: {}, health: {}, money: {},
     counters: byId([newCounter({ updatedAt: 0 })]), settings: defaultSettings(lang),
   };
 }
@@ -362,6 +406,9 @@ export function normData(raw: unknown, lang: Lang): Data {
     sessions: normMap(r.sessions, newSession),
     counters: normMap(r.counters, newCounter),
     notes: normMap(r.notes, newNote),
+    habits: normMap(r.habits, newHabit),
+    health: normMap(r.health, newHealthDay),
+    money: normMap(r.money, newMoney),
     settings: normSettings(r.settings, lang),
   };
   if (!Object.values(d.lists).some((l) => !l.deleted)) Object.assign(d.lists, byId(defaultLists(d.settings.lang)));

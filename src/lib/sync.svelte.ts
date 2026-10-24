@@ -13,7 +13,7 @@ const config = {
 };
 export const syncEnabled = Boolean(config.apiKey && config.projectId);
 
-const COLLECTIONS: Collection[] = ['tasks', 'lists', 'sessions', 'counters', 'notes', 'settings'];
+const COLLECTIONS: Collection[] = ['tasks', 'lists', 'sessions', 'counters', 'notes', 'habits', 'health', 'money', 'settings'];
 // Firestore rejects `undefined` values.
 const clean = <T>(v: T): T => JSON.parse(JSON.stringify(v));
 

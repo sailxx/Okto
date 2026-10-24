@@ -4,14 +4,14 @@ import { DICT, locale, weekStartOf, type Key } from './i18n';
 import { leetcodePlan } from './leetcode';
 import { migrateLegacy } from './migrate';
 import {
-  defaultData, defaultDevice, defaultLists, live, newCounter, newList, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
-  type Collection, type Counter, type Data, type Device, type Lang, type List, type Note, type OptionalSection, type Settings, type Task,
+  defaultData, defaultDevice, defaultLists, live, newCounter, newHabit, newHealthDay, newList, newMoney, newNote, newSession, newTask, normData, normDevice, normSettings, POMO,
+  type Collection, type Counter, type Data, type Device, type Habit, type HealthDay, type Lang, type List, type Money, type Note, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
 import { buzz, chime, inAndroidApp, systemNotify } from './alerts';
 
 const KEY = 'okto-v3';
-const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter, notes: newNote };
+const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter, notes: newNote, habits: newHabit, health: newHealthDay, money: newMoney };
 const browserLang: Lang = (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en';
 
 export type Scope = 'one' | 'future' | 'all';
@@ -55,6 +55,11 @@ class Store {
     this.data = init.data;
     this.device = init.device;
     this.storageOk = init.storageOk;
+    if (!this.data.settings.lifeCards) {
+      const have = new Set(this.data.settings.dashboard.map((b) => b.type));
+      const add = (['finance', 'habits', 'health'] as const).filter((t) => !have.has(t)).map((type) => ({ type }));
+      this.updateSettings({ dashboard: [...this.data.settings.dashboard, ...add], lifeCards: true });
+    }
     const counters = this.counters;
     if (!this.device.activeCounter || !counters.some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = counters[0]?.id ?? null;
     window.addEventListener('pagehide', () => this.flush());
@@ -76,6 +81,10 @@ class Store {
   /** Pinned first, then most recently edited. */
   notes = $derived(live(this.data.notes).sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt));
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
+  habits = $derived(live(this.data.habits).sort((a, b) => a.order - b.order || a.createdAt - b.createdAt));
+  /** Newest first. */
+  money = $derived(live(this.data.money).sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt));
+  healthOf(date: string): HealthDay { const d = this.data.health[date]; return d && !d.deleted ? d : { id: date, water: 0, sleep: 0, weight: 0, updatedAt: 0, deleted: false }; }
 
   t<K extends Key>(key: K) { return DICT[this.data.settings.lang][key]; }
 
@@ -196,6 +205,34 @@ class Store {
     this.toast(this.t('noteDeleted'), () => this.commit('notes', newNote({ ...before })), this.t('undoAction'), 'trash');
   }
   toggleNotePin(note: Note) { this.commit('notes', newNote({ ...$state.snapshot(this.data.notes[note.id]), pinned: !note.pinned })); }
+
+  /* ---------- habits, health, money ---------- */
+  addHabit(name: string, color: string) {
+    const n = name.trim();
+    if (n) this.commit('habits', newHabit({ name: n, color, order: this.habits.length }));
+  }
+  toggleHabit(h: Habit, date: string) {
+    const cur = $state.snapshot(this.data.habits[h.id] ?? h) as Habit;
+    const doneDates = cur.doneDates.includes(date) ? cur.doneDates.filter((d) => d !== date) : [...cur.doneDates, date];
+    this.commit('habits', newHabit({ ...cur, doneDates }));
+  }
+  deleteHabit(h: Habit) {
+    const before = $state.snapshot(this.data.habits[h.id] ?? h) as Habit;
+    this.commit('habits', newHabit({ ...before, deleted: true }));
+    this.toast(this.t('habitDeleted'), () => this.commit('habits', newHabit({ ...before })), this.t('undoAction'), 'trash');
+  }
+  setHealth(date: string, patch: Partial<Pick<HealthDay, 'water' | 'sleep' | 'weight'>>) {
+    this.commit('health', newHealthDay({ ...$state.snapshot(this.healthOf(date)), ...patch, id: date, deleted: false }));
+  }
+  addMoney(p: Partial<Money>) {
+    const rec = newMoney(p);
+    if (rec.amount > 0) this.commit('money', rec);
+  }
+  deleteMoney(m: Money) {
+    const before = $state.snapshot(this.data.money[m.id] ?? m) as Money;
+    this.commit('money', newMoney({ ...before, deleted: true }));
+    this.toast(this.t('moneyDeleted'), () => this.commit('money', newMoney({ ...before })), this.t('undoAction'), 'trash');
+  }
 
   /* ---------- tasks ---------- */
   openNewTask(p: Partial<Task> = {}) {
