@@ -65,7 +65,7 @@
   .top { display: flex; align-items: center; gap: 10px; max-width: 100%; }
   .chip { display: none; }
   .chip :global(svg) { stroke-width: 2; }
-  .ttl { font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ttl { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { font-size: 13px; color: var(--td); max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
   .top + .meta:not(:last-child) { white-space: nowrap; }
   .map { flex: 1; min-height: 0; width: 100%; margin-top: 4px; }

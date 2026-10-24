@@ -495,12 +495,12 @@
 
   /* No icons: the title and the figure carry the card. */
   .chip { display: none; }
-  .ttl { margin-top: 0; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .ttl { margin-top: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin-top: auto; }
-  .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 500; letter-spacing: -.045em; line-height: .95; }
+  .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 400; letter-spacing: -.05em; line-height: .95; }
   .read :global(.big.dim) { color: var(--td); }
-  .read em { font-style: normal; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; }
-  .meta { font-size: 13px; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .read em { font-style: normal; font-size: 15px; font-weight: 600; color: var(--td); white-space: nowrap; }
+  .meta { font-size: 13px; font-weight: 600; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
   /* One continuous bar; the lit part is the progress. */
   .segs { display: flex; width: 100%; height: 6px; margin: 6px 0 2px; border-radius: 99px; overflow: hidden; background: var(--tg); }
@@ -543,8 +543,8 @@
   .ck .tick { fill: none; stroke: var(--ck, var(--bg)); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
   .cell.tasks { --ck: #b83245; }
   .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
-  .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .tm { flex: 0 0 auto; font-size: 13px; color: var(--td); font-variant-numeric: tabular-nums; }
+  .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tm { flex: 0 0 auto; font-size: 12.5px; font-weight: 600; color: var(--td); font-variant-numeric: tabular-nums; }
   .tt:hover .tn { text-decoration: underline; text-decoration-color: var(--td); text-underline-offset: 3px; }
   .todo li.done .tn { color: var(--td); text-decoration: line-through; }
   .editing .todo { pointer-events: none; }
