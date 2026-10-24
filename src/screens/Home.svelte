@@ -481,6 +481,9 @@
   .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 400; letter-spacing: -.05em; line-height: .95; }
   .read :global(.big.dim) { color: var(--td); }
   .read em { font-style: normal; font-size: 15px; font-weight: 600; color: var(--td); white-space: nowrap; }
+  /* The line that matters (what is left, the state, the best run) sits in a bright pill. */
+  .cell.acc .meta { align-self: flex-start; padding: 3px 11px; border-radius: 99px; color: #fff; font-weight: 700; background: rgb(255 255 255 / 20%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%); }
+  .cell.acc .sc-body .meta { margin-top: 4px; }
   .meta { font-size: 13px; font-weight: 600; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
   /* One continuous bar; the lit part is the progress. */
@@ -506,7 +509,7 @@
   /* Up next: time and title, plus the day strip when there is room */
   .nxt { align-items: flex-end; gap: 14px; width: 100%; }
   .nt { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-bottom: 2px; }
-  .nt b { font-family: var(--sans); font-size: 15px; font-weight: 600; line-height: 1.25; color: var(--t); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+  .nt b { font-family: var(--sans); font-size: 17px; font-weight: 700; line-height: 1.25; color: var(--t); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
   .nt small { font-size: 12px; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .line { display: none; position: relative; width: 100%; height: 30px; flex: 0 0 auto; margin-top: 6px; border-top: 1px solid var(--tg); }
   @container (min-height: 150px) and (min-width: 330px) { .line { display: block; } }
@@ -542,6 +545,9 @@
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 12.5px; font-weight: 600; color: var(--td); font-variant-numeric: tabular-nums; }
   .tt:hover .tn { text-decoration: underline; text-decoration-color: var(--td); text-underline-offset: 3px; }
+  /* The next open task stands out from the rest of the list. */
+  .todo li:first-child:not(.done) { background: color-mix(in srgb, var(--t) 24%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%); }
+  .todo li:first-child:not(.done) .tn { font-weight: 700; }
   .todo li.done .tn { color: var(--td); text-decoration: line-through; }
   .editing .todo { pointer-events: none; }
 
