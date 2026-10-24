@@ -87,11 +87,13 @@
   /* ---------- day score ---------- */
   const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: store.habits.length, water: health.water, waterGoal: s.waterGoal }));
   const scoreState = $derived((score < 25 ? 'dayS0' : score < 50 ? 'dayS1' : score < 75 ? 'dayS2' : 'dayS3') as 'dayS0' | 'dayS1' | 'dayS2' | 'dayS3');
+  const RINGS = [64, 52, 40, 28];
+  const COLORS4 = ['#ff7a8a', '#ffc060', '#56b8ff', '#4fe0a8'];
   const scoreParts = $derived([
-    { label: store.t('bTasks'), text: tasks.total ? `${tasks.done}/${tasks.total}` : '—', r: ratio(tasks.done, tasks.total) },
-    { label: store.t('bFocus'), text: `${hm(todayFocus.minutes).big} ${hm(todayFocus.minutes).unit}`, r: ratio(todayFocus.minutes, 60) },
-    { label: store.t('bHabits'), text: store.habits.length ? `${habitsDone}/${store.habits.length}` : '—', r: ratio(habitsDone, store.habits.length) },
-    { label: store.t('hWater'), text: `${health.water}/${s.waterGoal}`, r: ratio(health.water, s.waterGoal) },
+    { label: store.t('bTasks'), text: tasks.total ? `${tasks.done}/${tasks.total}` : '—', r: ratio(tasks.done, tasks.total), color: COLORS4[0] },
+    { label: store.t('bFocus'), text: `${hm(todayFocus.minutes).big} ${hm(todayFocus.minutes).unit}`, r: ratio(todayFocus.minutes, 60), color: COLORS4[1] },
+    { label: store.t('bHabits'), text: store.habits.length ? `${habitsDone}/${store.habits.length}` : '—', r: ratio(habitsDone, store.habits.length), color: COLORS4[2] },
+    { label: store.t('hWater'), text: `${health.water}/${s.waterGoal}`, r: ratio(health.water, s.waterGoal), color: COLORS4[3] },
   ]);
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
@@ -231,24 +233,18 @@
   </div>
 
   <section class="score" aria-label={store.t('dayScore')}>
-    <div class="ring">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
-        <defs>
-          <linearGradient id="sc-g" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stop-color="#ff7a8a" /><stop offset=".45" stop-color="#ffc060" /><stop offset=".75" stop-color="#56b8ff" /><stop offset="1" stop-color="#4fe0a8" />
-          </linearGradient>
-        </defs>
-        <circle class="trk" cx="60" cy="60" r="50" />
-        <circle class="arc" cx="60" cy="60" r="50" stroke="url(#sc-g)" stroke-dasharray="{(314.16 * score) / 100} 400" />
-      </svg>
-      <b class="sc-num">{score}</b>
-    </div>
+    <svg class="rings" viewBox="0 0 140 140" aria-hidden="true">
+      {#each scoreParts as part, k}
+        <circle class="trk" cx="70" cy="70" r={RINGS[k]} />
+        <circle class="arc" cx="70" cy="70" r={RINGS[k]} stroke={part.color} stroke-dasharray="{2 * Math.PI * RINGS[k] * part.r} 1000" />
+      {/each}
+    </svg>
     <div class="sc-body">
       <span class="sc-ttl">{store.t('dayScore')}</span>
-      <span class="sc-state">{store.t(scoreState)}</span>
+      <div class="sc-head"><b class="sc-num">{score}</b><span class="sc-state">{store.t(scoreState)}</span></div>
       <ul class="sc-parts">
         {#each scoreParts as part}
-          <li style:--r={part.r}><span>{part.label}</span><b>{part.text}</b><i aria-hidden="true"></i></li>
+          <li style:--c={part.color}><span>{part.label}</span><b>{part.text}</b></li>
         {/each}
       </ul>
     </div>
@@ -427,24 +423,23 @@
   .hello { min-width: 0; }
   .greet-sub { margin: 4px 0 0; font-size: clamp(18px, 4.6vw, 22px); font-weight: 500; letter-spacing: -.015em; color: var(--muted); opacity: .75; }
 
-  /* Day score: a ring gauge with the parts it is made of */
-  .score { display: flex; align-items: center; gap: 20px; margin-top: 18px; padding: 16px 20px 16px 16px; border-radius: 30px; width: fit-content; max-width: 100%;
+  /* Day score: four nested rings, one per part */
+  .score { display: flex; align-items: center; gap: 22px; margin-top: 18px; padding: 16px 24px 16px 18px; border-radius: 30px; width: fit-content; max-width: 100%;
     background: color-mix(in srgb, var(--soft) 78%, var(--bg)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), inset 0 0 0 1px var(--line); }
-  .ring { position: relative; flex: 0 0 auto; width: 112px; height: 112px; }
-  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-  .ring circle { fill: none; stroke-width: 11; stroke-linecap: round; }
-  .ring .trk { stroke: color-mix(in srgb, var(--ink) 10%, transparent); }
-  .ring .arc { transition: stroke-dasharray 700ms var(--ease); }
-  .sc-num { position: absolute; inset: 0; display: grid; place-items: center; font: 500 38px/1 var(--sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+  .rings { flex: 0 0 auto; width: 132px; height: 132px; transform: rotate(-90deg); }
+  .rings circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+  .rings .trk { stroke: color-mix(in srgb, var(--ink) 10%, transparent); }
+  .rings .arc { transition: stroke-dasharray 700ms var(--ease); }
   .sc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .sc-ttl { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .sc-state { font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
-  .sc-parts { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(104px, 1fr)); gap: 8px 18px; }
-  .sc-parts li { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 12.5px; color: var(--muted); }
-  .sc-parts b { font: 500 12.5px var(--mono); color: var(--ink); }
-  .sc-parts i { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 10%, transparent); position: relative; overflow: hidden; }
-  .sc-parts i::after { content: ''; position: absolute; inset: 0; background: var(--ink); opacity: .75; transform-origin: left; transform: scaleX(var(--r)); transition: transform 500ms var(--ease); }
-  @media (max-width: 430px) { .score { gap: 14px; padding: 14px; } .ring { width: 92px; height: 92px; } .sc-num { font-size: 31px; } .sc-parts { grid-template-columns: 1fr 1fr; gap: 6px 12px; } }
+  .sc-head { display: flex; align-items: baseline; gap: 10px; margin: 2px 0 8px; flex-wrap: wrap; }
+  .sc-num { font: 400 52px/1 var(--sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+  .sc-state { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .sc-parts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .sc-parts li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+  .sc-parts li::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: 0 0 auto; }
+  .sc-parts b { margin-left: auto; padding-left: 18px; font: 500 13px var(--mono); color: var(--ink); }
+  @media (max-width: 430px) { .score { gap: 14px; padding: 14px; } .rings { width: 104px; height: 104px; } .sc-num { font-size: 42px; } }
   .greet { display: block; max-width: 100%; text-align: left; border-radius: 8px; }
   .greet .page-title { overflow-wrap: anywhere; font-size: clamp(24px, 6vw, 30px); font-weight: 650; letter-spacing: -.025em; }
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
