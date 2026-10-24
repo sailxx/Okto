@@ -13,6 +13,7 @@
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
   import { currentProblem, leetcodeTasks, problemUrl } from '../lib/leetcode';
+  import { fmtMoney, monthTotals, ratio } from '../lib/life';
   import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, GRID_PHONE_W, isPhoneGrid, phoneDefault, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
@@ -76,8 +77,15 @@
     };
   });
 
+  /* ---------- habits, health, finance ---------- */
+  const habitsDone = $derived(store.habits.filter((h) => h.doneDates.includes(store.today)).length);
+  const health = $derived(store.healthOf(store.today));
+  const money = $derived(monthTotals(store.money, store.today));
+  const budgetLeft = $derived(s.budget - money.spent);
+  const cash = (n: number) => `${fmtMoney(n, store.lang)} ${store.t('fCurrency')}`;
+
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -103,13 +111,14 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['tasks', 'focus', 'streak', 'next', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
   function open(b: Block) {
     if (editing) return;
     if (b.type === 'next') { router.go('calendar'); return; }
+    if (b.type === 'habits' || b.type === 'health' || b.type === 'finance') { router.go(b.type); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
     if (b.type === 'leetcode') {
       const cur = currentProblem(leetcodeTasks(store.tasks));
@@ -268,6 +277,24 @@
           {:else if b.type === 'leetcode'}
             <LeetcodeCard disabled={editing} index={i} />
 
+          {:else if b.type === 'finance'}
+            {@render head('wallet', store.t('fSpent'))}
+            <span class="read"><Digits class="big" text={fmtMoney(money.spent, store.lang)} delay={i * 90} /><em>{store.t('fCurrency')}</em></span>
+            {#if s.budget > 0}{@render bar(lit(ratio(money.spent, s.budget)))}{/if}
+            <span class="meta">{s.budget > 0 ? `${budgetLeft >= 0 ? store.t('fLeft') : store.t('fOver')}: ${cash(Math.abs(budgetLeft))}` : `${store.t('fEarned')}: ${cash(money.earned)}`}</span>
+
+          {:else if b.type === 'habits'}
+            {@render head('habit', store.t('bHabits'))}
+            <span class="read"><Digits class="big" text={`${habitsDone}/${store.habits.length}`} delay={i * 90} /></span>
+            {@render bar(lit(ratio(habitsDone, store.habits.length)))}
+            <span class="meta">{store.habits.length ? store.t('habitsOf')(habitsDone, store.habits.length) : store.t('habitNone')}</span>
+
+          {:else if b.type === 'health'}
+            {@render head('drop', store.t('hWater'))}
+            <span class="read"><Digits class="big" text={String(health.water)} delay={i * 90} /><em>/{s.waterGoal}</em></span>
+            {@render bar(lit(ratio(health.water, s.waterGoal)))}
+            <span class="meta">{health.sleep ? `${store.t('hSleep')}: ${health.sleep} ${store.t('hHours')}` : store.t('hGlasses')}</span>
+
           {:else if b.type === 'focus'}
             {@render head('focus', store.t('bFocus'))}
             {@render value(tile.focus.big, tile.focus.unit, i * 90)}
@@ -396,13 +423,6 @@
   }
   .cell:hover { box-shadow: inset 0 0 0 1px var(--key-edge), 0 1px 2px rgb(0 0 0 / 4%), 0 20px 36px -24px rgb(0 0 0 / 40%); }
   .cell:active { transform: scale(.992); }
-  .cell::after {
-    content: '↗'; position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 50%;
-    display: grid; place-items: center; font-size: 15px; line-height: 1;
-    background: var(--ink); color: var(--bg);
-  }
-  .editing .cell::after { display: none; }
-
   /* Coloured cards: Focus takes the theme colour, Streak is warm, a counter brings its own. */
   .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 20px 34px -22px rgb(0 0 0 / 50%); }
   .cell.acc.focus { --t: var(--on-primary); --td: color-mix(in srgb, var(--on-primary) 74%, transparent); --tg: color-mix(in srgb, var(--on-primary) 22%, transparent); color: var(--on-primary); background: linear-gradient(150deg, var(--primary), color-mix(in srgb, var(--primary) 62%, var(--on-primary))); }
@@ -410,12 +430,13 @@
   .cell.acc.tasks { background: linear-gradient(150deg, #34b27b, #0f9d8c); }
   .cell.acc.github { background: #0d1117; color: #fff; --t: #fff; --td: rgb(255 255 255 / 70%); --tg: rgb(255 255 255 / 14%); }
   .cell.acc.next { background: linear-gradient(150deg, #8b6cf6, #4f7cf0); }
+  .cell.acc.finance { background: linear-gradient(150deg, #f08f8a, #d9534f); }
+  .cell.acc.habits { background: linear-gradient(150deg, #5ec78f, #2f9e6b); }
+  .cell.acc.health { background: linear-gradient(150deg, #4aa8ff, #2f6df0); }
   .cell.acc.leetcode { background: linear-gradient(150deg, #ffa116, #f76b15); }
   .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
   .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
   .cell.acc.tint, .cell.acc.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
-  .cell.acc.focus::after { background: var(--on-primary); color: var(--primary); }
-  .cell.acc.streak::after, .cell.acc.next::after, .cell.acc.github::after, .cell.acc.leetcode::after, .cell.acc.tasks::after, .cell.acc.counter::after, .cell.tint::after { background: rgb(255 255 255 / 92%); color: #1d1d1f; }
 
   .chip { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; background: var(--tg); color: var(--t); }
   .chip :global(svg) { stroke-width: 2; }
