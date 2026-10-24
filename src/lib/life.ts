@@ -34,3 +34,13 @@ export const ratio = (value: number, goal: number) => (goal > 0 ? Math.max(0, Ma
 
 /** 12345.6 → "12 345,6" in the interface language. */
 export const fmtMoney = (n: number, lang: string) => new Intl.NumberFormat(lang === 'ru' ? 'ru-RU' : 'en-US', { maximumFractionDigits: 2 }).format(n);
+
+export interface DayInput { tasksDone: number; tasksTotal: number; focusMin: number; habitsDone: number; habitsTotal: number; water: number; waterGoal: number }
+/** Day score 0..100: the mean of what applies today — tasks, an hour of focus, habits, water. */
+export function dayScore(d: DayInput): number {
+  const parts = [ratio(d.focusMin, 60)];
+  if (d.tasksTotal > 0) parts.push(ratio(d.tasksDone, d.tasksTotal));
+  if (d.habitsTotal > 0) parts.push(ratio(d.habitsDone, d.habitsTotal));
+  if (d.water > 0) parts.push(ratio(d.water, d.waterGoal));
+  return Math.round((parts.reduce((a, n) => a + n, 0) / parts.length) * 100);
+}

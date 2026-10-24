@@ -13,7 +13,7 @@
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
   import { currentProblem, leetcodeTasks, problemUrl } from '../lib/leetcode';
-  import { fmtMoney, monthTotals, ratio } from '../lib/life';
+  import { dayScore, fmtMoney, monthTotals, ratio } from '../lib/life';
   import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, GRID_PHONE_W, isPhoneGrid, phoneDefault, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
@@ -26,7 +26,7 @@
   const hour = $derived(store.now.getHours());
   const autoGreeting = $derived(store.t(hour < 5 ? 'greetNight' : hour < 12 ? 'greetMorning' : hour < 18 ? 'greetDay' : hour < 23 ? 'greetEvening' : 'greetNight'));
   const s = $derived(store.data.settings);
-  const greeting = $derived(`${s.greeting || autoGreeting}${s.name ? `, ${s.name}` : ''}`);
+  const greeting = $derived.by(() => { const g = `${s.greeting || autoGreeting}${s.name ? `, ${s.name}` : ""}`; return /[!?.…]$/.test(g) ? g : g + "!"; });
 
   /* ---------- data ---------- */
   // The Focus card leaves Home together with the Focus section.
@@ -83,6 +83,11 @@
   const money = $derived(monthTotals(store.money, store.today));
   const budgetLeft = $derived(s.budget - money.spent);
   const cash = (n: number) => `${fmtMoney(n, store.lang)} ${store.t('fCurrency')}`;
+
+  /* ---------- day score ---------- */
+  const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: store.habits.length, water: health.water, waterGoal: s.waterGoal }));
+  const BANDS = ['#f4b9bd', '#e3d9c0', '#9cc4fb', '#9fe0c0'];
+  const SCALE = [0, 25, 50, 75];
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
   const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance' };
@@ -216,8 +221,21 @@
       <button type="button" class="greet" onclick={() => (profile = true)} title={store.t('editGreeting')}>
         <h1 class="page-title">{greeting}</h1>
       </button>
+      <p class="greet-sub">{store.t('greetSub')}</p>
     </div>
   </div>
+
+  <section class="score" aria-label={store.t('dayScore')}>
+    <div class="sc-top">
+      <b class="sc-num">{score}</b>
+      <span class="sc-cap"><span>{store.t('dayNow')}</span><small>{store.t('updatedNow')}</small></span>
+    </div>
+    <div class="sc-bar" role="img" aria-label={`${store.t('dayScore')}: ${score}`}>
+      <i class="mark" style:left="{score}%"></i>
+      {#each BANDS as c, k}<i class="band" style:--c={c}></i>{/each}
+    </div>
+    <div class="sc-lbl" aria-hidden="true">{#each SCALE as n}<span>{n}</span>{/each}</div>
+  </section>
 
   <div class="tabs" role="tablist">
     {#each PERIODS as [key, label]}
@@ -390,6 +408,20 @@
 <style>
   .home { width: min(100% - 32px, 1560px); }
   .hello { min-width: 0; }
+  .greet-sub { margin: 4px 0 0; font-size: clamp(18px, 4.6vw, 22px); font-weight: 500; letter-spacing: -.015em; color: var(--muted); opacity: .75; }
+
+  /* Day score: a big number and a four-band scale with a marker */
+  .score { margin-top: 20px; max-width: 360px; }
+  .sc-top { display: flex; align-items: center; gap: 14px; }
+  .sc-num { font: 700 clamp(56px, 14vw, 76px)/1 var(--sans); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+  .sc-cap { display: flex; flex-direction: column; gap: 2px; }
+  .sc-cap span { font-size: 13px; font-weight: 600; color: var(--ink); opacity: .8; }
+  .sc-cap small { font-size: 12px; color: var(--muted); opacity: .8; }
+  .sc-bar { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
+  .band { height: 16px; border-radius: 99px; background: var(--c); opacity: .85; }
+  .mark { position: absolute; z-index: 1; top: -8px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 2px; background: var(--ink); transition: left 500ms var(--ease); }
+  .mark::before { content: ''; position: absolute; top: -6px; left: -4px; border: 5px solid transparent; border-top: 7px solid var(--ink); border-bottom: 0; }
+  .sc-lbl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; padding-left: 4px; font: 500 11px var(--mono); color: var(--muted); }
   .greet { display: block; max-width: 100%; text-align: left; border-radius: 8px; }
   .greet .page-title { overflow-wrap: anywhere; font-size: clamp(24px, 6vw, 30px); font-weight: 650; letter-spacing: -.025em; }
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
