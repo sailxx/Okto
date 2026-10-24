@@ -39,7 +39,7 @@
     <span class="lbl">{store.t('fSpent')}</span>
     <b class="amt">{fmt(totals.spent)}</b>
     {#if s.budget > 0}
-      <div class="bar" class:over={left < 0}><i style:width="{ratio(totals.spent, s.budget) * 100}%"></i></div>
+      <div class="bar" class:over={left < 0}><i style:transform="scaleX({ratio(totals.spent, s.budget)})"></i></div>
       <span class="lbl">{left >= 0 ? store.t('fLeft') : store.t('fOver')}: {fmt(Math.abs(left))} · {store.t('fOfBudget')(fmt(s.budget))}</span>
     {/if}
     <span class="lbl">{store.t('fEarned')}: {fmt(totals.earned)}</span>
@@ -72,7 +72,7 @@
     <h3 class="sub">{store.t('fByCat')}</h3>
     <ul class="cats">
       {#each cats as [c, n]}
-        <li><span>{c || '—'}</span><div class="bar"><i style:width="{ratio(n, cats[0][1]) * 100}%"></i></div><b>{fmt(n)}</b></li>
+        <li><span>{c || '—'}</span><div class="bar"><i style:transform="scaleX({ratio(n, cats[0][1])})"></i></div><b>{fmt(n)}</b></li>
       {/each}
     </ul>
   {/if}
@@ -102,7 +102,7 @@
   .lbl { font-size: 14px; color: rgb(255 255 255 / 82%); }
   .amt { font: 700 clamp(34px, 9vw, 52px)/1 var(--mono); letter-spacing: -.04em; }
   .bar { height: 8px; border-radius: 99px; background: rgb(255 255 255 / 25%); overflow: hidden; }
-  .bar i { display: block; height: 100%; border-radius: inherit; background: #fff; transition: width 300ms var(--ease); }
+  .bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: #fff; transform-origin: left; transition: transform 300ms var(--ease); }
   .bud { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 14px; color: rgb(255 255 255 / 82%); }
   .bud input { width: 9ch; height: 34px; padding: 0 12px; border: 0; outline: none; border-radius: 12px; background: rgb(255 255 255 / 22%); color: #fff; font: 600 14px var(--mono); }
   .bud input::placeholder { color: rgb(255 255 255 / 70%); }

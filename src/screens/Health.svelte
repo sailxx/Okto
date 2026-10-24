@@ -26,7 +26,7 @@
     <section class="card water" style:--c="#0090ff">
       <h2><Icon name="drop" size={18} />{store.t('hWater')}</h2>
       <div class="big"><b>{day.water}</b><em>/ {s.waterGoal} {store.t('hGlasses')}</em></div>
-      <div class="bar"><i style:width="{ratio(day.water, s.waterGoal) * 100}%"></i></div>
+      <div class="bar"><i style:transform="scaleX({ratio(day.water, s.waterGoal)})"></i></div>
       <div class="btns">
         <button type="button" class="r" aria-label={store.t('hMinus')} disabled={!day.water} onclick={() => store.setHealth(store.today, { water: day.water - 1 })}><Icon name="minus" size={20} /></button>
         <button type="button" class="r p" aria-label={store.t('hPlus')} onclick={() => store.setHealth(store.today, { water: Math.min(99, day.water + 1) })}><Icon name="plus" size={20} /></button>
@@ -36,7 +36,7 @@
     <section class="card" style:--c="#8e4ec6">
       <h2><Icon name="moon" size={18} />{store.t('hSleep')}</h2>
       <div class="big"><input type="text" inputmode="decimal" placeholder="0" aria-label={store.t('hSleepPh')} value={day.sleep || ''} onchange={(e) => store.setHealth(store.today, { sleep: num(e.currentTarget.value) })} /><em>{store.t('hHours')} · {s.sleepGoal}</em></div>
-      <div class="bar"><i style:width="{ratio(day.sleep, s.sleepGoal) * 100}%"></i></div>
+      <div class="bar"><i style:transform="scaleX({ratio(day.sleep, s.sleepGoal)})"></i></div>
       <p class="note">{avgSleep ? `${avgSleep} ${store.t('hHours')} · ${store.t('hWeekAvg')}` : ''}</p>
     </section>
 
@@ -69,7 +69,7 @@
   .big input::placeholder { color: var(--muted); opacity: .5; }
   .big em { font-style: normal; color: var(--muted); font-size: 14px; }
   .bar { height: 8px; border-radius: 99px; background: color-mix(in srgb, var(--c) 16%, transparent); overflow: hidden; }
-  .bar i { display: block; height: 100%; border-radius: inherit; background: var(--c); transition: width 300ms var(--ease); }
+  .bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--c); transform-origin: left; transition: transform 300ms var(--ease); }
   .btns { display: flex; gap: 10px; }
   .r { display: grid; place-items: center; width: 48px; height: 44px; border-radius: 16px; background: color-mix(in srgb, var(--ink) 8%, transparent); }
   .r.p { background: var(--c); color: #fff; }
