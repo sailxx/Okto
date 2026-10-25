@@ -1,7 +1,7 @@
 {
   "ru": {
     "name": "Русский",
-    "file": "README.md",
+    "file": "README.ru.md",
     "alt": [
       "Okto — спланируй день, сфокусируйся на главном",
       "Открыть Okto",
@@ -62,7 +62,7 @@
   },
   "en": {
     "name": "English",
-    "file": "README.en.md",
+    "file": "README.md",
     "alt": [
       "Okto — plan your day, focus on what matters",
       "Open Okto",
