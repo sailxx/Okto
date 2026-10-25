@@ -57,7 +57,7 @@
         <span class="l {l.key}"><small>{l.label}</small><b>{l.n}</b><i><u style:width="{l.of ? Math.min(100, (l.n / l.of) * 100) : 0}%"></u></i></span>
       {/each}
     </div>
-    <span class="meta">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : store.t('lcActivity')}</span>
+    <span class="meta act">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : store.t('lcActivity')}</span>
     <div class="map"><Heatmap counts={data.counts} label="LeetCode" bind:sel /></div>
   {:else if status === 'error'}
     <span class="meta">{store.t('ghFail')}</span>
@@ -85,7 +85,8 @@
   .l i { display: block; height: 3px; margin-top: 3px; border-radius: 99px; background: var(--tg); overflow: hidden; }
   .l u { display: block; height: 100%; border-radius: inherit; text-decoration: none; background: var(--c); }
   .l.easy { --c: #00b8a3; } .l.medium { --c: #ffa116; } .l.hard { --c: #ef4743; }
-  .map { flex: 1; min-height: 0; width: 100%; margin-top: 2px; }
+  .map { flex: 1; min-height: 0; width: 100%; margin-top: 2px; overflow: hidden; }
+  .meta { flex: none; }
   .link { display: flex; gap: 8px; width: 100%; max-width: 360px; margin-top: 6px; }
   .link input { flex: 1; min-width: 0; height: 38px; padding: 0 12px; border-radius: 12px; color: var(--t); background: color-mix(in srgb, var(--t) 8%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 14%, transparent); }
   .link input::placeholder { color: var(--td); }
@@ -93,5 +94,6 @@
   .link button, .retry { height: 38px; padding: 0 16px; border-radius: 12px; font-weight: 600; color: var(--btn-ink); background: var(--btn); }
   .retry { height: 32px; margin-top: 4px; }
   @container (max-height: 190px) { .lv { display: none; } }
-  @container (max-height: 120px) { .map { display: none; } }
+  @container (max-height: 240px) { .act { display: none; } }
+  @container (max-height: 150px) { .map { display: none; } }
 </style>
