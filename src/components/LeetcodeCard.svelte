@@ -49,7 +49,7 @@
   .top { display: flex; align-items: center; gap: 10px; max-width: 100%; }
   .chip { display: none; }
   .chip :global(svg) { stroke-width: 2; }
-  .ttl { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ttl { font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin-top: auto; }
   .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 400; letter-spacing: -.04em; line-height: .95; }
   .read em { font-style: normal; font-size: 14px; font-weight: 500; color: var(--td); white-space: nowrap; }
@@ -57,7 +57,8 @@
   .segs { display: flex; gap: 4px; width: 100%; max-width: 160px; height: 4px; margin: 4px 0 2px; }
   .segs i { flex: 1; border-radius: 3px; background: var(--tg); transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
-  .add { height: 36px; margin-top: auto; padding: 0 16px; border-radius: 12px; font-weight: 600; background: #fff; color: #1d1d1f; }
+  .add { height: 36px; margin-top: auto; padding: 0 16px; border-radius: 12px; font-weight: 600; background: var(--ink); color: var(--bg); }
+  :global(.cell.acc) .add { background: #fff; color: #1d1d1f; }
   .cur { display: none; align-items: center; gap: 10px; width: 100%; min-height: 40px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--tg); }
   @container (min-height: 170px) { .cur { display: flex; } }
   .ck { flex: 0 0 auto; width: 24px; height: 24px; padding: 0; color: var(--t); transition: transform 120ms ease; }

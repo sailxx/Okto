@@ -59,7 +59,7 @@
 
   const p2 = (n: number) => String(n).padStart(2, '0');
   const hm = (m: number) => ({ big: m < 60 ? String(m) : `${Math.floor(m / 60)}:${p2(m % 60)}`, unit: store.t(m < 60 ? 'unitMin' : 'unitHour') });
-  const SEGS = 8;
+  const SEGS = 12;
   const lit = (ratio: number) => Math.round(Math.max(0, Math.min(1, ratio)) * SEGS);
   const dayLabel = (k: string) => relDay(store.lang, k, store.today, addDays(store.today, 1), addDays(store.today, -1));
 
@@ -86,30 +86,38 @@
   const budgetLeft = $derived(s.budget - money.spent);
   const cash = (n: number) => `${fmtMoney(n, store.lang)} ${store.t('fCurrency')}`;
 
-  /* ---------- productivity: finished things per day (tasks, habits, focus sessions) ---------- */
-  const prodDays = $derived(lastDays(period === 'total' ? 30 : 7, store.today));
+  /* ---------- productivity: share of the day's tasks and habits that got done, per day ---------- */
+  const prodDays = $derived(lastDays(period === 'total' ? 30 : 14, store.today));
   const prod = $derived.by(() => {
-    const byDay = activityByDay(store.tasks, store.sessions);
-    const series = prodDays.map((d) => (byDay.get(d) ?? 0) + store.habits.filter((h) => h.doneDates.includes(d)).length);
-    const sum = series.reduce((a, n) => a + n, 0);
-    return { series, sum, max: Math.max(1, ...series), avg: Math.round((sum / series.length) * 10) / 10 };
+    const series = prodDays.map((d) => {
+      const t = dayTaskStats(store.tasks, d), h = habitsOn(store.habits, d);
+      const total = t.total + h.length;
+      return total ? Math.round(((t.done + h.filter((x) => x.done).length) / total) * 100) : 0;
+    });
+    const avg = Math.round(series.reduce((a, n) => a + n, 0) / series.length);
+    return { series, avg };
   });
-  const dow = (k: string) => new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'narrow' }).format(new Date(`${k}T12:00:00`));
+  const W = 300, H = 100;
+  const prodPts = $derived(prod.series.map((n, k) => [(k / Math.max(1, prod.series.length - 1)) * W, H - (n / 100) * H] as const));
+  const prodLine = $derived(prodPts.map(([x, y], k) => `${k ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' '));
+  const prodArea = $derived(`${prodLine} L${W} ${H} L0 ${H} Z`);
+
+  /* ---------- goal ---------- */
+  let goalOpen = $state(false);
+  let goalDraft = $state({ title: '', due: '', pct: 0 });
+  const goal = $derived(s.goal);
+  const goalDays = $derived(goal.due ? Math.max(0, Math.round((new Date(`${goal.due}T12:00:00`).getTime() - new Date(`${store.today}T12:00:00`).getTime()) / 86400000)) : null);
+  const goalDue = $derived(goal.due ? new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'long' }).format(new Date(`${goal.due}T12:00:00`)) : '');
+  function openGoal() { if (editing) return; goalDraft = { ...goal }; goalOpen = true; }
+  function saveGoal() { store.updateSettings({ goal: { title: goalDraft.title.trim().slice(0, 120), due: goalDraft.due, pct: Math.max(0, Math.min(100, Math.round(goalDraft.pct))) } }); }
+  const focusGoalHm = $derived(hm(s.focusGoal));
 
   /* ---------- day score ---------- */
   const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: habitsTotal, water: health.water, waterGoal: s.waterGoal }));
   const scoreState = $derived((score < 25 ? 'dayS0' : score < 50 ? 'dayS1' : score < 75 ? 'dayS2' : 'dayS3') as 'dayS0' | 'dayS1' | 'dayS2' | 'dayS3');
-  const RINGS = [64, 52, 40, 28];
-  const COLORS4 = ['#ff7a8a', '#ffc060', '#56b8ff', '#4fe0a8'];
-  const scoreParts = $derived([
-    { label: store.t('bTasks'), text: tasks.total ? `${tasks.done}/${tasks.total}` : '—', r: ratio(tasks.done, tasks.total), color: COLORS4[0] },
-    { label: store.t('bFocus'), text: `${hm(todayFocus.minutes).big} ${hm(todayFocus.minutes).unit}`, r: ratio(todayFocus.minutes, 60), color: COLORS4[1] },
-    { label: store.t('bHabits'), text: habitsTotal ? `${habitsDone}/${habitsTotal}` : '—', r: ratio(habitsDone, habitsTotal), color: COLORS4[2] },
-    { label: store.t('hWater'), text: `${health.water}/${s.waterGoal}`, r: ratio(health.water, s.waterGoal), color: COLORS4[3] },
-  ]);
-
+  const SCALE = ['#f3b4bd', '#dcdce1', '#b9cbf5', '#a9e0c4'];
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore' | 'bProd'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore' | 'bProd' | 'bGoal'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd', goal: 'bGoal' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -135,7 +143,7 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['score', 'productivity', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
@@ -143,6 +151,7 @@
     if (editing) return;
     if (b.type === 'next') { router.go('calendar'); return; }
     if (b.type === 'score' || b.type === 'productivity') return;
+    if (b.type === 'goal') { openGoal(); return; }
     if (b.type === 'habits' || b.type === 'health' || b.type === 'finance') { router.go(b.type); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
     if (b.type === 'leetcode') {
@@ -155,7 +164,7 @@
   }
 
   /* ---------- grid: columns follow the available width ---------- */
-  const ROW = 64, GAP = 10;
+  const ROW = 56, GAP = 10;
   let gridEl = $state<HTMLDivElement>();
   let cols = $state(2);
   $effect(() => {
@@ -227,8 +236,7 @@
 {/snippet}
 
 {#snippet head(icon: string, label: string)}
-  <span class="chip"><Icon name={icon} size={17} /></span>
-  <span class="ttl">{label}</span>
+  <span class="hd"><span class="chip"><Icon name={icon} size={15} /></span><span class="ttl">{label}</span></span>
 {/snippet}
 
 {#snippet value(big: string, unit: string, delay: number)}
@@ -250,7 +258,7 @@
     {#each PERIODS as [key, label]}
       <button type="button" role="tab" aria-selected={period === key} onclick={() => (period = key)}>{store.t(label)}</button>
     {/each}
-    <button type="button" class="edit-btn" class:on={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('edit')}</button>
+    <button type="button" class="edit-btn" class:on={editing} onclick={() => (editing = !editing)}>{editing ? store.t('done') : store.t('customize')}</button>
   </div>
 
   {#if editing}<p class="edit-hint">{store.t('editHint')}</p>{/if}
@@ -263,7 +271,7 @@
       <div class="blk" class:dragging={dragKey === keyOf(b)} class:resizing={resizing === keyOf(b)} data-key={keyOf(b)}
         style:grid-column="span {sz.w}" style:grid-row="span {sz.h}"
         onpointerdown={(e) => dragDown(e, b)} onpointermove={dragMove} onpointerup={gestureUp} onpointercancel={gestureUp}>
-        <div class="cell {b.type}" class:acc={b.tint !== 'none'} class:tint={b.tint && b.tint !== 'none'} role="button" tabindex="0" aria-disabled={editing}
+        <div class="cell {b.type}" class:acc={!!b.tint && b.tint !== 'none'} class:tint={b.tint && b.tint !== 'none'} role="button" tabindex="0" aria-disabled={editing}
           style:--cc={counter?.color} style:--bc={b.tint !== 'none' ? b.tint : undefined}
           onclick={() => open(b)} onkeydown={(e) => { if (e.key === 'Enter' && e.target === e.currentTarget) open(b); }}>
 
@@ -299,51 +307,61 @@
             </div>
 
           {:else if b.type === 'github'}
-            <GithubCard disabled={editing} look={b.tint === 'none' ? 'plain' : b.tint ? 'tint' : 'dark'} />
+            <GithubCard disabled={editing} look={!b.tint || b.tint === 'none' ? 'plain' : 'tint'} />
 
           {:else if b.type === 'leetcode'}
             <LeetcodeCard disabled={editing} index={i} />
 
           {:else if b.type === 'score'}
             <div class="sc">
-              <svg class="rings" viewBox="0 0 140 140" aria-hidden="true">
-                {#each scoreParts as part, k}
-                  <circle class="trk" cx="70" cy="70" r={RINGS[k]} />
-                  <circle class="arc" cx="70" cy="70" r={RINGS[k]} stroke={part.color} stroke-dasharray="{2 * Math.PI * RINGS[k] * part.r} 1000" />
-                {/each}
-              </svg>
-              <div class="sc-body">
-                {@render head('check', store.t('dayScore'))}
-                <span class="read"><Digits class="big" text={String(score)} delay={i * 90} /></span>
-                <span class="meta">{store.t(scoreState)}</span>
-                <ul class="sc-parts">
-                  {#each scoreParts as part}<li style:--c={part.color}><span>{part.label}</span><b>{part.text}</b></li>{/each}
-                </ul>
+              {@render head('check', store.t('dayScore'))}
+              <span class="read"><Digits class="big" text={String(score)} delay={i * 90} /></span>
+              <span class="meta">{store.t(scoreState)}</span>
+              <div class="scale" aria-hidden="true">
+                <div class="scale-bar">{#each SCALE as c}<i style:background={c}></i>{/each}<b style:left="{score}%"></b></div>
+                <div class="scale-lbl"><span>0</span><span>25</span><span>50</span><span>75</span></div>
               </div>
             </div>
 
           {:else if b.type === 'productivity'}
             <div class="pr">
-              <div class="pr-info">
-                {@render head('check', store.t('bProd'))}
-                <span class="read"><Digits class="big" text={String(prod.sum)} delay={i * 90} /><em>{store.t('prodDone')}</em></span>
-                <span class="meta">{store.t('prodAvg')(String(prod.avg))}</span>
-              </div>
-              <div class="bars" class:many={prodDays.length > 7} aria-hidden="true">
-                {#each prod.series as n, k}
-                  <span class="bar" class:cur={prodDays[k] === store.today}>
-                    <b class="track"><i style:height="{Math.max(6, (n / prod.max) * 100)}%"></i></b>
-                    {#if prodDays.length <= 7}<small>{dow(prodDays[k])}</small>{/if}
-                  </span>
-                {/each}
+              {@render head('check', store.t('bProd'))}
+              <span class="sub">{store.t('prodSub')(prodDays.length)}</span>
+              <div class="chart" aria-hidden="true">
+                <div class="yl"><span>100%</span><span>50%</span><span>0%</span></div>
+                <div class="plot">
+                  <svg viewBox="0 0 {W} {H}" preserveAspectRatio="none">
+                    <defs><linearGradient id="prg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".22" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></linearGradient></defs>
+                    <path class="grid" d="M0 0H{W}M0 {H / 2}H{W}M0 {H}H{W}" />
+                    <path class="area" d={prodArea} fill="url(#prg)" />
+                    <path class="ln" d={prodLine} />
+                  </svg>
+                  {#if prodPts.length}<i class="dot" style:left="{(prodPts[prodPts.length - 1][0] / W) * 100}%" style:top="{prodPts[prodPts.length - 1][1]}%"></i>{/if}
+                </div>
               </div>
             </div>
+
+          {:else if b.type === 'goal'}
+            {@render head('flag', store.t('bGoal'))}
+            {#if goal.title}
+              <span class="goal-t">{goal.title}</span>
+              <span class="sub">{goal.due ? `${store.t('until')} ${goalDue} · ${store.t('daysLeft')(goalDays ?? 0)}` : ''}</span>
+              <div class="gp"><span class="gbar"><i style:width="{goal.pct}%"></i></span><b>{goal.pct}%</b></div>
+            {:else}
+              <span class="goal-t dim">{store.t('goalEmpty')}</span>
+            {/if}
 
           {:else if b.type === 'finance'}
             {@render head('wallet', store.t('fSpent'))}
             <span class="read"><Digits class="big" text={fmtMoney(money.spent, store.lang)} delay={i * 90} /><em>{store.t('fCurrency')}</em></span>
-            {#if s.budget > 0}{@render bar(lit(ratio(money.spent, s.budget)))}{/if}
-            <span class="meta">{s.budget > 0 ? `${budgetLeft >= 0 ? store.t('fLeft') : store.t('fOver')}: ${cash(Math.abs(budgetLeft))}` : `${store.t('fEarned')}: ${cash(money.earned)}`}</span>
+            <div class="duo">
+              {#if s.budget > 0}
+                <span><small>{store.t('limitLbl')}</small><b>{cash(s.budget)}</b></span>
+                <span class="end"><small>{budgetLeft >= 0 ? store.t('fLeft') : store.t('fOver')}</small><b>{cash(Math.abs(budgetLeft))}</b></span>
+              {:else}
+                <span><small>{store.t('fEarned')}</small><b>{cash(money.earned)}</b></span>
+              {/if}
+            </div>
 
           {:else if b.type === 'habits'}
             {@render head('habit', store.t('bHabits'))}
@@ -360,7 +378,12 @@
           {:else if b.type === 'focus'}
             {@render head('focus', store.t('bFocus'))}
             {@render value(tile.focus.big, tile.focus.unit, i * 90)}
-            <span class="meta">{tile.focus.meta}</span>
+            {#if period === 'today'}
+              <div class="duo">
+                <span><small>{store.t('setsLbl')}</small><b>{todayFocus.count}</b></span>
+                <span class="end"><small>{store.t('goalLbl')}</small><b>{focusGoalHm.big} {focusGoalHm.unit}</b></span>
+              </div>
+            {:else}<span class="meta">{tile.focus.meta}</span>{/if}
 
           {:else if b.type === 'streak'}
             {@render head('flame', store.t('bStreak'))}
@@ -446,6 +469,17 @@
   </Sheet>
 {/if}
 
+{#if goalOpen}
+  <Sheet title={store.t('bGoal')} onclose={() => (goalOpen = false)}>
+    <form method="dialog" onsubmit={saveGoal}>
+      <label class="field"><span>{store.t('goalLbl')}</span><input type="text" maxlength="120" bind:value={goalDraft.title} placeholder={store.t('goalPh')} /></label>
+      <label class="field"><span>{store.t('goalDue')}</span><input type="date" bind:value={goalDraft.due} /></label>
+      <label class="field"><span>{store.t('goalPct')}: {goalDraft.pct}%</span><input type="range" min="0" max="100" step="1" bind:value={goalDraft.pct} /></label>
+      <div class="row-btns single"><button class="solid-btn" value="save">{store.t('save')}</button></div>
+    </form>
+  </Sheet>
+{/if}
+
 {#if detail}<StatSheet block={detail} onclose={() => (detail = null)} />{/if}
 {#if profile}<ProfileSheet onclose={() => (profile = false)} />{/if}
 
@@ -460,9 +494,9 @@
   .greet:hover .page-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--line); }
 
   /* Period tabs; the layout switch sits quietly at the end of the row */
-  .edit-btn { margin: 0 0 0 auto; padding: 0 0 10px; font-size: 15px; font-weight: 500; line-height: inherit; color: var(--muted); opacity: .8; transition: color 150ms ease, opacity 150ms ease; }
-  .edit-btn:hover, .edit-btn.on { color: var(--ink); opacity: 1; }
-  .edit-btn.on { font-weight: 600; }
+  .tabs .edit-btn { margin: 0 0 8px auto; padding: 5px 13px; border-radius: 99px; font-size: 13px; font-weight: 500; line-height: 1.3; color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); transition: background-color 150ms ease; }
+  .tabs .edit-btn:hover, .tabs .edit-btn.on { background: color-mix(in srgb, var(--ink) 13%, transparent); }
+  .tabs .edit-btn.on { font-weight: 600; }
   /* Period tabs */
   .tabs { display: flex; align-items: flex-end; gap: 22px; margin-top: 18px; border-bottom: 1px solid var(--line); }
   .tabs button { position: relative; padding: 0 0 10px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 150ms ease; }
@@ -477,93 +511,79 @@
   }
   .blk { position: relative; min-width: 0; min-height: 0; }
 
-  /* Liquid glass: bright colour, see-through, with a specular sheen and rim. The page behind stays flat. */
+  /* Cards: quiet surfaces — white on light themes, a step lighter than the page on dark ones. */
   .cell {
-    --acc: transparent;
-    container-type: size; position: relative; isolation: isolate;
-    width: 100%; height: 100%; padding: 16px 18px;
+    container-type: size; position: relative;
+    width: 100%; height: 100%; padding: 14px 16px;
     display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; cursor: pointer; overflow: hidden;
-    background: var(--glass-fill); color: var(--t);
-    -webkit-backdrop-filter: blur(22px) saturate(1.7); backdrop-filter: blur(22px) saturate(1.7);
-    border-radius: 30px;
-    box-shadow: var(--glass-edge), 0 18px 34px -22px rgb(0 0 0 / 38%);
+    background: color-mix(in srgb, var(--bg) 30%, #fff); color: var(--t);
+    border-radius: 24px;
+    box-shadow: 0 0 0 1px var(--line), 0 12px 26px -20px rgb(0 0 0 / 30%);
     transition: box-shadow 150ms ease, transform 150ms var(--ease);
   }
-  /* Specular sheen across the top-left, like light on the pane's edge. */
-  .cell::before {
-    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
-    background: radial-gradient(120% 70% at 12% -10%, rgb(255 255 255 / 34%), transparent 60%), linear-gradient(0deg, rgb(255 255 255 / 0%) 60%, rgb(255 255 255 / 10%));
-  }
-  .cell:hover { box-shadow: var(--glass-edge), 0 20px 36px -22px rgb(0 0 0 / 46%); }
+  :global(:root[data-tone='dark']) .cell { background: color-mix(in srgb, var(--bg) 90%, #fff); }
+  .cell:hover { box-shadow: 0 0 0 1px var(--key-edge), 0 14px 28px -20px rgb(0 0 0 / 38%); }
   .cell:active { transform: scale(.992); }
-  /* Coloured glass: the card's colour tints a dark, see-through pane. */
-  .cell.acc {
-    --t: #fff; --td: rgb(255 255 255 / 82%); --tg: rgb(255 255 255 / 24%); color: #fff;
-    background: linear-gradient(155deg, color-mix(in srgb, var(--acc) 90%, transparent), color-mix(in srgb, var(--acc) 66%, rgb(0 0 0 / 40%)));
-    box-shadow: inset 0 0 0 .5px rgb(255 255 255 / 35%), inset 0 1.5px 1px rgb(255 255 255 / 55%), inset 0 -1px 2px rgb(255 255 255 / 18%), 0 20px 34px -22px rgb(0 0 0 / 55%);
-  }
-  .cell.acc.focus { --acc: #3b6bff; }
-  .cell.acc.streak { --acc: #ff8a3d; }
-  .cell.acc.tasks { --acc: #ec4d5e; }
-  .cell.acc.github { --acc: #3d4757; }
-  .cell.acc.next { --acc: #9d7cff; }
-  .cell.acc.finance { --acc: #ff6a7a; }
-  .cell.acc.habits { --acc: #3fd197; }
-  .cell.acc.health { --acc: #43b8ff; }
-  .cell.acc.score { --acc: #5a63f0; }
-  .cell.acc.productivity { --acc: #8f5cf2; }
-  .cell.acc.leetcode { --acc: #ffa116; }
-  .cell.acc.counter { --acc: var(--cc, #0090ff); }
-  .cell.acc.tint { --acc: var(--bc); }
+  /* A card the person painted keeps its colour. */
+  .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 16px 28px -20px rgb(0 0 0 / 50%); }
+  .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
 
-  /* No unlit LCD segments behind the figures on glass. */
+  /* No unlit LCD segments behind the figures. */
   .cell :global(.digits .ghost) { display: none; }
 
-  /* No icons: the title and the figure carry the card. */
-  .chip { display: none; }
-  .ttl { margin-top: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-  .read { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin-top: auto; }
-  .read :global(.big) { font-size: clamp(32px, min(19cqi, 34cqh), 62px); font-weight: 400; letter-spacing: -.05em; line-height: .95; }
+  /* A small round icon and a quiet caption, then the figure. */
+  .hd { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+  .chip { display: grid; place-items: center; flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: color-mix(in srgb, var(--t) 8%, transparent); color: var(--td); }
+  .chip :global(svg) { width: 15px; height: 15px; }
+  .ttl { font-size: 12.5px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .sub { font-size: 11.5px; color: var(--td); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .read { display: flex; align-items: baseline; gap: 6px; min-width: 0; margin-top: auto; }
+  .read :global(.big) { font-size: clamp(26px, min(14cqi, 30cqh), 40px); font-weight: 500; letter-spacing: -.04em; line-height: .95; }
   .read :global(.big.dim) { color: var(--td); }
-  .read em { font-style: normal; font-size: 15px; font-weight: 600; color: var(--td); white-space: nowrap; }
+  .read em { font-style: normal; font-size: 14px; font-weight: 600; color: var(--td); white-space: nowrap; }
   /* The line that matters (what is left, the state, the best run) sits in a bright pill. */
-  .cell.acc .meta { align-self: flex-start; padding: 3px 11px; border-radius: 99px; color: #fff; font-weight: 700; background: rgb(255 255 255 / 20%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%); }
-  .cell.acc .sc-body .meta { margin-top: 4px; }
-  .meta { font-size: 13px; font-weight: 600; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .meta { font-size: 12px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
   /* One continuous bar; the lit part is the progress. */
-  .segs { display: flex; width: 100%; height: 6px; margin: 6px 0 2px; border-radius: 99px; overflow: hidden; background: var(--tg); }
-  .segs i { flex: 1; background: transparent; transition: background-color 300ms ease; }
+  .segs { display: flex; gap: 3px; width: 100%; height: 4px; margin: 4px 0 2px; }
+  .segs i { flex: 1; border-radius: 99px; background: var(--tg); transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
 
-  /* Productivity: the figure on the left, a bar per day on the right */
-  .pr { display: flex; align-items: stretch; gap: 16px; width: 100%; height: 100%; min-height: 0; }
-  .pr-info { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; flex: 0 1 44%; }
-  .bars { flex: 1; min-width: 0; display: flex; align-items: stretch; gap: 5px; }
-  .bars.many { gap: 2px; }
-  .bar { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; }
-  .bar i { display: block; width: 100%; max-width: 22px; min-height: 0; border-radius: 99px; background: rgb(255 255 255 / 34%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%); transition: height 500ms var(--ease); }
-  .bar.cur i { background: #fff; }
-  .bar small { font: 600 10px var(--mono); color: var(--td); }
-  .bars .bar { height: 100%; }
-  .bar i { display: block; }
-  .track { flex: 1; min-height: 0; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
-  @container (max-width: 300px) { .pr-info { flex-basis: 40%; } .bars { gap: 3px; } }
+  /* Day score: figure, state and a four-step scale with a marker */
+  .sc { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; height: 100%; min-height: 0; }
+  .scale { width: 100%; margin-top: 8px; }
+  .scale-bar { position: relative; display: flex; gap: 4px; height: 8px; }
+  .scale-bar i { flex: 1; border-radius: 99px; }
+  .scale-bar b { position: absolute; top: -7px; width: 0; height: 0; margin-left: -4px; border-inline: 4px solid transparent; border-top: 5px solid var(--t); }
+  .scale-lbl { display: flex; margin-top: 4px; }
+  .scale-lbl span { flex: 1; font: 500 10px var(--mono); color: var(--td); }
+  @container (max-height: 120px) { .scale { display: none; } }
 
-  /* Day score: nested rings, the number and (when wide) what it is made of */
-  .sc { display: flex; align-items: center; gap: 16px; width: 100%; height: 100%; min-height: 0; }
-  .rings { flex: 0 0 auto; --rs: clamp(56px, min(44cqw, 100cqh - 32px), 150px); width: var(--rs); height: var(--rs); transform: rotate(-90deg); }
-  .rings circle { fill: none; stroke-width: 8; stroke-linecap: round; }
-  .rings .trk { stroke: rgb(255 255 255 / 16%); }
-  .rings .arc { transition: stroke-dasharray 700ms var(--ease); }
-  .sc-body { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; flex: 1; }
-  .sc-body .ttl { margin: 0; }
-  .sc-body .read { margin-top: 0; }
-  .sc-parts { display: none; list-style: none; margin: 6px 0 0; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; }
-  .sc-parts li { display: flex; align-items: center; gap: 7px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--td); }
-  .sc-parts li::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: 0 0 auto; }
-  .sc-parts b { margin-left: auto; padding-left: 6px; font: 500 12px var(--mono); color: var(--t); }
-  @container (min-width: 380px) and (min-height: 128px) { .sc-parts { display: grid; } }
+  /* Productivity: a line over the last two weeks */
+  .pr { display: flex; flex-direction: column; gap: 2px; width: 100%; height: 100%; min-height: 0; color: var(--t); }
+  .chart { flex: 1; min-height: 0; display: flex; gap: 8px; margin-top: 6px; }
+  .yl { display: flex; flex-direction: column; justify-content: space-between; font: 500 9.5px var(--mono); color: var(--td); }
+  .plot { position: relative; flex: 1; min-width: 0; }
+  .plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .plot .grid { stroke: var(--tg); stroke-width: 1; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; fill: none; }
+  .plot .ln { fill: none; stroke: var(--t); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .plot .area { stroke: none; }
+  .plot .dot { position: absolute; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--t); box-shadow: 0 0 0 3px color-mix(in srgb, var(--t) 18%, transparent); }
+
+  /* Goal */
+  .goal-t { font-size: 15px; font-weight: 600; line-height: 1.25; margin-top: 4px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+  .goal-t.dim { color: var(--td); font-weight: 500; font-size: 13px; }
+  .gp { display: flex; align-items: center; gap: 8px; width: 100%; margin-top: auto; }
+  .gbar { flex: 1; height: 4px; border-radius: 99px; background: var(--tg); overflow: hidden; }
+  .gbar i { display: block; height: 100%; border-radius: inherit; background: var(--t); }
+  .gp b { font: 600 11px var(--mono); color: var(--td); }
+
+  /* Two small figures along the bottom: label above, value below */
+  .duo { display: flex; justify-content: space-between; gap: 10px; width: 100%; margin-top: 6px; }
+  .duo span { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .duo .end { align-items: flex-end; }
+  .duo small { font-size: 10.5px; color: var(--td); }
+  .duo b { font-size: 13px; font-weight: 600; color: var(--t); white-space: nowrap; }
 
   /* Up next: time and title, plus the day strip when there is room */
   .nxt { align-items: flex-end; gap: 14px; width: 100%; }
@@ -599,7 +619,6 @@
   .ck .ring { fill: none; stroke: currentColor; stroke-width: 2.2; }
   .ck .fill { fill: currentColor; }
   .ck .tick { fill: none; stroke: var(--ck, var(--bg)); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-  .cell.tasks { --ck: #5a1f2a; }
   .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 12.5px; font-weight: 600; color: var(--td); font-variant-numeric: tabular-nums; }
@@ -612,7 +631,7 @@
 
   /* Narrow cards show the reading only */
   @container (max-width: 150px) { .meta { display: none; } }
-  @container (max-height: 84px) { .ttl, .meta, .segs { display: none; } }
+  @container (max-height: 84px) { .meta, .segs, .duo { display: none; } }
 
   /* Edit mode */
   .edit-hint { margin: 10px 2px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
