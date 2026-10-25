@@ -151,6 +151,8 @@ static class Program
             // Google refuses sign-in from a user agent that says it is embedded.
             s.UserAgent = s.UserAgent.Replace(" WebView2", "");
             web.CoreWebView2.NewWindowRequested += OnNewWindow;
+            // Always load the latest page: drop the HTTP cache (sign-in and tasks live in other stores).
+            await web.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DiskCache | CoreWebView2BrowsingDataKinds.CacheStorage);
             web.Source = new Uri(url);
         }
 
