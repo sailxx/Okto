@@ -86,6 +86,16 @@
   const budgetLeft = $derived(s.budget - money.spent);
   const cash = (n: number) => `${fmtMoney(n, store.lang)} ${store.t('fCurrency')}`;
 
+  /* ---------- productivity: finished things per day (tasks, habits, focus sessions) ---------- */
+  const prodDays = $derived(lastDays(period === 'total' ? 30 : 7, store.today));
+  const prod = $derived.by(() => {
+    const byDay = activityByDay(store.tasks, store.sessions);
+    const series = prodDays.map((d) => (byDay.get(d) ?? 0) + store.habits.filter((h) => h.doneDates.includes(d)).length);
+    const sum = series.reduce((a, n) => a + n, 0);
+    return { series, sum, max: Math.max(1, ...series), avg: Math.round((sum / series.length) * 10) / 10 };
+  });
+  const dow = (k: string) => new Intl.DateTimeFormat(store.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'narrow' }).format(new Date(`${k}T12:00:00`));
+
   /* ---------- day score ---------- */
   const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: habitsTotal, water: health.water, waterGoal: s.waterGoal }));
   const scoreState = $derived((score < 25 ? 'dayS0' : score < 50 ? 'dayS1' : score < 75 ? 'dayS2' : 'dayS3') as 'dayS0' | 'dayS1' | 'dayS2' | 'dayS3');
@@ -99,7 +109,7 @@
   ]);
 
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore' | 'bProd'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -125,14 +135,14 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['score', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['score', 'productivity', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
   function open(b: Block) {
     if (editing) return;
     if (b.type === 'next') { router.go('calendar'); return; }
-    if (b.type === 'score') return;
+    if (b.type === 'score' || b.type === 'productivity') return;
     if (b.type === 'habits' || b.type === 'health' || b.type === 'finance') { router.go(b.type); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
     if (b.type === 'leetcode') {
@@ -145,7 +155,7 @@
   }
 
   /* ---------- grid: columns follow the available width ---------- */
-  const ROW = 80, GAP = 14;
+  const ROW = 64, GAP = 10;
   let gridEl = $state<HTMLDivElement>();
   let cols = $state(2);
   $effect(() => {
@@ -309,6 +319,23 @@
                 <ul class="sc-parts">
                   {#each scoreParts as part}<li style:--c={part.color}><span>{part.label}</span><b>{part.text}</b></li>{/each}
                 </ul>
+              </div>
+            </div>
+
+          {:else if b.type === 'productivity'}
+            <div class="pr">
+              <div class="pr-info">
+                {@render head('check', store.t('bProd'))}
+                <span class="read"><Digits class="big" text={String(prod.sum)} delay={i * 90} /><em>{store.t('prodDone')}</em></span>
+                <span class="meta">{store.t('prodAvg')(String(prod.avg))}</span>
+              </div>
+              <div class="bars" class:many={prodDays.length > 7} aria-hidden="true">
+                {#each prod.series as n, k}
+                  <span class="bar" class:cur={prodDays[k] === store.today}>
+                    <b class="track"><i style:height="{Math.max(6, (n / prod.max) * 100)}%"></i></b>
+                    {#if prodDays.length <= 7}<small>{dow(prodDays[k])}</small>{/if}
+                  </span>
+                {/each}
               </div>
             </div>
 
@@ -484,6 +511,7 @@
   .cell.acc.habits { --acc: #3fd197; }
   .cell.acc.health { --acc: #43b8ff; }
   .cell.acc.score { --acc: #5a63f0; }
+  .cell.acc.productivity { --acc: #8f5cf2; }
   .cell.acc.leetcode { --acc: #ffa116; }
   .cell.acc.counter { --acc: var(--cc, #0090ff); }
   .cell.acc.tint { --acc: var(--bc); }
@@ -507,6 +535,20 @@
   .segs { display: flex; width: 100%; height: 6px; margin: 6px 0 2px; border-radius: 99px; overflow: hidden; background: var(--tg); }
   .segs i { flex: 1; background: transparent; transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
+
+  /* Productivity: the figure on the left, a bar per day on the right */
+  .pr { display: flex; align-items: stretch; gap: 16px; width: 100%; height: 100%; min-height: 0; }
+  .pr-info { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; flex: 0 1 44%; }
+  .bars { flex: 1; min-width: 0; display: flex; align-items: stretch; gap: 5px; }
+  .bars.many { gap: 2px; }
+  .bar { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; }
+  .bar i { display: block; width: 100%; max-width: 22px; min-height: 0; border-radius: 99px; background: rgb(255 255 255 / 34%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%); transition: height 500ms var(--ease); }
+  .bar.cur i { background: #fff; }
+  .bar small { font: 600 10px var(--mono); color: var(--td); }
+  .bars .bar { height: 100%; }
+  .bar i { display: block; }
+  .track { flex: 1; min-height: 0; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+  @container (max-width: 300px) { .pr-info { flex-basis: 40%; } .bars { gap: 3px; } }
 
   /* Day score: nested rings, the number and (when wide) what it is made of */
   .sc { display: flex; align-items: center; gap: 16px; width: 100%; height: 100%; min-height: 0; }
@@ -570,7 +612,7 @@
 
   /* Narrow cards show the reading only */
   @container (max-width: 150px) { .meta { display: none; } }
-  @container (max-height: 120px) { .ttl, .meta, .segs { display: none; } }
+  @container (max-height: 84px) { .ttl, .meta, .segs { display: none; } }
 
   /* Edit mode */
   .edit-hint { margin: 10px 2px 0; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
