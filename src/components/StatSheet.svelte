@@ -28,7 +28,7 @@
   let sel = $state<string | null>(null);
   const title = $derived(
     block.type === 'counter' ? counter?.name || store.t('counter')
-      : store.t(({ tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd', goal: 'bGoal' } as const)[block.type]),
+      : store.t(({ tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd', goal: 'bGoal', leetstats: 'bLeetStats' } as const)[block.type]),
   );
   const target = $derived<Route>(block.type === 'focus' || block.type === 'counter' ? 'focus' : block.type === 'next' ? 'calendar' : 'tasks');
 

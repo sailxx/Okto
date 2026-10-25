@@ -6,6 +6,7 @@
   import Digits from '../components/Digits.svelte';
   import GithubCard from '../components/GithubCard.svelte';
   import LeetcodeCard from '../components/LeetcodeCard.svelte';
+  import LeetStatsCard from '../components/LeetStatsCard.svelte';
   import { store } from '../lib/store.svelte';
   import { router } from '../lib/router.svelte';
   import { addDays, minutesNow, toMin } from '../lib/date';
@@ -117,7 +118,7 @@
   const scoreState = $derived((score < 25 ? 'dayS0' : score < 50 ? 'dayS1' : score < 75 ? 'dayS2' : 'dayS3') as 'dayS0' | 'dayS1' | 'dayS2' | 'dayS3');
   const SCALE = ['#f3b4bd', '#dcdce1', '#b9cbf5', '#a9e0c4'];
   const keyOf = (b: Block) => (b.type === 'counter' ? `counter:${b.counterId}` : b.type);
-  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore' | 'bProd' | 'bGoal'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd', goal: 'bGoal' };
+  const LABEL: Record<Exclude<BlockType, 'counter'>, 'bTasks' | 'bFocus' | 'bStreak' | 'bNext' | 'bGithub' | 'bLeetcode' | 'bHabits' | 'bHealth' | 'bFinance' | 'dayScore' | 'bProd' | 'bGoal' | 'bLeetStats'> = { tasks: 'bTasks', focus: 'bFocus', streak: 'bStreak', next: 'bNext', github: 'bGithub', leetcode: 'bLeetcode', habits: 'bHabits', health: 'bHealth', finance: 'bFinance', score: 'dayScore', productivity: 'bProd', goal: 'bGoal', leetstats: 'bLeetStats' };
 
   // Cards of switched-off sections keep their place, so they come back when the section does.
   function setBlocks(list: Block[]) {
@@ -143,7 +144,7 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode', 'leetstats'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
@@ -153,6 +154,7 @@
     if (b.type === 'score' || b.type === 'productivity') return;
     if (b.type === 'goal') { openGoal(); return; }
     if (b.type === 'habits' || b.type === 'health' || b.type === 'finance') { router.go(b.type); return; }
+    if (b.type === 'leetstats') { if (s.leetcodeUser) window.open(`https://leetcode.com/u/${s.leetcodeUser}`, '_blank', 'noopener'); return; }
     if (b.type === 'github') { if (s.github) window.open(`https://github.com/${s.github}`, '_blank', 'noopener'); return; }
     if (b.type === 'leetcode') {
       const cur = currentProblem(leetcodeTasks(store.tasks));
@@ -308,6 +310,9 @@
 
           {:else if b.type === 'github'}
             <GithubCard disabled={editing} look={!b.tint || b.tint === 'none' ? 'plain' : 'tint'} />
+
+          {:else if b.type === 'leetstats'}
+            <LeetStatsCard disabled={editing} />
 
           {:else if b.type === 'leetcode'}
             <LeetcodeCard disabled={editing} index={i} />
