@@ -322,15 +322,10 @@ console.log(Object.keys(strings).length + " языков, " + fs.readdirSync(out
 renderPngs();
 
 // ── README на всех языках из одного шаблона (tools/readme/md.json) ──
-const langs = Object.keys(md);
+const langs = ["en"];
 for (const lang of langs) {
   const m = md[lang];
-  const sw = langs.map((l) => (l === lang ? `**${md[l].name}**` : `[${md[l].name}](${md[l].file})`)).join(" · ");
   const text = `<div align="center">
-
-${sw}
-
-<br>
 
 <picture><source srcset="assets/readme/hero-${lang}.svg"><img src="assets/readme/png/hero-${lang}.png" width="100%" alt="${m.alt[0]}"></picture>
 
@@ -383,6 +378,6 @@ ${m.h1}
 
 ${m.lic}
 `;
-  fs.writeFileSync(m.file, text);
+  fs.writeFileSync("README.md", text);
 }
-console.log("README: " + langs.map((l) => md[l].file).join(", "));
+console.log("README: README.md");
