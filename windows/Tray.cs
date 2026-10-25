@@ -123,12 +123,14 @@ static class Program
         // Windows 11: acrylic backdrop, rounded corners, system light/dark.
         void ApplyMica()
         {
-            int light = 1;
+            int light = 1, glass = 1;
             using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
-                if (k != null) light = Convert.ToInt32(k.GetValue("AppsUseLightTheme", 1));
+                if (k != null) { light = Convert.ToInt32(k.GetValue("AppsUseLightTheme", 1)); glass = Convert.ToInt32(k.GetValue("EnableTransparency", 1)); }
             int dark = light == 0 ? 1 : 0, round = 2, backdrop = 3;
             DwmSetWindowAttribute(Handle, 20, ref dark, 4);
             DwmSetWindowAttribute(Handle, 33, ref round, 4);
+            // With Windows transparency effects off the backdrop is a flat grey: paint our own solid colour instead.
+            if (glass == 0) { BackColor = light == 0 ? Color.FromArgb(32, 32, 32) : Color.FromArgb(243, 243, 243); return; }
             DwmSetWindowAttribute(Handle, 38, ref backdrop, 4);
             var m = new int[] { -1, -1, -1, -1 };
             DwmExtendFrameIntoClientArea(Handle, ref m);
