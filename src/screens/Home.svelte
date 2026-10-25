@@ -13,7 +13,7 @@
   import { activityByDay, bestStreak, dayFocus, dayTaskStats, dayTasks, doneOnDay, lastDays, nextUp, streak, totalDone } from '../lib/stats';
   import { isDoneOn } from '../lib/recurrence';
   import { currentProblem, leetcodeTasks, problemUrl } from '../lib/leetcode';
-  import { dayScore, fmtMoney, monthTotals, ratio } from '../lib/life';
+  import { dayScore, fmtMoney, habitsOn, monthTotals, ratio } from '../lib/life';
   import { blockSize, COLORS, DEFAULT_DASHBOARD, GRID_MAX_H, GRID_PHONE_W, isPhoneGrid, phoneDefault, PRIORITY_COLORS, type Block, type BlockType } from '../lib/model';
 
   let editing = $state(false);
@@ -78,21 +78,23 @@
   });
 
   /* ---------- habits, health, finance ---------- */
-  const habitsDone = $derived(store.habits.filter((h) => h.doneDates.includes(store.today)).length);
+  const habitsToday = $derived(habitsOn(store.habits, store.today));
+  const habitsDone = $derived(habitsToday.filter((x) => x.done).length);
+  const habitsTotal = $derived(habitsToday.length);
   const health = $derived(store.healthOf(store.today));
   const money = $derived(monthTotals(store.money, store.today));
   const budgetLeft = $derived(s.budget - money.spent);
   const cash = (n: number) => `${fmtMoney(n, store.lang)} ${store.t('fCurrency')}`;
 
   /* ---------- day score ---------- */
-  const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: store.habits.length, water: health.water, waterGoal: s.waterGoal }));
+  const score = $derived(dayScore({ tasksDone: tasks.done, tasksTotal: tasks.total, focusMin: todayFocus.minutes, habitsDone, habitsTotal: habitsTotal, water: health.water, waterGoal: s.waterGoal }));
   const scoreState = $derived((score < 25 ? 'dayS0' : score < 50 ? 'dayS1' : score < 75 ? 'dayS2' : 'dayS3') as 'dayS0' | 'dayS1' | 'dayS2' | 'dayS3');
   const RINGS = [64, 52, 40, 28];
   const COLORS4 = ['#ff7a8a', '#ffc060', '#56b8ff', '#4fe0a8'];
   const scoreParts = $derived([
     { label: store.t('bTasks'), text: tasks.total ? `${tasks.done}/${tasks.total}` : '—', r: ratio(tasks.done, tasks.total), color: COLORS4[0] },
     { label: store.t('bFocus'), text: `${hm(todayFocus.minutes).big} ${hm(todayFocus.minutes).unit}`, r: ratio(todayFocus.minutes, 60), color: COLORS4[1] },
-    { label: store.t('bHabits'), text: store.habits.length ? `${habitsDone}/${store.habits.length}` : '—', r: ratio(habitsDone, store.habits.length), color: COLORS4[2] },
+    { label: store.t('bHabits'), text: habitsTotal ? `${habitsDone}/${habitsTotal}` : '—', r: ratio(habitsDone, habitsTotal), color: COLORS4[2] },
     { label: store.t('hWater'), text: `${health.water}/${s.waterGoal}`, r: ratio(health.water, s.waterGoal), color: COLORS4[3] },
   ]);
 
@@ -318,9 +320,9 @@
 
           {:else if b.type === 'habits'}
             {@render head('habit', store.t('bHabits'))}
-            <span class="read"><Digits class="big" text={`${habitsDone}/${store.habits.length}`} delay={i * 90} /></span>
-            {@render bar(lit(ratio(habitsDone, store.habits.length)))}
-            <span class="meta">{store.habits.length ? store.t('habitsOf')(habitsDone, store.habits.length) : store.t('habitNone')}</span>
+            <span class="read"><Digits class="big" text={`${habitsDone}/${habitsTotal}`} delay={i * 90} /></span>
+            {@render bar(lit(ratio(habitsDone, habitsTotal)))}
+            <span class="meta">{habitsTotal ? store.t('habitsOf')(habitsDone, habitsTotal) : store.t('habitNone')}</span>
 
           {:else if b.type === 'health'}
             {@render head('drop', store.t('hWater'))}
@@ -422,8 +424,9 @@
 
 <style>
   .home { width: min(100% - 32px, 1560px); }
+  .home :global(.page-head) { margin-top: 0; }
   .hello { min-width: 0; }
-  .greet-sub { margin: 4px 0 0; font-size: clamp(18px, 4.6vw, 22px); font-weight: 500; letter-spacing: -.015em; color: var(--muted); opacity: .75; }
+  .greet-sub { margin: 2px 0 0; font-size: clamp(18px, 4.6vw, 22px); font-weight: 500; letter-spacing: -.015em; color: var(--muted); opacity: .75; }
 
   .greet { display: block; max-width: 100%; text-align: left; border-radius: 8px; }
   .greet .page-title { overflow-wrap: anywhere; font-size: clamp(24px, 6vw, 30px); font-weight: 650; letter-spacing: -.025em; }
@@ -447,32 +450,43 @@
   }
   .blk { position: relative; min-width: 0; min-height: 0; }
 
+  /* Liquid glass: bright colour, see-through, with a specular sheen and rim. The page behind stays flat. */
   .cell {
-    container-type: size; position: relative;
+    --acc: transparent;
+    container-type: size; position: relative; isolation: isolate;
     width: 100%; height: 100%; padding: 16px 18px;
     display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; cursor: pointer; overflow: hidden;
-    background: color-mix(in srgb, var(--soft) 78%, var(--bg)); color: var(--t);
-    border-radius: 28px;
-    box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
+    background: var(--glass-fill); color: var(--t);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7); backdrop-filter: blur(22px) saturate(1.7);
+    border-radius: 30px;
+    box-shadow: var(--glass-edge), 0 18px 34px -22px rgb(0 0 0 / 38%);
     transition: box-shadow 150ms ease, transform 150ms var(--ease);
   }
-  .cell:hover { box-shadow: inset 0 0 0 1px var(--key-edge), 0 1px 2px rgb(0 0 0 / 4%), 0 20px 36px -24px rgb(0 0 0 / 40%); }
+  /* Specular sheen across the top-left, like light on the pane's edge. */
+  .cell::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(120% 70% at 12% -10%, rgb(255 255 255 / 34%), transparent 60%), linear-gradient(0deg, rgb(255 255 255 / 0%) 60%, rgb(255 255 255 / 10%));
+  }
+  .cell:hover { box-shadow: var(--glass-edge), 0 20px 36px -22px rgb(0 0 0 / 46%); }
   .cell:active { transform: scale(.992); }
-  /* Coloured cards: Focus takes the theme colour, Streak is warm, a counter brings its own. */
-  .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 20px 34px -22px rgb(0 0 0 / 50%); }
-  .cell.acc.focus { background: linear-gradient(150deg, #3b6bff, #2a38c8); }
-  .cell.acc.streak { background: linear-gradient(150deg, #ffa24a, #ee5a3a); }
-  .cell.acc.tasks { background: linear-gradient(150deg, #ec4d5e, #a3283a); }
-  .cell.acc.github { background: #0d1117; color: #fff; --t: #fff; --td: rgb(255 255 255 / 70%); --tg: rgb(255 255 255 / 14%); }
-  .cell.acc.next { background: linear-gradient(150deg, #9d7cff, #5a63f0); }
-  .cell.acc.finance { background: linear-gradient(150deg, #ff8a7a, #d63f58); }
-  .cell.acc.habits { background: linear-gradient(150deg, #4fd49a, #1f9d78); }
-  .cell.acc.health { background: linear-gradient(150deg, #43b8ff, #2670f0); }
-  .cell.acc.score { background: linear-gradient(150deg, #2c3070, #181a34); }
-  .cell.acc.leetcode { background: linear-gradient(150deg, #ffa116, #f76b15); }
-  .cell.acc.counter { background: linear-gradient(150deg, var(--cc, #0090ff), color-mix(in srgb, var(--cc, #0090ff) 62%, #000)); }
-  .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
-  .cell.acc.tint, .cell.acc.tint.focus { color: #fff; --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); }
+  /* Coloured glass: the card's colour tints a dark, see-through pane. */
+  .cell.acc {
+    --t: #fff; --td: rgb(255 255 255 / 82%); --tg: rgb(255 255 255 / 24%); color: #fff;
+    background: linear-gradient(155deg, color-mix(in srgb, var(--acc) 90%, transparent), color-mix(in srgb, var(--acc) 66%, rgb(0 0 0 / 40%)));
+    box-shadow: inset 0 0 0 .5px rgb(255 255 255 / 35%), inset 0 1.5px 1px rgb(255 255 255 / 55%), inset 0 -1px 2px rgb(255 255 255 / 18%), 0 20px 34px -22px rgb(0 0 0 / 55%);
+  }
+  .cell.acc.focus { --acc: #3b6bff; }
+  .cell.acc.streak { --acc: #ff8a3d; }
+  .cell.acc.tasks { --acc: #ec4d5e; }
+  .cell.acc.github { --acc: #3d4757; }
+  .cell.acc.next { --acc: #9d7cff; }
+  .cell.acc.finance { --acc: #ff6a7a; }
+  .cell.acc.habits { --acc: #3fd197; }
+  .cell.acc.health { --acc: #43b8ff; }
+  .cell.acc.score { --acc: #5a63f0; }
+  .cell.acc.leetcode { --acc: #ffa116; }
+  .cell.acc.counter { --acc: var(--cc, #0090ff); }
+  .cell.acc.tint { --acc: var(--bc); }
 
   /* No icons: the title and the figure carry the card. */
   .chip { display: none; }
@@ -540,7 +554,7 @@
   .ck .ring { fill: none; stroke: currentColor; stroke-width: 2.2; }
   .ck .fill { fill: currentColor; }
   .ck .tick { fill: none; stroke: var(--ck, var(--bg)); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-  .cell.tasks { --ck: #b83245; }
+  .cell.tasks { --ck: #5a1f2a; }
   .tt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; padding: 8px 0; text-align: left; color: var(--t); }
   .tn { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tm { flex: 0 0 auto; font-size: 12.5px; font-weight: 600; color: var(--td); font-variant-numeric: tabular-nums; }

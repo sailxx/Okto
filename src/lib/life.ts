@@ -1,13 +1,21 @@
 import { addDays } from './date';
-import type { Habit, Money } from './model';
+import type { Money, Task } from './model';
+import { isDoneOn, occurrences } from './recurrence';
 
-/** Consecutive days a habit was done, ending today (or yesterday while today is still open). */
-export function habitStreak(h: Pick<Habit, 'doneDates'>, today: string): number {
-  const done = new Set(h.doneDates);
-  let day = done.has(today) ? today : addDays(today, -1);
+/** Scheduled occurrences in a row that were done, ending today (while today is still open it does not break the run). */
+export function habitStreak(h: Task, today: string): number {
+  const days = occurrences(h, addDays(today, -400), today).reverse();
   let n = 0;
-  while (done.has(day)) { n++; day = addDays(day, -1); }
+  for (const d of days) {
+    if (isDoneOn(h, d)) n++;
+    else if (d !== today) break;
+  }
   return n;
+}
+
+/** Habits scheduled on `day`, with whether each is done. */
+export function habitsOn(habits: Task[], day: string): { habit: Task; done: boolean }[] {
+  return habits.filter((h) => occurrences(h, day, day).length > 0).map((habit) => ({ habit, done: isDoneOn(habit, day) }));
 }
 
 export const monthOf = (key: string) => key.slice(0, 7);

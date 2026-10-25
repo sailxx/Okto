@@ -11,11 +11,14 @@
 
   type Group = { key: string; label: string; late?: boolean; items: Instance[]; showDate?: boolean };
 
+  /** Inside the Habits screen: no heading of its own. */
+  let { embedded = false }: { embedded?: boolean } = $props();
+
   let listEdit = $state<{ id: string | null } | null>(null);
   const filter = $derived(store.device.taskFilter);
   const setFilter = (f: string) => store.setDevice({ taskFilter: f });
   // Calls have their own section.
-  const all = $derived(store.tasks.filter((t) => t.kind !== 'call'));
+  const all = $derived(store.tasks.filter((t) => t.kind === 'task'));
   const stats = $derived(dayTaskStats(all, store.today));
 
   const byTime = (a: Instance, b: Instance) => {
@@ -82,14 +85,16 @@
   }
 </script>
 
-<div class="page wide">
-  <div class="page-head">
-    <div>
-      <h1 class="page-title">{store.t('tasks')}</h1>
-      <p class="page-sub">{store.t('todayOf')(stats.done, stats.total)}</p>
+<div class:page={!embedded} class:wide={!embedded}>
+  {#if !embedded}
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">{store.t('tasks')}</h1>
+        <p class="page-sub">{store.t('todayOf')(stats.done, stats.total)}</p>
+      </div>
+      <button type="button" class="add-task" onclick={() => store.openNewTask()}><Icon name="plus" size={18} /><span>{store.t('newTask')}</span></button>
     </div>
-    <button type="button" class="add-task" onclick={() => store.openNewTask()}><Icon name="plus" size={18} /><span>{store.t('newTask')}</span></button>
-  </div>
+  {/if}
 
   <div class="tags" role="listbox">
     {#each filters as [key, label]}

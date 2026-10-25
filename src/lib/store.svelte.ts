@@ -64,6 +64,7 @@ class Store {
       const d = this.data.settings.dashboard;
       this.updateSettings({ dashboard: d.some((b) => b.type === 'score') ? d : [{ type: 'score' }, ...d], scoreCard: true });
     }
+    this.adoptHabits();
     const counters = this.counters;
     if (!this.device.activeCounter || !counters.some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = counters[0]?.id ?? null;
     window.addEventListener('pagehide', () => this.flush());
@@ -73,7 +74,10 @@ class Store {
   lang = $derived(this.data.settings.lang);
   today = $derived(toKey(this.now));
   weekStart = $derived(weekStartOf(this.data.settings.lang));
-  tasks = $derived(live(this.data.tasks));
+  /** Every live task, habits and calls included — what the calendar shows. */
+  allTasks = $derived(live(this.data.tasks));
+  /** Tasks and calls; habits live in their own list. */
+  tasks = $derived(this.allTasks.filter((t) => t.kind !== 'habit'));
   // Untouched default lists follow the interface language.
   lists = $derived(live(this.data.lists).sort((a, b) => a.order - b.order).map((l) => {
     const def = l.updatedAt === 0 ? defaultLists(this.data.settings.lang).find((d) => d.id === l.id) : undefined;
@@ -85,7 +89,8 @@ class Store {
   /** Pinned first, then most recently edited. */
   notes = $derived(live(this.data.notes).sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt));
   counters = $derived(live(this.data.counters).sort((a, b) => a.order - b.order));
-  habits = $derived(live(this.data.habits).sort((a, b) => a.order - b.order || a.createdAt - b.createdAt));
+  /** Habits are repeating tasks of kind 'habit', oldest first. */
+  habits = $derived(this.allTasks.filter((t) => t.kind === 'habit').sort((a, b) => a.createdAt - b.createdAt));
   /** Newest first. */
   money = $derived(live(this.data.money).sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt));
   healthOf(date: string): HealthDay { const d = this.data.health[date]; return d && !d.deleted ? d : { id: date, water: 0, sleep: 0, weight: 0, updatedAt: 0, deleted: false }; }
@@ -137,6 +142,7 @@ class Store {
         if (!target[rec.id] || rec.updatedAt > target[rec.id].updatedAt) target[rec.id] = rec;
       }
       this.ensureBasics();
+      if (coll === 'habits') this.adoptHabits();
     }
     this.schedule();
   }
@@ -211,19 +217,24 @@ class Store {
   toggleNotePin(note: Note) { this.commit('notes', newNote({ ...$state.snapshot(this.data.notes[note.id]), pinned: !note.pinned })); }
 
   /* ---------- habits, health, money ---------- */
+  /** A new habit repeats every day from today until the person picks other days or a time. */
+  habitDraft(p: Partial<Task> = {}): Task {
+    return newTask({ listId: this.lists[0]?.id ?? '', kind: 'habit', date: this.today, repeat: { freq: 'day', interval: 1, until: null, days: [] }, ...p });
+  }
   addHabit(name: string, color: string) {
     const n = name.trim();
-    if (n) this.commit('habits', newHabit({ name: n, color, order: this.habits.length }));
+    if (n) this.commit('tasks', this.habitDraft({ title: n, color }));
   }
-  toggleHabit(h: Habit, date: string) {
-    const cur = $state.snapshot(this.data.habits[h.id] ?? h) as Habit;
-    const doneDates = cur.doneDates.includes(date) ? cur.doneDates.filter((d) => d !== date) : [...cur.doneDates, date];
-    this.commit('habits', newHabit({ ...cur, doneDates }));
-  }
-  deleteHabit(h: Habit) {
-    const before = $state.snapshot(this.data.habits[h.id] ?? h) as Habit;
-    this.commit('habits', newHabit({ ...before, deleted: true }));
-    this.toast(this.t('habitDeleted'), () => this.commit('habits', newHabit({ ...before })), this.t('undoAction'), 'trash');
+  openNewHabit() { this.editor = { task: this.habitDraft(), occurrence: null, isNew: true }; }
+  /** Habits from before they became tasks: each becomes a daily repeating task (same id on every device), the old record is retired. */
+  adoptHabits() {
+    for (const h of live(this.data.habits)) {
+      const id = `hb-${h.id}`;
+      if (!this.data.tasks[id]) {
+        this.commit('tasks', this.habitDraft({ id, title: h.name, color: h.color, date: toKey(new Date(h.createdAt)), doneDates: h.doneDates, createdAt: h.createdAt }));
+      }
+      this.commit('habits', newHabit({ ...$state.snapshot(h), deleted: true }));
+    }
   }
   setHealth(date: string, patch: Partial<Pick<HealthDay, 'water' | 'sleep' | 'weight'>>) {
     this.commit('health', newHealthDay({ ...$state.snapshot(this.healthOf(date)), ...patch, id: date, deleted: false }));

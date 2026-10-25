@@ -15,7 +15,7 @@
   let profile = $state(false);
   const s = $derived(store.data.settings);
   const themes = Object.entries(THEMES) as [Theme, [string, string]][];
-  const SECTION_LABEL: Record<OptionalSection, 'navCalls' | 'navNotes' | 'navHabits' | 'navHealth' | 'navFinance' | 'navFocus'> = { calls: 'navCalls', notes: 'navNotes', habits: 'navHabits', health: 'navHealth', finance: 'navFinance', focus: 'navFocus' };
+  const SECTION_LABEL: Record<OptionalSection, 'navCalls' | 'navNotes' | 'navHealth' | 'navFinance' | 'navFocus'> = { calls: 'navCalls', notes: 'navNotes', health: 'navHealth', finance: 'navFinance', focus: 'navFocus' };
   const vibrateSupported = 'vibrate' in navigator;
 
   let ghDraft = $state(store.data.settings.github);

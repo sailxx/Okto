@@ -12,13 +12,12 @@
 
   let { onSettings }: { onSettings: () => void } = $props();
 
-  const ALL: { route: Route; icon: string; label: 'navHome' | 'navTasks' | 'navCalls' | 'navCalendar' | 'navNotes' | 'navHabits' | 'navHealth' | 'navFinance' | 'navFocus' }[] = [
+  const ALL: { route: Route; icon: string; label: 'navHome' | 'navCalls' | 'navCalendar' | 'navNotes' | 'navHabits' | 'navHealth' | 'navFinance' | 'navFocus' }[] = [
     { route: 'home', icon: 'home', label: 'navHome' },
-    { route: 'tasks', icon: 'tasks', label: 'navTasks' },
+    { route: 'habits', icon: 'habit', label: 'navHabits' },
     { route: 'calls', icon: 'call', label: 'navCalls' },
     { route: 'calendar', icon: 'calendar', label: 'navCalendar' },
     { route: 'notes', icon: 'note', label: 'navNotes' },
-    { route: 'habits', icon: 'habit', label: 'navHabits' },
     { route: 'health', icon: 'heart', label: 'navHealth' },
     { route: 'finance', icon: 'wallet', label: 'navFinance' },
     { route: 'focus', icon: 'focus', label: 'navFocus' },

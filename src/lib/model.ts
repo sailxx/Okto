@@ -24,8 +24,8 @@ export interface Task {
   priority: 0 | 1 | 2 | 3;
   /** Own colour; null = the list's colour. */
   color: string | null;
-  /** A call lives in its own section and carries a meeting link. */
-  kind: 'task' | 'call';
+  /** A call lives in its own section and carries a meeting link; a habit is a repeating task kept in Habits. */
+  kind: 'task' | 'call' | 'habit';
   link: string;
   date: string | null;
   start: string | null;
@@ -92,8 +92,8 @@ export interface Settings {
   hiddenSections: OptionalSection[];
   updatedAt: number;
 }
-export type OptionalSection = 'calls' | 'notes' | 'habits' | 'health' | 'finance' | 'focus';
-export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'notes', 'habits', 'health', 'finance', 'focus'];
+export type OptionalSection = 'calls' | 'notes' | 'health' | 'finance' | 'focus';
+export const OPTIONAL_SECTIONS: OptionalSection[] = ['calls', 'notes', 'health', 'finance', 'focus'];
 export interface Data {
   tasks: Record<string, Task>;
   lists: Record<string, List>;
@@ -228,7 +228,7 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
     listId: str(r.listId, 40),
     priority: int(r.priority, 0, 3, 0) as Task['priority'],
     color: COLORS.includes(r.color) ? r.color : null,
-    kind: r.kind === 'call' ? 'call' : 'task',
+    kind: r.kind === 'call' ? 'call' : r.kind === 'habit' ? 'habit' : 'task',
     link: normLink(r.link),
     date: r.date === null ? null : isKey(r.date) ? r.date : null,
     start: isHm(r.start) ? r.start : null,

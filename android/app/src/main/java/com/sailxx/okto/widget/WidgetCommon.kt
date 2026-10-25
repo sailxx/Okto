@@ -62,6 +62,7 @@ suspend fun updateOktoWidgets(context: Context) = updateLock.withLock {
     refresh(app, NextTaskWidget(), NextTaskWidgetReceiver::class.java)
     refresh(app, QuickAddWidget(), QuickAddWidgetReceiver::class.java)
     refresh(app, StreakWidget(), StreakWidgetReceiver::class.java)
+    refresh(app, HabitsWidget(), HabitsWidgetReceiver::class.java)
     refresh(app, QuoteWidget(), QuoteWidgetReceiver::class.java)
     refresh(app, FocusWidget(), FocusWidgetReceiver::class.java)
 }

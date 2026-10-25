@@ -52,6 +52,10 @@
     <string name="streak_widget_name">Okto · Серия</string>
     <string name="streak_widget_description">Сколько дней подряд выполнены задачи, и карта за 4 недели.</string>
     <string name="streak_caption">СЕРИЯ</string>
+    <string name="habits_widget_name">Okto · Привычки</string>
+    <string name="habits_widget_description">Привычки на сегодня: отмечайте одним касанием.</string>
+    <string name="habits_caption">ПРИВЫЧКИ</string>
+    <string name="habits_empty">На сегодня привычек нет</string>
     <plurals name="streak_days">
         <item quantity="one">день подряд</item>
         <item quantity="few">дня подряд</item>

@@ -1,11 +1,26 @@
 import { describe, expect, it } from 'vitest';
-import { byCategory, dayScore, habitStreak, monthTotals, ratio } from '../src/lib/life';
-import { newHabit, newHealthDay, newMoney, normData, normSettings } from '../src/lib/model';
+import { byCategory, dayScore, habitStreak, habitsOn, monthTotals, ratio } from '../src/lib/life';
+import { newHabit, newHealthDay, newTask, newMoney, normData, normSettings } from '../src/lib/model';
 
 describe('habitStreak', () => {
-  it('counts back from today', () => expect(habitStreak({ doneDates: ['2026-10-22', '2026-10-23', '2026-10-24'] }, '2026-10-24')).toBe(3));
-  it('keeps the streak while today is still open', () => expect(habitStreak({ doneDates: ['2026-10-22', '2026-10-23'] }, '2026-10-24')).toBe(2));
-  it('breaks after a missed day', () => expect(habitStreak({ doneDates: ['2026-10-21', '2026-10-22'] }, '2026-10-24')).toBe(0));
+  const daily = (doneDates: string[]) => newTask({ kind: 'habit', date: '2026-10-01', repeat: { freq: 'day', interval: 1, until: null, days: [] }, doneDates });
+  it('counts back from today', () => expect(habitStreak(daily(['2026-10-22', '2026-10-23', '2026-10-24']), '2026-10-24')).toBe(3));
+  it('keeps the streak while today is still open', () => expect(habitStreak(daily(['2026-10-22', '2026-10-23']), '2026-10-24')).toBe(2));
+  it('breaks after a missed day', () => expect(habitStreak(daily(['2026-10-21', '2026-10-22']), '2026-10-24')).toBe(0));
+  it('skips days the habit is not scheduled on', () => {
+    // 2026-10-26 is a Monday: a Mon/Wed/Fri habit done on Mon and Wed is a streak of 2 on Thursday.
+    const h = newTask({ kind: 'habit', date: '2026-10-01', repeat: { freq: 'week', interval: 1, until: null, days: [1, 3, 5] }, doneDates: ['2026-10-26', '2026-10-28'] });
+    expect(habitStreak(h, '2026-10-29')).toBe(2);
+  });
+});
+
+describe('habitsOn', () => {
+  it('lists only habits scheduled that day', () => {
+    const daily = newTask({ kind: 'habit', date: '2026-10-01', repeat: { freq: 'day', interval: 1, until: null, days: [] }, doneDates: ['2026-10-29'] });
+    const mon = newTask({ kind: 'habit', date: '2026-10-01', repeat: { freq: 'week', interval: 1, until: null, days: [1] } });
+    expect(habitsOn([daily, mon], '2026-10-29').map((x) => x.done)).toEqual([true]);
+    expect(habitsOn([daily, mon], '2026-10-26')).toHaveLength(2);
+  });
 });
 
 describe('money', () => {

@@ -52,6 +52,10 @@
     <string name="streak_widget_name">Okto · Streak</string>
     <string name="streak_widget_description">Days in a row with completed tasks and a 4-week map.</string>
     <string name="streak_caption">STREAK</string>
+    <string name="habits_widget_name">Okto · Habits</string>
+    <string name="habits_widget_description">Habits for today with one-tap check-offs.</string>
+    <string name="habits_caption">HABITS</string>
+    <string name="habits_empty">No habits today</string>
     <plurals name="streak_days">
         <item quantity="one">day in a row</item>
         <item quantity="other">days in a row</item>
