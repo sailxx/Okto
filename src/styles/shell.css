@@ -17,7 +17,7 @@
   --glass-lens: rgb(255 255 255 / 14%);
   --glass-lens-edge: inset 0 0 0 .5px rgb(255 255 255 / 22%), inset 0 1px 0 rgb(255 255 255 / 25%);
 }
-:root { --tabbar: 104px; --side: 236px; }
+:root { --tabbar: 128px; --side: 236px; }
 .shell { min-height: 100svh; touch-action: pan-y; overflow-x: clip; } /* a screen sliding past the edge must not widen the page */
 .main { min-width: 0; transition: opacity 400ms var(--ease); }
 
@@ -46,7 +46,7 @@
 
 /* Floating tab bar: one soft capsule, the current section is a tinted pill. */
 .tabbar {
-  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(48px + env(safe-area-inset-bottom));
+  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(72px + env(safe-area-inset-bottom));
   /* One equal column per visible section: switched-off ones leave no gap. */
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
   padding: 5px;
