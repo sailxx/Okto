@@ -107,13 +107,31 @@ static class Program
             ShowInTaskbar = false;
             TopMost = true;
             StartPosition = FormStartPosition.Manual;
-            BackColor = Color.FromArgb(20, 20, 20);
-            Size = new Size(Dpi(300), Dpi(250));
+            BackColor = Color.Black;
+            Size = new Size(Dpi(340), Dpi(400));
             web.Dock = DockStyle.Fill;
-            web.DefaultBackgroundColor = BackColor;
+            web.DefaultBackgroundColor = Color.Transparent;
             Controls.Add(web);
             CreateHandle();
+            ApplyMica();
             Init();
+        }
+
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll")] static extern int DwmSetWindowAttribute(IntPtr h, int attr, ref int v, int size);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll")] static extern int DwmExtendFrameIntoClientArea(IntPtr h, ref int[] m);
+
+        // Windows 11: acrylic backdrop, rounded corners, system light/dark.
+        void ApplyMica()
+        {
+            int light = 1;
+            using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
+                if (k != null) light = Convert.ToInt32(k.GetValue("AppsUseLightTheme", 1));
+            int dark = light == 0 ? 1 : 0, round = 2, backdrop = 3;
+            DwmSetWindowAttribute(Handle, 20, ref dark, 4);
+            DwmSetWindowAttribute(Handle, 33, ref round, 4);
+            DwmSetWindowAttribute(Handle, 38, ref backdrop, 4);
+            var m = new int[] { -1, -1, -1, -1 };
+            DwmExtendFrameIntoClientArea(Handle, ref m);
         }
 
         int Dpi(int v) { return (int)Math.Round(v * DeviceDpi / 96.0); }
@@ -163,7 +181,7 @@ static class Program
         public void ShowAtTray()
         {
             var wa = Screen.FromPoint(Cursor.Position).WorkingArea;
-            int m = Dpi(12);
+            int m = Dpi(16);
             Location = new Point(wa.Right - Width - m, wa.Bottom - Height - m);
             Show();
             Activate();
