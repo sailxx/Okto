@@ -60,8 +60,8 @@
 
 <style>
   :global(html), :global(body) { min-width: 0; background: transparent !important; }
-  .tray { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; --ink: #fff; --muted: rgb(255 255 255 / 55%); --line: rgb(255 255 255 / 10%); --bg: #202020; background: transparent; color: var(--ink); font-family: var(--sans); overflow: hidden; }
-  @media (prefers-color-scheme: light) { .tray { --ink: #1a1a1a; --muted: rgb(0 0 0 / 55%); --line: rgb(0 0 0 / 10%); --bg: #f3f3f3; } }
+  .tray { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; --ink: #fff; --muted: rgb(255 255 255 / 55%); --line: rgb(255 255 255 / 10%); --bg: #202020; background: rgb(32 32 32 / 72%); color: var(--ink); font-family: var(--sans); overflow: hidden; }
+  @media (prefers-color-scheme: light) { .tray { --ink: #1a1a1a; --muted: rgb(0 0 0 / 55%); --line: rgb(0 0 0 / 10%); --bg: #f3f3f3; background: rgb(243 243 243 / 72%); } }
   form { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; padding: 12px 20px; border-bottom: 1px solid var(--line); }
   input { flex: 1; min-width: 0; height: 36px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 16px; outline: none; }
   input::placeholder { color: var(--muted); }
