@@ -120,13 +120,13 @@ static class Program
         [System.Runtime.InteropServices.DllImport("dwmapi.dll")] static extern int DwmSetWindowAttribute(IntPtr h, int attr, ref int v, int size);
         [System.Runtime.InteropServices.DllImport("dwmapi.dll")] static extern int DwmExtendFrameIntoClientArea(IntPtr h, ref int[] m);
 
-        // Windows 11: acrylic backdrop, rounded corners, system light/dark.
+        // Windows 11: Mica backdrop, rounded corners, system light/dark.
         void ApplyMica()
         {
             int light = 1, glass = 1;
             using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
                 if (k != null) { light = Convert.ToInt32(k.GetValue("AppsUseLightTheme", 1)); glass = Convert.ToInt32(k.GetValue("EnableTransparency", 1)); }
-            int dark = light == 0 ? 1 : 0, round = 2, backdrop = 3;
+            int dark = light == 0 ? 1 : 0, round = 2, backdrop = 2;
             DwmSetWindowAttribute(Handle, 20, ref dark, 4);
             DwmSetWindowAttribute(Handle, 33, ref round, 4);
             // With Windows transparency effects off the backdrop is a flat grey: paint our own solid colour instead.
