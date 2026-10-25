@@ -44,7 +44,7 @@
           {#if done}<Icon name="check" size={16} />{/if}
         </button>
         <button type="button" class="body" aria-expanded={open} onclick={() => (opened = open ? null : key)}>
-          <span class="name">{i.task.title}</span>
+          <span class="ttl">{i.task.title}</span>
           {#if open}
             {#if i.task.note}<span class="note">{i.task.note}</span>{/if}
             {#each i.task.subtasks as s (s.id)}<span class="sub" class:sdone={s.done}>{s.done ? '✓' : '○'} {s.title}</span>{/each}
@@ -72,12 +72,12 @@
   .row { display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 20px; }
   .check { width: 24px; height: 24px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--p, var(--muted)); color: var(--bg); }
   .done .check { background: var(--p, var(--muted)); }
-  .name { flex: 1; min-width: 0; font-weight: 500; font-size: 16px; line-height: 1.3; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .open .name { display: block; line-clamp: unset; }
+  .ttl { flex: 1; min-width: 0; font-weight: 500; font-size: 16px; line-height: 1.3; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .open .ttl { display: block; line-clamp: unset; }
   .body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 8px 0; text-align: left; }
   .note, .sub { color: var(--muted); font-size: 14px; line-height: 1.35; white-space: pre-wrap; overflow-wrap: anywhere; }
   .sdone { text-decoration: line-through; }
-  .done .name { color: var(--muted); text-decoration: line-through; }
+  .done .ttl { color: var(--muted); text-decoration: line-through; }
   .time { color: var(--muted); font: 500 14px var(--mono); }
   .late { color: var(--red); font-size: 14px; font-weight: 600; }
   .empty { margin: 20px 0; text-align: center; color: var(--muted); font-size: 17px; }
