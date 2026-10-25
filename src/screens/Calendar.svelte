@@ -55,7 +55,7 @@
   let miniMonth = $state(monthStart(store.today));
   let pendingMove = $state<{ inst: Instance; patch: Partial<Task> } | null>(null);
 
-  const visible = $derived(store.tasks.filter((t) => !store.data.settings.hiddenLists.includes(t.listId)));
+  const visible = $derived(store.allTasks.filter((t) => !store.data.settings.hiddenLists.includes(t.listId)));
   const weekLen = $derived(desktop ? 7 : 3);
   const days = $derived(
     view === 'day' ? [cursor]

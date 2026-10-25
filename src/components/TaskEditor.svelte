@@ -23,6 +23,7 @@
   let newSub = $state('');
   let linkText = $state(draft.link);
   const isCall = $derived(draft.kind === 'call');
+  const isHabit = $derived(draft.kind === 'habit');
 
   /* Files are written as soon as they are picked; ones the task never kept are dropped on close. */
   const added: string[] = [];
@@ -50,7 +51,14 @@
   const list = $derived(store.lists.find((l) => l.id === draft.listId) ?? store.lists[0]);
 
   /* ---------- edits ---------- */
-  function setDate(k: string | null) { draft.date = k; if (!k) { draft.repeat = null; } panel = null; }
+  /** A habit always repeats; turning it back into a task drops the repeat it was given. */
+  function toggleHabit() {
+    if (isHabit) { draft.kind = 'task'; if (draft.repeat?.freq === 'day' && draft.repeat.interval === 1 && !draft.repeat.days?.length) draft.repeat = null; return; }
+    draft.kind = 'habit';
+    if (!draft.date) draft.date = store.today;
+    if (!draft.repeat) draft.repeat = { freq: 'day', interval: 1, until: null, days: [] };
+  }
+  function setDate(k: string | null) { if (!k && isHabit) return; draft.date = k; if (!k) { draft.repeat = null; } panel = null; }
   function setStart(v: string) { draft.start = v || null; if (!v) draft.reminder = null; }
   const weekDays = $derived.by(() => {
     const s = startOfWeek(todayKey(), store.weekStart);
@@ -115,7 +123,7 @@
   }
 </script>
 
-<Sheet title={ed.isNew ? store.t(isCall ? 'newCall' : 'newTask') : store.t(isCall ? 'call' : 'task')} onclose={close}>
+<Sheet title={ed.isNew ? store.t(isCall ? 'newCall' : isHabit ? 'newHabit' : 'newTask') : store.t(isCall ? 'call' : isHabit ? 'habitKind' : 'task')} onclose={close}>
   {#snippet head()}
     <button class="icon-btn" type="button" aria-label={store.t('focusOn')} title={store.t('focusOn')} onclick={focusOnTask}><Icon name="tomato" /></button>
   {/snippet}
@@ -137,8 +145,11 @@
     {/if}
 
     <div class="chips">
-      {#if isCall || store.shows('calls')}
+      {#if !isHabit && (isCall || store.shows('calls'))}
         <button type="button" class="chip" class:set={isCall} aria-pressed={isCall} onclick={() => { draft.kind = isCall ? 'task' : 'call'; if (draft.kind === 'call' && !draft.date) draft.date = store.today; }}><Icon name="call" size={18} />{store.t('call')}</button>
+      {/if}
+      {#if !isCall}
+        <button type="button" class="chip" class:set={isHabit} aria-pressed={isHabit} onclick={toggleHabit}><Icon name="habit" size={18} />{store.t('habitKind')}</button>
       {/if}
       <button type="button" class="chip" class:on={panel === 'date'} class:set={draft.date} onclick={() => toggle('date')}><Icon name="calendar" size={18} />{dateLabel}</button>
       <button type="button" class="chip" class:on={panel === 'time'} class:set={draft.start} onclick={() => toggle('time')}><Icon name="clock" size={18} />{timeLabel}</button>
@@ -179,7 +190,7 @@
     {:else if panel === 'repeat'}
       <div class="panel">
         <div class="quick">
-          <button type="button" class="tag plain" aria-pressed={!draft.repeat} onclick={() => setRepeat(null)}>{store.t('rNone')}</button>
+          {#if !isHabit}<button type="button" class="tag plain" aria-pressed={!draft.repeat} onclick={() => setRepeat(null)}>{store.t('rNone')}</button>{/if}
           {#each Object.entries(repeatLabels) as [f, l]}
             <button type="button" class="tag plain" aria-pressed={draft.repeat?.freq === f} onclick={() => setRepeat(f as Freq)}>{store.t(l)}</button>
           {/each}

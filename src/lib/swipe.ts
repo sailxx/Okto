@@ -4,7 +4,7 @@
 import { tick } from 'svelte';
 import { router, type Route } from './router.svelte';
 
-const ORDER: Route[] = ['home', 'tasks', 'calls', 'calendar', 'notes', 'habits', 'health', 'finance', 'focus'];
+const ORDER: Route[] = ['home', 'habits', 'calls', 'calendar', 'notes', 'health', 'finance', 'focus'];
 // Places with their own drag gestures, where a sideways drag must not change the section.
 const OWN = 'input, textarea, select, [contenteditable], .editing, .ev, .tabbar, .mobile-top';
 const LOCK = 10; // px before the direction is decided

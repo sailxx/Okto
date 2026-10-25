@@ -17,7 +17,7 @@
   --glass-lens: rgb(255 255 255 / 14%);
   --glass-lens-edge: inset 0 0 0 .5px rgb(255 255 255 / 22%), inset 0 1px 0 rgb(255 255 255 / 25%);
 }
-:root { --tabbar: 72px; --side: 236px; }
+:root { --tabbar: 62px; --side: 236px; }
 .shell { min-height: 100svh; touch-action: pan-y; overflow-x: clip; } /* a screen sliding past the edge must not widen the page */
 .main { min-width: 0; transition: opacity 400ms var(--ease); }
 
@@ -36,8 +36,8 @@
   position: sticky; top: 0; z-index: 3;
   display: flex; justify-content: space-between; align-items: center;
   width: min(100% - 32px, 820px); margin: 0 auto;
-  padding: max(10px, env(safe-area-inset-top)) 0 2px;
-  background: var(--bg);
+  padding: max(8px, env(safe-area-inset-top)) 0 0;
+  background: transparent;
   border-bottom: 1px solid transparent;
 }
 .mobile-top { transition: transform 260ms var(--ease), opacity 200ms ease; }
@@ -46,13 +46,14 @@
 
 /* Floating tab bar: one soft capsule, the current section is a tinted pill. */
 .tabbar {
-  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
+  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(6px + env(safe-area-inset-bottom));
   /* One equal column per visible section: switched-off ones leave no gap. */
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
-  padding: 6px;
+  padding: 5px;
   border-radius: 24px;
-  background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  /* More body than the cards' glass, so the icons read over whatever scrolls beneath. */
+  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  -webkit-backdrop-filter: blur(26px) saturate(1.9); backdrop-filter: blur(26px) saturate(1.9);
   box-shadow: var(--glass-edge), var(--glass-lift);
 }
 /* Dark themes lose the bright rim: the edge comes from --glass-edge. */
@@ -66,8 +67,8 @@
 .tab {
   position: relative;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  height: 48px; min-width: 0; border-radius: 18px;
-  color: var(--muted);
+  height: 44px; min-width: 0; border-radius: 18px;
+  color: color-mix(in srgb, var(--ink) 72%, var(--bg));
   font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
   transition: background-color 150ms ease, color 150ms ease, transform 90ms var(--ease);
 }

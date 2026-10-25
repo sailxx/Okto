@@ -51,6 +51,10 @@
             <meta-data
                 android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
                 android:resource="@color/bar_dark" />
+            <!-- Полный экран: системные панели скрыты, появляются по свайпу от края -->
+            <meta-data
+                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
+                android:value="sticky-immersive" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
                 android:resource="@drawable/splash" />
@@ -196,6 +200,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/streak_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HabitsWidgetReceiver"
+            android:exported="true"
+            android:label="@string/habits_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/habits_widget_info" />
         </receiver>
 
         <receiver

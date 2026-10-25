@@ -70,6 +70,8 @@ data class WidgetState(
     val email: String? = null,
     val next: NextUp? = null,
     val streak: Int = 0,
+    /** Привычки, выпадающие на сегодня (kind = habit); в списке задач их нет. */
+    val habits: List<WidgetItem> = emptyList(),
     /** Выполнено задач за последние [HEAT_DAYS] дней, от старых к сегодняшнему; -1 — день только с фокусом. */
     val heat: List<Int> = emptyList(),
 )
@@ -267,11 +269,16 @@ object OktoRepository {
         val today = LocalDate.now()
         val t = today.toString()
         val items = mutableListOf<WidgetItem>()
+        val habits = mutableListOf<WidgetItem>()
         var done = 0
         var total = 0
         for (task in tasks.values) {
             val date = task.date ?: continue
             if (task.deleted) continue
+            if (task.kind == "habit") {
+                if (task.occursOn(t)) habits += item(context, task, t, t, task.isDoneOn(t), today)
+                continue
+            }
             when {
                 task.repeat != null -> {
                     if (!task.occursOn(t)) continue
@@ -300,6 +307,7 @@ object OktoRepository {
             email = Firebase.auth.currentUser?.email,
             next = nextUp(context, today),
             streak = streak(today),
+            habits = habits.sortedWith(compareBy<WidgetItem>({ it.done }, { it.start ?: "99:99" }, { it.title.lowercase() })),
             heat = (HEAT_DAYS - 1 downTo 0).map { back ->
                 val day = today.minusDays(back.toLong()).toString()
                 doneOn(day).takeIf { it > 0 } ?: if (day in focusDays) -1 else 0
@@ -338,13 +346,14 @@ object OktoRepository {
 
     /** Как doneOnDay в stats.ts: сколько задач выполнено в день [key]. */
     private fun doneOn(key: String): Int = tasks.values.count { t ->
-        if (t.repeat != null) key in t.doneDates else t.done && t.doneAt?.let(::dayOf) == key
+        if (t.kind == "habit") false else if (t.repeat != null) key in t.doneDates else t.done && t.doneAt?.let(::dayOf) == key
     }
 
     /** Как streak в stats.ts: дни подряд с выполненной задачей или фокусом; пустое «сегодня» серию не обрывает. */
     private fun streak(today: LocalDate): Int {
         val days = HashSet(focusDays)
         for (t in tasks.values) {
+            if (t.kind == "habit") continue
             if (t.repeat != null) days += t.doneDates
             else if (t.done) t.doneAt?.let { days += dayOf(it) }
         }

@@ -35,6 +35,10 @@ class StreakWidgetReceiver : OktoReceiver() {
     override val glanceAppWidget: GlanceAppWidget = StreakWidget()
 }
 
+class HabitsWidgetReceiver : OktoReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = HabitsWidget()
+}
+
 class QuoteWidgetReceiver : OktoReceiver() {
     override val glanceAppWidget: GlanceAppWidget = QuoteWidget()
 }
