@@ -64,6 +64,11 @@ class Store {
       const d = this.data.settings.dashboard;
       this.updateSettings({ dashboard: d.some((b) => b.type === 'score') ? d : [{ type: 'score' }, ...d], scoreCard: true });
     }
+    if (!this.data.settings.prodCard) {
+      const d = this.data.settings.dashboard;
+      const at = Math.max(0, d.findIndex((b) => b.type === 'score') + 1);
+      this.updateSettings({ dashboard: d.some((b) => b.type === 'productivity') ? d : [...d.slice(0, at), { type: 'productivity' }, ...d.slice(at)], prodCard: true });
+    }
     this.adoptHabits();
     const counters = this.counters;
     if (!this.device.activeCounter || !counters.some((c) => c.id === this.device.activeCounter)) this.device.activeCounter = counters[0]?.id ?? null;

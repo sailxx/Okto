@@ -17,8 +17,8 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 47
-        versionName = "3.18.0"
+        versionCode = 48
+        versionName = "3.19.0"
     }
 
     // ÐšÐ»ÑŽÑ‡ Ð¿Ð¾Ð´Ð¿Ð¸ÑÐ¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð²Ð½Ðµ Ñ€ÐµÐ¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€Ð¸Ñ; Ð¿ÑƒÑ‚ÑŒ Ð¸ Ð¿Ð°Ñ€Ð¾Ð»Ð¸ â€” Ð² keystore.properties (Ð² .gitignore)

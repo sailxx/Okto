@@ -7,7 +7,7 @@ export type Freq = 'day' | 'weekday' | 'week' | 'month';
 export type PomoPreset = 'classic' | 'short' | 'deep' | 'custom';
 export type FocusMode = 'counter' | 'pomodoro' | 'stopwatch' | 'timer';
 export type Phase = 'work' | 'short' | 'long';
-export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'leetcode' | 'habits' | 'health' | 'finance' | 'score' | 'counter';
+export type BlockType = 'tasks' | 'focus' | 'streak' | 'next' | 'github' | 'leetcode' | 'habits' | 'health' | 'finance' | 'score' | 'productivity' | 'counter';
 export type Collection = 'tasks' | 'lists' | 'sessions' | 'counters' | 'notes' | 'habits' | 'health' | 'money' | 'settings';
 
 /** `days`: for a weekly repeat, the weekdays it falls on (0 = Sunday … 6 = Saturday); empty or missing = the weekday of the start date. */
@@ -85,6 +85,8 @@ export interface Settings {
   lifeCards: boolean;
   /** Same for the day-score card. */
   scoreCard: boolean;
+  /** And the productivity chart. */
+  prodCard: boolean;
   pomo: { preset: PomoPreset; custom: PomoCfg; autoStart: boolean };
   dashboard: Block[];
   hiddenLists: string[];
@@ -176,12 +178,12 @@ export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
 export const MAX_ATTACHMENTS = 20;
 /** Per file, bytes. */
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
-export const DEFAULT_DASHBOARD: Block[] = [{ type: 'score' }, { type: 'focus' }, { type: 'finance' }, { type: 'streak' }, { type: 'next' }, { type: 'habits' }, { type: 'health' }, { type: 'tasks' }];
+export const DEFAULT_DASHBOARD: Block[] = [{ type: 'score' }, { type: 'productivity' }, { type: 'focus' }, { type: 'finance' }, { type: 'streak' }, { type: 'next' }, { type: 'habits' }, { type: 'health' }, { type: 'tasks' }];
 export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
-const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], score: [4, 4, 2], counter: [2, 2, 1] };
-const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, habits: 2, health: 2, finance: 2, score: 2, counter: 2 };
+const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], score: [4, 4, 2], productivity: [4, 4, 2], counter: [2, 2, 1] };
+const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, habits: 2, health: 2, finance: 2, score: 2, productivity: 2, counter: 2 };
 /** Телефон — сетка в 2 колонки: у него свои размеры плиток. */
 export const isPhoneGrid = (cols: number) => cols < 4;
 export const blockSize = (b: Block, cols = 6) => {
@@ -335,7 +337,7 @@ const normPomoCfg = (c: any, def: PomoCfg): PomoCfg => ({
 export function defaultSettings(lang: Lang): Settings {
   return {
     id: 'main', lang, theme: 'system', sound: true, vibrate: true,
-    name: '', greeting: '', onboarded: false, github: '', budget: 0, waterGoal: 8, sleepGoal: 8, lifeCards: true, scoreCard: true,
+    name: '', greeting: '', onboarded: false, github: '', budget: 0, waterGoal: 8, sleepGoal: 8, lifeCards: true, scoreCard: true, prodCard: true,
     pomo: { preset: 'classic', custom: { ...POMO.classic }, autoStart: true },
     dashboard: DEFAULT_DASHBOARD.map((b) => ({ ...b })), hiddenLists: [], hiddenSections: [], updatedAt: 0,
   };
@@ -346,7 +348,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
   if (!isObj(raw)) return d;
   const p = isObj(raw.pomo) ? raw.pomo : {};
   const dashboard = Array.isArray(raw.dashboard)
-    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'habits', 'health', 'finance', 'score', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
+    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'habits', 'health', 'finance', 'score', 'productivity', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
       .map((b: any) => {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
@@ -364,7 +366,7 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
     sound: raw.sound !== false, vibrate: raw.vibrate !== false,
     name: str(raw.name, 40).trim(), greeting: str(raw.greeting, 80).trim(), onboarded: raw.onboarded === true,
     github: /^[a-zd](?:[a-zd]|-(?=[a-zd])){0,38}$/i.test(String(raw.github ?? '')) ? String(raw.github) : '',
-    budget: int(raw.budget, 0, 1e9, 0), waterGoal: int(raw.waterGoal, 1, 30, 8), sleepGoal: int(raw.sleepGoal, 1, 16, 8), lifeCards: raw.lifeCards === true, scoreCard: raw.scoreCard === true,
+    budget: int(raw.budget, 0, 1e9, 0), waterGoal: int(raw.waterGoal, 1, 30, 8), sleepGoal: int(raw.sleepGoal, 1, 16, 8), lifeCards: raw.lifeCards === true, scoreCard: raw.scoreCard === true, prodCard: raw.prodCard === true,
     pomo: {
       preset: ['classic', 'short', 'deep', 'custom'].includes(p.preset) ? p.preset : 'classic',
       custom: normPomoCfg(p.custom, POMO.classic),
