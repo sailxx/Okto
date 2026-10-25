@@ -488,6 +488,9 @@
   .cell.acc.counter { --acc: var(--cc, #0090ff); }
   .cell.acc.tint { --acc: var(--bc); }
 
+  /* No unlit LCD segments behind the figures on glass. */
+  .cell :global(.digits .ghost) { display: none; }
+
   /* No icons: the title and the figure carry the card. */
   .chip { display: none; }
   .ttl { margin-top: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
