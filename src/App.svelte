@@ -14,6 +14,7 @@
   import Habits from './screens/Habits.svelte';
   import Health from './screens/Health.svelte';
   import Finance from './screens/Finance.svelte';
+  import Tray from './screens/Tray.svelte';
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
@@ -25,6 +26,8 @@
   import { rgbOf } from './lib/tone';
   import './styles/shell.css';
 
+  // Compact view for the Windows tray popup (windows/Tray.cs).
+  const tray = location.hash.startsWith('#/tray');
   let settingsOpen = $state(false);
   let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
@@ -85,10 +88,10 @@
     boot.start();
     const gc = setTimeout(() => gcFiles(store.attachedFiles()), 15_000);
     // First launch: ask for a name once the power-on animation has played.
-    if (!store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
+    if (!tray && !store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
     // Keyboard: 1–5 switch the visible sections in menu order, N adds a task.
     const onKey = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+      if (tray || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
       if (document.querySelector('dialog[open]') || (e.target as Element)?.matches?.('input, textarea, select, [contenteditable]')) return;
       const routes = (['home', 'habits', 'calls', 'calendar', 'notes', 'health', 'finance', 'focus'] as const).filter((r) => store.shows(r));
       const n = Number(e.key);
@@ -102,6 +105,9 @@
 
 </script>
 
+{#if tray}
+  <Tray />
+{:else}
 <div class="shell" class:side-folded={store.device.sideFolded} class:top-hidden={topHidden} class:no-top={router.route !== 'home'} class:cal-full={router.route === 'calendar' && store.device.calExpanded} class:focusing={router.route === 'focus' && store.device.focusMode === 'pomodoro' && Boolean(store.device.pomo.endsAt)}>
   <Nav onSettings={() => (settingsOpen = true)} />
   <div class="main">
@@ -120,4 +126,5 @@
 {#if store.noteEditor}<NoteEditor />{/if}
 {#if settingsOpen}<Settings onclose={() => (settingsOpen = false)} />{/if}
 {#if welcome}<ProfileSheet welcome onclose={() => (welcome = false)} />{/if}
+{/if}
 <Toast />
