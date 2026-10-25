@@ -31,17 +31,12 @@
     if (v) store.updateSettings({ leetcodeUser: v });
   }
 
-  const levels = $derived(data ? [
-    { key: 'easy', label: store.t('lcEasy'), n: data.easy, of: data.totalEasy },
-    { key: 'medium', label: store.t('lcMedium'), n: data.medium, of: data.totalMedium },
-    { key: 'hard', label: store.t('lcHard'), n: data.hard, of: data.totalHard },
-  ] : []);
+  const year = $derived(data ? [...data.counts.values()].reduce((a, n) => a + n, 0) : 0);
 </script>
 
 <div class="lcs">
-  <div class="hd"><span class="chip"><Icon name="code" size={15} /></span><span class="ttl">{user ? `LeetCode · ${user}` : store.t('bLeetStats')}</span></div>
-
   {#if !user}
+    <div class="hd"><span class="chip"><Icon name="code" size={15} /></span><span class="ttl">{store.t('bLeetStats')}</span></div>
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
     <form class="link" onsubmit={link} onclick={(e) => e.stopPropagation()} onpointerdown={(e) => e.stopPropagation()}>
       <input type="text" bind:value={draft} {disabled} placeholder={store.t('lcUserPh')} autocapitalize="none" autocomplete="off" spellcheck="false" aria-invalid={bad} />
@@ -49,15 +44,8 @@
     </form>
     <span class="meta">{bad ? store.t('lcBad') : store.t('lcStatHint')}</span>
   {:else if data}
-    <div class="sum">
-      <b>{data.solved}</b><span>{store.t('lcSolved')}{data.total ? ` / ${data.total}` : ''}</span>
-    </div>
-    <div class="lv">
-      {#each levels as l}
-        <span class="l {l.key}"><small>{l.label}</small><b>{l.n}</b><i><u style:width="{l.of ? Math.min(100, (l.n / l.of) * 100) : 0}%"></u></i></span>
-      {/each}
-    </div>
-    <span class="meta act">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : store.t('lcActivity')}</span>
+    <span class="big">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : store.t('lcYear')(year)}</span>
+    <span class="meta">{user} · {data.solved} {store.t('lcSolved')}{data.total ? ` / ${data.total}` : ''}</span>
     <div class="map"><Heatmap counts={data.counts} label="LeetCode" bind:sel /></div>
   {:else if status === 'error'}
     <span class="meta">{store.t('ghFail')}</span>
@@ -75,16 +63,7 @@
   .chip :global(svg) { width: 15px; height: 15px; }
   .ttl { font-size: 12.5px; font-weight: 500; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .meta { font-size: 12px; color: var(--td); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sum { display: flex; align-items: baseline; gap: 6px; margin-top: 2px; }
-  .sum b { font-size: 34px; font-weight: 500; letter-spacing: -.04em; line-height: 1; }
-  .sum span { font-size: 12px; color: var(--td); }
-  .lv { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; margin: 2px 0; }
-  .l { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-  .l small { font-size: 10.5px; color: var(--td); }
-  .l b { font-size: 13px; font-weight: 600; }
-  .l i { display: block; height: 3px; margin-top: 3px; border-radius: 99px; background: var(--tg); overflow: hidden; }
-  .l u { display: block; height: 100%; border-radius: inherit; text-decoration: none; background: var(--c); }
-  .l.easy { --c: #00b8a3; } .l.medium { --c: #ffa116; } .l.hard { --c: #ef4743; }
+  .big { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--t); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .map { flex: 1; min-height: 0; width: 100%; margin-top: 2px; overflow: hidden; }
   .meta { flex: none; }
   .link { display: flex; gap: 8px; width: 100%; max-width: 360px; margin-top: 6px; }
@@ -93,7 +72,5 @@
   .link input[aria-invalid='true'] { box-shadow: inset 0 0 0 1.5px #ff6b6b; }
   .link button, .retry { height: 38px; padding: 0 16px; border-radius: 12px; font-weight: 600; color: var(--btn-ink); background: var(--btn); }
   .retry { height: 32px; margin-top: 4px; }
-  @container (max-height: 190px) { .lv { display: none; } }
-  @container (max-height: 240px) { .act { display: none; } }
-  @container (max-height: 150px) { .map { display: none; } }
+  @container (max-height: 110px) { .map { display: none; } }
 </style>

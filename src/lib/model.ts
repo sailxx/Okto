@@ -190,8 +190,8 @@ export const DEFAULT_DASHBOARD: Block[] = [{ type: 'score' }, { type: 'focus' },
 export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
-const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], score: [4, 4, 2], productivity: [4, 4, 2], goal: [2, 2, 2], leetstats: [4, 4, 2], counter: [2, 2, 1] };
-const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, habits: 2, health: 2, finance: 2, score: 3, productivity: 3, goal: 2, leetstats: 4, counter: 2 };
+const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], score: [4, 4, 2], productivity: [4, 4, 2], goal: [2, 2, 2], leetstats: [6, 4, 2], counter: [2, 2, 1] };
+const DEFAULT_H: Record<BlockType, number> = { focus: 2, streak: 2, next: 2, github: 3, leetcode: 3, tasks: 3, habits: 2, health: 2, finance: 2, score: 3, productivity: 3, goal: 2, leetstats: 3, counter: 2 };
 /** Телефон — сетка в 2 колонки: у него свои размеры плиток. */
 export const isPhoneGrid = (cols: number) => cols < 4;
 export const blockSize = (b: Block, cols = 6) => {
