@@ -44,8 +44,8 @@
     </form>
     <span class="meta">{bad ? store.t('lcBad') : store.t('lcStatHint')}</span>
   {:else if data}
-    <span class="big">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : store.t('lcYear')(year)}</span>
-    <span class="meta">{user} · {data.solved} {store.t('lcSolved')}{data.total ? ` / ${data.total}` : ''}</span>
+    <span class="big">{user}</span>
+    <span class="meta">{sel ? `${fmtShortDay(store.lang, sel)} · ${data.counts.get(sel) ?? 0}` : `${store.t('lcYear')(year)} · ${data.solved} ${store.t('lcSolved')}${data.total ? ` / ${data.total}` : ''}`}</span>
     <div class="map"><Heatmap counts={data.counts} label="LeetCode" bind:sel /></div>
   {:else if status === 'error'}
     <span class="meta">{store.t('ghFail')}</span>
