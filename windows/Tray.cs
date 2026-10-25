@@ -108,7 +108,7 @@ static class Program
             TopMost = true;
             StartPosition = FormStartPosition.Manual;
             BackColor = Color.Black;
-            Size = new Size(Dpi(360), Dpi(400));
+            Size = new Size(Dpi(400), Dpi(600));
             web.Dock = DockStyle.Fill;
             web.DefaultBackgroundColor = Color.Transparent;
             Controls.Add(web);
@@ -185,8 +185,8 @@ static class Program
         public void ShowAtTray()
         {
             // Size in physical pixels: DeviceDpi is only right once the window exists.
-            Size = new Size(Dpi(360), Dpi(400));
             var wa = Screen.FromPoint(Cursor.Position).WorkingArea;
+            Size = new Size(Dpi(400), Math.Min(Dpi(600), wa.Height - Dpi(32)));
             int m = Dpi(16);
             Location = new Point(wa.Right - Width - m, wa.Bottom - Height - m);
             Show();

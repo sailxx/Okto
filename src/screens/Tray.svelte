@@ -93,7 +93,7 @@
 
   .t-signin { margin: 4px var(--gutter) 0; height: 36px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--well-edge); font-size: 14px; font-weight: 600; }
 
-  .t-list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 0 12px; scrollbar-width: thin; scrollbar-color: var(--well-edge) transparent; }
+  .t-list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 0 12px; scrollbar-width: none; }
   .t-row { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; column-gap: 12px; align-items: start; padding: 11px var(--gutter); }
   .t-row + .t-row::before { content: ''; position: absolute; top: 0; left: calc(var(--gutter) + 34px); right: var(--gutter); height: 1px; background: var(--line); }
   .t-row:hover { background: var(--well); }
