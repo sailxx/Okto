@@ -51,6 +51,7 @@
 </div>
 
 <style>
+  :global(body) { min-width: 0; }
   .tray { display: flex; flex-direction: column; gap: 10px; height: 100vh; padding: 12px; box-sizing: border-box; background: var(--bg); color: var(--ink); font-family: var(--sans); overflow: hidden; }
   form { display: flex; gap: 8px; flex: 0 0 auto; }
   input { flex: 1; min-width: 0; height: 40px; padding: 0 12px; border-radius: var(--r-key); border: 1px solid var(--line); background: var(--soft); color: var(--ink); font: inherit; font-size: 15px; outline: none; }
