@@ -58,7 +58,8 @@
     "h1": "**1.0** — Pomodoro с четырьмя режимами, теги-заготовки с цветами, семь тем, английский язык, уведомления в браузере.",
     "license": "⚖️ Лицензии",
     "lic": "Шрифт [Inter](https://rsms.me/inter/) распространяется по лицензии SIL Open Font License 1.1. Картинки README набраны шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Сделал [Владислав](https://t.me/arkhitkovv). Если Okto пригодился, поставь ⭐ репозиторию."
+    "footer": "Сделал [Владислав](https://t.me/arkhitkovv). Если Okto пригодился, поставь ⭐ репозиторию.",
+    "btnWin": "Скачать для Windows"
   },
   "en": {
     "name": "English",
@@ -119,7 +120,8 @@
     "h1": "**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.",
     "license": "⚖️ Licenses",
     "lic": "The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Made by [Vlad](https://t.me/arkhitkovv). If Okto helped you, give the repo a ⭐"
+    "footer": "Made by [Vlad](https://t.me/arkhitkovv). If Okto helped you, give the repo a ⭐",
+    "btnWin": "Download for Windows"
   },
   "es": {
     "name": "Español",
@@ -180,7 +182,8 @@
     "h1": "**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.",
     "license": "⚖️ Licencias",
     "lic": "La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Hecho por [Vlad](https://t.me/arkhitkovv). Si Okto te sirvió, dale una ⭐ al repositorio."
+    "footer": "Hecho por [Vlad](https://t.me/arkhitkovv). Si Okto te sirvió, dale una ⭐ al repositorio.",
+    "btnWin": "Descargar para Windows"
   },
   "pt": {
     "name": "Português",
@@ -241,7 +244,8 @@
     "h1": "**1.0** — Pomodoro com quatro modos, etiquetas coloridas, sete temas, idioma inglês, notificações do navegador.",
     "license": "⚖️ Licenças",
     "lic": "A fonte [Inter](https://rsms.me/inter/) usa a licença SIL Open Font License 1.1. As imagens do README usam [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Feito por [Vlad](https://t.me/arkhitkovv). Se o Okto te ajudou, deixe uma ⭐ no repositório."
+    "footer": "Feito por [Vlad](https://t.me/arkhitkovv). Se o Okto te ajudou, deixe uma ⭐ no repositório.",
+    "btnWin": "Baixar para Windows"
   },
   "de": {
     "name": "Deutsch",
@@ -302,7 +306,8 @@
     "h1": "**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.",
     "license": "⚖️ Lizenzen",
     "lic": "Die Schrift [Inter](https://rsms.me/inter/) steht unter der SIL Open Font License 1.1. Die README-Bilder sind in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) gesetzt.",
-    "footer": "Gemacht von [Vlad](https://t.me/arkhitkovv). Wenn dir Okto hilft, gib dem Repo einen ⭐"
+    "footer": "Gemacht von [Vlad](https://t.me/arkhitkovv). Wenn dir Okto hilft, gib dem Repo einen ⭐",
+    "btnWin": "Für Windows laden"
   },
   "fr": {
     "name": "Français",
@@ -363,7 +368,8 @@
     "h1": "**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.",
     "license": "⚖️ Licences",
     "lic": "La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Fait par [Vlad](https://t.me/arkhitkovv). Si Okto t’a servi, laisse une ⭐ au dépôt."
+    "footer": "Fait par [Vlad](https://t.me/arkhitkovv). Si Okto t’a servi, laisse une ⭐ au dépôt.",
+    "btnWin": "Télécharger pour Windows"
   },
   "it": {
     "name": "Italiano",
@@ -424,7 +430,8 @@
     "h1": "**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.",
     "license": "⚖️ Licenze",
     "lic": "Il font [Inter](https://rsms.me/inter/) è distribuito con la SIL Open Font License 1.1. Le immagini del README usano [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Fatto da [Vlad](https://t.me/arkhitkovv). Se Okto ti è utile, lascia una ⭐ al repository."
+    "footer": "Fatto da [Vlad](https://t.me/arkhitkovv). Se Okto ti è utile, lascia una ⭐ al repository.",
+    "btnWin": "Scarica per Windows"
   },
   "tr": {
     "name": "Türkçe",
@@ -485,7 +492,8 @@
     "h1": "**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.",
     "license": "⚖️ Lisanslar",
     "lic": "[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) ile dizilmiştir.",
-    "footer": "[Vlad](https://t.me/arkhitkovv) tarafından yapıldı. Okto işine yaradıysa depoya bir ⭐ bırak."
+    "footer": "[Vlad](https://t.me/arkhitkovv) tarafından yapıldı. Okto işine yaradıysa depoya bir ⭐ bırak.",
+    "btnWin": "Windows için indir"
   },
   "uk": {
     "name": "Українська",
@@ -546,7 +554,8 @@
     "h1": "**1.0** — Pomodoro з чотирма режимами, теги-заготовки з кольорами, сім тем, англійська мова, сповіщення в браузері.",
     "license": "⚖️ Ліцензії",
     "lic": "Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Зробив [Влад](https://t.me/arkhitkovv). Якщо Okto знадобився, постав ⭐ репозиторію."
+    "footer": "Зробив [Влад](https://t.me/arkhitkovv). Якщо Okto знадобився, постав ⭐ репозиторію.",
+    "btnWin": "Завантажити для Windows"
   },
   "pl": {
     "name": "Polski",
@@ -607,6 +616,7 @@
     "h1": "**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.",
     "license": "⚖️ Licencje",
     "lic": "Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
-    "footer": "Zrobił [Vlad](https://t.me/arkhitkovv). Jeśli Okto ci się przydał, zostaw ⭐ w repozytorium."
+    "footer": "Zrobił [Vlad](https://t.me/arkhitkovv). Jeśli Okto ci się przydał, zostaw ⭐ w repozytorium.",
+    "btnWin": "Pobierz na Windows"
   }
 }
