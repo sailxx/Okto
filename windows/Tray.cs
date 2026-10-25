@@ -184,6 +184,8 @@ static class Program
 
         public void ShowAtTray()
         {
+            // Size in physical pixels: DeviceDpi is only right once the window exists.
+            Size = new Size(Dpi(360), Dpi(400));
             var wa = Screen.FromPoint(Cursor.Position).WorkingArea;
             int m = Dpi(16);
             Location = new Point(wa.Right - Width - m, wa.Bottom - Height - m);
