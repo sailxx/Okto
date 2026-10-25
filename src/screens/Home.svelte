@@ -144,7 +144,7 @@
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode', 'leetstats'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => ({ type: t }) as Block),
+    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode', 'leetstats'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => (t === 'leetstats' ? { type: t, tint: '#f76b15' } : { type: t }) as Block),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
