@@ -108,7 +108,7 @@ static class Program
             TopMost = true;
             StartPosition = FormStartPosition.Manual;
             BackColor = Color.Black;
-            Size = new Size(Dpi(340), Dpi(360));
+            Size = new Size(Dpi(360), Dpi(400));
             web.Dock = DockStyle.Fill;
             web.DefaultBackgroundColor = Color.Transparent;
             Controls.Add(web);
