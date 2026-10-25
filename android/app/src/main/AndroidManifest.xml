@@ -51,10 +51,6 @@
             <meta-data
                 android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
                 android:resource="@color/bar_dark" />
-            <!-- Полный экран: системные панели скрыты, появляются по свайпу от края -->
-            <meta-data
-                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
-                android:value="sticky-immersive" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
                 android:resource="@drawable/splash" />
