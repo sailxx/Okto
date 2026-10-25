@@ -51,19 +51,20 @@
 </div>
 
 <style>
-  :global(body) { min-width: 0; }
-  .tray { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; background: var(--bg); color: var(--ink); font-family: var(--sans); overflow: hidden; }
-  form { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  :global(html), :global(body) { min-width: 0; background: transparent !important; }
+  .tray { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; --ink: #fff; --muted: rgb(255 255 255 / 55%); --line: rgb(255 255 255 / 10%); --bg: #202020; background: transparent; color: var(--ink); font-family: var(--sans); overflow: hidden; }
+  @media (prefers-color-scheme: light) { .tray { --ink: #1a1a1a; --muted: rgb(0 0 0 / 55%); --line: rgb(0 0 0 / 10%); --bg: #f3f3f3; } }
+  form { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; padding: 14px 18px; border-bottom: 1px solid var(--line); }
   input { flex: 1; min-width: 0; height: 28px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 14px; outline: none; }
   input::placeholder { color: var(--muted); }
   form button { display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 auto; border-radius: 50%; background: #4cc2ff; color: #06202e; }
   form button:disabled { background: var(--line); color: var(--muted); }
-  .signin { margin: 8px 14px 0; height: 30px; border-radius: 6px; border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
+  .signin { margin: 10px 18px 0; height: 30px; border-radius: 6px; border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
   .list { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 0; scrollbar-width: thin; }
-  .row { display: flex; align-items: center; gap: 10px; min-height: 30px; padding: 0 14px; }
+  .row { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 18px; }
   .check { width: 16px; height: 16px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--p, var(--muted)); color: var(--bg); }
   .done .check { background: var(--p, var(--muted)); }
-  .name { flex: 1; min-width: 0; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .name { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .done .name { color: var(--muted); text-decoration: line-through; }
   .time { color: var(--muted); font: 500 11px var(--mono); }
   .late { color: var(--red); font-size: 11px; font-weight: 600; }
