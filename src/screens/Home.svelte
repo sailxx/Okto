@@ -350,7 +350,7 @@
               <span class="read"><Digits class="big dim" text="--:--" delay={i * 90} /><span class="nt"><small>{store.t('nothingNext')}</small></span></span>
             {/if}
             <div class="line" aria-hidden="true">
-              {#each [6, 9, 12, 15, 18, 21] as h}<span class="tick" style:left="{pct(h * 60)}%">{p2(h)}</span>{/each}
+              {#each [6, 9, 12, 15, 18, 21] as h}<span class="hr" style:left="{pct(h * 60)}%">{p2(h)}</span>{/each}
               {#each todayTimed as it (it.task.id)}
                 {@const a = pct(toMin(it.task.start!))}
                 <i class="slot" class:done={isDoneOn(it.task, it.date)} style:left="{a}%" style:width="max(4px, {pct(toMin(it.task.start!) + it.task.duration) - a}%)"></i>
@@ -530,8 +530,8 @@
   .nt small { font-size: 12px; color: var(--td); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .line { display: none; position: relative; width: 100%; height: 30px; flex: 0 0 auto; margin-top: 6px; border-top: 1px solid var(--tg); }
   @container (min-height: 150px) and (min-width: 330px) { .line { display: block; } }
-  .tick { position: absolute; top: 18px; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; color: var(--td); }
-  .tick:first-child { transform: none; }
+  .hr { position: absolute; top: 18px; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; color: var(--td); }
+  .hr:first-child { transform: none; }
   .slot { position: absolute; top: 5px; height: 10px; border-radius: 3px; background: var(--t); }
   .slot.done { opacity: .3; }
   .now { position: absolute; top: 0; width: 2px; height: 18px; margin-left: -1px; background: var(--red); }
