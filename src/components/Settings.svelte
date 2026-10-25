@@ -8,6 +8,7 @@
   import { store } from '../lib/store.svelte';
   import { OPTIONAL_SECTIONS, THEMES, type OptionalSection, type Theme, type PomoCfg } from '../lib/model';
   import { cleanLogin } from '../lib/github';
+  import { cleanLeetUser } from '../lib/leetstats';
   import { sync } from '../lib/sync.svelte';
   import { buzz, chime, notifyGranted, requestNotify, systemNotify, unlockAudio } from '../lib/alerts';
 
@@ -20,6 +21,15 @@
 
   let ghDraft = $state(store.data.settings.github);
   let ghBad = $state(false);
+  let lcDraft = $state(store.data.settings.leetcodeUser);
+  let lcBad = $state(false);
+  function setLeet() {
+    const v = cleanLeetUser(lcDraft);
+    lcBad = !!lcDraft.trim() && !v;
+    if (lcBad) return;
+    lcDraft = v;
+    store.updateSettings({ leetcodeUser: v });
+  }
   function setGithub() {
     const v = cleanLogin(ghDraft);
     ghBad = !!ghDraft.trim() && !v;
@@ -65,6 +75,11 @@
   <SettingsGroup id="github" icon="github" title="GitHub" summary={s.github || '—'}>
     <label class="field"><input type="text" bind:value={ghDraft} placeholder={store.t('ghUserPh')} autocapitalize="none" autocomplete="off" spellcheck="false" aria-invalid={ghBad} onchange={setGithub} /></label>
     <p class="sub">{ghBad ? store.t('ghBad') : store.t('ghHint')}</p>
+  </SettingsGroup>
+
+  <SettingsGroup id="leetcode" icon="code" title="LeetCode" summary={s.leetcodeUser || '—'}>
+    <label class="field"><input type="text" bind:value={lcDraft} placeholder={store.t('lcUserPh')} autocapitalize="none" autocomplete="off" spellcheck="false" aria-invalid={lcBad} onchange={setLeet} /></label>
+    <p class="sub">{lcBad ? store.t('lcBad') : store.t('lcStatHint')}</p>
   </SettingsGroup>
 
   <SettingsGroup id="language" icon="globe" title={store.t('language')} summary={s.lang === 'ru' ? 'Русский' : 'English'}>
