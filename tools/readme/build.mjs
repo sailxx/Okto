@@ -183,7 +183,8 @@ const androidSvg = (s) => cardsSvg(s, ["widget", "oneapp", "fresh"], s.appLabel.
 const safeSvg = (s) => cardsSvg(s, ["sign", "data", "perms"], s.safeLabel);
 
 // ---------- Кнопки: веб-версия — светлая основная, Android — тёмная ----------
-const btnSvg = (label, kind) => K.button(label + (kind === "web" ? " ↗" : " ↓"), kind === "web" ? ICONS.web : ICONS.android, kind === "web");
+const WIN_ICON = '<rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1"/><rect x="13" y="13" width="7.5" height="7.5" rx="1"/>';
+const btnSvg = (label, kind) => K.button(label + (kind === "web" ? " ↗" : " ↓"), kind === "web" ? ICONS.web : kind === "windows" ? WIN_ICON : ICONS.android, kind === "web");
 
 // ── Качество в цифрах: настоящие данные из npm test и npm run build (версия 2.0) ──
 // Тесты по файлам tests/*.test.ts: recurrence 9, merge 7, migrate 5, stats 5, layout 3, settings 2
@@ -315,6 +316,7 @@ for (const [lang, s] of Object.entries(strings)) {
     [`safe-${lang}.svg`]: safeSvg(s),
     [`btn-web-${lang}.svg`]: btnSvg(md[lang].btnWeb, "web"),
     [`btn-android-${lang}.svg`]: btnSvg(md[lang].btnApk, "android"),
+    [`btn-windows-${lang}.svg`]: btnSvg(md[lang].btnWin, "windows"),
   });
 }
 await K.build(out, images, "Okto›↗↓↻/:.,");
@@ -334,7 +336,7 @@ ${sw}
 
 <picture><source srcset="assets/readme/hero-${lang}.svg"><img src="assets/readme/png/hero-${lang}.png" width="100%" alt="${m.alt[0]}"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="52" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="52" alt="${m.btnApk}"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="52" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="52" alt="${m.btnApk}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.0"><img src="assets/readme/btn-windows-${lang}.svg" height="52" alt="${m.btnWin}"></a>
 
 ${m.anywhere}
 
