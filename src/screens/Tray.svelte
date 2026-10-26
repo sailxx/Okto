@@ -72,10 +72,10 @@
     --ink: #fff; --muted: rgb(255 255 255 / 56%); --line: rgb(255 255 255 / 9%); --well: rgb(255 255 255 / 7%); --well-edge: rgb(255 255 255 / 10%);
     --bg: #202020; --on-key: #141414; --gutter: 18px;
     display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; overflow: hidden;
-    background: rgb(32 32 32 / 72%); color: var(--ink); font-family: var(--sans);
+    background: rgb(32 32 32 / 92%); color: var(--ink); font-family: var(--sans);
   }
   @media (prefers-color-scheme: light) {
-    .tray { --ink: #1a1a1a; --muted: rgb(0 0 0 / 56%); --line: rgb(0 0 0 / 9%); --well: rgb(0 0 0 / 5%); --well-edge: rgb(0 0 0 / 9%); --bg: #f3f3f3; --on-key: #fff; background: rgb(243 243 243 / 72%); }
+    .tray { --ink: #1a1a1a; --muted: rgb(0 0 0 / 56%); --line: rgb(0 0 0 / 9%); --well: rgb(0 0 0 / 5%); --well-edge: rgb(0 0 0 / 9%); --bg: #f3f3f3; --on-key: #fff; background: rgb(243 243 243 / 92%); }
   }
 
   header { display: flex; align-items: baseline; justify-content: space-between; padding: 18px var(--gutter) 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
