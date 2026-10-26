@@ -6,7 +6,7 @@
 
 <picture><source srcset="assets/readme/hero-ru.svg"><img src="assets/readme/png/hero-ru.png" width="100%" alt="Okto — спланируй день, сфокусируйся на главном"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-ru.svg" height="52" alt="Открыть веб-версию"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-ru.svg" height="52" alt="Скачать для Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.5"><img src="assets/readme/btn-windows-ru.svg" height="52" alt="Скачать для Windows"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-ru.svg" height="52" alt="Открыть веб-версию"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-ru.svg" height="52" alt="Скачать для Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.6"><img src="assets/readme/btn-windows-ru.svg" height="52" alt="Скачать для Windows"></a>
 
 **Okto работает на любом устройстве** — iPhone и Android, планшет, Windows, macOS и Linux. Нужен только браузер, а на телефон и компьютер Okto ставится как приложение. Для Android есть отдельное приложение с виджетом задач — его можно найти и в [Komi Store](https://github.com/komi-store/komi-store).
 
