@@ -14,7 +14,7 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using Microsoft.Win32;
 
-[assembly: System.Reflection.AssemblyVersion("1.6.0.0")]
+[assembly: System.Reflection.AssemblyVersion("1.7.0.0")]
 
 static class Program
 {
@@ -40,8 +40,8 @@ static class Program
     {
         // Windows starts autostart programs in system32; the DLLs are next to the exe.
         Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        // Files left by the previous version (a running exe can be renamed, not overwritten).
-        foreach (var old in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.old")) { try { File.Delete(old); } catch { } }
+        // Finish or undo a half-done update from the previous run.
+        Updater.Recover();
         bool updated = Array.IndexOf(args, "--updated") >= 0;
         var mutex = new Mutex(false, "OktoTray.Single");
         bool got;
@@ -62,50 +62,109 @@ static class Program
     // Looks for a newer "tray-vX.Y" release on GitHub and swaps the files in place.
     static class Updater
     {
-        // The latest tray version lives in a file on main, so Android releases cannot push it out of a feed.
+        // The latest version and the SHA-256 of its zip live in files on main, so Android releases cannot push them out of a feed.
         const string VersionFile = "https://raw.githubusercontent.com/sailxx/Okto/main/windows/version.txt";
+        const string HashFile = "https://raw.githubusercontent.com/sailxx/Okto/main/windows/OktoTray.sha256";
 
         public static Version Current { get { return Norm(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version); } }
 
         static Version Norm(Version v) { return new Version(v.Major, v.Minor, Math.Max(v.Build, 0), Math.Max(v.Revision, 0)); }
 
+        // A unique query string skips the 5-minute cache of raw.githubusercontent.com.
+        static string Fresh(string url) { return url + "?t=" + DateTime.UtcNow.Ticks; }
+
+        // A crash in the middle of a swap leaves "x.old" without "x": put the old file back, else drop the leftovers.
+        public static void Recover()
+        {
+            var here = AppDomain.CurrentDomain.BaseDirectory;
+            foreach (var f in Directory.GetFiles(here, "*.new")) { try { File.Delete(f); } catch { } }
+            foreach (var old in Directory.GetFiles(here, "*.old"))
+            {
+                try
+                {
+                    var orig = old.Substring(0, old.Length - 4);
+                    if (File.Exists(orig)) File.Delete(old); else File.Move(old, orig);
+                }
+                catch { }
+            }
+        }
+
         // Returns the new version if the files were replaced (restart needed), null when up to date.
         public static Version CheckAndApply()
         {
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-            string url = null;
-            Version best = Current;
+            Version best = Current, v;
             using (var wc = new WebClient())
             {
                 wc.Headers["User-Agent"] = "OktoTray";
-                var tag = "";
-                Version v;
-                var latest = wc.DownloadString(VersionFile).Trim();
-                if (Version.TryParse(latest, out v) && Norm(v) > best) { best = Norm(v); tag = latest; }
-                if (tag == "") return null;
-                url = "https://github.com/sailxx/Okto/releases/download/tray-v" + tag + "/OktoTray.zip";
+                wc.Headers["Cache-Control"] = "no-cache";
+                var tag = wc.DownloadString(Fresh(VersionFile)).Trim();
+                if (!Version.TryParse(tag, out v) || Norm(v) <= best) return null;
+                best = Norm(v);
+                var expected = wc.DownloadString(Fresh(HashFile)).Trim().Split(' ', '\r', '\n')[0].ToLowerInvariant();
+                var url = "https://github.com/sailxx/Okto/releases/download/tray-v" + tag + "/OktoTray.zip";
                 var tmp = Path.Combine(Path.GetTempPath(), "OktoTray-" + Guid.NewGuid().ToString("N"));
                 Directory.CreateDirectory(tmp);
-                var zip = Path.Combine(tmp, "OktoTray.zip");
-                wc.DownloadFile(url, zip);
-                var dir = Path.Combine(tmp, "x");
-                ZipFile.ExtractToDirectory(zip, dir);
-                if (!File.Exists(Path.Combine(dir, "OktoTray.exe"))) throw new InvalidDataException("no exe in " + url);
-                var here = AppDomain.CurrentDomain.BaseDirectory;
-                foreach (var src in Directory.GetFiles(dir))
+                try
                 {
-                    var dest = Path.Combine(here, Path.GetFileName(src));
-                    if (File.Exists(dest))
-                    {
-                        var old = dest + ".old";
-                        if (File.Exists(old)) File.Delete(old);
-                        File.Move(dest, old);
-                    }
-                    File.Copy(src, dest, true);
+                    var zip = Path.Combine(tmp, "OktoTray.zip");
+                    wc.DownloadFile(url, zip);
+                    // Refuse a zip that is not the one published together with version.txt.
+                    string actual;
+                    using (var sha = System.Security.Cryptography.SHA256.Create())
+                    using (var fs = File.OpenRead(zip)) actual = BitConverter.ToString(sha.ComputeHash(fs)).Replace("-", "").ToLowerInvariant();
+                    if (actual != expected) throw new InvalidDataException("hash mismatch for " + url);
+                    var dir = Path.Combine(tmp, "x");
+                    ZipFile.ExtractToDirectory(zip, dir);
+                    if (!File.Exists(Path.Combine(dir, "OktoTray.exe"))) throw new InvalidDataException("no exe in " + url);
+                    Swap(dir);
                 }
-                try { Directory.Delete(tmp, true); } catch { }
+                finally { try { Directory.Delete(tmp, true); } catch { } }
                 Log("updated to " + best);
                 return best;
+            }
+        }
+
+        // Stage every file as "x.new" first (nothing changes if that fails), then rename; undo everything on a failure.
+        static void Swap(string dir)
+        {
+            var here = AppDomain.CurrentDomain.BaseDirectory;
+            var files = Directory.GetFiles(dir);
+            try
+            {
+                foreach (var src in files) File.Copy(src, Path.Combine(here, Path.GetFileName(src)) + ".new", true);
+            }
+            catch
+            {
+                foreach (var src in files) { try { File.Delete(Path.Combine(here, Path.GetFileName(src)) + ".new"); } catch { } }
+                throw;
+            }
+            var done = new System.Collections.Generic.List<string>();
+            try
+            {
+                foreach (var src in files)
+                {
+                    var dest = Path.Combine(here, Path.GetFileName(src));
+                    var old = dest + ".old";
+                    if (File.Exists(old)) File.Delete(old);
+                    if (File.Exists(dest)) File.Move(dest, old);
+                    done.Add(dest);
+                    File.Move(dest + ".new", dest);
+                }
+            }
+            catch
+            {
+                foreach (var dest in done)
+                {
+                    try
+                    {
+                        if (File.Exists(dest)) File.Delete(dest);
+                        if (File.Exists(dest + ".old")) File.Move(dest + ".old", dest);
+                    }
+                    catch { }
+                }
+                foreach (var src in files) { try { File.Delete(Path.Combine(here, Path.GetFileName(src)) + ".new"); } catch { } }
+                throw;
             }
         }
     }
@@ -217,6 +276,7 @@ static class Program
         public PopupForm(string url)
         {
             this.url = url;
+            dpi = DeviceDpi;
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TopMost = true;
@@ -250,7 +310,8 @@ static class Program
             DwmExtendFrameIntoClientArea(Handle, ref m);
         }
 
-        int Dpi(int v) { return (int)Math.Round(v * DeviceDpi / 96.0); }
+        int dpi = 96;
+        int Dpi(int v) { return (int)Math.Round(v * dpi / 96.0); }
 
         async void Init()
         {
@@ -321,16 +382,45 @@ static class Program
             if (Dismissed != null) Dismissed(this, e);
         }
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")] static extern IntPtr MonitorFromPoint(Point pt, uint flags);
+        [System.Runtime.InteropServices.DllImport("shcore.dll")] static extern int GetDpiForMonitor(IntPtr mon, int type, out uint x, out uint y);
+
+        // Effective DPI of the monitor under a point (each monitor can have its own scale).
+        static int MonitorDpi(Point p)
+        {
+            try
+            {
+                uint x, y;
+                if (GetDpiForMonitor(MonitorFromPoint(p, 2), 0, out x, out y) == 0 && x > 0) return (int)x;
+            }
+            catch { }
+            return 96;
+        }
+
         public void ShowAtTray()
         {
-            // Size in physical pixels: DeviceDpi is only right once the window exists.
-            var wa = Screen.FromPoint(Cursor.Position).WorkingArea;
-            Size = new Size(Dpi(400), Math.Min(Dpi(600), wa.Height - Dpi(32)));
-            int m = Dpi(16);
-            Location = new Point(wa.Right - Width - m, wa.Bottom - Height - m);
+            // Size and margins follow the scale of the monitor the tray icon is on.
+            var screen = Screen.FromPoint(Cursor.Position);
+            var wa = screen.WorkingArea;
+            dpi = MonitorDpi(Cursor.Position);
+            Place(wa);
             Show();
+            Place(wa);
             Activate();
             if (web.CoreWebView2 != null) web.CoreWebView2.ExecuteScriptAsync("document.querySelector('input')&&document.querySelector('input').focus()");
+        }
+
+        void Place(Rectangle wa)
+        {
+            int w = Dpi(400), h = Math.Min(Dpi(600), wa.Height - Dpi(32)), m = Dpi(16);
+            SetBounds(wa.Right - w - m, wa.Bottom - h - m, w, h);
+        }
+
+        // We size the window ourselves for every show; ignore the system's rescale when it moves between monitors.
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x02E0) return;
+            base.WndProc(ref m);
         }
 
         protected override CreateParams CreateParams
