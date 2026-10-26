@@ -336,7 +336,7 @@ ${sw}
 
 <picture><source srcset="assets/readme/hero-${lang}.svg"><img src="assets/readme/png/hero-${lang}.png" width="100%" alt="${m.alt[0]}"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="52" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="52" alt="${m.btnApk}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.6"><img src="assets/readme/btn-windows-${lang}.svg" height="52" alt="${m.btnWin}"></a>
+<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-${lang}.svg" height="52" alt="${m.btnWeb}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-${lang}.svg" height="52" alt="${m.btnApk}"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-${lang}.svg" height="52" alt="${m.btnWin}"></a>
 
 ${m.anywhere}
 
