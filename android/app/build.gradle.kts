@@ -11,9 +11,16 @@ plugins {
 
 val webProject = rootProject.layout.projectDirectory.dir("..")
 val webAssets = layout.buildDirectory.dir("generated/oktoWeb")
-val buildPlanner = tasks.register<Exec>("buildPlanner") {
+val npm = if (System.getProperty("os.name").startsWith("Windows")) listOf("cmd", "/d", "/c", "npm") else listOf("npm")
+val installPlannerDependencies = tasks.register<Exec>("installPlannerDependencies") {
     workingDir(webProject.asFile)
-    val npm = if (System.getProperty("os.name").startsWith("Windows")) listOf("cmd", "/d", "/c", "npm") else listOf("npm")
+    commandLine(npm + listOf("ci", "--include=dev"))
+    inputs.files(webProject.file("package.json"), webProject.file("package-lock.json"))
+    outputs.dir(webProject.dir("node_modules"))
+}
+val buildPlanner = tasks.register<Exec>("buildPlanner") {
+    dependsOn(installPlannerDependencies)
+    workingDir(webProject.asFile)
     commandLine(npm + listOf("run", "build:android"))
     inputs.files(listOf("planner.html", "vite.config.ts", "package.json", "package-lock.json", "svelte.config.js", ".env", ".env.local", ".env.android", ".env.android.local").map(webProject::file))
     inputs.dir(webProject.dir("src"))

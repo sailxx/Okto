@@ -29,10 +29,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Установить зависимости планера
-        working-directory: .
-        run: npm ci
-
       - name: Тег совпадает с versionName
         if: startsWith(github.ref, 'refs/tags/')
         run: |
