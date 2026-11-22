@@ -5,9 +5,10 @@ import { inAndroidApp, notifyGranted } from './alerts';
 import { router } from './router.svelte';
 import { store } from './store.svelte';
 import { DICT } from './i18n';
+import { androidSend, isBundledAndroid } from './android';
 
 const TAG = 'okto-live';
-const supported = 'serviceWorker' in navigator && (inAndroidApp || matchMedia('(pointer: coarse)').matches);
+const serviceWorker = import.meta.env.MODE !== 'android' && 'serviceWorker' in navigator && (inAndroidApp || matchMedia('(pointer: coarse)').matches);
 let shown = '';
 let current: LiveView | null = null;
 let dismissed = '';
@@ -15,7 +16,7 @@ let queue = Promise.resolve();
 
 /** Called on every tick: posts only when the text changes. The counter shows up once Okto goes to the background. */
 export function liveSync(hidden: boolean) {
-  if (!supported) return;
+  if (!serviceWorker && !isBundledAndroid) return;
   let view: LiveView | null = null;
   if (store.device.notify && notifyGranted()) {
     const c = hidden && router.route === 'focus' && store.device.focusMode === 'counter' ? store.activeCounter() : null;
@@ -31,6 +32,7 @@ export function liveSync(hidden: boolean) {
 }
 
 async function post(view: LiveView | null) {
+  if (isBundledAndroid) { androidSend({ type: 'live', view }); return; }
   const reg = await navigator.serviceWorker.getRegistration();
   if (!reg) return;
   if (!view) { for (const n of await reg.getNotifications({ tag: TAG })) n.close(); return; }
@@ -41,7 +43,7 @@ async function post(view: LiveView | null) {
   await reg.showNotification(view.title, opts);
 }
 
-function run(action: string) {
+export function runLiveAction(action: string) {
   if (action === 'open') { router.go('focus'); return; }
   if (action === 'dismiss') { dismissed = current?.sticky ?? ''; shown = ''; return; }
   switch (action as LiveAction) {
@@ -60,8 +62,8 @@ function run(action: string) {
   }
 }
 
-if (supported) {
-  navigator.serviceWorker.addEventListener('message', (e) => { if (e.data?.type === TAG) run(String(e.data.action)); });
+if (serviceWorker) {
+  navigator.serviceWorker.addEventListener('message', (e) => { if (e.data?.type === TAG) runLiveAction(String(e.data.action)); });
   navigator.serviceWorker.startMessages();
   // A button pressed while Okto was closed: the service worker opens it with ?live=<action>.
   const url = new URL(location.href);
@@ -69,6 +71,6 @@ if (supported) {
   if (action) {
     url.searchParams.delete('live');
     history.replaceState(null, '', url);
-    queueMicrotask(() => run(action));
+    queueMicrotask(() => runLiveAction(action));
   }
 }

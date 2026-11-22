@@ -18,8 +18,10 @@
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
-  import { unlockAudio } from './lib/alerts';
-  import { liveSync } from './lib/liveNotify';
+  import { readAndroidPermission, unlockAudio } from './lib/alerts';
+  import { liveSync, runLiveAction } from './lib/liveNotify';
+  import { androidSend, connectAndroidUi, isBundledAndroid } from './lib/android';
+  import { syncAndroidSchedule } from './lib/androidPlanner';
   import { boot } from './lib/boot.svelte';
   import { gcFiles } from './lib/files';
   import { sectionSwipe } from './lib/swipe';
@@ -53,6 +55,10 @@
       // Dark or light casing, whatever the theme: the glass bar reads it.
       const [r, g, b] = rgbOf(bg);
       root.dataset.tone = (r * 299 + g * 587 + b * 114) / 1000 < 128 ? 'dark' : 'light';
+      if (isBundledAndroid) {
+        const color = `#${[r, g, b].map((channel) => Math.round(channel).toString(16).padStart(2, '0')).join('')}`;
+        androidSend({ type: 'theme', color, light: root.dataset.tone === 'light' });
+      }
     });
   });
 
@@ -65,10 +71,14 @@
     void store.now;
     liveSync(hidden);
   });
+  $effect(() => { if (isBundledAndroid) syncAndroidSchedule(); });
 
   // A switched-off section is not reachable, even from an old link.
   $effect(() => {
     if (!store.shows(router.route)) router.go('home');
+  });
+  $effect(() => {
+    if (welcome && store.data.settings.onboarded) welcome = false;
   });
 
   onMount(() => {
@@ -84,6 +94,19 @@
     document.addEventListener('pointerdown', unlockAudio, { once: true });
     if (!store.storageOk) store.toast(store.t('storageFail'));
     store.tick();
+    if (isBundledAndroid) {
+      connectAndroidUi(() => { store.flush(); hidden = true; liveSync(true); }, runLiveAction, (hash) => {
+        if (hash === '#/habits') router.tab = 'habits';
+        if (hash === '#/tasks') router.tab = 'tasks';
+        if (location.hash !== hash) location.hash = hash;
+      });
+      void readAndroidPermission('ready').catch(console.error);
+      window.addEventListener('okto-android-resume', () => {
+        hidden = false;
+        store.tick();
+        void readAndroidPermission('permission').catch(console.error);
+      });
+    }
     sync.start();
     boot.start();
     const gc = setTimeout(() => gcFiles(store.attachedFiles()), 15_000);

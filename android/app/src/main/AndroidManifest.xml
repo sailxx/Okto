@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Okto для Android: Trusted Web Activity поверх https://sailxx.github.io/Okto/ + виджет задач -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Напоминания о задачах точно ко времени (USE_EXACT_ALARM выдаётся сам с Android 13) -->
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
@@ -11,58 +11,20 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <queries>
-        <intent>
-            <action android:name="android.support.customtabs.action.CustomTabsService" />
-        </intent>
-    </queries>
-
     <application
         android:name=".OktoApp"
         android:allowBackup="false"
-        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Okto">
 
-        <meta-data
-            android:name="asset_statements"
-            android:resource="@string/asset_statements" />
-
         <activity
-            android:name="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:name=".PlannerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:label="@string/app_name"
-            android:launchMode="singleTask">
-            <!-- Только строкой: ссылка @string/… попадает в meta-data как int, и библиотека получает null -->
-            <meta-data
-                android:name="android.support.customtabs.trusted.DEFAULT_URL"
-                android:value="https://sailxx.github.io/Okto/" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
-                android:resource="@color/bar" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR_DARK"
-                android:resource="@color/bar_dark" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
-                android:resource="@color/bar" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
-                android:resource="@color/bar_dark" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
-                android:resource="@drawable/splash" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
-                android:resource="@color/bar" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
-                android:value="300" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
-                android:value="com.sailxx.okto.fileprovider" />
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -74,14 +36,13 @@
             </intent-filter>
         </activity>
 
-        <!-- Значок на рабочем столе: включён ровно один alias, выбирается в «Настройках виджета»
-             (IconChoice). Метаданные TWA библиотека читает с самой LauncherActivity. -->
+        <!-- Значок на рабочем столе выбирается в настройках виджета. -->
         <activity-alias
             android:name=".LauncherOcto"
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
-            android:targetActivity="com.google.androidbrowserhelper.trusted.LauncherActivity">
+            android:targetActivity=".PlannerActivity">
             <!-- Долгий тап по иконке: «Новая задача» и «Настройки виджета» -->
             <meta-data
                 android:name="android.app.shortcuts"
@@ -97,7 +58,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_launcher_ring"
-            android:targetActivity="com.google.androidbrowserhelper.trusted.LauncherActivity">
+            android:targetActivity=".PlannerActivity">
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
@@ -106,30 +67,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
-
-        <!-- Обязателен: при каждом запуске библиотека включает/выключает его ярлык «Настройки сайта»
-             (setComponentEnabledSetting), и без объявления приложение падает. Он же — «Управление
-             памятью» в настройках Android. -->
-        <activity
-            android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL"
-                android:value="https://sailxx.github.io/Okto/" />
-        </activity>
-
-        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
-
-        <!-- Запрос разрешения на уведомления (Android 13+), когда сайт включает их в «Настройках».
-             Без него запрос сразу получал отказ, и переключатель в Okto сбрасывался. -->
-        <activity
-            android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity
-            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
-            android:configChanges="orientation|screenSize" />
 
         <!-- ===== Виджет задач ===== -->
 
@@ -239,6 +176,10 @@
             android:name=".notify.FocusAlarmReceiver"
             android:exported="false" />
 
+        <receiver
+            android:name=".notify.PlannerNotificationReceiver"
+            android:exported="false" />
+
         <!-- ===== Напоминания о задачах ===== -->
 
         <receiver
@@ -259,26 +200,10 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.sailxx.okto.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/filepaths" />
         </provider>
-
-        <service
-            android:name="com.google.androidbrowserhelper.trusted.DelegationService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <!-- Значок уведомлений сайта (Помодоро, таймер) в строке состояния -->
-            <meta-data
-                android:name="android.support.customtabs.trusted.SMALL_ICON"
-                android:resource="@drawable/ic_notify" />
-        </service>
     </application>
 </manifest>

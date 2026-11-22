@@ -46,7 +46,7 @@
 
 /* Floating tab bar: one soft capsule, the current section is a tinted pill. */
 .tabbar {
-  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom));
+  position: fixed; z-index: 4; left: 12px; right: 12px; bottom: calc(10px + var(--dock-safe-bottom));
   /* One equal column per visible section: switched-off ones leave no gap. */
   display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
   padding: 5px;
@@ -76,14 +76,17 @@
 .tab svg { width: 24px; height: 24px; }
 .tab:active { transform: scale(.96); }
 .tab[aria-current='page'] { color: var(--primary); }
-.main { padding-bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 8px); }
-:root { --chrome: calc(60px + var(--tabbar) + 8px + env(safe-area-inset-bottom) + env(safe-area-inset-top)); }
+.main { padding-bottom: calc(var(--tabbar) + var(--dock-safe-bottom) + 8px); }
+:root {
+  --dock-safe-bottom: calc(env(safe-area-inset-bottom) + var(--okto-dock-inset, 0px));
+  --chrome: calc(60px + var(--tabbar) + 8px + var(--dock-safe-bottom) + env(safe-area-inset-top));
+}
 
 /* The one primary key */
 .fab {
   position: fixed; z-index: 4;
   right: max(16px, calc((100% - 820px) / 2));
-  bottom: calc(var(--tabbar) + env(safe-area-inset-bottom) + 20px);
+  bottom: calc(var(--tabbar) + var(--dock-safe-bottom) + 20px);
   width: 60px; height: 60px; border-radius: 14px;
   display: grid; place-items: center;
   background: var(--primary); color: var(--on-primary);
@@ -190,7 +193,7 @@ textarea { font: inherit; color: inherit; }
 /* Phone: only Home has the logo row; other screens start with their own header. */
 @media (max-width: 899px) {
   .shell.no-top .mobile-top { display: none; }
-  .shell.no-top { --chrome: calc(var(--tabbar) + 8px + env(safe-area-inset-bottom) + max(10px, env(safe-area-inset-top))); }
+  .shell.no-top { --chrome: calc(var(--tabbar) + 8px + var(--dock-safe-bottom) + max(10px, env(safe-area-inset-top))); }
   .shell.no-top .main { padding-top: max(10px, env(safe-area-inset-top)); }
 }
 

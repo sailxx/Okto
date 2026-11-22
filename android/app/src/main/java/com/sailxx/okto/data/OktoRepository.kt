@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.sailxx.okto.R
 import com.sailxx.okto.calendar.GoogleCalendar
-import com.sailxx.okto.notify.Reminders
+import com.sailxx.okto.notify.PlannerNotifications
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -110,7 +110,7 @@ object OktoRepository {
         val ref = userRef()
         if (ref == null) {
             tasks.clear()
-            Reminders.schedule(AppLang.wrap(context), emptyList())
+            PlannerNotifications.scheduleTasks(context, emptyList())
             _state.value = WidgetState(Status.SIGNED_OUT, OktoPalettes.forTheme(context, themeName))
             return@withLock
         }
@@ -264,7 +264,7 @@ object OktoRepository {
     /** Собирает список для виджета (задачи на сегодня + просроченные, выполненные — внизу) и перепланирует напоминания. */
     private fun publish(base: Context, offline: Boolean = _state.value.offline) {
         val context = AppLang.wrap(base)
-        Reminders.schedule(AppLang.wrap(context), tasks.values)
+        PlannerNotifications.scheduleTasks(context, tasks.values)
         GoogleCalendar.onTasks(context, tasks.values)
         val today = LocalDate.now()
         val t = today.toString()

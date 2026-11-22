@@ -50,7 +50,11 @@
     const b = blobs[a.id];
     if (!b) { store.toast(store.t('fileElsewhere')); return; }
     if (urls[a.id] && !broken[a.id]) viewing = a;
-    else download(b, a.name);
+    else saveAttachment(b, a.name);
+  }
+  async function saveAttachment(blob: Blob, name: string) {
+    try { await download(blob, name); }
+    catch { store.toast(store.t('fileError')); }
   }
   function remove(a: Attachment) {
     const i = items.findIndex((x) => x.id === a.id);
@@ -95,7 +99,7 @@
     <img src={urls[v.id]} alt={v.name} />
     <div class="vbar">
       <span class="vname">{v.name} · {store.t('fileSize')(v.size)}</span>
-      <button type="button" class="icon-btn" aria-label={store.t('download')} title={store.t('download')} onclick={() => { const b = blobs[v.id]; if (b) download(b, v.name); }}><Icon name="download" /></button>
+      <button type="button" class="icon-btn" aria-label={store.t('download')} title={store.t('download')} onclick={() => { const b = blobs[v.id]; if (b) saveAttachment(b, v.name); }}><Icon name="download" /></button>
       <button type="button" class="icon-btn" aria-label={store.t('removeFile')} title={store.t('removeFile')} onclick={() => remove(v)}><Icon name="trash" /></button>
       <button type="button" class="icon-btn" aria-label={store.t('close')} onclick={() => viewer?.close()}><Icon name="close" /></button>
     </div>

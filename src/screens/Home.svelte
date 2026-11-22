@@ -8,6 +8,7 @@
   import LeetcodeCard from '../components/LeetcodeCard.svelte';
   import LeetStatsCard from '../components/LeetStatsCard.svelte';
   import { store } from '../lib/store.svelte';
+  import { isBundledAndroid } from '../lib/android';
   import { router } from '../lib/router.svelte';
   import { addDays, minutesNow, toMin } from '../lib/date';
   import { relDay } from '../lib/i18n';
@@ -245,13 +246,13 @@
   <span class="read"><Digits class="big" text={big} {delay} />{#if unit}<em>{unit}</em>{/if}</span>
 {/snippet}
 
-<div class="page home">
+<div class="page home" class:android-home={isBundledAndroid}>
   <div class="page-head">
     <div class="hello">
       <button type="button" class="greet" onclick={() => (profile = true)} title={store.t('editGreeting')}>
         <h1 class="page-title">{greeting}</h1>
       </button>
-      <p class="greet-sub">{store.t('greetSub')}</p>
+      {#if !isBundledAndroid}<p class="greet-sub">{store.t('greetSub')}</p>{/if}
     </div>
   </div>
 
@@ -507,6 +508,15 @@
   .tabs button { position: relative; padding: 0 0 10px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 150ms ease; }
   .tabs button[aria-selected='true'] { color: var(--ink); font-weight: 600; }
   .tabs button[aria-selected='true']::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
+  .android-home .tabs { margin-top: 8px; gap: clamp(8px, 4vw, 22px); }
+  .android-home .tabs button[role='tab'] { min-height: 36px; padding: 0; font-size: 14px; }
+  .android-home .tabs .edit-btn { margin-bottom: 4px; }
+  .android-home .blocks { margin-top: 12px; }
+  @media (max-width: 360px) {
+    .android-home .tabs { gap: 10px; }
+    .android-home .tabs button[role='tab'] { font-size: 13px; }
+    .android-home .tabs .edit-btn { padding-inline: 8px; }
+  }
 
   /* Cards: one anatomy — icon chip, title, big value, small note, round arrow in the corner. */
   .blocks {
