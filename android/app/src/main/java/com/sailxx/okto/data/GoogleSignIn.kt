@@ -16,7 +16,7 @@ import kotlinx.coroutines.tasks.await
  * Вход тем же Google-аккаунтом, что и в веб-Okto: Firebase выдаст тот же uid,
  * поэтому виджет увидит те же задачи (users/{uid}/tasks).
  */
-suspend fun signInWithGoogle(activity: Activity) {
+suspend fun signInWithGoogle(activity: Activity): String {
     // default_web_client_id генерирует плагин google-services из google-services.json
     val option = GetSignInWithGoogleOption.Builder(activity.getString(R.string.default_web_client_id)).build()
     val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
@@ -27,6 +27,7 @@ suspend fun signInWithGoogle(activity: Activity) {
     }
     val idToken = GoogleIdTokenCredential.createFrom(credential.data).idToken
     Firebase.auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null)).await()
+    return idToken
 }
 
 fun signOut() = Firebase.auth.signOut()

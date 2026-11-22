@@ -9,6 +9,28 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+val webProject = rootProject.layout.projectDirectory.dir("..")
+val webAssets = layout.buildDirectory.dir("generated/oktoWeb")
+val npm = if (System.getProperty("os.name").startsWith("Windows")) listOf("cmd", "/d", "/c", "npm") else listOf("npm")
+val installPlannerDependencies = tasks.register<Exec>("installPlannerDependencies") {
+    workingDir(webProject.asFile)
+    commandLine(npm + listOf("ci", "--include=dev"))
+    inputs.files(webProject.file("package.json"), webProject.file("package-lock.json"))
+    outputs.dir(webProject.dir("node_modules"))
+}
+val buildPlanner = tasks.register<Exec>("buildPlanner") {
+    dependsOn(installPlannerDependencies)
+    workingDir(webProject.asFile)
+    commandLine(npm + listOf("run", "build:android"))
+    inputs.files(listOf("planner.html", "vite.config.ts", "package.json", "package-lock.json", "svelte.config.js", ".env", ".env.local", ".env.android", ".env.android.local").map(webProject::file))
+    inputs.dir(webProject.dir("src"))
+    inputs.dir(webProject.dir("public"))
+    inputs.properties(listOf("API_KEY", "AUTH_DOMAIN", "PROJECT_ID", "APP_ID").associateWith {
+        providers.environmentVariable("VITE_FIREBASE_$it").orElse("")
+    })
+    outputs.dir(webAssets)
+}
+
 android {
     namespace = "com.sailxx.okto"
     compileSdk = 36
@@ -17,12 +39,14 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 57
-        versionName = "3.22.6"
+        versionCode = 61
+        versionName = "3.23.3"
     }
 
+    sourceSets["main"].assets.srcDir(webAssets)
+
     // ÐšÐ»ÑŽÑ‡ Ð¿Ð¾Ð´Ð¿Ð¸ÑÐ¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑÑ Ð²Ð½Ðµ Ñ€ÐµÐ¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€Ð¸Ñ; Ð¿ÑƒÑ‚ÑŒ Ð¸ Ð¿Ð°Ñ€Ð¾Ð»Ð¸ â€” Ð² keystore.properties (Ð² .gitignore)
-    val keystoreFile = rootProject.file("keystore.properties")
+    val keystoreFile = rootProject.file(providers.environmentVariable("OKTO_KEYSTORE_PROPERTIES").orElse("keystore.properties").get())
     val releaseSigning = if (keystoreFile.exists()) {
         val props = Properties().apply { keystoreFile.inputStream().use { load(it) } }
         signingConfigs.create("release") {
@@ -56,6 +80,8 @@ android {
     }
 }
 
+tasks.named("preBuild").configure { dependsOn(buildPlanner) }
+
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
@@ -63,8 +89,8 @@ kotlin {
 }
 
 dependencies {
-    // Trusted Web Activity: Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ PWA Ñ‡ÐµÑ€ÐµÐ· Ð´Ð²Ð¸Ð¶Ð¾Ðº Chrome Ð½Ð° Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½
-    implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.7.4")
+    // Local planner assets and origin-restricted messaging.
+    implementation("androidx.webkit:webkit:1.12.1")
 
     // Ð’Ð¸Ð´Ð¶ÐµÑ‚ Ð·Ð°Ð´Ð°Ñ‡ Ð½Ð° Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ¼ ÑÑ‚Ð¾Ð»Ðµ
     implementation("androidx.glance:glance-appwidget:1.1.1")

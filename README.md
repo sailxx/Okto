@@ -15,6 +15,8 @@
 > [!NOTE]
 > The app interface is available in Russian and English.
 
+The Android APK opens the planner offline, including on first launch. Sign in with the same Google account to restore synced data and appearance settings. Data and attachments stored only in the old browser app remain available there.
+
 <br>
 
 <img src="assets/readme/screens-en.webp" width="100%" alt="Okto sections: Home, Tasks, Calendar, Focus">

@@ -77,7 +77,10 @@ data class OktoTask(
                 listId = m["listId"] as? String ?: "",
                 priority = (m["priority"] as? Number)?.toInt() ?: 0,
                 color = m["color"] as? String,
-                kind = if (m["kind"] == "call") "call" else "task",
+                kind = when (val kind = m["kind"] as? String) {
+                    "call", "habit" -> kind
+                    else -> "task"
+                },
                 link = m["link"] as? String ?: "",
                 date = isoDate(m["date"]),
                 start = m["start"] as? String,

@@ -134,6 +134,8 @@ export interface Device {
   calFolded: boolean;
   /** Desktop side panel folded down to icons. */
   sideFolded: boolean;
+  /** Google account whose settings Android has restored on this installation. */
+  androidSettingsOwner: string | null;
   /** System notifications: permission is per device, so the switch is too. */
   notify: boolean;
   /** When Pomodoro, timer or stopwatch last changed here or arrived from the account (live/focus), ms. */
@@ -437,7 +439,7 @@ export function defaultDevice(): Device {
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
-    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, sideFolded: false, notify: false, liveAt: 0,
+    focusTask: null, calView: null, taskFilter: 'today', calZoom: 1, calExpanded: false, calFolded: false, sideFolded: false, androidSettingsOwner: null, notify: false, liveAt: 0,
   };
 }
 
@@ -471,6 +473,7 @@ export function normDevice(raw: unknown): Device {
     calExpanded: raw.calExpanded === true,
     calFolded: raw.calFolded === true,
     sideFolded: raw.sideFolded === true,
+    androidSettingsOwner: typeof raw.androidSettingsOwner === 'string' ? raw.androidSettingsOwner : null,
     notify: raw.notify === true,
     liveAt: ts(raw.liveAt, 0),
   };

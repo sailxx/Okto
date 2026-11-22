@@ -1,35 +1,27 @@
 package com.sailxx.okto.notify
 
-import android.Manifest
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.sailxx.okto.R
 import com.sailxx.okto.data.AppLang
 import com.sailxx.okto.data.FocusLive
 import com.sailxx.okto.data.FocusMode
 import com.sailxx.okto.data.FocusRepository
-import com.sailxx.okto.widget.oktoIntent
 import com.sailxx.okto.widget.updateFocusWidgets
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 /**
  * Будильник на конец фазы помодоро и таймера: виджет перестаёт показывать минус,
  * фаза закрывается (с сессией фокуса), приходит уведомление — даже если Okto закрыт.
  */
 object FocusAlarm {
-    private const val CHANNEL = "focus"
     private const val ACTION = "com.sailxx.okto.FOCUS_END"
     private const val EXTRA_MODE = "mode"
 
@@ -63,38 +55,23 @@ object FocusAlarm {
         val ctx = AppLang.wrap(app)
         if (mode == FocusMode.TIMER) {
             FocusRepository.update(app) { l, t -> l.reset(FocusMode.TIMER, t) to null }
-            notify(app, mode, ctx.getString(R.string.timer_done_title), ctx.getString(R.string.timer_done_body))
+            notify(app, "timer", live.timer.endsAt, ctx.getString(R.string.timer_done_title), ctx.getString(R.string.timer_done_body))
         } else {
             val work = live.pomo.phase == "work"
             FocusRepository.update(app) { l, t -> if (l.ended(FocusMode.POMO, t)) l.advance(t, natural = true) else l to null }
             val next = FocusRepository.state.value ?: live
-            if (work) notify(app, mode, ctx.getString(R.string.work_done_title), ctx.getString(R.string.work_done_body, next.cfg.minutes(next.pomo.phase)))
-            else notify(app, mode, ctx.getString(R.string.break_done_title), ctx.getString(R.string.break_done_body))
+            if (work) notify(app, "pomodoro", live.pomo.endsAt, ctx.getString(R.string.work_done_title), ctx.getString(R.string.work_done_body, next.cfg.minutes(next.pomo.phase)))
+            else notify(app, "pomodoro", live.pomo.endsAt, ctx.getString(R.string.break_done_title), ctx.getString(R.string.break_done_body))
         }
         updateFocusWidgets(app)
     }
 
-    private fun notify(context: Context, mode: FocusMode, title: String, text: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
-        ) return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = AppLang.wrap(context).getString(R.string.focus_channel)
-            context.getSystemService(NotificationManager::class.java)
-                .createNotificationChannel(NotificationChannel(CHANNEL, name, NotificationManager.IMPORTANCE_HIGH))
-        }
-        val open = PendingIntent.getActivity(context, 7200, oktoIntent(context, "#/focus"), PendingIntent.FLAG_IMMUTABLE)
-        val notification = NotificationCompat.Builder(context, CHANNEL)
-            .setSmallIcon(R.drawable.ic_notify)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setCategory(NotificationCompat.CATEGORY_ALARM)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .setContentIntent(open)
-            .setAutoCancel(true)
-            .build()
-        NotificationManagerCompat.from(context).notify("focus", mode.ordinal, notification)
+    private fun notify(context: Context, mode: String, time: Long?, title: String, text: String) {
+        if (!PlannerNotifications.clockNotificationsEnabled(context)) return
+        PlannerNotifications.show(context, JSONObject()
+            .put("tag", "planner-focus-$mode-$time")
+            .put("title", title)
+            .put("body", text))
     }
 }
 

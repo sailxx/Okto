@@ -163,6 +163,7 @@ class RescheduleReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action !in actions) return
+        PlannerNotifications.rescheduleClock(context)
         SyncWorker.schedule(context)
         WorkManager.getInstance(context).enqueue(OneTimeWorkRequestBuilder<SyncWorker>().build())
     }

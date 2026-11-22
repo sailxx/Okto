@@ -1,8 +1,11 @@
 // Sound, vibration and system notifications (ported from Okto 1.0). The service worker also keeps Okto starting offline.
+import { androidCall, androidSend, isBundledAndroid } from './android';
+
 let audio: AudioContext | undefined;
 let swReg: ServiceWorkerRegistration | null = null;
+let androidPermission: NotificationPermission = 'default';
 
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+if (import.meta.env.MODE !== 'android' && 'serviceWorker' in navigator && location.protocol.startsWith('http')) {
   navigator.serviceWorker.register('./sw.js').then((r) => { swReg = r; }).catch(() => {});
 }
 
@@ -31,7 +34,7 @@ export function chime(times = 3) {
 }
 
 /** Inside the Okto Android app (TWA): Chrome passes the app as the referrer on launch; reloads keep the tab's session. */
-export const inAndroidApp = (() => {
+export const inAndroidApp = isBundledAndroid || (() => {
   try {
     if (document.referrer.startsWith('android-app://com.sailxx.okto')) sessionStorage.setItem('okto-twa', '1');
     return sessionStorage.getItem('okto-twa') === '1';
@@ -40,10 +43,15 @@ export const inAndroidApp = (() => {
 
 export const buzz = (pattern: number | number[]) => navigator.vibrate?.(pattern);
 
-export const notifySupported = () => 'Notification' in window;
-export const notifyGranted = () => notifySupported() && Notification.permission === 'granted';
+export const notifySupported = () => isBundledAndroid || 'Notification' in window;
+export const notifyGranted = () => isBundledAndroid ? androidPermission === 'granted' : notifySupported() && Notification.permission === 'granted';
+
+export async function readAndroidPermission(type: 'ready' | 'permission') {
+  if (isBundledAndroid) androidPermission = await androidCall<NotificationPermission>({ type });
+}
 
 export async function requestNotify(): Promise<NotificationPermission | 'unsupported'> {
+  if (isBundledAndroid) return androidPermission = await androidCall<NotificationPermission>({ type: 'requestPermission' });
   if (!notifySupported()) return 'unsupported';
   let perm = Notification.permission;
   if (perm === 'default') perm = await Notification.requestPermission();
@@ -52,6 +60,7 @@ export async function requestNotify(): Promise<NotificationPermission | 'unsuppo
 
 export async function systemNotify(title: string, body: string, tag = 'okto') {
   if (!notifyGranted()) return;
+  if (isBundledAndroid) { androidSend({ type: 'notify', title, body, tag }); return; }
   const opts: NotificationOptions & { renotify?: boolean } = { body, icon: './assets/icon-192.png', badge: './assets/icon-192.png', tag, renotify: true };
   try {
     const reg = swReg || (await navigator.serviceWorker?.getRegistration());

@@ -1,3 +1,5 @@
+import { androidDownload, isBundledAndroid } from './android';
+
 // Task attachments live in IndexedDB on this device: they work offline and never leave it.
 // Tasks carry only a description of each file (model.Attachment), so cloud sync stays small.
 const DB = 'okto-files', STORE = 'files';
@@ -66,6 +68,7 @@ export const isImage = (type: string) => /^image\/(png|jpe?g|gif|webp|avif|bmp|s
 
 /** Save a file to the device's Downloads. */
 export function download(blob: Blob, name: string) {
+  if (isBundledAndroid) return androidDownload(blob, name);
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = name;

@@ -7,6 +7,7 @@
   import { store } from '../lib/store.svelte';
   import { POMO, STEPS, type Counter, type FocusMode, type PomoPreset } from '../lib/model';
   import { buzz, unlockAudio } from '../lib/alerts';
+  import { androidSend, isBundledAndroid } from '../lib/android';
   import { locale } from '../lib/i18n';
 
   const LONG_PRESS = 650;
@@ -167,7 +168,7 @@
   }
 
   /* ---------- wake lock ---------- */
-  const wakeSupported = 'wakeLock' in navigator;
+  const wakeSupported = isBundledAndroid || 'wakeLock' in navigator;
   let wakeLock: WakeLockSentinel | null = null;
   let wakeWanted = $state(false);
   async function reacquire() {
@@ -178,6 +179,12 @@
     } catch { wakeLock = null; }
   }
   async function toggleWake() {
+    if (isBundledAndroid) {
+      wakeWanted = !wakeWanted;
+      androidSend({ type: 'awake', enabled: wakeWanted });
+      store.toast(store.t(wakeWanted ? 'wakeOn' : 'wakeOff'));
+      return;
+    }
     if (wakeWanted) {
       wakeWanted = false;
       await wakeLock?.release().catch(() => {});
@@ -196,7 +203,8 @@
     await tick();
     if (!countEl) return;
     countEl.style.fontSize = '';
-    const avail = countEl.clientWidth, natural = countEl.scrollWidth;
+    const avail = countEl.clientWidth - 2;
+    const natural = countEl.querySelector('.digits')?.getBoundingClientRect().width ?? 0;
     if (avail > 0 && natural > avail) {
       const size = parseFloat(getComputedStyle(countEl).fontSize);
       countEl.style.fontSize = `${Math.max(28, (size * avail) / natural)}px`;
@@ -227,6 +235,7 @@
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('visibilitychange', onVisible);
       ro.disconnect();
+      if (isBundledAndroid && wakeWanted) androidSend({ type: 'awake', enabled: false });
       wakeLock?.release().catch(() => {});
     };
   });
@@ -413,9 +422,9 @@
 
 <style>
   /* D5: one Home-style card — title, big value, thin bar, then settings-like rows. Two keys at the bottom. */
-  .focus-page .zone { flex: 0 0 auto; display: block; min-height: 0; padding: 16px 0 0; }
+  .focus-page .zone { flex: 0 0 auto; display: block; min-height: 0; margin-block: auto; padding: 8px 0; }
   .fcard {
-    border-radius: 24px; padding: 16px 18px 0; overflow: hidden;
+    container-type: inline-size; border-radius: 24px; padding: 16px 18px 0; overflow: hidden;
     background: color-mix(in srgb, var(--soft) 78%, var(--bg));
     box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
   }
@@ -426,8 +435,12 @@
   .rdots i { width: 7px; height: 7px; border-radius: 50%; box-shadow: inset 0 0 0 1.3px var(--muted); }
   .rdots i.done, .rdots i.cur { background: var(--ink); box-shadow: none; }
   .rdots i.cur { width: 16px; border-radius: 4px; }
-  .focus-page .fcard .count { margin: 10px 0 14px; font-family: var(--sans); font-size: clamp(56px, 17vw, 96px); font-weight: 650; letter-spacing: -.045em; text-align: left; }
-  .focus-page :global(.count .digits), .focus-page :global(.count .live) { justify-self: start; }
+  .focus-page .fcard .count {
+    display: grid; place-items: center; min-height: clamp(96px, 15svh, 136px); margin: 6px 0 10px;
+    font-family: var(--sans); font-size: clamp(48px, 24cqi, 112px);
+    font-weight: 650; letter-spacing: -.045em;
+  }
+  .focus-page .count :global(.digits .ghost) { visibility: hidden; }
   .fbar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
   .fbar i { display: block; height: 100%; border-radius: 2px; background: var(--ink); }
   .frows { margin: 14px -18px 0; border-top: 1px solid var(--line); }
@@ -450,7 +463,7 @@
   .tg::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); box-shadow: 0 1px 2px rgb(0 0 0 / 25%); transition: transform 180ms var(--ease); }
   [aria-checked='true'] .tg { background: var(--primary); }
   [aria-checked='true'] .tg::after { background: var(--on-primary); transform: translateX(16px); }
-  .fkeys { margin-top: auto; display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding-top: 16px; }
+  .fkeys { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding-top: 16px; }
   .fkeys .key {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 56px;
     font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;

@@ -201,11 +201,15 @@
         {#if !desktop}
           <div class="day-list" role="group" aria-label={fmtLongDay(store.lang, cursor)} ontouchstart={lStart} ontouchmove={lMove}>
             <h2 class="label">{fmtLongDay(store.lang, cursor)}</h2>
-            {#each dayList as i (i.task.id + i.date)}
-              <TaskRow task={i.task} date={i.date} />
+            {#if dayList.length}
+              <div class="day-rows">
+                {#each dayList as i (i.task.id + i.date)}
+                  <TaskRow task={i.task} date={i.date} />
+                {/each}
+              </div>
             {:else}
               <button type="button" class="empty-add" onclick={() => store.openNewTask({ date: cursor })}>+ {store.t('newTask')}</button>
-            {/each}
+            {/if}
           </div>
         {/if}
       {:else}
@@ -273,6 +277,7 @@
   .grip i::after { right: 0; transform-origin: left center; transform: rotate(calc(16deg - 32deg * var(--fold))); }
   .grip:hover i::before, .grip:hover i::after, .grip:focus-visible i::before, .grip:focus-visible i::after { background: var(--muted); }
   .day-list .label { margin: 0 0 2px 2px; }
+  .day-rows { display: grid; gap: 6px; }
   .empty-add { padding: 14px 2px; color: var(--muted); font-size: 15px; font-weight: 600; }
 
   .strip { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }

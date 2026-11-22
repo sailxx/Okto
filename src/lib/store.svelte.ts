@@ -9,6 +9,7 @@ import {
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
 import { buzz, chime, inAndroidApp, systemNotify } from './alerts';
+import { isBundledAndroid } from './android';
 
 const KEY = 'okto-v3';
 const NORMALIZE = { tasks: newTask, lists: newList, sessions: newSession, counters: newCounter, notes: newNote, habits: newHabit, health: newHealthDay, money: newMoney };
@@ -186,6 +187,12 @@ class Store {
   }
 
   /* ---------- settings / device ---------- */
+  restoreAccountSettings(raw: unknown, uid: string) {
+    if (raw) this.data.settings = normSettings(raw, this.lang);
+    this.setDevice({ androidSettingsOwner: uid });
+    this.flush();
+  }
+
   updateSettings(patch: Partial<Settings>) {
     Object.assign(this.data.settings, patch, { updatedAt: Math.max(Date.now(), this.data.settings.updatedAt + 1) });
     this.schedule();
@@ -423,6 +430,7 @@ class Store {
   pomoResetPhase() { this.setDevice({ pomo: { ...this.device.pomo, endsAt: null, remaining: null } }); }
   pomoAdvance(natural: boolean) {
     const p = { ...this.device.pomo };
+    const tag = isBundledAndroid ? `planner-focus-pomodoro-${p.endsAt}` : undefined;
     const cfg = this.pomoCfg();
     const finished = p.phase;
     if (finished === 'work') {
@@ -436,8 +444,8 @@ class Store {
     p.endsAt = natural && this.data.settings.pomo.autoStart ? Date.now() + this.phaseMs(p.phase) : null;
     this.setDevice({ pomo: p });
     if (natural) {
-      if (finished === 'work') this.alert(this.t('workDoneTitle'), this.t('workDoneBody')(cfg[p.phase]));
-      else this.alert(this.t('breakDoneTitle'), this.t('breakDoneBody'));
+      if (finished === 'work') this.alert(this.t('workDoneTitle'), this.t('workDoneBody')(cfg[p.phase]), tag);
+      else this.alert(this.t('breakDoneTitle'), this.t('breakDoneBody'), tag);
     }
   }
   /* ---------- countdown timer (runs app-wide, like Pomodoro) ---------- */
@@ -502,8 +510,9 @@ class Store {
     this.now = new Date();
     if (this.pomoRunning() && Date.now() >= this.device.pomo.endsAt!) this.pomoAdvance(true);
     if (this.timerRunning() && Date.now() >= this.device.timer.endsAt!) {
+      const tag = isBundledAndroid ? `planner-focus-timer-${this.device.timer.endsAt}` : undefined;
       this.timerReset();
-      this.alert(this.t('timerDoneTitle'), this.t('timerDoneBody'));
+      this.alert(this.t('timerDoneTitle'), this.t('timerDoneBody'), tag);
     }
     if (Date.now() - this.lastReminderCheck > 30000) { this.lastReminderCheck = Date.now(); this.checkReminders(); }
   }
