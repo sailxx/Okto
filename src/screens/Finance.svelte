@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import Icon from '../components/Icon.svelte';
   import { store } from '../lib/store.svelte';
   import { byCategory, fmtMoney, monthTotals, ratio } from '../lib/life';
@@ -50,7 +51,7 @@
   </section>
 
   <form class="add" onsubmit={add}>
-    <div class="seg" role="tablist">
+    <div class="seg" use:glassGlide role="tablist">
       <button type="button" role="tab" aria-selected={kind === 'expense'} onclick={() => (kind = 'expense')}>{store.t('fExpense')}</button>
       <button type="button" role="tab" aria-selected={kind === 'income'} onclick={() => (kind = 'income')}>{store.t('fIncome')}</button>
     </div>
@@ -110,7 +111,7 @@
   .add { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
   .seg { display: inline-flex; align-self: flex-start; padding: 3px; border-radius: 14px; background: color-mix(in srgb, var(--ink) 7%, transparent); }
   .seg button { height: 34px; padding: 0 16px; border-radius: 11px; font-size: 14px; font-weight: 500; color: var(--muted); }
-  .seg button[aria-selected='true'] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgb(0 0 0 / 14%); }
+  .seg button[aria-selected='true'] { color: var(--ink); font-weight: 600; }
   .row { display: flex; flex-wrap: wrap; gap: 10px; }
   .row input { height: 46px; padding: 0 16px; border-radius: 18px; border: 0; outline: none; background: var(--glass-fill); box-shadow: var(--glass-edge); font: inherit; font-size: 16px; color: var(--ink); min-width: 0; }
   .row .n { flex: 0 1 140px; font-family: var(--mono); font-weight: 600; }

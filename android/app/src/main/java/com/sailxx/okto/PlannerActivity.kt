@@ -27,7 +27,6 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.lifecycleScope
 import androidx.webkit.JavaScriptReplyProxy
@@ -54,7 +53,6 @@ class PlannerActivity : ComponentActivity() {
     private var captured: Uri? = null
     private var permissionReply: Reply? = null
     private var pageReady = false
-    private var dockInset = 0f
     private var pendingLaunch: Intent? = null
 
     private val picker = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -77,21 +75,15 @@ class PlannerActivity : ComponentActivity() {
         @Suppress("DEPRECATION")
         window.statusBarColor = Color.TRANSPARENT
         @Suppress("DEPRECATION")
-        window.navigationBarColor = Color.TRANSPARENT
+        window.navigationBarColor = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) Color.BLACK else Color.TRANSPARENT
         if (Build.VERSION.SDK_INT >= 29) window.isNavigationBarContrastEnforced = false
         container = FrameLayout(this).apply { setBackgroundColor(getColor(R.color.bar)) }
         ViewCompat.setOnApplyWindowInsetsListener(container) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-            val navigation = insets.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.navigationBars())
-            view.setPadding(bars.left, bars.top, bars.right, ime.bottom)
-            // Keep the dock at its usual height while letting content draw underneath it.
-            val inset = if (ime.bottom > 0) 0f else navigation.bottom / resources.displayMetrics.density
-            if (dockInset != inset) {
-                dockInset = inset
-                if (pageReady) updateDockInset()
-            }
-            // The WebView already fits inside these insets. Forwarding them also adds CSS safe-area padding.
+            val safe = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime()
+            )
+            view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
+            // The WebView fits inside these insets, so it doesn't need additional CSS safe-area padding.
             WindowInsetsCompat.CONSUMED
         }
         val assets = WebViewAssetLoader.Builder()
@@ -167,15 +159,6 @@ class PlannerActivity : ComponentActivity() {
         web.evaluateJavascript("window.dispatchEvent(new Event('okto-android-resume'))", null)
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (!hasFocus) return
-        WindowCompat.getInsetsController(window, container).apply {
-            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            hide(WindowInsetsCompat.Type.navigationBars())
-        }
-    }
-
     override fun onPause() {
         web.evaluateJavascript("window.dispatchEvent(new Event('okto-android-pause'))", null)
         web.onPause()
@@ -200,10 +183,6 @@ class PlannerActivity : ComponentActivity() {
         PlannerNotifications.takeAction(this, intent)?.let { action ->
             web.evaluateJavascript("window.oktoAndroidAction?.(${JSONObject.quote(action)})", null)
         }
-    }
-
-    private fun updateDockInset() {
-        web.evaluateJavascript("document.documentElement.style.setProperty('--okto-dock-inset', '${dockInset}px')", null)
     }
 
     private fun fragment(intent: Intent): String? {
@@ -241,7 +220,6 @@ class PlannerActivity : ComponentActivity() {
         when (msg.optString("type")) {
             "ready" -> {
                 pageReady = true
-                updateDockInset()
                 pendingLaunch?.let(::deliverLaunch)
                 pendingLaunch = null
                 reply.send(notificationPermission())

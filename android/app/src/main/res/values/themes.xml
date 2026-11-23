@@ -5,6 +5,7 @@
         <item name="android:statusBarColor">@color/bar</item>
         <item name="android:navigationBarColor">@color/bar</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <!-- Настройки виджета: экран рисует Compose в цветах темы Okto, окно — без своих полос -->

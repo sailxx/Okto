@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import { onMount } from 'svelte';
   import Icon from '../components/Icon.svelte';
   import TimeGrid from '../components/TimeGrid.svelte';
@@ -182,7 +183,7 @@
       </div>
     </header>
 
-    <div class="seg views">
+    <div class="seg views" use:glassGlide>
       {#each [['day', 'vDay'], ['week', 'vWeek'], ['month', 'vMonth']] as const as [v, l]}
         <button type="button" aria-pressed={view === v} onclick={() => setView(v)}>{store.t(l)}</button>
       {/each}

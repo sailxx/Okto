@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import Sheet from './Sheet.svelte';
   import Account from './Account.svelte';
   import ProfileSheet from './ProfileSheet.svelte';
@@ -83,7 +84,7 @@
   </SettingsGroup>
 
   <SettingsGroup id="language" icon="globe" title={store.t('language')} summary={s.lang === 'ru' ? 'Русский' : 'English'}>
-    <div class="seg">
+    <div class="seg" use:glassGlide>
       {#each ['ru', 'en'] as const as l}
         <button type="button" aria-pressed={s.lang === l} onclick={() => store.updateSettings({ lang: l })}>{@html FLAGS[l]}{l === 'ru' ? 'Русский' : 'English'}</button>
       {/each}
@@ -91,7 +92,7 @@
   </SettingsGroup>
 
   <SettingsGroup id="theme" icon="palette" title={store.t('theme')} summary={store.t('themes')[s.theme]}>
-    <div class="themes">
+    <div class="themes" use:glassGlide>
       {#each themes as [key, [a, b]]}
         <button type="button" class="theme-opt" aria-pressed={s.theme === key} onclick={() => store.updateSettings({ theme: key })}>
           <i style:--a={a} style:--b={b}></i><span>{store.t('themes')[key]}</span>

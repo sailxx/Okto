@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import { onMount, tick } from 'svelte';
   import Icon from '../components/Icon.svelte';
   import CounterEditor from '../components/CounterEditor.svelte';
@@ -252,8 +253,7 @@
 </script>
 
 <div class="page focus-page">
-  <div class="modes" role="tablist" style:--n={MODES.length} style:--i={MODES.findIndex(([m]) => m === mode)}>
-    <span class="modes-thumb" aria-hidden="true"></span>
+  <div class="modes" use:glassGlide role="tablist" style:--n={MODES.length}>
     {#each MODES as [m, key]}
       <button type="button" role="tab" aria-selected={mode === m} onclick={() => setMode(m)}>{modeLabel(m, key)}</button>
     {/each}
@@ -421,12 +421,14 @@
 {/if}
 
 <style>
-  /* D5: one Home-style card — title, big value, thin bar, then settings-like rows. Two keys at the bottom. */
+  .focus-page {
+    --focus-glass: linear-gradient(155deg, color-mix(in srgb, var(--bg) 55%, var(--key)), transparent 72%), var(--glass-fill);
+  }
   .focus-page .zone { flex: 0 0 auto; display: block; min-height: 0; margin-block: auto; padding: 8px 0; }
   .fcard {
-    container-type: inline-size; border-radius: 24px; padding: 16px 18px 0; overflow: hidden;
-    background: color-mix(in srgb, var(--soft) 78%, var(--bg));
-    box-shadow: inset 0 0 0 1px var(--line), 0 1px 2px rgb(0 0 0 / 4%), 0 18px 34px -24px rgb(0 0 0 / 32%);
+    container-type: inline-size; border-radius: 26px; padding: 16px 18px 0; overflow: hidden;
+    background: var(--focus-glass);
+    box-shadow: var(--glass-edge), var(--glass-lift);
   }
   .ftop { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 22px; font-size: 14px; color: var(--muted); }
   .ftitle { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-size: 15px; font-weight: 600; }
@@ -448,9 +450,12 @@
     display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 0 18px;
     color: var(--ink); font-size: 15px; text-align: left; font-variant-numeric: tabular-nums; cursor: default;
   }
-  .frow + .frow, .flaps + .frow { border-top: 1px solid var(--line); }
+  .frow + .frow, .flaps + .frow { border-top: 1px solid color-mix(in srgb, var(--line) 72%, transparent); }
   button.frow { cursor: pointer; transition: background-color 150ms ease; }
-  button.frow:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+  @media (hover: hover) and (pointer: fine) {
+    button.frow:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+  }
+  button.frow:active { background: color-mix(in srgb, var(--ink) 7%, transparent); }
   button.frow:disabled { opacity: .4; cursor: default; background: none; }
   .fv { display: inline-flex; align-items: center; gap: 8px; min-width: 0; color: var(--muted); }
   .fv b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-weight: 500; }
@@ -459,16 +464,37 @@
   .chev { display: grid; color: var(--muted); opacity: .7; }
   .flaps { max-height: 192px; overflow-y: auto; }
   /* Switch: the row is the control, this is its state. */
-  .tg { position: relative; flex: none; width: 40px; height: 24px; border-radius: 12px; background: color-mix(in srgb, var(--ink) 16%, transparent); transition: background-color 150ms ease; }
-  .tg::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg); box-shadow: 0 1px 2px rgb(0 0 0 / 25%); transition: transform 180ms var(--ease); }
-  [aria-checked='true'] .tg { background: var(--primary); }
-  [aria-checked='true'] .tg::after { background: var(--on-primary); transform: translateX(16px); }
+  .tg {
+    position: relative; flex: none; width: 44px; height: 26px; border-radius: 99px;
+    background: var(--glass-lens); box-shadow: var(--glass-edge);
+  }
+  .tg::before, .tg::after { content: ''; position: absolute; border-radius: inherit; }
+  .tg::before { inset: 0; background: var(--primary); box-shadow: var(--glass-edge); opacity: 0; transition: opacity 150ms ease; }
+  .tg::after {
+    inset: 3px auto 3px 3px; width: 20px;
+    background: linear-gradient(155deg, var(--key-hi), transparent 72%), var(--bg);
+    box-shadow: var(--glass-lens-edge);
+    transition: transform 240ms var(--ease);
+  }
+  [aria-checked='true'] .tg::before { opacity: 1; }
+  [aria-checked='true'] .tg::after { background: var(--on-primary); transform: translateX(18px); }
+  button[role='switch']:active .tg::after { transform: scaleX(1.13); }
+  button[role='switch'][aria-checked='true']:active .tg::after { transform: translateX(18px) scaleX(1.13); }
   .fkeys { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; padding-top: 16px; }
   .fkeys .key {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 56px;
     font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
   }
-  .fkeys .key.pri { --k-bg: var(--primary); --k-ink: var(--on-primary); }
+  .fkeys .key {
+    --k-bg: var(--focus-glass); --k-ink: var(--ink);
+    border-radius: 20px; box-shadow: var(--glass-edge), var(--glass-lift);
+    transition: transform 150ms var(--ease), opacity 150ms ease;
+  }
+  .fkeys .key.pri {
+    --k-bg: linear-gradient(160deg, color-mix(in srgb, var(--on-primary) 22%, transparent), transparent 65%), var(--primary);
+    --k-ink: var(--on-primary);
+  }
+  .fkeys .key:active { transform: scale(.97); }
   .fkeys .key:disabled { opacity: .35; cursor: default; transform: none; }
   .fkeys svg { width: 18px; height: 18px; }
   .plist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
@@ -477,7 +503,7 @@
   .linked {
     display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
     max-width: 100%; margin-top: 12px; height: 34px; padding: 0 6px 0 12px;
-    border-radius: 8px; background: color-mix(in srgb, var(--c) 14%, transparent);
+    border-radius: 14px; background: var(--focus-glass); box-shadow: var(--glass-edge);
     font-size: 14px; font-weight: 600;
   }
   .ldot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: var(--c); }
