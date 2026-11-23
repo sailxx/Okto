@@ -20,7 +20,11 @@
   bind:this={dialog}
   aria-label={title}
   onclose={onclose}
-  onclick={(e) => { if (e.target === dialog) dialog.close(); }}
+  onclick={(e) => {
+    if (e.target !== dialog) return;
+    const { left, right, top, bottom } = dialog.getBoundingClientRect();
+    if (e.clientX < left || e.clientX > right || e.clientY < top || e.clientY > bottom) dialog.close();
+  }}
 >
   <div class="sheet-head">
     <h2>{title}</h2>

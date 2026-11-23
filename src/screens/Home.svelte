@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import Icon from '../components/Icon.svelte';
   import Sheet from '../components/Sheet.svelte';
   import StatSheet from '../components/StatSheet.svelte';
@@ -257,7 +258,7 @@
   </div>
 
 
-  <div class="tabs" role="tablist">
+  <div class="tabs" use:glassGlide role="tablist">
     {#each PERIODS as [key, label]}
       <button type="button" role="tab" aria-selected={period === key} onclick={() => (period = key)}>{store.t(label)}</button>
     {/each}
@@ -504,17 +505,18 @@
   .tabs .edit-btn:hover, .tabs .edit-btn.on { background: color-mix(in srgb, var(--ink) 13%, transparent); }
   .tabs .edit-btn.on { font-weight: 600; }
   /* Period tabs */
-  .tabs { display: flex; align-items: flex-end; gap: 22px; margin-top: 18px; border-bottom: 1px solid var(--line); }
+  .tabs { display: flex; align-items: flex-end; gap: 8px; margin-top: 18px; border-bottom: 1px solid var(--line); }
   .tabs button { position: relative; padding: 0 0 10px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 150ms ease; }
+  .tabs { --glide-radius: 12px; }
+  .tabs button[role='tab'] { min-height: 36px; padding: 0 8px; }
   .tabs button[aria-selected='true'] { color: var(--ink); font-weight: 600; }
-  .tabs button[aria-selected='true']::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
-  .android-home .tabs { margin-top: 8px; gap: clamp(8px, 4vw, 22px); }
-  .android-home .tabs button[role='tab'] { min-height: 36px; padding: 0; font-size: 14px; }
+  .android-home .tabs { margin-top: 8px; gap: clamp(2px, 1vw, 8px); }
+  .android-home .tabs button[role='tab'] { font-size: 14px; }
   .android-home .tabs .edit-btn { margin-bottom: 4px; }
   .android-home .blocks { margin-top: 12px; }
   @media (max-width: 360px) {
-    .android-home .tabs { gap: 10px; }
-    .android-home .tabs button[role='tab'] { font-size: 13px; }
+    .android-home .tabs { gap: 2px; }
+    .android-home .tabs button[role='tab'] { padding-inline: 5px; font-size: 13px; }
     .android-home .tabs .edit-btn { padding-inline: 8px; }
   }
 

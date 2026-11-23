@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import Icon from '../components/Icon.svelte';
   import Tasks from './Tasks.svelte';
   import { store } from '../lib/store.svelte';
@@ -44,7 +45,7 @@
     <button type="button" class="add-new" onclick={() => (tab === 'tasks' ? store.openNewTask() : store.openNewHabit())}><Icon name="plus" size={18} /><span>{store.t(tab === 'tasks' ? 'newTask' : 'newHabit')}</span></button>
   </div>
 
-  <div class="seg" role="tablist">
+  <div class="seg" use:glassGlide role="tablist">
     <button type="button" role="tab" aria-selected={tab === 'habits'} onclick={() => setTab('habits')}>{store.t('navHabits')}</button>
     <button type="button" role="tab" aria-selected={tab === 'tasks'} onclick={() => setTab('tasks')}>{store.t('tasks')}</button>
   </div>
@@ -97,7 +98,7 @@
   /* Habits | Tasks switch: one glass capsule */
   .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 16px 0 14px; padding: 4px; border-radius: 18px; background: var(--glass-fill); box-shadow: var(--glass-edge); }
   .seg button { height: 38px; border-radius: 14px; font-size: 15px; font-weight: 500; color: var(--muted); transition: background-color 150ms ease, color 150ms ease; }
-  .seg button[aria-selected='true'] { color: var(--ink); font-weight: 600; background: var(--glass-lens); box-shadow: var(--glass-lens-edge); }
+  .seg button[aria-selected='true'] { color: var(--ink); font-weight: 600; }
 
   .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 22px; background: var(--glass-fill); box-shadow: var(--glass-edge); flex-wrap: wrap; }

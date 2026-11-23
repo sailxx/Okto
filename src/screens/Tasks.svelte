@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { glassGlide } from '../lib/glassGlide';
   import TaskRow from '../components/TaskRow.svelte';
   import Icon from '../components/Icon.svelte';
   import ListEditor from '../components/ListEditor.svelte';
@@ -96,7 +97,7 @@
     </div>
   {/if}
 
-  <div class="tags" role="listbox">
+  <div class="tags" use:glassGlide role="listbox">
     {#each filters as [key, label]}
       <button type="button" class="tag plain" role="option" aria-selected={filter === key} onclick={() => setFilter(key)}>{store.t(label)}</button>
     {/each}
