@@ -5,11 +5,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.MediaStore
 import android.view.ViewGroup
 import android.webkit.ValueCallback
@@ -38,6 +41,7 @@ import com.sailxx.okto.data.signOut
 import com.sailxx.okto.notify.PlannerNotifications
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -235,6 +239,8 @@ class PlannerActivity : ComponentActivity() {
             }
             "external" -> openExternal(Uri.parse(msg.getString("url")))
             "awake" -> web.keepScreenOn = msg.optBoolean("enabled")
+            "vibrate" -> vibrate(msg.optJSONArray("pattern"), msg.optJSONArray("amplitudes"))
+            "copyText" -> reply.send(copyText(msg.optString("text")))
             "permission" -> reply.send(notificationPermission())
             "requestPermission" -> {
                 if (Build.VERSION.SDK_INT >= 33 && notificationPermission() != "granted" && permissionReply == null) {
@@ -254,6 +260,38 @@ class PlannerActivity : ComponentActivity() {
             "live" -> PlannerNotifications.live(this, msg.optJSONObject("view"))
             "reminders" -> PlannerNotifications.updateSchedule(this, msg)
             "saveStart", "saveChunk", "saveFinish" -> downloads.handle(msg, reply)
+        }
+    }
+
+    private fun copyText(text: String): Boolean {
+        if (text.isBlank() || text.length > 24_000) return false
+        val clipboard = getSystemService(ClipboardManager::class.java) ?: return false
+        return runCatching { clipboard.setPrimaryClip(ClipData.newPlainText(null, text)) }.isSuccess
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrate(pattern: JSONArray?, strengths: JSONArray?) {
+        if (pattern == null || pattern.length() !in 1..9) return
+        val vibrator = getSystemService(VIBRATOR_SERVICE) as? Vibrator ?: return
+        if (!vibrator.hasVibrator()) return
+        // Web vibration starts with a pulse. Android waveforms start with a delay.
+        val timings = LongArray(pattern.length() + 1)
+        for (i in 0 until pattern.length()) timings[i + 1] = pattern.optLong(i).coerceIn(0L, 200L)
+        if (timings.none { it > 0L }) return
+        if (Build.VERSION.SDK_INT >= 26) {
+            val effect = if (strengths != null && strengths.length() == pattern.length() && vibrator.hasAmplitudeControl()) {
+                val amplitudes = IntArray(timings.size)
+                for (i in 0 until pattern.length() step 2) {
+                    amplitudes[i + 1] = strengths.optInt(i, VibrationEffect.DEFAULT_AMPLITUDE)
+                        .coerceIn(VibrationEffect.DEFAULT_AMPLITUDE, 255)
+                }
+                VibrationEffect.createWaveform(timings, amplitudes, -1)
+            } else {
+                VibrationEffect.createWaveform(timings, -1)
+            }
+            vibrator.vibrate(effect)
+        } else {
+            vibrator.vibrate(timings, -1)
         }
     }
 

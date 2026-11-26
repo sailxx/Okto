@@ -120,6 +120,7 @@ export interface Device {
   focusMode: FocusMode;
   activeCounter: string | null;
   locked: boolean;
+  focusKeepAwake: boolean;
   stopwatch: { elapsed: number; startedAt: number | null; laps: number[] };
   /** Countdown timer: a running timer has endsAt, a paused one has remaining. */
   timer: { duration: number; endsAt: number | null; remaining: number | null };
@@ -188,8 +189,10 @@ export const DURATIONS = [15, 30, 45, 60, 90, 120, 180];
 export const MAX_ATTACHMENTS = 20;
 /** Per file, bytes. */
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
-export const DEFAULT_DASHBOARD: Block[] = [{ type: 'score' }, { type: 'focus' }, { type: 'finance' }, { type: 'tasks' }, { type: 'productivity' }, { type: 'goal' }, { type: 'streak' }, { type: 'next' }, { type: 'habits' }, { type: 'health' }];
 export const GRID_MAX_W = 6, GRID_MAX_H = 4, GRID_PHONE_W = 2;
+const LEGACY_DASHBOARD: BlockType[] = ['score', 'focus', 'finance', 'tasks', 'productivity', 'goal', 'streak', 'next', 'habits', 'health'];
+export const DEFAULT_DASHBOARD: Block[] = (['score', 'tasks', 'focus', 'habits'] as const)
+  .map((type) => ({ type, w: GRID_MAX_W, pw: GRID_PHONE_W }));
 /** Footprint of a block, with defaults for blocks saved before sizes existed. */
 /** Default footprint per block: widths are chosen so rows fill up on 6, 4 and 2 columns. */
 const DEFAULT_W: Record<BlockType, [number, number, number]> = { focus: [2, 2, 1], streak: [2, 2, 1], next: [2, 4, 2], github: [6, 4, 2], leetcode: [3, 2, 2], tasks: [6, 4, 2], habits: [2, 2, 1], health: [2, 2, 1], finance: [2, 2, 1], score: [4, 4, 2], productivity: [4, 4, 2], goal: [2, 2, 2], leetstats: [6, 4, 2], counter: [2, 2, 1] };
@@ -357,8 +360,14 @@ export function normSettings(raw: unknown, lang: Lang): Settings {
   const d = defaultSettings(lang);
   if (!isObj(raw)) return d;
   const p = isObj(raw.pomo) ? raw.pomo : {};
-  const dashboard = Array.isArray(raw.dashboard)
-    ? raw.dashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'habits', 'health', 'finance', 'score', 'productivity', 'goal', 'leetstats', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
+  const savedDashboard = raw.dashboard;
+  const legacyDefault = Array.isArray(savedDashboard) && savedDashboard.length === LEGACY_DASHBOARD.length
+    && LEGACY_DASHBOARD.every((type, index) => {
+      const b = savedDashboard[index];
+      return isObj(b) && b.type === type && Object.keys(b).length === 1;
+    });
+  const dashboard = Array.isArray(savedDashboard) && !legacyDefault
+    ? savedDashboard.filter((b: any) => isObj(b) && ['tasks', 'focus', 'streak', 'next', 'github', 'leetcode', 'habits', 'health', 'finance', 'score', 'productivity', 'goal', 'leetstats', 'counter'].includes(b.type) && (b.type !== 'counter' || typeof b.counterId === 'string'))
       .map((b: any) => {
         const out: Block = b.type === 'counter' ? { type: 'counter', counterId: b.counterId } : { type: b.type as BlockType };
         if (typeof b.w === 'number') out.w = int(b.w, 1, GRID_MAX_W, 3);
@@ -435,7 +444,7 @@ export function normData(raw: unknown, lang: Lang): Data {
 
 export function defaultDevice(): Device {
   return {
-    focusMode: 'counter', activeCounter: null, locked: false,
+    focusMode: 'counter', activeCounter: null, locked: false, focusKeepAwake: false,
     stopwatch: { elapsed: 0, startedAt: null, laps: [] },
     timer: { duration: 5 * 60000, endsAt: null, remaining: null },
     pomo: { phase: 'work', round: 1, remaining: null, endsAt: null },
@@ -451,6 +460,7 @@ export function normDevice(raw: unknown): Device {
     focusMode: ['pomodoro', 'stopwatch', 'timer'].includes(raw.focusMode) ? raw.focusMode : 'counter',
     activeCounter: typeof raw.activeCounter === 'string' ? raw.activeCounter : null,
     locked: raw.locked === true,
+    focusKeepAwake: raw.focusKeepAwake === true,
     stopwatch: {
       elapsed: ts(raw.stopwatch?.elapsed, 0), startedAt: raw.stopwatch?.startedAt ? ts(raw.stopwatch.startedAt) : null,
       laps: Array.isArray(raw.stopwatch?.laps) ? raw.stopwatch.laps.filter((v: unknown) => typeof v === 'number' && v >= 0).slice(-99) : [],

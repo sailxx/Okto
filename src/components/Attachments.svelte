@@ -1,11 +1,13 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
+  import { onDestroy, type Snippet } from 'svelte';
   import Icon from './Icon.svelte';
   import { store } from '../lib/store.svelte';
   import { download, getFile, isImage, putFile } from '../lib/files';
   import { MAX_ATTACHMENTS, MAX_FILE_SIZE, uid, type Attachment } from '../lib/model';
 
-  let { items = $bindable(), onadd }: { items: Attachment[]; onadd: (id: string) => void } = $props();
+  let { items = $bindable(), onadd, compact = false, trailing }: {
+    items: Attachment[]; onadd: (id: string) => void; compact?: boolean; trailing?: Snippet;
+  } = $props();
 
   /* Blobs found on this device; null = described in the task, but the file stayed on another device. */
   let blobs = $state<Record<string, Blob | null>>({});
@@ -64,8 +66,8 @@
   const ext = (name: string) => (name.match(/\.([a-z0-9]{1,5})$/i)?.[1] ?? '').toUpperCase();
 </script>
 
-<div class="att">
-  <span class="label">{store.t('attachments')}</span>
+<div class="att" class:compact>
+  {#if !compact}<span class="label">{store.t('attachments')}</span>{/if}
   {#if items.length}
     <div class="grid">
       {#each items as a (a.id)}
@@ -87,6 +89,7 @@
   <div class="adds">
     <button type="button" class="chip" onclick={() => camera.click()}><Icon name="camera" size={18} />{store.t('attachPhoto')}</button>
     <button type="button" class="chip" onclick={() => picker.click()}><Icon name="clip" size={18} />{store.t('attachFile')}</button>
+    {#if trailing}<div class="trailing">{@render trailing()}</div>{/if}
   </div>
   <input bind:this={camera} type="file" accept="image/*" capture="environment" hidden onchange={(e) => add(e.currentTarget.files)} />
   <input bind:this={picker} type="file" multiple hidden onchange={(e) => add(e.currentTarget.files)} />
@@ -107,6 +110,9 @@
 {/if}
 
 <style>
+  .compact .grid { max-height: 22dvh; overflow-y: auto; }
+  .compact .chip, .compact .trailing :global(button) { min-height: 44px; padding-inline: 9px; font-size: 13px; }
+  .compact .adds { gap: 6px; }
   .att .label { margin-bottom: 8px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-bottom: 10px; }
   .tile { position: relative; aspect-ratio: 1; border-radius: var(--r-well); background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
@@ -124,13 +130,14 @@
   }
   .rm :global(svg) { stroke-width: 2.4; }
   .adds { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
+  .trailing { display: flex; margin-inline-start: auto; }
+  .chip, .trailing :global(button) {
     display: inline-flex; align-items: center; gap: 7px;
     height: 36px; padding: 0 12px; border-radius: 8px;
     background: var(--soft); color: var(--muted);
     font-size: 14px; font-weight: 600; white-space: nowrap;
   }
-  .chip :global(svg) { stroke-width: 2; }
+  .chip :global(svg), .trailing :global(svg) { stroke-width: 2; }
 
   .viewer {
     width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;

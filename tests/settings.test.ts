@@ -23,6 +23,25 @@ describe('hidden sections', () => {
   });
 });
 
+describe('default home layout', () => {
+  const previous = ['score', 'focus', 'finance', 'tasks', 'productivity', 'goal', 'streak', 'next', 'habits', 'health']
+    .map((type) => ({ type }));
+
+  it('uses four full-width widgets on every grid', () => {
+    const { dashboard } = defaultSettings('en');
+    expect(dashboard.map((b) => b.type)).toEqual(['score', 'tasks', 'focus', 'habits']);
+    for (const cols of [2, 4, 6]) {
+      expect(dashboard.every((b) => Math.min(blockSize(b, cols).w, cols) === cols)).toBe(true);
+    }
+  });
+
+  it('updates the previous default and preserves a customized layout', () => {
+    expect(normSettings({ dashboard: previous }, 'en').dashboard).toEqual(defaultSettings('en').dashboard);
+    const customized = previous.map((block, i) => i === 0 ? { ...block, tint: 'none' } : block);
+    expect(normSettings({ dashboard: customized }, 'en').dashboard).toEqual(customized);
+  });
+});
+
 describe('home block sizes per device', () => {
   it('phone uses its own size, desktop keeps w/h', () => {
     const b = { type: 'tasks' as const, w: 6, h: 4, pw: 1, ph: 1 };

@@ -11,14 +11,13 @@
   import { cleanLogin } from '../lib/github';
   import { cleanLeetUser } from '../lib/leetstats';
   import { sync } from '../lib/sync.svelte';
-  import { buzz, chime, notifyGranted, requestNotify, systemNotify, unlockAudio } from '../lib/alerts';
+  import { buzz, chime, notifyGranted, requestNotify, systemNotify, unlockAudio, vibrationSupported } from '../lib/alerts';
 
   let { onclose }: { onclose: () => void } = $props();
   let profile = $state(false);
   const s = $derived(store.data.settings);
   const themes = Object.entries(THEMES) as [Theme, [string, string]][];
   const SECTION_LABEL: Record<OptionalSection, 'navCalls' | 'navNotes' | 'navHealth' | 'navFinance' | 'navFocus'> = { calls: 'navCalls', notes: 'navNotes', health: 'navHealth', finance: 'navFinance', focus: 'navFocus' };
-  const vibrateSupported = 'vibrate' in navigator;
 
   let ghDraft = $state(store.data.settings.github);
   let ghBad = $state(false);
@@ -108,11 +107,11 @@
     <p class="sub">{store.t('sectionsHint')}</p>
   </SettingsGroup>
 
-  <SettingsGroup id="alerts" icon="bell" title={store.t('alerts')} summary={[store.device.notify && notifyGranted() ? store.t('notifications') : '', s.sound ? store.t('soundLabel') : '', vibrateSupported && s.vibrate ? store.t('vibration') : ''].filter(Boolean).join(', ') || '—'}>
+  <SettingsGroup id="alerts" icon="bell" title={store.t('alerts')} summary={[store.device.notify && notifyGranted() ? store.t('notifications') : '', s.sound ? store.t('soundLabel') : '', vibrationSupported && s.vibrate ? store.t('vibration') : ''].filter(Boolean).join(', ') || '—'}>
     <label class="switch"><span>{store.t('notifications')}</span><input type="checkbox" checked={store.device.notify && notifyGranted()} onchange={toggleNotify} /><i></i></label>
     <label class="switch"><span>{store.t('soundLabel')}</span><input type="checkbox" checked={s.sound} onchange={(e) => { unlockAudio(); store.updateSettings({ sound: e.currentTarget.checked }); if (e.currentTarget.checked) chime(1); }} /><i></i></label>
-    {#if vibrateSupported}
-      <label class="switch"><span>{store.t('vibration')}</span><input type="checkbox" checked={s.vibrate} onchange={(e) => { store.updateSettings({ vibrate: e.currentTarget.checked }); buzz(20); }} /><i></i></label>
+    {#if vibrationSupported}
+      <label class="switch"><span>{store.t('vibration')}</span><input type="checkbox" checked={s.vibrate} onchange={(e) => { store.updateSettings({ vibrate: e.currentTarget.checked }); if (e.currentTarget.checked) buzz(20); }} /><i></i></label>
     {/if}
   </SettingsGroup>
 

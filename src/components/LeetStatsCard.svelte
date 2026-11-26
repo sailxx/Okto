@@ -57,7 +57,7 @@
 
 <style>
   .lcs { --hm-ink: #ffa116; --hm-bg: transparent; --hm-ghost: color-mix(in srgb, var(--t) 9%, transparent); --hm-dim: var(--td); --btn: var(--t); --btn-ink: var(--bg); width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-  :global(.cell.acc) .lcs { --btn-ink: #1d1d1f; --hm-ink: #fff; --hm-ghost: rgb(255 255 255 / 20%); }
+  :global(.cell.acc) .lcs { --btn-ink: var(--bc); --hm-ink: var(--t); --hm-ghost: var(--tg); }
   .hd { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
   .chip { display: grid; place-items: center; flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: color-mix(in srgb, var(--t) 8%, transparent); color: var(--td); }
   .chip :global(svg) { width: 15px; height: 15px; }

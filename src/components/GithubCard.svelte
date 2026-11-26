@@ -59,7 +59,7 @@
 
 <style>
   .dark { --hm-ink: #3fb950; --hm-ghost: rgb(255 255 255 / 7%); --hm-dim: rgb(255 255 255 / 62%); --hm-bg: #0d1117; --btn: #3fb950; --btn-ink: #0d1117; }
-  .tint { --hm-ink: #fff; --hm-ghost: rgb(255 255 255 / 20%); --hm-dim: rgb(255 255 255 / 78%); --hm-bg: transparent; --btn: #fff; --btn-ink: #1d1d1f; }
+  .tint { --hm-ink: var(--t); --hm-ghost: var(--tg); --hm-dim: var(--td); --hm-bg: transparent; --btn: var(--t); --btn-ink: var(--bc); }
   .plain { --btn: var(--ink); --btn-ink: var(--bg); }
   .gh { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .top { display: flex; align-items: center; gap: 10px; max-width: 100%; }

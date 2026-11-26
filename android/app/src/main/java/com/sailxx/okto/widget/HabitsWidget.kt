@@ -15,6 +15,8 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
+import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -49,9 +51,6 @@ class HabitsWidget : GlanceAppWidget() {
     }
 }
 
-/** В строке и столбце RemoteViews не больше 10 детей: на виджете помещается не больше шести привычек. */
-private const val MAX_HABITS = 6
-
 @Composable
 private fun Habits(s: WidgetState, t: TextSizes) {
     val p = s.palette
@@ -73,7 +72,11 @@ private fun Habits(s: WidgetState, t: TextSizes) {
                 Text(ctx.getString(R.string.habits_empty), style = TextStyle(color = cp(p.muted), fontSize = t.meta, fontFamily = FontFamily.Monospace))
             }
         } else {
-            s.habits.take(MAX_HABITS).forEach { HabitRow(it, s, t) }
+            LazyColumn(GlanceModifier.fillMaxWidth().defaultWeight()) {
+                items(s.habits, itemId = { (it.taskId + it.date).hashCode().toLong() }) {
+                    HabitRow(it, s, t)
+                }
+            }
         }
     }
 }
