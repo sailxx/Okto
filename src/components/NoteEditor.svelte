@@ -117,6 +117,7 @@
   .ed { flex: 1; display: flex; flex-direction: column; gap: 12px; }
   .editor-footer { flex: none; display: grid; gap: 10px; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
   .copy-note:disabled { opacity: .4; cursor: default; }
+  .copy-note span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .copy-error { margin: 0; text-align: right; color: var(--muted); font-size: 13px; }
   .title { width: 100%; border: 0; background: none; outline: none; padding: 0; font-family: var(--sans); font-size: 29px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
   .body { flex: 1; width: 100%; border: 0; background: none; resize: none; outline: none; padding: 0; font-size: 17px; line-height: 1.6; min-height: 88px; color: var(--ink); }

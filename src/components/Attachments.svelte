@@ -86,9 +86,13 @@
       {/each}
     </div>
   {/if}
-  <div class="adds">
-    <button type="button" class="chip" onclick={() => camera.click()}><Icon name="camera" size={18} />{store.t('attachPhoto')}</button>
-    <button type="button" class="chip" onclick={() => picker.click()}><Icon name="clip" size={18} />{store.t('attachFile')}</button>
+  <div class="adds" class:with-trailing={Boolean(trailing)}>
+    <button type="button" class="chip camera" aria-label={store.t('attachPhoto')} onclick={() => camera.click()}>
+      <Icon name="camera" size={18} /><span class="chip-label">{store.t('attachPhoto')}</span>
+    </button>
+    <button type="button" class="chip" onclick={() => picker.click()}>
+      <Icon name="clip" size={18} /><span class="chip-label">{store.t('attachFile')}</span>
+    </button>
     {#if trailing}<div class="trailing">{@render trailing()}</div>{/if}
   </div>
   <input bind:this={camera} type="file" accept="image/*" capture="environment" hidden onchange={(e) => add(e.currentTarget.files)} />
@@ -110,9 +114,17 @@
 {/if}
 
 <style>
+  .att.compact { container: attachment-actions / inline-size; }
   .compact .grid { max-height: 22dvh; overflow-y: auto; }
   .compact .chip, .compact .trailing :global(button) { min-height: 44px; padding-inline: 9px; font-size: 13px; }
   .compact .adds { gap: 6px; }
+  .compact .with-trailing { flex-wrap: nowrap; }
+  .compact .with-trailing .chip, .compact .trailing, .compact .trailing :global(button) { min-width: 0; }
+  .chip-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  @container attachment-actions (max-width: 335px) {
+    .with-trailing .camera { flex: 0 0 44px; justify-content: center; }
+    .with-trailing .camera .chip-label { display: none; }
+  }
   .att .label { margin-bottom: 8px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-bottom: 10px; }
   .tile { position: relative; aspect-ratio: 1; border-radius: var(--r-well); background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
@@ -137,7 +149,7 @@
     background: var(--soft); color: var(--muted);
     font-size: 14px; font-weight: 600; white-space: nowrap;
   }
-  .chip :global(svg), .trailing :global(svg) { stroke-width: 2; }
+  .chip :global(svg), .trailing :global(svg) { flex: none; stroke-width: 2; }
 
   .viewer {
     width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
