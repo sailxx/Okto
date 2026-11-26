@@ -47,17 +47,29 @@ Te klucze nie są tajne — dostęp chronią reguły Firestore, każdy widzi tyl
 
 <br>
 
-## 🗂 Historia wersji
+## O Okto
 
-**3.0** — sekcja Notatki ze zdjęciami i plikami; nowy ekran główny z miękkimi kolorowymi kartami i zakładkami Dziś / Tydzień / Podsumowanie; pływające paski nawigacji i zwijany panel boczny na komputerze; ustawienia ze zwijanymi sekcjami; odświeżony Fokus; poprawki widgetów na Androidzie.
+<picture><source srcset="assets/readme/about-pl.svg"><img src="assets/readme/png/about-pl.png" width="100%" alt="O Okto"></picture>
 
-**2.2–2.8** — ikona do wyboru; zdjęcia i pliki w zadaniach, uruchamianie offline; zwijany miesiąc w kalendarzu; przypomnienia o zadaniach na Androidzie; zadania w Kalendarzu Google; 14 nowych jasnych i ciemnych motywów; rozmiar tekstu i trzy nowe widżety; mapa aktywności na stronie głównej.
+Okto powstało 2 października 2026 roku jako prosty licznik internetowy. Dziś to bezpłatny planer z zadaniami, kalendarzem i trybem skupienia. Nie ma reklam, analityki ani śledzenia. Dane pozostają na urządzeniu, a synchronizacja przez Google Firebase jest opcjonalna. [Bezpieczeństwo: podpis, dane, uprawnienia](PRIVACY.md)
 
-**2.1** — aplikacja na Androida z widżetem zadań na ekranie głównym; łagodne jasny i ciemny motyw w stylu Apple; Rozmowy i Fokus można ukryć; język w Ustawieniach; naprawione uruchamianie na Androidzie.
+## Plan rozwoju
+
+<picture><source srcset="assets/readme/roadmap-pl.svg"><img src="assets/readme/png/roadmap-pl.png" width="100%" alt="Plan rozwoju"></picture>
+
+**2026-10-02** — Pierwsze Okto było licznikiem na jedno dotknięcie z celem i stoperem.
+
+**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.
 
 **2.0** — zadania z listami, powtórkami, podzadaniami i przypomnieniami; kalendarz w stylu Apple Calendar z przeciąganiem; konfigurowalny ekran startowy; synchronizacja przez Firebase; skupienie na zadaniu.
 
-**1.0** — Pomodoro z czterema trybami, kolorowe gotowe tagi, siedem motywów, język angielski, powiadomienia w przeglądarce.
+**2.1** — aplikacja na Androida z widżetem zadań na ekranie głównym; łagodne jasny i ciemny motyw w stylu Apple; Rozmowy i Fokus można ukryć; język w Ustawieniach; naprawione uruchamianie na Androidzie.
+
+**2.2–2.8** — ikona do wyboru; zdjęcia i pliki w zadaniach, uruchamianie offline; zwijany miesiąc w kalendarzu; przypomnienia o zadaniach na Androidzie; zadania w Kalendarzu Google; 14 nowych jasnych i ciemnych motywów; rozmiar tekstu i trzy nowe widżety; mapa aktywności na stronie głównej.
+
+**3.0** — sekcja Notatki ze zdjęciami i plikami; nowy ekran główny z miękkimi kolorowymi kartami i zakładkami Dziś / Tydzień / Podsumowanie; pływające paski nawigacji i zwijany panel boczny na komputerze; ustawienia ze zwijanymi sekcjami; odświeżony Fokus; poprawki widgetów na Androidzie.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto trafiło do zasobnika systemowego Windows. Planer na Androidzie otwiera się offline, a wersja 3.23.6 usprawnia załączniki i ekran skupienia.
 
 ## ⚖️ Licencje
 

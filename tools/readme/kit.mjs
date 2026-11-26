@@ -127,11 +127,8 @@ ${fontCss(fg, fm)}
 <clipPath id="clip"><rect width="${w}" height="${h}" rx="24"/></clipPath>
 </defs>`;
 
-  const frame = (w, h) => `<g clip-path="url(#clip)"><rect width="${w}" height="${h}" fill="url(#bg)"/>
-<circle class="glow" cx="${w * 0.82}" cy="${Math.min(h * 0.2, 120)}" r="${Math.min(h * 0.7, 340)}" fill="url(#g1)"/>
-<circle class="glow2" cx="${w * 0.1}" cy="${h * 0.95}" r="${Math.min(h * 0.6, 300)}" fill="url(#g2)"/>
-<rect class="sweep" x="0" y="0" width="${w * 0.35}" height="${h}" fill="url(#sw)"/></g>
-<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="24" fill="none" stroke="#242424"/>`;
+  const frame = (w, h) =>
+    `<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="16" fill="#141414" stroke="#424242"/>`;
 
   /** Плашка: возвращает функцию (fg, fm) → SVG. extraDefs — свои градиенты и клипы. */
   const svg = (w, h, label, body, extraDefs = '') => (fg, fm) =>
@@ -140,7 +137,7 @@ ${fontCss(fg, fm)}
   const delay = (i) => `style="animation-delay:${(i * 0.09).toFixed(2)}s"`;
 
   const card = (x, y, w, h, rx = 18) =>
-    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="url(#cg)" stroke="${P.stroke}"/><rect x="${x + rx}" y="${y + .5}" width="${Math.max(0, w - rx * 2)}" height="1" fill="url(#hl)"/>`;
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="#1e1e1e" stroke="#393939"/>`;
 
   /** Метка-чип: моно, заглавные. check — галочка цвета акцента. */
   function chip(x, y, text, { check = false, upper = true } = {}) {

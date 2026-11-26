@@ -47,17 +47,29 @@ Queste chiavi non sono segrete: l’accesso è protetto dalle regole di Firestor
 
 <br>
 
-## 🗂 Cronologia versioni
+## Informazioni su Okto
 
-**3.0** — sezione Note con foto e file; nuova Home con schede morbide e colorate e schede Oggi / Settimana / Totali; barre di navigazione flottanti e barra laterale comprimibile su desktop; impostazioni con sezioni comprimibili; Focus rinnovato; correzioni ai widget Android.
+<picture><source srcset="assets/readme/about-it.svg"><img src="assets/readme/png/about-it.png" width="100%" alt="Informazioni su Okto"></picture>
 
-**2.2–2.8** — icona a scelta; foto e file nelle attività, avvio offline; mese comprimibile nel calendario; promemoria delle attività su Android; attività in Google Calendar; 14 nuovi temi chiari e scuri; dimensione del testo e tre nuovi widget; mappa delle attività nella Home.
+Okto è nato il 2 ottobre 2026 come semplice contatore web. Oggi è un pianificatore gratuito per attività, calendario e concentrazione. Non ci sono pubblicità, analisi o tracker. I dati restano sul dispositivo e la sincronizzazione con Google Firebase è facoltativa. [Sicurezza: firma, dati, permessi](PRIVACY.md)
 
-**2.1** — app Android con widget delle attività nella schermata Home; temi chiaro e scuro morbidi in stile Apple; Chiamate e Focus nascondibili; lingua nelle Impostazioni; corretto l'avvio su Android.
+## Tabella di marcia
+
+<picture><source srcset="assets/readme/roadmap-it.svg"><img src="assets/readme/png/roadmap-it.png" width="100%" alt="Tabella di marcia"></picture>
+
+**2026-10-02** — Il primo Okto era un contatore a un tocco con obiettivo e cronometro.
+
+**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.
 
 **2.0** — attività con liste, ripetizioni, sottoattività e promemoria; calendario in stile Apple Calendario con trascinamento; home personalizzabile; sincronizzazione con Firebase; focus su un’attività.
 
-**1.0** — Pomodoro con quattro modalità, tag colorati, sette temi, inglese, notifiche del browser.
+**2.1** — app Android con widget delle attività nella schermata Home; temi chiaro e scuro morbidi in stile Apple; Chiamate e Focus nascondibili; lingua nelle Impostazioni; corretto l'avvio su Android.
+
+**2.2–2.8** — icona a scelta; foto e file nelle attività, avvio offline; mese comprimibile nel calendario; promemoria delle attività su Android; attività in Google Calendar; 14 nuovi temi chiari e scuri; dimensione del testo e tre nuovi widget; mappa delle attività nella Home.
+
+**3.0** — sezione Note con foto e file; nuova Home con schede morbide e colorate e schede Oggi / Settimana / Totali; barre di navigazione flottanti e barra laterale comprimibile su desktop; impostazioni con sezioni comprimibili; Focus rinnovato; correzioni ai widget Android.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto è arrivato nell’area di notifica di Windows. Il pianificatore Android si apre offline e la versione 3.23.6 migliora gli allegati e la schermata di concentrazione.
 
 ## ⚖️ Licenze
 

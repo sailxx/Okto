@@ -49,17 +49,29 @@ These keys are not secret — access is protected by Firestore rules, so everyon
 
 <br>
 
-## 🗂 Version history
+## About Okto
 
-**3.0** — a Notes section with photos and files; a new Home with soft coloured cards and Today / Week / Totals tabs; floating navigation bars and a collapsible sidebar on desktop; Settings with collapsible sections; a refreshed Focus screen; Android widget fixes.
+<picture><source srcset="assets/readme/about-en.svg"><img src="assets/readme/png/about-en.png" width="100%" alt="About Okto"></picture>
 
-**2.2–2.8** — choose the app icon; photos and files in tasks, offline launch; collapsible month in the calendar; task reminders on Android; tasks in Google Calendar; 14 new light and dark themes; text size and three new widgets; activity map on the home screen.
+Okto started on October 2, 2026 as a simple web counter. It grew into a free planner for tasks, calendars, and focus. There are no ads, analytics, or trackers. Your entries stay on your device, and you can opt in to sync through Google Firebase. [Security: signature, data, permissions](PRIVACY.md)
 
-**2.1** — Android app with a home-screen task widget; soft light and dark themes in Apple style; Calls and Focus can be hidden; language is set in Settings; fixed launching on Android.
+## Roadmap
+
+<picture><source srcset="assets/readme/roadmap-en.svg"><img src="assets/readme/png/roadmap-en.png" width="100%" alt="Roadmap"></picture>
+
+**2026-10-02** — The first Okto was a one-tap counter with a target and stopwatch.
+
+**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.
 
 **2.0** — tasks with lists, repeats, subtasks and reminders; Apple Calendar style calendar with drag and drop; a customisable home screen; Firebase sync; focus on a task.
 
-**1.0** — Pomodoro with four modes, coloured preset tags, seven themes, English language, browser notifications.
+**2.1** — Android app with a home-screen task widget; soft light and dark themes in Apple style; Calls and Focus can be hidden; language is set in Settings; fixed launching on Android.
+
+**2.2–2.8** — choose the app icon; photos and files in tasks, offline launch; collapsible month in the calendar; task reminders on Android; tasks in Google Calendar; 14 new light and dark themes; text size and three new widgets; activity map on the home screen.
+
+**3.0** — a Notes section with photos and files; a new Home with soft coloured cards and Today / Week / Totals tabs; floating navigation bars and a collapsible sidebar on desktop; Settings with collapsible sections; a refreshed Focus screen; Android widget fixes.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto gained a Windows tray app. The Android planner opens offline, and 3.23.6 improves attachments and the Focus screen.
 
 ## ⚖️ Licenses
 

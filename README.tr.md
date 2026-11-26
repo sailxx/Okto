@@ -47,17 +47,29 @@ Bu anahtarlar gizli değildir: erişimi Firestore kuralları korur, herkes yaln�
 
 <br>
 
-## 🗂 Sürüm geçmişi
+## Okto hakkında
 
-**3.0** — fotoğraf ve dosya ekleyebileceğiniz Notlar bölümü; yumuşak renkli kartlar ve Bugün / Hafta / Toplam sekmeleriyle yeni Ana sayfa; yüzen gezinme çubukları ve masaüstünde daraltılabilir kenar çubuğu; daraltılabilir bölümlü ayarlar; yenilenen Odak; Android widget düzeltmeleri.
+<picture><source srcset="assets/readme/about-tr.svg"><img src="assets/readme/png/about-tr.png" width="100%" alt="Okto hakkında"></picture>
 
-**2.2–2.8** — seçilebilir uygulama simgesi; görevlerde fotoğraf ve dosyalar, çevrimdışı açılış; takvimde daraltılabilir ay; Android'de görev hatırlatıcıları; Google Takvim'de görevler; 14 yeni açık ve koyu tema; yazı boyutu ve üç yeni widget; ana sayfada etkinlik haritası.
+Okto, 2 Ekim 2026’da basit bir web sayacı olarak başladı. Bugün görevler, takvim ve odaklanma için ücretsiz bir planlayıcı. Reklam, analiz veya takip yazılımı yok. Kayıtlar cihazında kalır ve Google Firebase ile eşitleme isteğe bağlıdır. [Güvenlik: imza, veriler, izinler](PRIVACY.md)
 
-**2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.
+## Yol haritası
+
+<picture><source srcset="assets/readme/roadmap-tr.svg"><img src="assets/readme/png/roadmap-tr.png" width="100%" alt="Yol haritası"></picture>
+
+**2026-10-02** — İlk Okto, hedef ve kronometre içeren tek dokunuşlu bir sayaçtı.
+
+**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.
 
 **2.0** — listeli, tekrarlı, alt görevli ve hatırlatıcılı görevler; sürükle-bırak destekli Apple Takvim tarzı takvim; özelleştirilebilir ana sayfa; Firebase senkronizasyonu; göreve odaklanma.
 
-**1.0** — dört modlu Pomodoro, renkli hazır etiketler, yedi tema, İngilizce, tarayıcı bildirimleri.
+**2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.
+
+**2.2–2.8** — seçilebilir uygulama simgesi; görevlerde fotoğraf ve dosyalar, çevrimdışı açılış; takvimde daraltılabilir ay; Android'de görev hatırlatıcıları; Google Takvim'de görevler; 14 yeni açık ve koyu tema; yazı boyutu ve üç yeni widget; ana sayfada etkinlik haritası.
+
+**3.0** — fotoğraf ve dosya ekleyebileceğiniz Notlar bölümü; yumuşak renkli kartlar ve Bugün / Hafta / Toplam sekmeleriyle yeni Ana sayfa; yüzen gezinme çubukları ve masaüstünde daraltılabilir kenar çubuğu; daraltılabilir bölümlü ayarlar; yenilenen Odak; Android widget düzeltmeleri.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto, Windows bildirim alanına geldi. Android planlayıcı çevrimdışı açılıyor. 3.23.6 sürümü ekleri ve odak ekranını iyileştiriyor.
 
 ## ⚖️ Lisanslar
 

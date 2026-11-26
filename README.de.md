@@ -47,17 +47,29 @@ Diese Schlüssel sind nicht geheim: Den Zugriff schützen die Firestore-Regeln, 
 
 <br>
 
-## 🗂 Versionen
+## Über Okto
 
-**3.0** — Bereich „Notizen“ mit Fotos und Dateien; neue Startseite mit weichen, farbigen Karten und Tabs Heute / Woche / Gesamt; schwebende Navigationsleisten und einklappbare Seitenleiste am Desktop; Einstellungen mit einklappbaren Bereichen; überarbeiteter Fokus; Widget-Korrekturen unter Android.
+<picture><source srcset="assets/readme/about-de.svg"><img src="assets/readme/png/about-de.png" width="100%" alt="Über Okto"></picture>
 
-**2.2–2.8** — App-Symbol wählbar; Fotos und Dateien in Aufgaben, Offline-Start; einklappbarer Monat im Kalender; Aufgaben-Erinnerungen unter Android; Aufgaben im Google Kalender; 14 neue helle und dunkle Themes; Textgröße und drei neue Widgets; Aktivitätskarte auf der Startseite.
+Okto begann am 2. Oktober 2026 als einfacher Webzähler. Daraus wurde ein kostenloser Planer für Aufgaben, Kalender und Fokus. Es gibt keine Werbung, Analysen oder Tracker. Deine Einträge bleiben auf deinem Gerät. Die Synchronisierung über Google Firebase ist optional. [Sicherheit: Signatur, Daten, Berechtigungen](PRIVACY.md)
 
-**2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.
+## Roadmap
+
+<picture><source srcset="assets/readme/roadmap-de.svg"><img src="assets/readme/png/roadmap-de.png" width="100%" alt="Roadmap"></picture>
+
+**2026-10-02** — Die erste Version war ein Ein-Tipp-Zähler mit Ziel und Stoppuhr.
+
+**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.
 
 **2.0** — Aufgaben mit Listen, Wiederholungen, Unteraufgaben und Erinnerungen; Kalender im Stil von Apple Kalender mit Drag & Drop; anpassbarer Start; Synchronisierung über Firebase; Fokus auf eine Aufgabe.
 
-**1.0** — Pomodoro mit vier Modi, farbige Vorlagen-Tags, sieben Designs, Englisch, Browser-Benachrichtigungen.
+**2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.
+
+**2.2–2.8** — App-Symbol wählbar; Fotos und Dateien in Aufgaben, Offline-Start; einklappbarer Monat im Kalender; Aufgaben-Erinnerungen unter Android; Aufgaben im Google Kalender; 14 neue helle und dunkle Themes; Textgröße und drei neue Widgets; Aktivitätskarte auf der Startseite.
+
+**3.0** — Bereich „Notizen“ mit Fotos und Dateien; neue Startseite mit weichen, farbigen Karten und Tabs Heute / Woche / Gesamt; schwebende Navigationsleisten und einklappbare Seitenleiste am Desktop; Einstellungen mit einklappbaren Bereichen; überarbeiteter Fokus; Widget-Korrekturen unter Android.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto bekam eine Windows-App für den Infobereich. Der Android-Planer startet offline. Version 3.23.6 verbessert Anhänge und den Fokusbildschirm.
 
 ## ⚖️ Lizenzen
 

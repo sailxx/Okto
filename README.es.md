@@ -47,17 +47,29 @@ Estas claves no son secretas: el acceso lo protegen las reglas de Firestore y ca
 
 <br>
 
-## 🗂 Historial de versiones
+## Sobre Okto
 
-**3.0** — sección Notas con fotos y archivos; nuevo Inicio con tarjetas suaves de colores y pestañas Hoy / Semana / Totales; barras de navegación flotantes y barra lateral plegable en escritorio; ajustes con secciones plegables; Foco renovado; correcciones de widgets en Android.
+<picture><source srcset="assets/readme/about-es.svg"><img src="assets/readme/png/about-es.png" width="100%" alt="Sobre Okto"></picture>
 
-**2.2–2.8** — icono a elegir; fotos y archivos en las tareas, inicio sin conexión; mes plegable en el calendario; recordatorios de tareas en Android; tareas en Google Calendar; 14 temas nuevos claros y oscuros; tamaño de texto y tres widgets nuevos; mapa de actividad en el inicio.
+Okto nació el 2 de octubre de 2026 como un contador web sencillo. Hoy es un planificador gratuito para tareas, calendario y concentración. No hay anuncios, analítica ni rastreadores. Tus datos se guardan en tu dispositivo y la sincronización con Google Firebase es opcional. [Seguridad: firma, datos, permisos](PRIVACY.md)
 
-**2.1** — app de Android con widget de tareas en la pantalla de inicio; temas claro y oscuro suaves al estilo Apple; Llamadas y Enfoque se pueden ocultar; el idioma se elige en Ajustes; arreglado el inicio en Android.
+## Hoja de ruta
+
+<picture><source srcset="assets/readme/roadmap-es.svg"><img src="assets/readme/png/roadmap-es.png" width="100%" alt="Hoja de ruta"></picture>
+
+**2026-10-02** — El primer Okto era un contador de un toque con objetivo y cronómetro.
+
+**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.
 
 **2.0** — tareas con listas, repeticiones, subtareas y recordatorios; calendario al estilo Apple Calendar con arrastrar y soltar; inicio personalizable; sincronización con Firebase; enfoque en una tarea.
 
-**1.0** — Pomodoro con cuatro modos, etiquetas con colores, siete temas, idioma inglés, notificaciones del navegador.
+**2.1** — app de Android con widget de tareas en la pantalla de inicio; temas claro y oscuro suaves al estilo Apple; Llamadas y Enfoque se pueden ocultar; el idioma se elige en Ajustes; arreglado el inicio en Android.
+
+**2.2–2.8** — icono a elegir; fotos y archivos en las tareas, inicio sin conexión; mes plegable en el calendario; recordatorios de tareas en Android; tareas en Google Calendar; 14 temas nuevos claros y oscuros; tamaño de texto y tres widgets nuevos; mapa de actividad en el inicio.
+
+**3.0** — sección Notas con fotos y archivos; nuevo Inicio con tarjetas suaves de colores y pestañas Hoy / Semana / Totales; barras de navegación flotantes y barra lateral plegable en escritorio; ajustes con secciones plegables; Foco renovado; correcciones de widgets en Android.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto llegó a la bandeja de Windows. El planificador de Android se abre sin conexión y 3.23.6 mejora los archivos adjuntos y la pantalla de concentración.
 
 ## ⚖️ Licencias
 

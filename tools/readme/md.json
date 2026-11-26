@@ -50,7 +50,7 @@
     "devTests": "Vitest: повторы, статистика, перенос данных, синхронизация, раскладка календаря",
     "devBuild": "сборка в dist/",
     "devEnv": "Для синхронизации локально скопируйте `.env.example` в `.env.local` и заполните ключи. Публикация на GitHub Pages — автоматически при каждом изменении в `main`.",
-    "history": "🗂 История версий",
+    "history": "Дорожная карта",
     "h30": "**3.0** — раздел «Заметки» с фото и файлами; новая главная: мягкие цветные карточки и вкладки «Сегодня / Неделя / Итоги»; плавающие панели навигации и сворачиваемая боковая панель на ПК; настройки со сворачиваемыми разделами; обновлённый «Фокус»; исправлены виджеты на Android.",
     "h28": "**2.2–2.8** — значок на выбор; фото и файлы в задачах, офлайн-запуск; сворачиваемый месяц в календаре; напоминания о задачах на Android; задачи в Google Календаре; 14 новых светлых и тёмных тем; размер текста и три новых виджета; карта активности на главной.",
     "h21": "**2.1** — Android-приложение с виджетом задач на рабочем столе; мягкие светлая и тёмная темы в стиле Apple; разделы «Созвоны» и «Фокус» можно скрыть; язык меняется в настройках; исправлен запуск на Android.",
@@ -59,7 +59,12 @@
     "license": "⚖️ Лицензии",
     "lic": "Шрифт [Inter](https://rsms.me/inter/) распространяется по лицензии SIL Open Font License 1.1. Картинки README набраны шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Сделал [Владислав](https://t.me/arkhitkovv). Если Okto пригодился, поставь ⭐ репозиторию.",
-    "btnWin": "Скачать для Windows"
+    "btnWin": "Скачать для Windows",
+    "aboutTitle": "О проекте",
+    "about": "Okto начался 2 октября 2026 года как простой веб-счётчик. Из него вырос бесплатный планер для задач, календаря и фокуса. В Okto нет рекламы, аналитики и трекеров. Записи хранятся на устройстве, а синхронизацию через Google Firebase можно включить по желанию.",
+    "hFirst": "Первый Okto был счётчиком в один тап с целью и секундомером.",
+    "hLatest": "У Okto появилась версия для области уведомлений Windows. На Android планер открывается без сети, а в 3.23.6 улучшены вложения и экран «Фокус».",
+    "androidOffline": "Android-версия устанавливается из `Okto.apk` и открывает планер без сети и Chrome, в том числе при первом запуске. Для облачных данных войдите в тот же Google-аккаунт. Данные и вложения, которые хранились только в браузере, остаются доступны там."
   },
   "en": {
     "name": "English",
@@ -112,7 +117,7 @@
     "devTests": "Vitest: repeats, stats, data migration, sync, calendar layout",
     "devBuild": "build into dist/",
     "devEnv": "For sync during local development, copy `.env.example` to `.env.local` and fill in the keys. GitHub Pages publishes automatically on every change to `main`.",
-    "history": "🗂 Version history",
+    "history": "Roadmap",
     "h30": "**3.0** — a Notes section with photos and files; a new Home with soft coloured cards and Today / Week / Totals tabs; floating navigation bars and a collapsible sidebar on desktop; Settings with collapsible sections; a refreshed Focus screen; Android widget fixes.",
     "h28": "**2.2–2.8** — choose the app icon; photos and files in tasks, offline launch; collapsible month in the calendar; task reminders on Android; tasks in Google Calendar; 14 new light and dark themes; text size and three new widgets; activity map on the home screen.",
     "h21": "**2.1** — Android app with a home-screen task widget; soft light and dark themes in Apple style; Calls and Focus can be hidden; language is set in Settings; fixed launching on Android.",
@@ -121,7 +126,12 @@
     "license": "⚖️ Licenses",
     "lic": "The [Inter](https://rsms.me/inter/) font is licensed under the SIL Open Font License 1.1. README images are set in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Made by [Vlad](https://t.me/arkhitkovv). If Okto helped you, give the repo a ⭐",
-    "btnWin": "Download for Windows"
+    "btnWin": "Download for Windows",
+    "aboutTitle": "About Okto",
+    "about": "Okto started on October 2, 2026 as a simple web counter. It grew into a free planner for tasks, calendars, and focus. There are no ads, analytics, or trackers. Your entries stay on your device, and you can opt in to sync through Google Firebase.",
+    "hFirst": "The first Okto was a one-tap counter with a target and stopwatch.",
+    "hLatest": "Okto gained a Windows tray app. The Android planner opens offline, and 3.23.6 improves attachments and the Focus screen.",
+    "androidOffline": "The Android APK opens the planner offline, including on first launch. Sign in with the same Google account to restore synced data and appearance settings. Data and attachments stored only in the old browser app remain available there."
   },
   "es": {
     "name": "Español",
@@ -174,7 +184,7 @@
     "devTests": "Vitest: repeticiones, estadísticas, migración, sincronización, calendario",
     "devBuild": "compila en dist/",
     "devEnv": "Para sincronizar en local, copia `.env.example` a `.env.local` y rellena las claves. GitHub Pages publica automáticamente con cada cambio en `main`.",
-    "history": "🗂 Historial de versiones",
+    "history": "Hoja de ruta",
     "h30": "**3.0** — sección Notas con fotos y archivos; nuevo Inicio con tarjetas suaves de colores y pestañas Hoy / Semana / Totales; barras de navegación flotantes y barra lateral plegable en escritorio; ajustes con secciones plegables; Foco renovado; correcciones de widgets en Android.",
     "h28": "**2.2–2.8** — icono a elegir; fotos y archivos en las tareas, inicio sin conexión; mes plegable en el calendario; recordatorios de tareas en Android; tareas en Google Calendar; 14 temas nuevos claros y oscuros; tamaño de texto y tres widgets nuevos; mapa de actividad en el inicio.",
     "h21": "**2.1** — app de Android con widget de tareas en la pantalla de inicio; temas claro y oscuro suaves al estilo Apple; Llamadas y Enfoque se pueden ocultar; el idioma se elige en Ajustes; arreglado el inicio en Android.",
@@ -183,7 +193,11 @@
     "license": "⚖️ Licencias",
     "lic": "La fuente [Inter](https://rsms.me/inter/) usa la licencia SIL Open Font License 1.1. Las imágenes del README usan [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Hecho por [Vlad](https://t.me/arkhitkovv). Si Okto te sirvió, dale una ⭐ al repositorio.",
-    "btnWin": "Descargar para Windows"
+    "btnWin": "Descargar para Windows",
+    "aboutTitle": "Sobre Okto",
+    "about": "Okto nació el 2 de octubre de 2026 como un contador web sencillo. Hoy es un planificador gratuito para tareas, calendario y concentración. No hay anuncios, analítica ni rastreadores. Tus datos se guardan en tu dispositivo y la sincronización con Google Firebase es opcional.",
+    "hFirst": "El primer Okto era un contador de un toque con objetivo y cronómetro.",
+    "hLatest": "Okto llegó a la bandeja de Windows. El planificador de Android se abre sin conexión y 3.23.6 mejora los archivos adjuntos y la pantalla de concentración."
   },
   "pt": {
     "name": "Português",
@@ -236,7 +250,7 @@
     "devTests": "Vitest: repetições, estatísticas, migração, sincronização, calendário",
     "devBuild": "gera o build em dist/",
     "devEnv": "Para sincronizar localmente, copie `.env.example` para `.env.local` e preencha as chaves. O GitHub Pages publica automaticamente a cada mudança em `main`.",
-    "history": "🗂 Histórico de versões",
+    "history": "Roteiro",
     "h30": "**3.0** — seção Notas com fotos e arquivos; novo Início com cartões suaves e coloridos e abas Hoje / Semana / Totais; barras de navegação flutuantes e barra lateral recolhível no computador; configurações com seções recolhíveis; Foco renovado; correções dos widgets no Android.",
     "h28": "**2.2–2.8** — ícone à escolha; fotos e arquivos nas tarefas, abertura offline; mês recolhível no calendário; lembretes de tarefas no Android; tarefas no Google Agenda; 14 temas novos claros e escuros; tamanho do texto e três widgets novos; mapa de atividade no início.",
     "h21": "**2.1** — app Android com widget de tarefas na tela inicial; temas claro e escuro suaves no estilo Apple; Chamadas e Foco podem ser ocultados; o idioma fica nas Configurações; corrigida a abertura no Android.",
@@ -245,7 +259,11 @@
     "license": "⚖️ Licenças",
     "lic": "A fonte [Inter](https://rsms.me/inter/) usa a licença SIL Open Font License 1.1. As imagens do README usam [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Feito por [Vlad](https://t.me/arkhitkovv). Se o Okto te ajudou, deixe uma ⭐ no repositório.",
-    "btnWin": "Baixar para Windows"
+    "btnWin": "Baixar para Windows",
+    "aboutTitle": "Sobre o Okto",
+    "about": "O Okto nasceu em 2 de outubro de 2026 como um contador web simples. Hoje é um planejador gratuito de tarefas, calendário e foco. Não há anúncios, análises nem rastreadores. Os dados ficam no seu dispositivo e a sincronização pelo Google Firebase é opcional.",
+    "hFirst": "O primeiro Okto era um contador de um toque com meta e cronômetro.",
+    "hLatest": "O Okto ganhou um aplicativo na bandeja do Windows. O planejador Android abre offline, e a versão 3.23.6 melhora os anexos e a tela de foco."
   },
   "de": {
     "name": "Deutsch",
@@ -298,7 +316,7 @@
     "devTests": "Vitest: Wiederholungen, Statistik, Migration, Synchronisierung, Kalender",
     "devBuild": "Build nach dist/",
     "devEnv": "Für Synchronisierung lokal `.env.example` nach `.env.local` kopieren und die Schlüssel eintragen. GitHub Pages veröffentlicht automatisch bei jeder Änderung in `main`.",
-    "history": "🗂 Versionen",
+    "history": "Roadmap",
     "h30": "**3.0** — Bereich „Notizen“ mit Fotos und Dateien; neue Startseite mit weichen, farbigen Karten und Tabs Heute / Woche / Gesamt; schwebende Navigationsleisten und einklappbare Seitenleiste am Desktop; Einstellungen mit einklappbaren Bereichen; überarbeiteter Fokus; Widget-Korrekturen unter Android.",
     "h28": "**2.2–2.8** — App-Symbol wählbar; Fotos und Dateien in Aufgaben, Offline-Start; einklappbarer Monat im Kalender; Aufgaben-Erinnerungen unter Android; Aufgaben im Google Kalender; 14 neue helle und dunkle Themes; Textgröße und drei neue Widgets; Aktivitätskarte auf der Startseite.",
     "h21": "**2.1** — Android-App mit Aufgaben-Widget für den Startbildschirm; sanfte helle und dunkle Themes im Apple-Stil; Anrufe und Fokus ausblendbar; Sprache in den Einstellungen; Start unter Android behoben.",
@@ -307,7 +325,11 @@
     "license": "⚖️ Lizenzen",
     "lic": "Die Schrift [Inter](https://rsms.me/inter/) steht unter der SIL Open Font License 1.1. Die README-Bilder sind in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) gesetzt.",
     "footer": "Gemacht von [Vlad](https://t.me/arkhitkovv). Wenn dir Okto hilft, gib dem Repo einen ⭐",
-    "btnWin": "Für Windows laden"
+    "btnWin": "Für Windows laden",
+    "aboutTitle": "Über Okto",
+    "about": "Okto begann am 2. Oktober 2026 als einfacher Webzähler. Daraus wurde ein kostenloser Planer für Aufgaben, Kalender und Fokus. Es gibt keine Werbung, Analysen oder Tracker. Deine Einträge bleiben auf deinem Gerät. Die Synchronisierung über Google Firebase ist optional.",
+    "hFirst": "Die erste Version war ein Ein-Tipp-Zähler mit Ziel und Stoppuhr.",
+    "hLatest": "Okto bekam eine Windows-App für den Infobereich. Der Android-Planer startet offline. Version 3.23.6 verbessert Anhänge und den Fokusbildschirm."
   },
   "fr": {
     "name": "Français",
@@ -360,7 +382,7 @@
     "devTests": "Vitest : répétitions, stats, migration, synchronisation, calendrier",
     "devBuild": "build dans dist/",
     "devEnv": "Pour la synchronisation en local, copie `.env.example` vers `.env.local` et remplis les clés. GitHub Pages publie automatiquement à chaque changement sur `main`.",
-    "history": "🗂 Historique des versions",
+    "history": "Feuille de route",
     "h30": "**3.0** — section Notes avec photos et fichiers ; nouvel Accueil avec cartes douces et colorées et onglets Aujourd’hui / Semaine / Totaux ; barres de navigation flottantes et barre latérale repliable sur ordinateur ; réglages à sections repliables ; Focus remanié ; correctifs des widgets Android.",
     "h28": "**2.2–2.8** — icône au choix ; photos et fichiers dans les tâches, lancement hors ligne ; mois repliable dans le calendrier ; rappels de tâches sur Android ; tâches dans Google Agenda ; 14 nouveaux thèmes clairs et sombres ; taille du texte et trois nouveaux widgets ; carte d'activité sur l'accueil.",
     "h21": "**2.1** — app Android avec widget de tâches sur l'écran d'accueil ; thèmes clair et sombre doux style Apple ; Appels et Focus masquables ; langue dans les Réglages ; lancement corrigé sur Android.",
@@ -369,7 +391,11 @@
     "license": "⚖️ Licences",
     "lic": "La police [Inter](https://rsms.me/inter/) est sous licence SIL Open Font License 1.1. Les images du README utilisent [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Fait par [Vlad](https://t.me/arkhitkovv). Si Okto t’a servi, laisse une ⭐ au dépôt.",
-    "btnWin": "Télécharger pour Windows"
+    "btnWin": "Télécharger pour Windows",
+    "aboutTitle": "À propos d’Okto",
+    "about": "Okto est né le 2 octobre 2026 comme un simple compteur web. C’est aujourd’hui un outil gratuit pour les tâches, le calendrier et la concentration. Il n’y a ni publicité, ni statistiques d’utilisation, ni traceurs. Vos données restent sur votre appareil et la synchronisation via Google Firebase est facultative.",
+    "hFirst": "Le premier Okto était un compteur en un geste, avec un objectif et un chronomètre.",
+    "hLatest": "Okto a gagné une application dans la zone de notification de Windows. Le planificateur Android s’ouvre hors ligne et la version 3.23.6 améliore les pièces jointes et l’écran de concentration."
   },
   "it": {
     "name": "Italiano",
@@ -422,7 +448,7 @@
     "devTests": "Vitest: ripetizioni, statistiche, migrazione, sincronizzazione, calendario",
     "devBuild": "build in dist/",
     "devEnv": "Per la sincronizzazione in locale, copia `.env.example` in `.env.local` e compila le chiavi. GitHub Pages pubblica automaticamente a ogni modifica su `main`.",
-    "history": "🗂 Cronologia versioni",
+    "history": "Tabella di marcia",
     "h30": "**3.0** — sezione Note con foto e file; nuova Home con schede morbide e colorate e schede Oggi / Settimana / Totali; barre di navigazione flottanti e barra laterale comprimibile su desktop; impostazioni con sezioni comprimibili; Focus rinnovato; correzioni ai widget Android.",
     "h28": "**2.2–2.8** — icona a scelta; foto e file nelle attività, avvio offline; mese comprimibile nel calendario; promemoria delle attività su Android; attività in Google Calendar; 14 nuovi temi chiari e scuri; dimensione del testo e tre nuovi widget; mappa delle attività nella Home.",
     "h21": "**2.1** — app Android con widget delle attività nella schermata Home; temi chiaro e scuro morbidi in stile Apple; Chiamate e Focus nascondibili; lingua nelle Impostazioni; corretto l'avvio su Android.",
@@ -431,7 +457,11 @@
     "license": "⚖️ Licenze",
     "lic": "Il font [Inter](https://rsms.me/inter/) è distribuito con la SIL Open Font License 1.1. Le immagini del README usano [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Fatto da [Vlad](https://t.me/arkhitkovv). Se Okto ti è utile, lascia una ⭐ al repository.",
-    "btnWin": "Scarica per Windows"
+    "btnWin": "Scarica per Windows",
+    "aboutTitle": "Informazioni su Okto",
+    "about": "Okto è nato il 2 ottobre 2026 come semplice contatore web. Oggi è un pianificatore gratuito per attività, calendario e concentrazione. Non ci sono pubblicità, analisi o tracker. I dati restano sul dispositivo e la sincronizzazione con Google Firebase è facoltativa.",
+    "hFirst": "Il primo Okto era un contatore a un tocco con obiettivo e cronometro.",
+    "hLatest": "Okto è arrivato nell’area di notifica di Windows. Il pianificatore Android si apre offline e la versione 3.23.6 migliora gli allegati e la schermata di concentrazione."
   },
   "tr": {
     "name": "Türkçe",
@@ -484,7 +514,7 @@
     "devTests": "Vitest: tekrarlar, istatistik, veri taşıma, senkronizasyon, takvim",
     "devBuild": "dist/ içine derler",
     "devEnv": "Yerelde senkronizasyon için `.env.example` dosyasını `.env.local` olarak kopyala ve anahtarları doldur. GitHub Pages, `main`’deki her değişiklikte otomatik yayınlar.",
-    "history": "🗂 Sürüm geçmişi",
+    "history": "Yol haritası",
     "h30": "**3.0** — fotoğraf ve dosya ekleyebileceğiniz Notlar bölümü; yumuşak renkli kartlar ve Bugün / Hafta / Toplam sekmeleriyle yeni Ana sayfa; yüzen gezinme çubukları ve masaüstünde daraltılabilir kenar çubuğu; daraltılabilir bölümlü ayarlar; yenilenen Odak; Android widget düzeltmeleri.",
     "h28": "**2.2–2.8** — seçilebilir uygulama simgesi; görevlerde fotoğraf ve dosyalar, çevrimdışı açılış; takvimde daraltılabilir ay; Android'de görev hatırlatıcıları; Google Takvim'de görevler; 14 yeni açık ve koyu tema; yazı boyutu ve üç yeni widget; ana sayfada etkinlik haritası.",
     "h21": "**2.1** — ana ekran görev widget'lı Android uygulaması; Apple tarzı yumuşak açık ve koyu temalar; Aramalar ve Odak gizlenebilir; dil Ayarlar'da; Android'de açılış düzeltildi.",
@@ -493,7 +523,11 @@
     "license": "⚖️ Lisanslar",
     "lic": "[Inter](https://rsms.me/inter/) yazı tipi SIL Open Font License 1.1 ile lisanslıdır. README görselleri [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1) ile dizilmiştir.",
     "footer": "[Vlad](https://t.me/arkhitkovv) tarafından yapıldı. Okto işine yaradıysa depoya bir ⭐ bırak.",
-    "btnWin": "Windows için indir"
+    "btnWin": "Windows için indir",
+    "aboutTitle": "Okto hakkında",
+    "about": "Okto, 2 Ekim 2026’da basit bir web sayacı olarak başladı. Bugün görevler, takvim ve odaklanma için ücretsiz bir planlayıcı. Reklam, analiz veya takip yazılımı yok. Kayıtlar cihazında kalır ve Google Firebase ile eşitleme isteğe bağlıdır.",
+    "hFirst": "İlk Okto, hedef ve kronometre içeren tek dokunuşlu bir sayaçtı.",
+    "hLatest": "Okto, Windows bildirim alanına geldi. Android planlayıcı çevrimdışı açılıyor. 3.23.6 sürümü ekleri ve odak ekranını iyileştiriyor."
   },
   "uk": {
     "name": "Українська",
@@ -546,7 +580,7 @@
     "devTests": "Vitest: повтори, статистика, перенесення даних, синхронізація, календар",
     "devBuild": "збірка в dist/",
     "devEnv": "Для синхронізації локально скопіюйте `.env.example` у `.env.local` і заповніть ключі. Публікація на GitHub Pages — автоматично після кожної зміни в `main`.",
-    "history": "🗂 Історія версій",
+    "history": "Дорожня карта",
     "h30": "**3.0** — розділ «Нотатки» з фото та файлами; нова головна з м’якими кольоровими картками й вкладками «Сьогодні / Тиждень / Підсумки»; плаваючі панелі навігації та згортувана бічна панель на ПК; налаштування зі згортуваними розділами; оновлений «Фокус»; виправлені віджети на Android.",
     "h28": "**2.2–2.8** — значок на вибір; фото й файли в завданнях, запуск офлайн; згортуваний місяць у календарі; нагадування про завдання на Android; завдання в Google Календарі; 14 нових світлих і темних тем; розмір тексту й три нові віджети; карта активності на головній.",
     "h21": "**2.1** — Android-застосунок із віджетом завдань на робочому столі; м'які світла й темна теми в стилі Apple; «Дзвінки» і «Фокус» можна сховати; мова — в налаштуваннях; виправлено запуск на Android.",
@@ -555,7 +589,11 @@
     "license": "⚖️ Ліцензії",
     "lic": "Шрифт [Inter](https://rsms.me/inter/) поширюється за ліцензією SIL Open Font License 1.1. Зображення README набрані шрифтом [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Зробив [Влад](https://t.me/arkhitkovv). Якщо Okto знадобився, постав ⭐ репозиторію.",
-    "btnWin": "Завантажити для Windows"
+    "btnWin": "Завантажити для Windows",
+    "aboutTitle": "Про Okto",
+    "about": "Okto почався 2 жовтня 2026 року як простий веблічильник. Тепер це безкоштовний планувальник для завдань, календаря та фокусу. Тут немає реклами, аналітики й трекерів. Записи зберігаються на пристрої, а синхронізацію через Google Firebase можна ввімкнути за бажанням.",
+    "hFirst": "Перший Okto був лічильником в один дотик із ціллю та секундоміром.",
+    "hLatest": "Okto з’явився в області сповіщень Windows. Планувальник на Android відкривається офлайн, а 3.23.6 покращує вкладення та екран фокусу."
   },
   "pl": {
     "name": "Polski",
@@ -608,7 +646,7 @@
     "devTests": "Vitest: powtórki, statystyki, migracja, synchronizacja, kalendarz",
     "devBuild": "build do dist/",
     "devEnv": "Do synchronizacji lokalnie skopiuj `.env.example` do `.env.local` i uzupełnij klucze. GitHub Pages publikuje automatycznie przy każdej zmianie w `main`.",
-    "history": "🗂 Historia wersji",
+    "history": "Plan rozwoju",
     "h30": "**3.0** — sekcja Notatki ze zdjęciami i plikami; nowy ekran główny z miękkimi kolorowymi kartami i zakładkami Dziś / Tydzień / Podsumowanie; pływające paski nawigacji i zwijany panel boczny na komputerze; ustawienia ze zwijanymi sekcjami; odświeżony Fokus; poprawki widgetów na Androidzie.",
     "h28": "**2.2–2.8** — ikona do wyboru; zdjęcia i pliki w zadaniach, uruchamianie offline; zwijany miesiąc w kalendarzu; przypomnienia o zadaniach na Androidzie; zadania w Kalendarzu Google; 14 nowych jasnych i ciemnych motywów; rozmiar tekstu i trzy nowe widżety; mapa aktywności na stronie głównej.",
     "h21": "**2.1** — aplikacja na Androida z widżetem zadań na ekranie głównym; łagodne jasny i ciemny motyw w stylu Apple; Rozmowy i Fokus można ukryć; język w Ustawieniach; naprawione uruchamianie na Androidzie.",
@@ -617,6 +655,10 @@
     "license": "⚖️ Licencje",
     "lic": "Czcionka [Inter](https://rsms.me/inter/) jest na licencji SIL Open Font License 1.1. Obrazy w README używają [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (OFL 1.1) + [Golos Text](https://github.com/googlefonts/golos-text) (OFL 1.1).",
     "footer": "Zrobił [Vlad](https://t.me/arkhitkovv). Jeśli Okto ci się przydał, zostaw ⭐ w repozytorium.",
-    "btnWin": "Pobierz na Windows"
+    "btnWin": "Pobierz na Windows",
+    "aboutTitle": "O Okto",
+    "about": "Okto powstało 2 października 2026 roku jako prosty licznik internetowy. Dziś to bezpłatny planer z zadaniami, kalendarzem i trybem skupienia. Nie ma reklam, analityki ani śledzenia. Dane pozostają na urządzeniu, a synchronizacja przez Google Firebase jest opcjonalna.",
+    "hFirst": "Pierwsze Okto było licznikiem na jedno dotknięcie z celem i stoperem.",
+    "hLatest": "Okto trafiło do zasobnika systemowego Windows. Planer na Androidzie otwiera się offline, a wersja 3.23.6 usprawnia załączniki i ekran skupienia."
   }
 }

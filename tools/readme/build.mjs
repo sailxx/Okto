@@ -1,4 +1,4 @@
-// Картинки README в стиле Okto Calc: чёрный фон, мягкие белые свечения, градиентные акценты,
+// Картинки README в стиле Okto: монохромные панели и красный сигнал,
 // шрифты Golos Text и JetBrains Mono (урезаются под каждый язык). Красный — только там, где он есть в самом Okto: время.
 // Шрифты (OFL-1.1) положить в tools/readme/.font/: golos.ttf (Golos Text) и jbmono.ttf (JetBrains Mono).
 // Строки — tools/readme/strings.json, cards2.json, md.json; *слово* — акцент.
@@ -49,8 +49,8 @@ function heroSvg(s) {
   b += `<g class="r" ${delay(3)}>${lines(40, y, sub, { size: 16, weight: 500, lh: 24, fill: P.muted })}</g>`;
   y += (sub.length - 1) * 24 + 34;
   // табло фокуса
-  const wx = 576, wy = 104, ww = 264, wh = 180;
-  b += `<g class="r" ${delay(3)}><ellipse cx="${wx + ww / 2}" cy="${wy + wh / 2}" rx="170" ry="150" fill="url(#g1)"/>${card(wx, wy, ww, wh, 20)}
+  const wx = 576, wy = 92, ww = 264, wh = 180;
+  b += `<g class="r" ${delay(3)}>${card(wx, wy, ww, wh, 20)}
 <rect x="${wx + 14}" y="${wy + 14}" width="${ww - 28}" height="${wh - 28}" rx="12" fill="#0A0A0A" stroke="#1F1F1F"/>
 <circle class="blink" cx="${wx + 32}" cy="${wy + 36}" r="3.5" fill="${RED}"/>${fitText(wx + 42, wy + 40, s.disp, ww - 70, { size: 10, weight: 600, mono: true, spacing: 1.6, fill: P.dim })}
 <text class="m" x="${wx + 30}" y="${wy + 108}" font-size="60" font-weight="700" letter-spacing="-2" fill="#fff" fill-opacity=".05">${T("88:88")}</text>
@@ -305,6 +305,14 @@ function designSvg(c, lang) {
   return svg(W, y + 124 + 36, d.label + " — " + plain(d.title), b, HALF);
 }
 
+function projectPanel(title, readout) {
+  return svg(W, 114, `${title} · ${readout}`, `
+<path d="M40 34h20" stroke="${RED}" stroke-width="3" stroke-linecap="round"/>
+${fitText(40, 79, title, 514, { size: 36, weight: 800 })}
+${card(572, 32, 268, 50, 8)}
+${fitText(706, 64, readout, 236, { size: 18, mono: true, weight: 700, anchor: "middle" })}`);
+}
+
 const strings = JSON.parse(fs.readFileSync(dir + "strings.json", "utf8"));
 const md = JSON.parse(fs.readFileSync(dir + "md.json", "utf8"));
 const cards2 = JSON.parse(fs.readFileSync(dir + "cards2.json", "utf8"));
@@ -314,6 +322,8 @@ for (const [lang, s] of Object.entries(strings)) {
     [`hero-${lang}.svg`]: heroSvg(s),
     [`sections-${lang}.svg`]: sectionsSvg(s),
     [`safe-${lang}.svg`]: safeSvg(s),
+    [`about-${lang}.svg`]: projectPanel(md[lang].aboutTitle, "2026-10-02"),
+    [`roadmap-${lang}.svg`]: projectPanel(md[lang].history, `1.0 → ${VERSION}`),
     [`btn-web-${lang}.svg`]: btnSvg(md[lang].btnWeb, "web"),
     [`btn-android-${lang}.svg`]: btnSvg(md[lang].btnApk, "android"),
     [`btn-windows-${lang}.svg`]: btnSvg(md[lang].btnWin, "windows"),
@@ -341,7 +351,7 @@ ${sw}
 ${m.anywhere}
 
 </div>
-${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}
+${m.note ? `\n> [!NOTE]\n> ${m.note}\n` : ""}${m.androidOffline ? `\n${m.androidOffline}\n` : ""}
 <br>
 
 <img src="assets/readme/screens-${lang === "ru" || lang === "uk" ? "ru" : "en"}.webp" width="100%" alt="${m.alt[2]}">
@@ -369,17 +379,29 @@ ${m.syncNote}
 
 <br>
 
+## ${m.aboutTitle}
+
+<picture><source srcset="assets/readme/about-${lang}.svg"><img src="assets/readme/png/about-${lang}.png" width="100%" alt="${m.aboutTitle}"></picture>
+
+${m.about} [${m.alt[5]}](PRIVACY.md)
+
 ## ${m.history}
 
-${m.h30}
+<picture><source srcset="assets/readme/roadmap-${lang}.svg"><img src="assets/readme/png/roadmap-${lang}.png" width="100%" alt="${m.history}"></picture>
 
-${m.h28}
+**2026-10-02** — ${m.hFirst}
 
-${m.h21}
+${m.h1}
 
 ${m.h2}
 
-${m.h1}
+${m.h21}
+
+${m.h28}
+
+${m.h30}
+
+[**${VERSION}**](https://github.com/sailxx/Okto/releases/tag/v${VERSION}) — ${m.hLatest}
 
 ## ${m.license}
 

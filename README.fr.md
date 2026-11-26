@@ -47,17 +47,29 @@ Ces clés ne sont pas secrètes : l’accès est protégé par les règles Fires
 
 <br>
 
-## 🗂 Historique des versions
+## À propos d’Okto
 
-**3.0** — section Notes avec photos et fichiers ; nouvel Accueil avec cartes douces et colorées et onglets Aujourd’hui / Semaine / Totaux ; barres de navigation flottantes et barre latérale repliable sur ordinateur ; réglages à sections repliables ; Focus remanié ; correctifs des widgets Android.
+<picture><source srcset="assets/readme/about-fr.svg"><img src="assets/readme/png/about-fr.png" width="100%" alt="À propos d’Okto"></picture>
 
-**2.2–2.8** — icône au choix ; photos et fichiers dans les tâches, lancement hors ligne ; mois repliable dans le calendrier ; rappels de tâches sur Android ; tâches dans Google Agenda ; 14 nouveaux thèmes clairs et sombres ; taille du texte et trois nouveaux widgets ; carte d'activité sur l'accueil.
+Okto est né le 2 octobre 2026 comme un simple compteur web. C’est aujourd’hui un outil gratuit pour les tâches, le calendrier et la concentration. Il n’y a ni publicité, ni statistiques d’utilisation, ni traceurs. Vos données restent sur votre appareil et la synchronisation via Google Firebase est facultative. [Sécurité : signature, données, autorisations](PRIVACY.md)
 
-**2.1** — app Android avec widget de tâches sur l'écran d'accueil ; thèmes clair et sombre doux style Apple ; Appels et Focus masquables ; langue dans les Réglages ; lancement corrigé sur Android.
+## Feuille de route
+
+<picture><source srcset="assets/readme/roadmap-fr.svg"><img src="assets/readme/png/roadmap-fr.png" width="100%" alt="Feuille de route"></picture>
+
+**2026-10-02** — Le premier Okto était un compteur en un geste, avec un objectif et un chronomètre.
+
+**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.
 
 **2.0** — tâches avec listes, répétitions, sous-tâches et rappels ; calendrier façon Apple Calendrier avec glisser-déposer ; accueil personnalisable ; synchronisation Firebase ; focus sur une tâche.
 
-**1.0** — Pomodoro à quatre modes, tags prédéfinis en couleur, sept thèmes, anglais, notifications du navigateur.
+**2.1** — app Android avec widget de tâches sur l'écran d'accueil ; thèmes clair et sombre doux style Apple ; Appels et Focus masquables ; langue dans les Réglages ; lancement corrigé sur Android.
+
+**2.2–2.8** — icône au choix ; photos et fichiers dans les tâches, lancement hors ligne ; mois repliable dans le calendrier ; rappels de tâches sur Android ; tâches dans Google Agenda ; 14 nouveaux thèmes clairs et sombres ; taille du texte et trois nouveaux widgets ; carte d'activité sur l'accueil.
+
+**3.0** — section Notes avec photos et fichiers ; nouvel Accueil avec cartes douces et colorées et onglets Aujourd’hui / Semaine / Totaux ; barres de navigation flottantes et barre latérale repliable sur ordinateur ; réglages à sections repliables ; Focus remanié ; correctifs des widgets Android.
+
+[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto a gagné une application dans la zone de notification de Windows. Le planificateur Android s’ouvre hors ligne et la version 3.23.6 améliore les pièces jointes et l’écran de concentration.
 
 ## ⚖️ Licences
 
