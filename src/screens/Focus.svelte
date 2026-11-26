@@ -59,19 +59,41 @@
   const laps = $derived(store.device.stopwatch.laps);
   const lastLap = $derived(laps.length ? laps[laps.length - 1] : 0);
   function fmtSw(ms: number) {
+    ms = Math.max(0, ms);
     const cs = Math.floor(ms / 10) % 100, s = Math.floor(ms / 1000) % 60, m = Math.floor(ms / 60000) % 60, h = Math.floor(ms / 3600000);
     const p = (n: number) => String(n).padStart(2, '0');
     return `${h ? `${h}:` : ''}${p(m)}:${p(s)}.${p(cs)}`;
   }
   function lap() {
     if (!swRunning) return;
-    store.setDevice({ stopwatch: { ...store.device.stopwatch, laps: [...laps, swAt(Date.now())].slice(-99) } });
+    const at = Date.now();
+    frame = at;
+    store.setDevice({ stopwatch: { ...store.device.stopwatch, laps: [...laps, swAt(at)].slice(-99) } });
     tactile('lap');
   }
 
+  // Countdown digits change at whole seconds relative to the deadline, independently of the app ticker.
+  let countdownTick = $state(0);
+  $effect(() => {
+    const deadline = isPomo ? store.device.pomo.endsAt : isTimer ? store.device.timer.endsAt : null;
+    if (!deadline) return;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const schedule = () => {
+      const remaining = deadline - Date.now();
+      if (remaining > 0) {
+        timeout = setTimeout(() => {
+          countdownTick++;
+          schedule();
+        }, remaining % 1000 || 1000);
+      }
+    };
+    schedule();
+    return () => clearTimeout(timeout);
+  });
+
   /* ---------- timer view ---------- */
   const TIMER_PRESETS = [1, 3, 5, 10, 15, 30, 60];
-  const tLeft = $derived.by(() => { void store.now; return store.timerLeft(); });
+  const tLeft = $derived.by(() => { void countdownTick; return store.timerLeft(Date.now()); });
   const tRunning = $derived(Boolean(store.device.timer.endsAt));
   const tDur = $derived(store.device.timer.duration);
   const durLabel = (ms: number) => (ms % 60000 ? mmss(ms) : store.t('durMin')(ms / 60000));
@@ -97,7 +119,7 @@
 
   /* ---------- pomodoro view ---------- */
   const cfg = $derived(store.pomoCfg());
-  const left = $derived.by(() => { void store.now; return store.pomoLeft(); });
+  const left = $derived.by(() => { void countdownTick; return store.pomoLeft(Date.now()); });
   const total = $derived(store.phaseMs());
   const running = $derived(Boolean(store.device.pomo.endsAt));
   const phase = $derived(store.device.pomo.phase);
@@ -298,8 +320,12 @@
     }
   }
   const display = $derived(isPomo ? mmss(left) : isSw ? fmtSw(swLive) : isTimer ? mmss(tLeft) : fmt.format(counter.count));
-  // Digits are tabular, so only a change in length (or mode) can change the width.
-  $effect(() => { void display.length; void mode; fit(); });
+  const clockSlots = $derived(Math.max(isSw ? 11 : 8, display.length));
+  $effect(() => {
+    if (mode !== 'counter') return;
+    void display.length;
+    void fit();
+  });
   $effect(() => {
     if (!countEl) return;
     const ro = new ResizeObserver(fit);
@@ -374,8 +400,6 @@
   <div
     class="zone"
     class:locked={mode === 'counter' && store.device.locked}
-    class:sw={isSw}
-    class:paused={(isPomo && !running && left < total) || (isSw && !swRunning && swLive > 0) || (isTimer && !tRunning && store.device.timer.remaining !== null)}
     onpointerdown={down} onpointermove={move} onpointerup={up} onpointercancel={up} onpointerleave={up}
     oncontextmenu={(e) => e.preventDefault()}
     onclick={click}
@@ -457,9 +481,9 @@
 
         <div class="clock-core">
           {#if isPomo}<span class="clock-phase">{store.t('phase')[phase]}</span>{/if}
-          <button class="count" type="button" bind:this={countEl}
+          <button class="count" type="button" style:--clock-slots={clockSlots}
             aria-label={isPomo ? `${store.t('phase')[phase]} ${display}` : `${store.t(isSw ? 'modeStopwatch' : 'modeTimer')} ${display}`}>
-            <Digits text={display} />
+            <span class="clock-value" aria-hidden="true">{display}</span>
           </button>
           <div class="fbar" aria-hidden="true"><i style:transform={`scaleX(${ratio})`}></i></div>
           {#if isPomo}<span class="clock-next">{store.t('next')(store.t('phase')[nextPhase], cfg[nextPhase])}</span>{/if}
@@ -467,12 +491,14 @@
 
         <div class="frows clock-options">
           {#if isSw}
-            <div class="flaps">
-              <div class="frow"><span>{store.t('lap')} {laps.length + 1}</span><span class="fv"><b>{fmtSw(swLive - lastLap)}</b></span></div>
-              {#each [...laps].reverse() as at, k (laps.length - k)}
-                {@const n = laps.length - k}
-                <div class="frow"><span>{store.t('lap')} {n}</span><span class="fv"><b>{fmtSw(at - (laps[n - 2] ?? 0))}</b><small>{fmtSw(at)}</small></span></div>
-              {/each}
+            <div class="laps-space">
+              <div class="flaps">
+                <div class="frow"><span>{store.t('lap')} {laps.length + 1}</span><span class="fv"><b>{fmtSw(swLive - lastLap)}</b></span></div>
+                {#each [...laps].reverse() as at, k (laps.length - k)}
+                  {@const n = laps.length - k}
+                  <div class="frow"><span>{store.t('lap')} {n}</span><span class="fv"><b>{fmtSw(at - (laps[n - 2] ?? 0))}</b><small>{fmtSw(at)}</small></span></div>
+                {/each}
+              </div>
             </div>
           {:else if isPomo}
             <button type="button" class="focus-pill" onclick={skipPhase}>{store.t('skip')}{@render chev()}</button>
@@ -674,6 +700,7 @@
     font-family: var(--sans); font-size: clamp(48px, 24cqi, 112px);
     font-weight: 650; letter-spacing: -.045em;
   }
+  .focus-page .fcard.clock-card .count { font-size: min(112px, calc(174cqi / var(--clock-slots))); }
   .focus-page .count :global(.digits .ghost) { visibility: hidden; }
   .fbar { width: 100%; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
   .fbar i { display: block; height: 100%; border-radius: 2px; background: var(--ink); transform-origin: left center; }
@@ -694,8 +721,9 @@
   .fv b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-weight: 500; }
   .fv small { font-size: 12px; }
   .chev { display: grid; color: var(--muted); opacity: .7; }
+  .laps-space { flex: 0 0 100%; height: 124px; display: grid; grid-template-rows: minmax(0, 1fr); align-items: end; }
   .flaps {
-    flex: 0 0 100%; max-height: 124px; overflow-y: auto; cursor: default;
+    max-height: 100%; overflow-y: auto; cursor: default;
     border: 1px solid var(--line); border-radius: 14px;
   }
   .flaps .frow { padding-inline: 12px; min-height: 40px; }

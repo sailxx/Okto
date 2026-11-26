@@ -39,8 +39,8 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 63
-        versionName = "3.23.5"
+        versionCode = 64
+        versionName = "3.23.6"
     }
 
     sourceSets["main"].assets.srcDir(webAssets)

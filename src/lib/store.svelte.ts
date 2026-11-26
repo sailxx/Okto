@@ -419,7 +419,7 @@ class Store {
   pomoCfg() { const p = this.data.settings.pomo; return p.preset === 'custom' ? p.custom : POMO[p.preset]; }
   phaseMs(phase = this.device.pomo.phase) { return this.pomoCfg()[phase] * 60000; }
   pomoRunning() { return Boolean(this.device.pomo.endsAt); }
-  pomoLeft() { const p = this.device.pomo; return p.endsAt ? p.endsAt - this.now.getTime() : p.remaining ?? this.phaseMs(); }
+  pomoLeft(at = this.now.getTime()) { const p = this.device.pomo; return p.endsAt ? p.endsAt - at : p.remaining ?? this.phaseMs(); }
   pomoStart() {
     if (this.pomoRunning()) return;
     this.setDevice({ pomo: { ...this.device.pomo, endsAt: Date.now() + this.pomoLeft(), remaining: null } });
@@ -451,7 +451,7 @@ class Store {
   }
   /* ---------- countdown timer (runs app-wide, like Pomodoro) ---------- */
   timerRunning() { return Boolean(this.device.timer.endsAt); }
-  timerLeft() { const t = this.device.timer; return t.endsAt ? Math.max(0, t.endsAt - this.now.getTime()) : t.remaining ?? t.duration; }
+  timerLeft(at = this.now.getTime()) { const t = this.device.timer; return t.endsAt ? Math.max(0, t.endsAt - at) : t.remaining ?? t.duration; }
   timerStart() {
     if (this.timerRunning()) return;
     const left = this.timerLeft() || this.device.timer.duration;
