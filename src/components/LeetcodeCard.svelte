@@ -58,7 +58,7 @@
   .segs i { flex: 1; border-radius: 3px; background: var(--tg); transition: background-color 300ms ease; }
   .segs i.on { background: var(--t); }
   .add { height: 36px; margin-top: auto; padding: 0 16px; border-radius: 12px; font-weight: 600; background: var(--ink); color: var(--bg); }
-  :global(.cell.acc) .add { background: #fff; color: #1d1d1f; }
+  :global(.cell.acc) .add { background: var(--t); color: var(--bc); }
   .cur { display: none; align-items: center; gap: 10px; width: 100%; min-height: 40px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--tg); }
   @container (min-height: 170px) { .cur { display: flex; } }
   .ck { flex: 0 0 auto; width: 24px; height: 24px; padding: 0; color: var(--t); transition: transform 120ms ease; }

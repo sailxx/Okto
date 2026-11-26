@@ -134,19 +134,36 @@
     const rank = (b: Block) => { const i = DEFAULT_DASHBOARD.findIndex((d) => d.type === b.type); return i < 0 ? 99 : i; };
     const phone = isPhoneGrid(cols);
     setBlocks([...blocks].sort((a, b) => rank(a) - rank(b)).map((b) => {
-      if (phone) return { ...b, ...phoneDefault(b) };
+      const preset = DEFAULT_DASHBOARD.find((d) => d.type === b.type);
+      if (phone) {
+        const size = phoneDefault(b);
+        return { ...b, ...size, pw: preset?.pw ?? size.pw };
+      }
       const { w: _w, h: _h, ...rest } = freezePhone(b);
-      return rest;
+      return preset ? { ...rest, w: preset.w } : rest;
     }));
   }
   const painted = $derived(blocks.find((b) => keyOf(b) === painting) ?? null);
+  function cardTint(block: Block) {
+    return block.tint === 'none' ? undefined : block.tint;
+  }
+
+  function inkOnTint(hex: string) {
+    const [r, g, b] = [1, 3, 5].map((offset) => {
+      const channel = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+      return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+    });
+    // Above this luminance, black has greater WCAG contrast than white.
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ? '#000' : '#fff';
+  }
+
   /** Без `tint` карточка возвращает стандартный цвет. */
   function paint(b: Block, tint?: string) {
     setBlocks(blocks.map((x) => { if (keyOf(x) !== keyOf(b)) return x; const { tint: _, ...rest } = x; return tint ? { ...rest, tint } : rest; }));
   }
   function remove(b: Block) { setBlocks(blocks.filter((x) => keyOf(x) !== keyOf(b))); }
   const available = $derived([
-    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode', 'leetstats'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((t) => (t === 'leetstats' ? { type: t, tint: '#f76b15' } : { type: t }) as Block),
+    ...(['score', 'productivity', 'goal', 'tasks', 'focus', 'streak', 'next', 'finance', 'habits', 'health', 'github', 'leetcode', 'leetstats'] as const).filter((t) => store.shows(t) && !blocks.some((b) => b.type === t)).map((type): Block => ({ type })),
     ...store.counters.filter((c) => !blocks.some((b) => b.counterId === c.id)).map((c) => ({ type: 'counter', counterId: c.id }) as Block),
   ]);
 
@@ -271,12 +288,13 @@
     {#each shown as b, i (keyOf(b))}
       {@const counter = b.type === 'counter' ? store.data.counters[b.counterId!] : null}
       {@const sz = span(b)}
+      {@const tint = cardTint(b)}
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div class="blk" class:dragging={dragKey === keyOf(b)} class:resizing={resizing === keyOf(b)} data-key={keyOf(b)}
         style:grid-column="span {sz.w}" style:grid-row="span {sz.h}"
         onpointerdown={(e) => dragDown(e, b)} onpointermove={dragMove} onpointerup={gestureUp} onpointercancel={gestureUp}>
-        <div class="cell {b.type}" class:acc={!!b.tint && b.tint !== 'none'} class:tint={b.tint && b.tint !== 'none'} role="button" tabindex="0" aria-disabled={editing}
-          style:--cc={counter?.color} style:--bc={b.tint !== 'none' ? b.tint : undefined}
+        <div class="cell {b.type}" class:acc={!!tint} class:tint={!!tint} role="button" tabindex="0" aria-disabled={editing}
+          style:--cc={counter?.color} style:--bc={tint} style:--tint-ink={tint ? inkOnTint(tint) : undefined}
           onclick={() => open(b)} onkeydown={(e) => { if (e.key === 'Enter' && e.target === e.currentTarget) open(b); }}>
 
           {#if b.type === 'tasks'}
@@ -311,7 +329,7 @@
             </div>
 
           {:else if b.type === 'github'}
-            <GithubCard disabled={editing} look={!b.tint || b.tint === 'none' ? 'plain' : 'tint'} />
+            <GithubCard disabled={editing} look={tint ? 'tint' : 'plain'} />
 
           {:else if b.type === 'leetstats'}
             <LeetStatsCard disabled={editing} />
@@ -469,7 +487,7 @@
         <button type="button" class="sw" class:on={painted.tint?.toLowerCase() === c} style:--c={c} aria-label={c} onclick={() => paint(painted, c)}></button>
       {/each}
       <label class="sw custom" class:on={!!painted.tint && painted.tint !== 'none' && !COLORS.includes(painted.tint.toLowerCase())} title={store.t('cardCustom')}>
-        <input type="color" value={painted.tint && painted.tint !== 'none' ? painted.tint : '#0090ff'} aria-label={store.t('cardCustom')} onchange={(e) => paint(painted, e.currentTarget.value)} />
+        <input type="color" value={cardTint(painted) ?? '#0090ff'} aria-label={store.t('cardCustom')} onchange={(e) => paint(painted, e.currentTarget.value)} />
       </label>
     </div>
     <button type="button" class="reset-tint" onclick={() => paint(painted)}>{store.t('cardDefault')}</button>
@@ -541,9 +559,10 @@
   :global(:root[data-tone='dark']) .cell { background: color-mix(in srgb, var(--bg) 90%, #fff); }
   .cell:hover { box-shadow: 0 0 0 1px var(--key-edge), 0 14px 28px -20px rgb(0 0 0 / 38%); }
   .cell:active { transform: scale(.992); }
-  /* A card the person painted keeps its colour. */
-  .cell.acc { --t: #fff; --td: rgb(255 255 255 / 78%); --tg: rgb(255 255 255 / 22%); color: #fff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%), 0 16px 28px -20px rgb(0 0 0 / 50%); }
-  .cell.acc.tint { background: linear-gradient(150deg, var(--bc), color-mix(in srgb, var(--bc) 62%, #000)); }
+  .cell.acc.tint {
+    --t: var(--tint-ink); --td: var(--t); --tg: color-mix(in srgb, var(--t) 22%, transparent);
+    background: var(--bc);
+  }
 
   /* No unlit LCD segments behind the figures. */
   .cell :global(.digits .ghost) { display: none; }

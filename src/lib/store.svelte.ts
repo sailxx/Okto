@@ -8,7 +8,7 @@ import {
   type Collection, type Counter, type Data, type Device, type Habit, type HealthDay, type Lang, type List, type Money, type Note, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
-import { buzz, chime, inAndroidApp, systemNotify } from './alerts';
+import { buzz, buzzFocus, chime, inAndroidApp, systemNotify, type FocusHaptic } from './alerts';
 import { isBundledAndroid } from './android';
 
 const KEY = 'okto-v3';
@@ -206,7 +206,8 @@ class Store {
       this.device.liveAt = Math.max(Date.now(), this.device.liveAt + 1);
       this.liveListeners.forEach((l) => l());
     }
-    this.schedule();
+    if (patch.activeCounter !== undefined || patch.locked !== undefined || patch.focusKeepAwake !== undefined) this.flush();
+    else this.schedule();
   }
 
   /* ---------- shared clocks (live/focus) ---------- */
@@ -444,8 +445,8 @@ class Store {
     p.endsAt = natural && this.data.settings.pomo.autoStart ? Date.now() + this.phaseMs(p.phase) : null;
     this.setDevice({ pomo: p });
     if (natural) {
-      if (finished === 'work') this.alert(this.t('workDoneTitle'), this.t('workDoneBody')(cfg[p.phase]), tag);
-      else this.alert(this.t('breakDoneTitle'), this.t('breakDoneBody'), tag);
+      if (finished === 'work') this.alert(this.t('workDoneTitle'), this.t('workDoneBody')(cfg[p.phase]), tag, true, 'interval');
+      else this.alert(this.t('breakDoneTitle'), this.t('breakDoneBody'), tag, true, 'interval');
     }
   }
   /* ---------- countdown timer (runs app-wide, like Pomodoro) ---------- */
@@ -486,7 +487,7 @@ class Store {
     this.saveCounter({ ...$state.snapshot(c), count: next, history: [...c.history, c.count].slice(-50) });
     if (dir > 0 && c.count < c.target && next >= c.target) {
       const target = new Intl.NumberFormat(locale(this.lang)).format(c.target);
-      this.alert(this.t('goalReachedTitle'), this.t('goalReachedBody')(c.name || this.t('counter'), target));
+      this.alert(this.t('goalReachedTitle'), this.t('goalReachedBody')(c.name || this.t('counter'), target), undefined, true, 'goal');
     }
     return true;
   }
@@ -494,10 +495,13 @@ class Store {
   pomoToday() { return this.sessions.filter((s) => toKey(new Date(s.start)) === this.today).length; }
 
   /** system: false — the Android app posts this one itself (task reminders). */
-  alert(title: string, body: string, tag = 'okto', system = true) {
+  alert(title: string, body: string, tag = 'okto', system = true, haptic?: FocusHaptic) {
     const s = this.data.settings;
     if (s.sound) chime();
-    if (s.vibrate) buzz([60, 80, 60, 80, 120]);
+    if (s.vibrate) {
+      if (haptic) buzzFocus(haptic);
+      else buzz([60, 80, 60, 80, 120]);
+    }
     this.toast(`${title} · ${body}`);
     if (system && this.device.notify) systemNotify(title, body, tag);
   }
@@ -512,7 +516,7 @@ class Store {
     if (this.timerRunning() && Date.now() >= this.device.timer.endsAt!) {
       const tag = isBundledAndroid ? `planner-focus-timer-${this.device.timer.endsAt}` : undefined;
       this.timerReset();
-      this.alert(this.t('timerDoneTitle'), this.t('timerDoneBody'), tag);
+      this.alert(this.t('timerDoneTitle'), this.t('timerDoneBody'), tag, true, 'timerDone');
     }
     if (Date.now() - this.lastReminderCheck > 30000) { this.lastReminderCheck = Date.now(); this.checkReminders(); }
   }

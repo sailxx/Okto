@@ -41,7 +41,33 @@ export const inAndroidApp = isBundledAndroid || (() => {
   } catch { return false; }
 })();
 
-export const buzz = (pattern: number | number[]) => navigator.vibrate?.(pattern);
+export const vibrationSupported = isBundledAndroid || 'vibrate' in navigator;
+
+export function buzz(pattern: number | number[]) {
+  if (isBundledAndroid) androidSend({ type: 'vibrate', pattern: Array.isArray(pattern) ? pattern : [pattern] });
+  else navigator.vibrate?.(pattern);
+}
+
+const FOCUS_HAPTICS = {
+  increment: { pattern: [14], amplitudes: [104] },
+  decrement: { pattern: [20], amplitudes: [78] },
+  adjust: { pattern: [13], amplitudes: [86] },
+  start: { pattern: [14, 32, 24], amplitudes: [82, 0, 142] },
+  pause: { pattern: [23, 29, 13], amplitudes: [128, 0, 70] },
+  lap: { pattern: [15, 24, 16], amplitudes: [112, 0, 112] },
+  reset: { pattern: [33], amplitudes: [138] },
+  goal: { pattern: [18, 40, 32], amplitudes: [105, 0, 184] },
+  interval: { pattern: [22, 44, 22, 44, 34], amplitudes: [121, 0, 121, 0, 174] },
+  timerDone: { pattern: [36, 48, 24, 43, 20], amplitudes: [178, 0, 134, 0, 95] },
+};
+
+export type FocusHaptic = keyof typeof FOCUS_HAPTICS;
+
+export function buzzFocus(kind: FocusHaptic) {
+  const { pattern, amplitudes } = FOCUS_HAPTICS[kind];
+  if (isBundledAndroid) androidSend({ type: 'vibrate', pattern, amplitudes });
+  else buzz(pattern);
+}
 
 export const notifySupported = () => isBundledAndroid || 'Notification' in window;
 export const notifyGranted = () => isBundledAndroid ? androidPermission === 'granted' : notifySupported() && Notification.permission === 'granted';
