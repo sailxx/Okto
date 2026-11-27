@@ -1,4 +1,4 @@
-﻿import java.util.Properties
+import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -39,8 +39,8 @@ android {
         applicationId = "com.sailxx.okto"
         minSdk = 24
         targetSdk = 36
-        versionCode = 64
-        versionName = "3.23.6"
+        versionCode = 65
+        versionName = "3.23.7"
     }
 
     sourceSets["main"].assets.srcDir(webAssets)
