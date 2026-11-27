@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto - كۈنىڭىزنى پىلانلاڭ ، مۇھىم ئىشلارغا دىققەت قىلىڭ"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="تور دېتالىنى ئېچىڭ"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android نى چۈشۈرۈڭ"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows نى چۈشۈرۈڭ"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="تور دېتالىنى ئېچىڭ"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android نى چۈشۈرۈڭ"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows نى چۈشۈرۈڭ"></a>
 
 **Okto ھەرقانداق ئۈسكۈنىدە ئىشلەيدۇ** — iPhone ۋە Android ، تاختا كومپيۇتېر ، Windows ، macOS ۋە Linux. سىز ئېھتىياجلىق بولغىنى توركۆرگۈچ ، Okto تېلېفونىڭىز ياكى كومپيۇتېرىڭىزغا ئەپ سۈپىتىدە ئورنىتىدۇ. Android يەنە ۋەزىپە كىچىك قورالى بىلەن مەخسۇس ئەپكە ئېرىشىدۇ - ئۇنى تاپالايسىز [كومى دۇكىنى](https://github.com/komi-store/komi-store) ھەم.
 
@@ -34,7 +34,7 @@ Android APK تۇنجى پىلاننى ئۆز ئىچىگە ئالغان پىلا�
 رامكىدىن Okto ئۈسكۈنىڭىزدىكى توركۆرگۈدىكى ھەممە نەرسىنى ساقلايدۇ. تېلېفون ۋە كومپيۇتېردا ئوخشاش سانلىق مەلۇماتقا ئىگە بولۇش ئۈچۈن ، ھەقسىز Firebase تۈرىنى ئۇلاڭ (ئۇچقۇن پىلانى ، كارتا لازىم ئەمەس):
 
 1. بىر تۈر قۇر [console.firebase.google.com](https://console.firebase.google.com/).
-2. **دەلىللەش → كىرىش ئۇسۇلى** — قوزغىتىش **Google**. In **تەڭشەك → ھوقۇق بېرىلگەن دائىرە** قوش `sailxx.github.io`.
+2. **دەلىللەش → كىرىش ئۇسۇلى** — قوزغىتىش **Google**. In **تەڭشەك → ھوقۇق بېرىلگەن دائىرە** قوش `sailxx-apps.github.io`.
 3. **Firestore ساندان** — ساندان قۇرۇش ۋە چاپلاش [`firestore.rules`](firestore.rules) the **قائىدە** بەتكۈچ.
 4. **تۈر تەڭشىكى → ئەپلىرىڭىز → تور** — ئەپنى تىزىملىتىڭ ۋە كۆپەيتىڭ `apiKey`, `authDomain`, `projectId`, `appId`.
 5. GitHub ئامبىرىدا: **تەڭشەك → مەخپىيەتلىك ۋە ئۆزگەرگۈچى مىقدار → مەشغۇلات** — سىرلارنى قوشۇڭ `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
@@ -72,7 +72,7 @@ Okto 2026-يىلى 10-ئاينىڭ 2-كۈنى ئاددىي تور ھېسابلى
 
 **3.0** — رەسىم ۋە ھۆججەتلەر بىلەن ئىزاھات بۆلىكى يۇمشاق رەڭلىك كارتا ۋە بۈگۈن / ھەپتە / ئومۇمىي بەتكۈچ بار يېڭى ئۆي لەيلىمە يول باشلاش بالدىقى ۋە ئۈستەل يۈزىدە قاتلىنىدىغان يانبالداق. قاتلىنىدىغان بۆلەكلەر بىلەن تەڭشەكلەر يېڭىلانغان فوكۇس ئېكرانى Android كىچىك قوراللار ئوڭشالدى.
 
-[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto Windows تەخسە دېتالىغا ئېرىشتى. Android پىلانلىغۇچى تورسىز ئېچىلىدۇ ، 3.23.6 قوشۇمچە زاپچاس ۋە فوكۇس ئېكرانىنى ياخشىلايدۇ.
+[**3.23.6**](https://github.com/sailxx-apps/Okto/releases/tag/v3.23.6) — Okto Windows تەخسە دېتالىغا ئېرىشتى. Android پىلانلىغۇچى تورسىز ئېچىلىدۇ ، 3.23.6 قوشۇمچە زاپچاس ۋە فوكۇس ئېكرانىنى ياخشىلايدۇ.
 
 ## ⚖️ ئىجازەتنامە
 

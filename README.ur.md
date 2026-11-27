@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — اپنے دن کی منصوبہ بندی کریں، ان چیزوں پر توجہ مرکوز کریں جو اہم ہیں۔"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ویب ایپ کھولیں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android کے لیے ڈاؤن لوڈ کریں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows کے لیے ڈاؤن لوڈ کریں۔"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ویب ایپ کھولیں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android کے لیے ڈاؤن لوڈ کریں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows کے لیے ڈاؤن لوڈ کریں۔"></a>
 
 **Okto کسی بھی ڈیوائس پر کام کرتا ہے۔** — iPhone اور Android، گولیاں، Windows، macOS اور Linux۔ آپ کو صرف ایک براؤزر کی ضرورت ہے، اور Okto آپ کے فون یا کمپیوٹر پر ایپ کے بطور انسٹال ہوتا ہے۔ Android کو ٹاسک ویجیٹ کے ساتھ ایک سرشار ایپ بھی ملتی ہے — آپ اسے اس میں تلاش کر سکتے ہیں۔ [کومی اسٹور](https://github.com/komi-store/komi-store) بھی
 
@@ -34,7 +34,7 @@ Android APK منصوبہ ساز کو آف لائن کھولتا ہے، بشمو�
 آؤٹ آف دی باکس Okto آپ کے آلے پر براؤزر میں موجود ہر چیز کو رکھتا ہے۔ فون اور کمپیوٹر پر ایک جیسا ڈیٹا رکھنے کے لیے، ایک مفت Firebase پروجیکٹ کو جوڑیں (اسپارک پلان، کارڈ کی ضرورت نہیں):
 
 1. پر ایک پروجیکٹ بنائیں [console.firebase.google.com](https://console.firebase.google.com/).
-2. **تصدیق → سائن ان کا طریقہ** — فعال کریں **گوگل**. میں **ترتیبات → مجاز ڈومینز** شامل کریں `sailxx.github.io`.
+2. **تصدیق → سائن ان کا طریقہ** — فعال کریں **گوگل**. میں **ترتیبات → مجاز ڈومینز** شامل کریں `sailxx-apps.github.io`.
 3. **فائر اسٹور ڈیٹا بیس** — ایک ڈیٹا بیس بنائیں اور پیسٹ کریں۔ [`firestore.rules`](firestore.rules) میں **قواعد** ٹیب
 4. **پروجیکٹ کی ترتیبات → آپ کی ایپس → ویب** — ایپ کو رجسٹر کریں اور کاپی کریں۔ `apiKey`, `authDomain`, `projectId`, `appId`.
 5. GitHub ریپو میں: **ترتیبات → راز اور متغیرات → اعمال** — راز شامل کریں `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
@@ -72,7 +72,7 @@ Okto 2 اکتوبر 2026 کو ایک سادہ ویب کاؤنٹر کے طور پ
 
 **3.0** — تصاویر اور فائلوں کے ساتھ ایک نوٹس سیکشن؛ نرم رنگ کے کارڈز اور آج / ہفتہ / ٹوٹل ٹیبز کے ساتھ ایک نیا گھر؛ تیرتے نیویگیشن بارز اور ڈیسک ٹاپ پر ٹوٹنے والی سائڈبار؛ ٹوٹنے کے قابل حصوں کے ساتھ ترتیبات؛ ایک تازہ دم فوکس اسکرین؛ Android ویجیٹ کی اصلاحات۔
 
-[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto نے Windows ٹرے ایپ حاصل کی۔ Android پلانر آف لائن کھلتا ہے، اور 3.23.6 منسلکات اور فوکس اسکرین کو بہتر بناتا ہے۔
+[**3.23.6**](https://github.com/sailxx-apps/Okto/releases/tag/v3.23.6) — Okto نے Windows ٹرے ایپ حاصل کی۔ Android پلانر آف لائن کھلتا ہے، اور 3.23.6 منسلکات اور فوکس اسکرین کو بہتر بناتا ہے۔
 
 ## ⚖️ لائسنس
 

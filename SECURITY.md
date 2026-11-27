@@ -8,7 +8,7 @@ Only the latest release of the Okto web app and Android app (TWA + widget) recei
 
 Please do not open a public issue for security problems.
 
-Use [private vulnerability reporting](https://github.com/sailxx/Okto/security/advisories/new) (the **Security** tab → **Report a vulnerability**) and include:
+Use [private vulnerability reporting](https://github.com/sailxx-apps/Okto/security/advisories/new) (the **Security** tab → **Report a vulnerability**) and include:
 
 - a description of the issue and its impact;
 - steps to reproduce, or a proof of concept;

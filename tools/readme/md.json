@@ -39,7 +39,7 @@
     "syncIntro": "Без настройки Okto хранит всё в браузере на устройстве. Чтобы данные были одинаковыми на телефоне и компьютере, подключите бесплатный Firebase (план Spark, карта не нужна):",
     "steps": [
       "Создайте проект на [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — включите **Google**. В **Settings → Authorized domains** добавьте `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — включите **Google**. В **Settings → Authorized domains** добавьте `sailxx-apps.github.io`.",
       "**Firestore Database** — создайте базу и во вкладке **Rules** вставьте содержимое [`firestore.rules`](firestore.rules).",
       "**Project settings → Your apps → Web** — зарегистрируйте приложение и скопируйте `apiKey`, `authDomain`, `projectId`, `appId`.",
       "В репозитории на GitHub: **Settings → Secrets and variables → Actions** — добавьте секреты `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -106,7 +106,7 @@
     "syncIntro": "Out of the box Okto keeps everything in the browser on your device. To have the same data on phone and computer, connect a free Firebase project (Spark plan, no card needed):",
     "steps": [
       "Create a project at [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — enable **Google**. In **Settings → Authorized domains** add `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — enable **Google**. In **Settings → Authorized domains** add `sailxx-apps.github.io`.",
       "**Firestore Database** — create a database and paste [`firestore.rules`](firestore.rules) into the **Rules** tab.",
       "**Project settings → Your apps → Web** — register the app and copy `apiKey`, `authDomain`, `projectId`, `appId`.",
       "In the GitHub repo: **Settings → Secrets and variables → Actions** — add the secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -173,7 +173,7 @@
     "syncIntro": "Por defecto Okto guarda todo en el navegador del dispositivo. Para tener los mismos datos en el móvil y el ordenador, conecta un proyecto gratuito de Firebase (plan Spark, sin tarjeta):",
     "steps": [
       "Crea un proyecto en [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — activa **Google**. En **Settings → Authorized domains** añade `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — activa **Google**. En **Settings → Authorized domains** añade `sailxx-apps.github.io`.",
       "**Firestore Database** — crea la base de datos y pega [`firestore.rules`](firestore.rules) en la pestaña **Rules**.",
       "**Project settings → Your apps → Web** — registra la app y copia `apiKey`, `authDomain`, `projectId`, `appId`.",
       "En el repositorio de GitHub: **Settings → Secrets and variables → Actions** — añade los secretos `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -239,7 +239,7 @@
     "syncIntro": "Por padrão o Okto guarda tudo no navegador do aparelho. Para ter os mesmos dados no celular e no computador, conecte um projeto gratuito do Firebase (plano Spark, sem cartão):",
     "steps": [
       "Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — ative o **Google**. Em **Settings → Authorized domains** adicione `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — ative o **Google**. Em **Settings → Authorized domains** adicione `sailxx-apps.github.io`.",
       "**Firestore Database** — crie o banco e cole [`firestore.rules`](firestore.rules) na aba **Rules**.",
       "**Project settings → Your apps → Web** — registre o app e copie `apiKey`, `authDomain`, `projectId`, `appId`.",
       "No repositório do GitHub: **Settings → Secrets and variables → Actions** — adicione os secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -305,7 +305,7 @@
     "syncIntro": "Standardmäßig speichert Okto alles im Browser des Geräts. Für dieselben Daten auf Handy und Computer ein kostenloses Firebase-Projekt verbinden (Spark-Tarif, keine Karte nötig):",
     "steps": [
       "Projekt auf [console.firebase.google.com](https://console.firebase.google.com/) anlegen.",
-      "**Authentication → Sign-in method** — **Google** aktivieren. Unter **Settings → Authorized domains** `sailxx.github.io` hinzufügen.",
+      "**Authentication → Sign-in method** — **Google** aktivieren. Unter **Settings → Authorized domains** `sailxx-apps.github.io` hinzufügen.",
       "**Firestore Database** — Datenbank anlegen und [`firestore.rules`](firestore.rules) im Tab **Rules** einfügen.",
       "**Project settings → Your apps → Web** — App registrieren und `apiKey`, `authDomain`, `projectId`, `appId` kopieren.",
       "Im GitHub-Repo: **Settings → Secrets and variables → Actions** — die Secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` anlegen.",
@@ -371,7 +371,7 @@
     "syncIntro": "Par défaut, Okto garde tout dans le navigateur de l’appareil. Pour avoir les mêmes données sur téléphone et ordinateur, connecte un projet Firebase gratuit (offre Spark, sans carte) :",
     "steps": [
       "Crée un projet sur [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx-apps.github.io`.",
       "**Firestore Database** — crée la base et colle [`firestore.rules`](firestore.rules) dans l’onglet **Rules**.",
       "**Project settings → Your apps → Web** — enregistre l’app et copie `apiKey`, `authDomain`, `projectId`, `appId`.",
       "Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -437,7 +437,7 @@
     "syncIntro": "Di base Okto salva tutto nel browser del dispositivo. Per avere gli stessi dati su telefono e computer, collega un progetto Firebase gratuito (piano Spark, senza carta):",
     "steps": [
       "Crea un progetto su [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — attiva **Google**. In **Settings → Authorized domains** aggiungi `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — attiva **Google**. In **Settings → Authorized domains** aggiungi `sailxx-apps.github.io`.",
       "**Firestore Database** — crea il database e incolla [`firestore.rules`](firestore.rules) nella scheda **Rules**.",
       "**Project settings → Your apps → Web** — registra l’app e copia `apiKey`, `authDomain`, `projectId`, `appId`.",
       "Nel repository GitHub: **Settings → Secrets and variables → Actions** — aggiungi i secret `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -503,7 +503,7 @@
     "syncIntro": "Okto varsayılan olarak her şeyi cihazdaki tarayıcıda tutar. Telefonda ve bilgisayarda aynı verilere sahip olmak için ücretsiz bir Firebase projesi bağla (Spark planı, kart gerekmez):",
     "steps": [
       "[console.firebase.google.com](https://console.firebase.google.com/) adresinde bir proje oluştur.",
-      "**Authentication → Sign-in method** — **Google**’ı aç. **Settings → Authorized domains** altına `sailxx.github.io` ekle.",
+      "**Authentication → Sign-in method** — **Google**’ı aç. **Settings → Authorized domains** altına `sailxx-apps.github.io` ekle.",
       "**Firestore Database** — veritabanını oluştur ve **Rules** sekmesine [`firestore.rules`](firestore.rules) içeriğini yapıştır.",
       "**Project settings → Your apps → Web** — uygulamayı kaydet ve `apiKey`, `authDomain`, `projectId`, `appId` değerlerini kopyala.",
       "GitHub deposunda: **Settings → Secrets and variables → Actions** — `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID` secret’larını ekle.",
@@ -569,7 +569,7 @@
     "syncIntro": "Без налаштування Okto зберігає все в браузері на пристрої. Щоб дані були однаковими на телефоні й комп’ютері, підключіть безкоштовний Firebase (план Spark, картка не потрібна):",
     "steps": [
       "Створіть проєкт на [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — увімкніть **Google**. У **Settings → Authorized domains** додайте `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — увімкніть **Google**. У **Settings → Authorized domains** додайте `sailxx-apps.github.io`.",
       "**Firestore Database** — створіть базу й у вкладці **Rules** вставте вміст [`firestore.rules`](firestore.rules).",
       "**Project settings → Your apps → Web** — зареєструйте застосунок і скопіюйте `apiKey`, `authDomain`, `projectId`, `appId`.",
       "У репозиторії на GitHub: **Settings → Secrets and variables → Actions** — додайте секрети `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",
@@ -635,7 +635,7 @@
     "syncIntro": "Domyślnie Okto trzyma wszystko w przeglądarce na urządzeniu. Aby mieć te same dane na telefonie i komputerze, podłącz darmowy projekt Firebase (plan Spark, bez karty):",
     "steps": [
       "Utwórz projekt na [console.firebase.google.com](https://console.firebase.google.com/).",
-      "**Authentication → Sign-in method** — włącz **Google**. W **Settings → Authorized domains** dodaj `sailxx.github.io`.",
+      "**Authentication → Sign-in method** — włącz **Google**. W **Settings → Authorized domains** dodaj `sailxx-apps.github.io`.",
       "**Firestore Database** — utwórz bazę i wklej [`firestore.rules`](firestore.rules) w zakładce **Rules**.",
       "**Project settings → Your apps → Web** — zarejestruj aplikację i skopiuj `apiKey`, `authDomain`, `projectId`, `appId`.",
       "W repozytorium na GitHubie: **Settings → Secrets and variables → Actions** — dodaj sekrety `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.",

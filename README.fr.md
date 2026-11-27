@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-fr.svg"><img src="assets/readme/png/hero-fr.png" width="100%" alt="Okto — planifie ta journée, concentre-toi sur l’essentiel"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-fr.svg" height="52" alt="Ouvrir la version web"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-fr.svg" height="52" alt="Télécharger pour Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-fr.svg" height="52" alt="Télécharger pour Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-fr.svg" height="52" alt="Ouvrir la version web"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-fr.svg" height="52" alt="Télécharger pour Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-fr.svg" height="52" alt="Télécharger pour Windows"></a>
 
 **Okto fonctionne sur tous les appareils** : iPhone et Android, tablettes, Windows, macOS et Linux. Un navigateur suffit, et Okto s'installe comme une app sur le téléphone ou l'ordinateur. Sur Android, il existe aussi une app avec widget de tâches, disponible aussi dans [Komi Store](https://github.com/komi-store/komi-store).
 
@@ -32,7 +32,7 @@
 Par défaut, Okto garde tout dans le navigateur de l’appareil. Pour avoir les mêmes données sur téléphone et ordinateur, connecte un projet Firebase gratuit (offre Spark, sans carte) :
 
 1. Crée un projet sur [console.firebase.google.com](https://console.firebase.google.com/).
-2. **Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx.github.io`.
+2. **Authentication → Sign-in method** — active **Google**. Dans **Settings → Authorized domains**, ajoute `sailxx-apps.github.io`.
 3. **Firestore Database** — crée la base et colle [`firestore.rules`](firestore.rules) dans l’onglet **Rules**.
 4. **Project settings → Your apps → Web** — enregistre l’app et copie `apiKey`, `authDomain`, `projectId`, `appId`.
 5. Dans le dépôt GitHub : **Settings → Secrets and variables → Actions** — ajoute les secrets `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
@@ -70,7 +70,7 @@ Okto est né le 2 octobre 2026 comme un simple compteur web. C’est aujourd’h
 
 **3.0** — section Notes avec photos et fichiers ; nouvel Accueil avec cartes douces et colorées et onglets Aujourd’hui / Semaine / Totaux ; barres de navigation flottantes et barre latérale repliable sur ordinateur ; réglages à sections repliables ; Focus remanié ; correctifs des widgets Android.
 
-[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto a gagné une application dans la zone de notification de Windows. Le planificateur Android s’ouvre hors ligne et la version 3.23.6 améliore les pièces jointes et l’écran de concentration.
+[**3.23.6**](https://github.com/sailxx-apps/Okto/releases/tag/v3.23.6) — Okto a gagné une application dans la zone de notification de Windows. Le planificateur Android s’ouvre hors ligne et la version 3.23.6 améliore les pièces jointes et l’écran de concentration.
 
 ## ⚖️ Licences
 
