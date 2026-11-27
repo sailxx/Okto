@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — lập kế hoạch cho ngày của bạn, tập trung vào những gì quan trọng"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Mở ứng dụng web"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Tải xuống cho Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Tải xuống cho Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Mở ứng dụng web"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Tải xuống cho Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Tải xuống cho Windows"></a>
 
 **Okto hoạt động trên mọi thiết bị** — iPhone và Android, máy tính bảng, Windows, macOS và Linux. Tất cả những gì bạn cần là một trình duyệt và Okto sẽ cài đặt dưới dạng một ứng dụng trên điện thoại hoặc máy tính của bạn. Android cũng có một ứng dụng chuyên dụng với tiện ích tác vụ — bạn có thể tìm thấy ứng dụng này trong [Cửa hàngKomi](https://github.com/komi-store/komi-store) cũng vậy.
 
@@ -34,7 +34,7 @@ Android APK mở công cụ lập kế hoạch ngoại tuyến, kể cả trong 
 Okto có sẵn ngay lập tức lưu giữ mọi thứ trong trình duyệt trên thiết bị của bạn. Để có cùng một dữ liệu trên điện thoại và máy tính, hãy kết nối dự án Firebase miễn phí (Gói Spark, không cần thẻ):
 
 1. Tạo một dự án tại [console.firebase.google.com](https://console.firebase.google.com/).
-2. **Xác thực → Phương thức đăng nhập** — cho phép **Google**. TRONG **Cài đặt → Miền được ủy quyền** thêm vào `sailxx.github.io`.
+2. **Xác thực → Phương thức đăng nhập** — cho phép **Google**. TRONG **Cài đặt → Miền được ủy quyền** thêm vào `sailxx-apps.github.io`.
 3. **Cơ sở dữ liệu Firestore** — tạo cơ sở dữ liệu và dán [`firestore.rules`](firestore.rules) vào **Quy tắc** tab.
 4. **Cài đặt dự án → Ứng dụng của bạn → Web** — đăng ký ứng dụng và sao chép `apiKey`, `authDomain`, `projectId`, `appId`.
 5. Trong kho lưu trữ GitHub: **Cài đặt → Bí mật và biến → Hành động** — thêm những bí mật `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.
@@ -72,7 +72,7 @@ Okto bắt đầu hoạt động vào ngày 2 tháng 10 năm 2026 dưới dạng
 
 **3.0** — phần Ghi chú có ảnh và tập tin; Trang chủ mới với các thẻ màu dịu và các tab Hôm nay / Tuần / Tổng cộng; thanh điều hướng nổi và thanh bên có thể thu gọn trên màn hình; Cài đặt với các phần có thể thu gọn; màn hình Focus được làm mới; Sửa lỗi tiện ích Android.
 
-[**3.23.6**](https://github.com/sailxx/Okto/releases/tag/v3.23.6) — Okto đã có ứng dụng khay Windows. Công cụ lập kế hoạch Android mở ngoại tuyến và 3.23.6 cải thiện các tệp đính kèm và màn hình Tiêu điểm.
+[**3.23.6**](https://github.com/sailxx-apps/Okto/releases/tag/v3.23.6) — Okto đã có ứng dụng khay Windows. Công cụ lập kế hoạch Android mở ngoại tuyến và 3.23.6 cải thiện các tệp đính kèm và màn hình Tiêu điểm.
 
 ## ⚖️ Giấy phép
 

@@ -18,7 +18,7 @@
 
 **Дети.** Okto не предназначено для детей до 13 лет.
 
-**Изменения.** Новая версия политики публикуется в этом файле: https://github.com/sailxx/Okto/blob/main/PRIVACY.md
+**Изменения.** Новая версия политики публикуется в этом файле: https://github.com/sailxx-apps/Okto/blob/main/PRIVACY.md
 
 ## English
 
