@@ -73,6 +73,7 @@ const ru = {
   durMin: (m: number) => (m < 60 ? `${m} мин` : m % 60 ? `${Math.floor(m / 60)} ч ${m % 60} мин` : `${m / 60} ч`),
   scopeTitle: 'Это повторяющаяся задача', scopeOne: 'Только эту', scopeFuture: 'Все будущие', scopeAll: 'Всю серию',
   reminderTitle: 'Напоминание', reminderBody: (title: string, time: string) => `${time} · ${title}`,
+  deadline: 'Дедлайн', deadlineReached: 'Срок задачи наступил', upcomingTasks: 'Предстоящие задачи',
   moveTomorrow: 'На завтра', titleRequired: 'Введите название',
   // calendar
   vDay: 'День', vWeek: 'Неделя', vMonth: 'Месяц', allDay: 'весь день', more: (n: number) => `ещё ${n}`, lists: 'Списки',
@@ -159,6 +160,7 @@ const en: typeof ru = {
   durMin: (m) => (m < 60 ? `${m} min` : m % 60 ? `${Math.floor(m / 60)} h ${m % 60} min` : `${m / 60} h`),
   scopeTitle: 'This is a repeating task', scopeOne: 'This one only', scopeFuture: 'All future', scopeAll: 'Whole series',
   reminderTitle: 'Reminder', reminderBody: (title, time) => `${time} · ${title}`,
+  deadline: 'Deadline', deadlineReached: 'Task is due', upcomingTasks: 'Upcoming tasks',
   moveTomorrow: 'Tomorrow', titleRequired: 'Enter a title',
   vDay: 'Day', vWeek: 'Week', vMonth: 'Month', allDay: 'all‑day', more: (n) => `${n} more`, lists: 'Lists',
   prev: 'Previous', nextP: 'Next',

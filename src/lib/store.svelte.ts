@@ -8,6 +8,7 @@ import {
   type Collection, type Counter, type Data, type Device, type Habit, type HealthDay, type Lang, type List, type Money, type Note, type OptionalSection, type Settings, type Task,
 } from './model';
 import { isDoneOn, occursOn } from './recurrence';
+import { trayReminderBridge } from './trayReminders';
 import { buzz, buzzFocus, chime, inAndroidApp, systemNotify, type FocusHaptic } from './alerts';
 import { isBundledAndroid } from './android';
 
@@ -522,6 +523,7 @@ class Store {
   }
 
   checkReminders() {
+    if (trayReminderBridge()) return;
     const now = Date.now();
     const today = this.today;
     let changed = false;

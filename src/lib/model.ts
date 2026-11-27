@@ -34,6 +34,7 @@ export interface Task {
   attachments: Attachment[];
   repeat: Repeat | null;
   reminder: number | null;
+  deadlineAt?: number;
   done: boolean;
   doneAt: number | null;
   doneDates: string[];
@@ -258,6 +259,7 @@ export function newTask(p: Partial<Task> | Record<string, unknown> = {}): Task {
       : [],
     repeat,
     reminder: r.reminder === null || r.reminder === undefined ? null : int(r.reminder, 0, 10080, 0),
+    ...(Number.isSafeInteger(r.deadlineAt) && r.deadlineAt > 0 && r.deadlineAt <= 8.64e15 ? { deadlineAt: r.deadlineAt } : {}),
     done: r.done === true,
     doneAt: r.doneAt == null ? null : ts(r.doneAt, now),
     doneDates: keys(r.doneDates),
