@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — 一日の計画を立て、重要なことに集中する"></picture>
 
-<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ウェブアプリを開く"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android用ダウンロード"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows用ダウンロード"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ウェブアプリを開く"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android用ダウンロード"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/download/tray-v1.8.2/OktoTraySetup.exe"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows用ダウンロード"></a>
 
 **Okto はどのデバイスでも動作します** — iPhone および Android 、タブレット、Windows 、macOS および Linux 。必要なのはブラウザだけで、Okto は携帯電話またはコンピュータにアプリとしてインストールされます。 Android には、タスク ウィジェットを備えた専用アプリも用意されています。 [コミストア](https://github.com/komi-store/komi-store) あまりにも。
 

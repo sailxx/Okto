@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — 计划你的一天，专注于重要的事情"></picture>
 
-<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="打开网络应用程序"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="下载Android"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="下载Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="打开网络应用程序"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="下载Android"></a>&nbsp;;<a href="https://github.com/sailxx-apps/Okto/releases/download/tray-v1.8.2/OktoTraySetup.exe"><img src="assets/readme/btn-windows-en.svg" height="52" alt="下载Windows"></a>
 
 **Okto 适用于任何设备** — iPhone 和 Android、平板电脑、Windows、macOS 和 Linux。您只需要一个浏览器，Okto 就会作为应用程序安装在您的手机或计算机上。 Android 还拥有一个带有任务小部件的专用应用程序 - 您可以在 [科米店](https://github.com/komi-store/komi-store) 也。
 

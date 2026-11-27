@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — اپنے دن کی منصوبہ بندی کریں، ان چیزوں پر توجہ مرکوز کریں جو اہم ہیں۔"></picture>
 
-<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ویب ایپ کھولیں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android کے لیے ڈاؤن لوڈ کریں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows کے لیے ڈاؤن لوڈ کریں۔"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ویب ایپ کھولیں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android کے لیے ڈاؤن لوڈ کریں۔"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/download/tray-v1.8.2/OktoTraySetup.exe"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows کے لیے ڈاؤن لوڈ کریں۔"></a>
 
 **Okto کسی بھی ڈیوائس پر کام کرتا ہے۔** — iPhone اور Android، گولیاں، Windows، macOS اور Linux۔ آپ کو صرف ایک براؤزر کی ضرورت ہے، اور Okto آپ کے فون یا کمپیوٹر پر ایپ کے بطور انسٹال ہوتا ہے۔ Android کو ٹاسک ویجیٹ کے ساتھ ایک سرشار ایپ بھی ملتی ہے — آپ اسے اس میں تلاش کر سکتے ہیں۔ [کومی اسٹور](https://github.com/komi-store/komi-store) بھی
 

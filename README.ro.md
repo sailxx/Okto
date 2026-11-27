@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — planificați-vă ziua, concentrați-vă pe ceea ce contează"></picture>
 
-<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Deschideți aplicația web"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Descărcați pentru Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Descărcați pentru Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Deschideți aplicația web"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Descărcați pentru Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx-apps/Okto/releases/download/tray-v1.8.2/OktoTraySetup.exe"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Descărcați pentru Windows"></a>
 
 **Okto funcționează pe orice dispozitiv** — iPhone și Android , tablete, Windows , macOS și Linux . Tot ce aveți nevoie este un browser, iar Okto se instalează ca aplicație pe telefon sau computer. Android primește, de asemenea, o aplicație dedicată cu un widget pentru activități - o puteți găsi în [Magazinul Komi](https://github.com/komi-store/komi-store) prea.
 
