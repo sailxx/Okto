@@ -87,13 +87,19 @@
   });
 
   onMount(() => {
-    const webview = tray ? (window as Window & { chrome?: { webview?: EventTarget } }).chrome?.webview : undefined;
-    const receiveTraySignIn = (event: Event) => {
+    type TrayWebView = EventTarget & { postMessage(value: string): void };
+    const webview = tray ? (window as Window & { chrome?: { webview?: TrayWebView } }).chrome?.webview : undefined;
+    const receiveTraySignIn = async (event: Event) => {
       const data = (event as MessageEvent).data;
-      if (data?.type === 'okto-tray-google-sign-in' && typeof data.idToken === 'string')
-        void sync.completeTraySignIn(data.idToken);
+      if (data?.type !== 'okto-tray-google-sign-in' || typeof data.idToken !== 'string') return;
+      const status = await sync.completeTraySignIn(data.idToken);
+      if (typeof data.requestId === 'string' && /^[a-f0-9]{32}$/.test(data.requestId))
+        webview?.postMessage(`okto-tray-auth-result:${data.requestId}:${status}`);
     };
-    webview?.addEventListener('message', receiveTraySignIn);
+    if (webview) {
+      webview.addEventListener('message', receiveTraySignIn);
+      document.documentElement.dataset.oktoTrayAuth = '2';
+    }
     const updateTrayConnect = () => {
       connectingTray = trayConnectRoute.test(location.hash);
       trayConnectUrl = trayAuthorizationUrl(location.hash);

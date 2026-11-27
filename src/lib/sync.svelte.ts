@@ -84,8 +84,11 @@ class Sync {
       if (!this.fb) throw new Error('Okto cloud sync is unavailable');
       const { GoogleAuthProvider, signInWithCredential } = this.fb.authMod;
       await signInWithCredential(this.fb.auth, GoogleAuthProvider.credential(idToken));
-    } catch {
+      return 'ok';
+    } catch (error) {
       store.toast(store.t('syncError'));
+      const code = (error as { code?: unknown } | null)?.code;
+      return typeof code === 'string' && /^auth\/[a-z0-9-]{1,64}$/.test(code) ? code : 'auth/unknown';
     }
   }
 
