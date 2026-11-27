@@ -155,7 +155,10 @@ sealed class TrayGoogleSignIn
     static string ReceiveBrowserCredential(Stream stream, Request request, string state, string origin)
     {
         int length;
-        if (request.Origin != origin || request.ContentType != "application/x-www-form-urlencoded" ||
+        // Some browsers omit the origin on a secure-to-loopback navigation.
+        // The unguessable, single-use state is required even when the origin matches.
+        if ((request.Origin != origin && request.Origin != "null") ||
+            request.ContentType != "application/x-www-form-urlencoded" ||
             !Int32.TryParse(request.ContentLength, out length) || length <= 0 || length > 8192) return null;
         var body = new byte[length];
         var deadline = Stopwatch.StartNew();
