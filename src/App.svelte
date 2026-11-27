@@ -15,6 +15,7 @@
   import Health from './screens/Health.svelte';
   import Finance from './screens/Finance.svelte';
   import Tray from './screens/Tray.svelte';
+  import TrayConnect from './components/TrayConnect.svelte';
   import { store } from './lib/store.svelte';
   import { router } from './lib/router.svelte';
   import { sync } from './lib/sync.svelte';
@@ -26,10 +27,14 @@
   import { gcFiles } from './lib/files';
   import { sectionSwipe } from './lib/swipe';
   import { rgbOf } from './lib/tone';
+  import { trayAuthorizationUrl } from './lib/trayConnect';
   import './styles/shell.css';
 
   // Compact view for the Windows tray popup (windows/Tray.cs).
   const tray = location.hash.startsWith('#/tray');
+  const trayConnectRoute = /^#\/connect-tray(?:\?|$)/;
+  let connectingTray = $state(trayConnectRoute.test(location.hash));
+  let trayConnectUrl = $state(trayAuthorizationUrl(location.hash));
   let settingsOpen = $state(false);
   let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
@@ -82,6 +87,18 @@
   });
 
   onMount(() => {
+    const webview = tray ? (window as Window & { chrome?: { webview?: EventTarget } }).chrome?.webview : undefined;
+    const receiveTraySignIn = (event: Event) => {
+      const data = (event as MessageEvent).data;
+      if (data?.type === 'okto-tray-google-sign-in' && typeof data.idToken === 'string')
+        void sync.completeTraySignIn(data.idToken);
+    };
+    webview?.addEventListener('message', receiveTraySignIn);
+    const updateTrayConnect = () => {
+      connectingTray = trayConnectRoute.test(location.hash);
+      trayConnectUrl = trayAuthorizationUrl(location.hash);
+    };
+    window.addEventListener('hashchange', updateTrayConnect);
     const mq = matchMedia('(prefers-color-scheme: dark)');
     const onScheme = () => { systemDark = mq.matches; };
     mq.addEventListener('change', onScheme);
@@ -111,7 +128,7 @@
     boot.start();
     const gc = setTimeout(() => gcFiles(store.attachedFiles()), 15_000);
     // First launch: ask for a name once the power-on animation has played.
-    if (!tray && !store.data.settings.onboarded) setTimeout(() => { welcome = !store.data.settings.onboarded; }, 1300);
+    if (!tray && !connectingTray && !store.data.settings.onboarded) setTimeout(() => { welcome = !connectingTray && !store.data.settings.onboarded; }, 1300);
     // Keyboard: 1–5 switch the visible sections in menu order, N adds a task.
     const onKey = (e: KeyboardEvent) => {
       if (tray || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
@@ -123,7 +140,17 @@
     };
     document.addEventListener('keydown', onKey);
     const stopSwipe = sectionSwipe((r) => store.shows(r));
-    return () => { stopSwipe(); clearInterval(timer); clearTimeout(gc); mq.removeEventListener('change', onScheme); document.removeEventListener('visibilitychange', onVisible); document.removeEventListener('keydown', onKey); window.removeEventListener('scroll', onScroll); };
+    return () => {
+      stopSwipe();
+      clearInterval(timer);
+      clearTimeout(gc);
+      mq.removeEventListener('change', onScheme);
+      document.removeEventListener('visibilitychange', onVisible);
+      document.removeEventListener('keydown', onKey);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('hashchange', updateTrayConnect);
+      webview?.removeEventListener('message', receiveTraySignIn);
+    };
   });
 
 </script>
@@ -149,5 +176,11 @@
 {#if store.noteEditor}<NoteEditor />{/if}
 {#if settingsOpen}<Settings onclose={() => (settingsOpen = false)} />{/if}
 {#if welcome}<ProfileSheet welcome onclose={() => (welcome = false)} />{/if}
+{#if connectingTray}
+  <TrayConnect href={trayConnectUrl} onclose={() => {
+    connectingTray = false;
+    history.replaceState(history.state, '', location.pathname + location.search);
+  }} />
+{/if}
 {/if}
 <Toast />

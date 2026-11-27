@@ -78,6 +78,17 @@ class Sync {
     if (isBundledAndroid) await androidCall({ type: 'signOut' });
   }
 
+  async completeTraySignIn(idToken: string) {
+    try {
+      await this.start();
+      if (!this.fb) throw new Error('Okto cloud sync is unavailable');
+      const { GoogleAuthProvider, signInWithCredential } = this.fb.authMod;
+      await signInWithCredential(this.fb.auth, GoogleAuthProvider.credential(idToken));
+    } catch {
+      store.toast(store.t('syncError'));
+    }
+  }
+
   private disconnect() { this.stops.forEach((s) => s()); this.stops = []; }
 
   private async connect(uid: string) {
