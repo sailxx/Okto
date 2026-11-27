@@ -34,6 +34,11 @@
         input.value = value;
         form.append(input);
       }
+      // Preserve the site's origin on the HTTPS-to-loopback navigation without sending its URL.
+      const referrer = document.querySelector<HTMLMetaElement>('meta[name="referrer"]') ?? document.createElement('meta');
+      referrer.name = 'referrer';
+      referrer.content = 'origin';
+      document.head.append(referrer);
       document.body.append(form);
       form.submit();
     } catch (error) {
