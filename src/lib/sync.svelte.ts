@@ -21,6 +21,8 @@ const clean = <T>(v: T): T => JSON.parse(JSON.stringify(v));
 class Sync {
   state = $state<SyncState>(syncEnabled ? 'signed-out' : 'off');
   user = $state<{ name: string; email: string } | null>(null);
+  authReady = $state(!syncEnabled);
+  signingIn = $state(false);
   private fb: any = null;
   private stops: (() => void)[] = [];
   private pending = 0;
@@ -44,33 +46,43 @@ class Sync {
       auth.onAuthStateChanged(this.fb.auth, (u: any) => {
         if (u) { this.user = { name: u.displayName || '', email: u.email || '' }; this.connect(u.uid); }
         else { this.user = null; this.disconnect(); this.state = 'signed-out'; }
+        this.authReady = true;
       });
       window.addEventListener('online', () => { if (this.user) this.state = 'synced'; });
       window.addEventListener('offline', () => { if (this.user) this.state = 'offline'; });
     } catch (e) {
       console.error(e);
       this.state = 'error';
+      this.authReady = true;
     }
   }
 
   async signIn() {
-    if (!this.fb) await this.start();
-    if (!this.fb) return;
-    if (isBundledAndroid) {
-      try {
+    if (this.signingIn || this.user) return;
+    this.signingIn = true;
+    try {
+      if (!this.fb) await this.start();
+      if (!this.fb) throw new Error('Okto cloud sync is unavailable');
+      if (isBundledAndroid) {
         const token = await androidCall<string | null>({ type: 'signIn' });
         const { GoogleAuthProvider, signInWithCredential } = this.fb.authMod;
         if (token) await signInWithCredential(this.fb.auth, GoogleAuthProvider.credential(token));
-      } catch (e) { console.error(e); store.toast(store.t('syncError')); }
-      return;
-    }
-    const { GoogleAuthProvider, signInWithPopup, signInWithRedirect } = this.fb.authMod;
-    const provider = new GoogleAuthProvider();
-    try { await signInWithPopup(this.fb.auth, provider); }
-    catch (e: any) {
-      if (e?.code === 'auth/popup-blocked' || e?.code === 'auth/operation-not-supported-in-this-environment') await signInWithRedirect(this.fb.auth, provider);
-      else if (e?.code !== 'auth/popup-closed-by-user' && e?.code !== 'auth/cancelled-popup-request') { console.error(e); store.toast(store.t('syncError')); }
-    }
+        return;
+      }
+      const { GoogleAuthProvider, signInWithPopup, signInWithRedirect } = this.fb.authMod;
+      const provider = new GoogleAuthProvider();
+      try { await signInWithPopup(this.fb.auth, provider); }
+      catch (e: any) {
+        if (e?.code === 'auth/popup-blocked' || e?.code === 'auth/operation-not-supported-in-this-environment') {
+          await signInWithRedirect(this.fb.auth, provider);
+        } else if (e?.code !== 'auth/popup-closed-by-user' && e?.code !== 'auth/cancelled-popup-request') {
+          throw e;
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      store.toast(store.t('signInFailed'));
+    } finally { this.signingIn = false; }
   }
 
   async signOut() {

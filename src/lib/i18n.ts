@@ -92,6 +92,7 @@ const ru = {
   last14: '14 дней', last7d: '7 дней', bestStreak: (n: number) => `рекорд ${n}`, dayActs: (n: number) => `${n} ${plural(n, 'дело', 'дела', 'дел')}`, actsWord: (n: number) => plural(n, 'дело', 'дела', 'дел'), weeksN: (n: number) => `${n} ${plural(n, 'неделя', 'недели', 'недель')}`, todayLine: 'сегодня', doneOf: (a: number, b: number) => `${a} из ${b}`, noData: 'нет данных', timeline: 'план дня',
   // account
   account: 'Аккаунт', signIn: 'Войти через Google', signOut: 'Выйти',
+  signInBrowser: 'Войти в браузере', checkingAccount: 'Проверяем вход…', signingIn: 'Входим…', signInFailed: 'Не удалось войти через Google. Попробуйте ещё раз.',
   syncOff: 'Синхронизация не настроена — данные хранятся на этом устройстве',
   syncSignedOut: 'Войдите, чтобы синхронизировать телефон и компьютер',
   syncing: 'Синхронизация…', synced: 'Синхронизировано', offline: 'Офлайн — изменения сохранятся', syncError: 'Ошибка синхронизации',
@@ -176,6 +177,7 @@ const en: typeof ru = {
   profile: 'Profile', yourName: 'Name', greetingLabel: 'Greeting', greetingAuto: 'By time of day', greetingPh: 'e.g. Let’s go', editGreeting: 'Edit greeting',
   last14: '14 days', last7d: '7 days', bestStreak: (n) => `best ${n}`, dayActs: (n) => `${n} done`, actsWord: () => 'done', weeksN: (n) => `${n} ${n === 1 ? 'week' : 'weeks'}`, todayLine: 'today', doneOf: (a, b) => `${a} of ${b}`, noData: 'no data', timeline: 'day plan',
   account: 'Account', signIn: 'Sign in with Google', signOut: 'Sign out',
+  signInBrowser: 'Sign in in your browser', checkingAccount: 'Checking sign-in…', signingIn: 'Signing in…', signInFailed: 'Could not sign in with Google. Try again.',
   syncOff: 'Sync is not configured — data stays on this device',
   syncSignedOut: 'Sign in to sync your phone and computer',
   syncing: 'Syncing…', synced: 'Synced', offline: 'Offline — changes will be saved', syncError: 'Sync error',

@@ -64,7 +64,7 @@
 </script>
 
 <Sheet title={store.t('settings')} {onclose} top>
-  <SettingsGroup id="account" icon="sync" title={store.t('account')} summary={sync.user ? sync.user.name || sync.user.email : sync.state === 'off' ? store.t('syncOff') : store.t('syncSignedOut')}>
+  <SettingsGroup id="account" icon="sync" title={store.t('account')} summary={sync.user ? sync.user.name || sync.user.email : !sync.authReady ? store.t('checkingAccount') : sync.state === 'off' ? store.t('syncOff') : sync.state === 'error' ? store.t('syncError') : store.t('syncSignedOut')}>
     <Account />
   </SettingsGroup>
 

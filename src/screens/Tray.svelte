@@ -6,6 +6,7 @@
   import { overdue } from '../lib/stats';
   import { newTask, PRIORITY_COLORS, type Task } from '../lib/model';
   import { localDateTimeValue, scheduledTrayReminders, trayReminderBridge } from '../lib/trayReminders';
+  const nativeTray = Boolean(trayReminderBridge());
 
   let title = $state('');
   let opened = $state<string | null>(null);
@@ -102,8 +103,12 @@
       {#if addingDetails}{@render fields(next)}{/if}
     </form>
 
-    {#if sync.state === 'signed-out'}
-      <button type="button" class="t-signin" onclick={() => sync.signIn()}>{store.t('signIn')}</button>
+    {#if sync.authReady && !sync.user && sync.state !== 'off'}
+      {#if nativeTray}
+        <a class="t-signin" href={location.href} target="_blank" rel="noopener noreferrer">{store.t('signInBrowser')}</a>
+      {:else}
+        <button type="button" class="t-signin" disabled={sync.signingIn} onclick={() => sync.signIn()}>{sync.signingIn ? store.t('signingIn') : store.t('signIn')}</button>
+      {/if}
     {/if}
 
     {#if !items.length && !upcoming.length}<p class="t-empty">{store.t('emptyToday')}</p>{/if}
@@ -184,7 +189,7 @@
   .t-action { justify-self: start; min-height: 28px; padding: 0 8px; margin-top: 4px; border-radius: 7px; background: var(--well); font-size: 13px; }
   .t-upcoming { margin: 12px var(--gutter) 0; color: var(--muted); font-size: 13px; font-weight: 600; }
 
-  .t-signin { display: block; width: calc(100% - 2 * var(--gutter)); margin: 4px var(--gutter) 0; height: 36px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--well-edge); font-size: 14px; font-weight: 600; }
+  .t-signin { display: grid; place-items: center; width: calc(100% - 2 * var(--gutter)); margin: 4px var(--gutter) 0; height: 36px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--well-edge); font-size: 14px; font-weight: 600; color: inherit; text-decoration: none; }
   .t-signin:global([hidden]) { display: none; }
   .t-list :global(a:has(+ .t-signin)) { display: block; width: fit-content; margin: 0 auto; }
 
