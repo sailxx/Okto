@@ -1,13 +1,48 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { store } from '../lib/store.svelte';
+  import { sync } from '../lib/sync.svelte';
+  import type { trayBrowserConnection } from '../lib/trayConnect';
   import Icon from './Icon.svelte';
 
-  let { href, onclose }: { href: string | null; onclose: () => void } = $props();
+  let { href, browser, onclose }: {
+    href: string | null; browser: ReturnType<typeof trayBrowserConnection>; onclose: () => void;
+  } = $props();
   let dialog: HTMLDialogElement;
+  let pending = $state(false);
+  let failed = $state(false);
   const ru = $derived(store.lang === 'ru');
 
   onMount(() => dialog.showModal());
+
+  async function connect() {
+    const connection = browser;
+    if (pending || !connection) return;
+    pending = true;
+    failed = false;
+    try {
+      const token = await sync.trayBrowserCredential();
+      if (!dialog.open || browser?.state !== connection.state) return;
+      // A navigation to loopback keeps the token in the POST body, outside the URL.
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = connection.endpoint;
+      for (const [name, value] of Object.entries({ state: connection.state, credential: token })) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.append(input);
+      }
+      document.body.append(form);
+      form.submit();
+    } catch (error) {
+      const code = (error as { code?: string } | null)?.code;
+      failed = code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request';
+    } finally {
+      pending = false;
+    }
+  }
 </script>
 
 <dialog bind:this={dialog} aria-labelledby="tray-connect-title" onclose={onclose}>
@@ -15,11 +50,18 @@
     <h2 id="tray-connect-title">{ru ? 'Подключить Okto Tray' : 'Connect Okto Tray'}</h2>
     <button class="icon-btn" aria-label={store.t('close')} onclick={() => dialog.close()}><Icon name="close" size={18} /></button>
   </div>
-  {#if href}
+  {#if href || browser}
     <p>{ru
       ? 'Выбери аккаунт Google, чтобы открыть свои задачи Okto в трее Windows.'
       : 'Choose your Google account to see your Okto tasks in the Windows tray.'}</p>
-    <a class="continue" href={href} referrerpolicy="no-referrer">{ru ? 'Продолжить с Google' : 'Continue with Google'}</a>
+    {#if browser}
+      <button type="button" class="continue" disabled={pending} onclick={connect}>
+        {pending ? store.t('signingIn') : ru ? 'Продолжить с Google' : 'Continue with Google'}
+      </button>
+      {#if failed}<p role="alert">{store.t('signInFailed')}</p>{/if}
+    {:else}
+      <a class="continue" href={href} referrerpolicy="no-referrer">{ru ? 'Продолжить с Google' : 'Continue with Google'}</a>
+    {/if}
   {:else}
     <p>{ru
       ? 'Открой вход из Okto Tray, чтобы получить новую ссылку для подключения.'

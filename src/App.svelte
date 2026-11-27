@@ -27,7 +27,7 @@
   import { gcFiles } from './lib/files';
   import { sectionSwipe } from './lib/swipe';
   import { rgbOf } from './lib/tone';
-  import { trayAuthorizationUrl } from './lib/trayConnect';
+  import { trayAuthorizationUrl, trayBrowserConnection } from './lib/trayConnect';
   import './styles/shell.css';
 
   // Compact view for the Windows tray popup (windows/Tray.cs).
@@ -35,6 +35,7 @@
   const trayConnectRoute = /^#\/connect-tray(?:\?|$)/;
   let connectingTray = $state(trayConnectRoute.test(location.hash));
   let trayConnectUrl = $state(trayAuthorizationUrl(location.hash));
+  let trayBrowser = $state(trayBrowserConnection(location.hash));
   let settingsOpen = $state(false);
   let welcome = $state(false);
   let systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches);
@@ -103,6 +104,7 @@
     const updateTrayConnect = () => {
       connectingTray = trayConnectRoute.test(location.hash);
       trayConnectUrl = trayAuthorizationUrl(location.hash);
+      trayBrowser = trayBrowserConnection(location.hash);
     };
     window.addEventListener('hashchange', updateTrayConnect);
     const mq = matchMedia('(prefers-color-scheme: dark)');
@@ -183,7 +185,7 @@
 {#if settingsOpen}<Settings onclose={() => (settingsOpen = false)} />{/if}
 {#if welcome}<ProfileSheet welcome onclose={() => (welcome = false)} />{/if}
 {#if connectingTray}
-  <TrayConnect href={trayConnectUrl} onclose={() => {
+  <TrayConnect href={trayConnectUrl} browser={trayBrowser} onclose={() => {
     connectingTray = false;
     history.replaceState(history.state, '', location.pathname + location.search);
   }} />

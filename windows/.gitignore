@@ -2,3 +2,4 @@ lib/
 *.dll
 *.exe
 wv2*
+dist/

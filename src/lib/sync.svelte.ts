@@ -90,6 +90,26 @@ class Sync {
     if (isBundledAndroid) await androidCall({ type: 'signOut' });
   }
 
+  async trayBrowserCredential(): Promise<string> {
+    if (!syncEnabled) throw new Error('Okto cloud sync is unavailable');
+    const [{ initializeApp, deleteApp }, auth] = await Promise.all([import('firebase/app'), import('firebase/auth')]);
+    const app = initializeApp(config, 'okto-tray-browser-sign-in');
+    try {
+      const instance = auth.initializeAuth(app, {
+        persistence: auth.inMemoryPersistence,
+        popupRedirectResolver: auth.browserPopupRedirectResolver,
+      });
+      const provider = new auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await auth.signInWithPopup(instance, provider);
+      const token = auth.GoogleAuthProvider.credentialFromResult(result)?.idToken;
+      if (!token) throw new Error('Google did not return an identity token');
+      return token;
+    } finally {
+      await deleteApp(app);
+    }
+  }
+
   async completeTraySignIn(idToken: string) {
     try {
       await this.start();
