@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — 하루를 계획하고 중요한 일에 집중하세요"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="웹 앱 열기"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android용 다운로드"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows용 다운로드"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="웹 앱 열기"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android용 다운로드"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows용 다운로드"></a>
 
 **Okto는 모든 장치에서 작동합니다.** — iPhone 및 Android , 태블릿, Windows , macOS 및 Linux . 브라우저만 있으면 Okto가 휴대폰이나 컴퓨터에 앱으로 설치됩니다. Android에는 작업 위젯이 포함된 전용 앱도 제공됩니다. [코미스토어](https://github.com/komi-store/komi-store) 도.
 
@@ -34,7 +34,7 @@ Android APK는 첫 실행 시를 포함해 오프라인으로 플래너를 엽�
 즉시 사용 가능한 Okto는 장치의 브라우저에 있는 모든 내용을 유지합니다. 휴대전화와 컴퓨터에서 동일한 데이터를 유지하려면 무료 Firebase 프로젝트를 연결하세요(Spark 요금제, 카드 필요 없음).:
 
 1. 다음에서 프로젝트를 생성하세요. [console.firebase.google.com](https://console.firebase.google.com/).
-2. **인증 → 로그인 방법** — ~할 수 있게 하다 **Google**. ~ 안에 **설정 → 승인된 도메인** 추가하다 `sailxx.github.io`.
+2. **인증 → 로그인 방법** — ~할 수 있게 하다 **Google**. ~ 안에 **설정 → 승인된 도메인** 추가하다 `sailxx-apps.github.io`.
 3. **Firestore 데이터베이스** — 데이터베이스를 만들고 붙여넣기 [`firestore.rules`](firestore.rules) 속으로 **규칙** 꼬리표.
 4. **프로젝트 설정 → 내 앱 → 웹** — 앱을 등록하고 복사하세요 `apiKey`, `authDomain`, `projectId`, `appId`.
 5. GitHub 저장소에서: **설정 → 비밀 및 변수 → 작업** — 비밀을 추가해 `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

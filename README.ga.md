@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto - pleanáil do lá, dírigh ar na rudaí atá tábhachtach"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Oscail app gréasáin"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Íoslódáil bileog eolais Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Íoslódáil bileog eolais Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Oscail app gréasáin"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Íoslódáil bileog eolais Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Íoslódáil bileog eolais Windows"></a>
 
 **Oibríonn Okto ar aon fheiste** — iPhone agus Android , táibléad, Windows , macOS agus Linux . Níl uait ach brabhsálaí, agus suiteálann Okto mar aip ar do ghuthán nó ríomhaire. Faigheann Android aip tiomnaithe freisin le giuirléid tascanna - is féidir leat é a fháil isteach [Siopa Komi](https://github.com/komi-store/komi-store) freisin.
 
@@ -34,7 +34,7 @@ Osclaíonn an Android APK an pleanálaí as líne, lena n-áirítear ar an gcéa
 Amach as an mbosca coimeádann Okto gach rud sa bhrabhsálaí ar do ghléas. Chun na sonraí céanna a bheith agat ar an bhfón agus ar an ríomhaire, ceangail tionscadal Firebase saor in aisce (plean Spark, níl gá le cárta):
 
 1. Cruthaigh tionscadal ag [consól.firebase.google.com](https://console.firebase.google.com/).
-2. **Fíordheimhniú → Modh síniú isteach** — chumasú **Google**. I **Socruithe → Fearainn údaraithe** cuir `sailxx.github.io`.
+2. **Fíordheimhniú → Modh síniú isteach** — chumasú **Google**. I **Socruithe → Fearainn údaraithe** cuir `sailxx-apps.github.io`.
 3. **Bunachar Sonraí Firestore** — bunachar sonraí a chruthú agus a ghreamú [`firestore.rules`](firestore.rules) isteach sa **Rialacha** cluaisín.
 4. **Socruithe tionscadail → Do chuid apps → Gréasáin** — cláraigh an aip agus cóipeáil `apiKey`, `authDomain`, `projectId`, `appId`.
 5. Sa repo GitHub: **Socruithe → Rúin agus athróga → Gníomhartha** — cuir na rúin `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

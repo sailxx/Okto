@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — προγραμματίστε την ημέρα σας, εστιάστε σε ό,τι έχει σημασία"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Ανοίξτε την εφαρμογή Ιστού"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Λήψη για Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Λήψη για Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Ανοίξτε την εφαρμογή Ιστού"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Λήψη για Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Λήψη για Windows"></a>
 
 **Το Okto λειτουργεί σε οποιαδήποτε συσκευή** — iPhone και Android , tablet, Windows , macOS και Linux . Το μόνο που χρειάζεστε είναι ένα πρόγραμμα περιήγησης και το Okto εγκαθίσταται ως εφαρμογή στο τηλέφωνο ή τον υπολογιστή σας. Το Android διαθέτει επίσης μια αποκλειστική εφαρμογή με ένα γραφικό στοιχείο εργασιών — μπορείτε να το βρείτε [Κατάστημα Komi](https://github.com/komi-store/komi-store) πολύ.
 
@@ -34,7 +34,7 @@
 Εκτός συσκευασίας Το Okto διατηρεί τα πάντα στο πρόγραμμα περιήγησης στη συσκευή σας. Για να έχετε τα ίδια δεδομένα σε τηλέφωνο και υπολογιστή, συνδέστε ένα δωρεάν έργο Firebase (σχέδιο Spark, δεν χρειάζεται κάρτα):
 
 1. Δημιουργία έργου στο [console.firebase.google.com](https://console.firebase.google.com/).
-2. **Έλεγχος ταυτότητας → Μέθοδος σύνδεσης** — καθιστώ ικανό **Google**. Σε **Ρυθμίσεις → Εξουσιοδοτημένοι τομείς** προσθέτω `sailxx.github.io`.
+2. **Έλεγχος ταυτότητας → Μέθοδος σύνδεσης** — καθιστώ ικανό **Google**. Σε **Ρυθμίσεις → Εξουσιοδοτημένοι τομείς** προσθέτω `sailxx-apps.github.io`.
 3. **Βάση δεδομένων Firestore** — δημιουργήστε μια βάση δεδομένων και επικολλήστε [`firestore.rules`](firestore.rules) στο **Κανόνες** αυτί.
 4. **Ρυθμίσεις έργου → Οι εφαρμογές σας → Ιστός** — εγγράψτε την εφαρμογή και αντιγράψτε `apiKey`, `authDomain`, `projectId`, `appId`.
 5. Στο αποθετήριο GitHub: **Ρυθμίσεις → Μυστικά και μεταβλητές → Ενέργειες** — προσθέστε τα μυστικά `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

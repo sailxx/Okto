@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — 一日の計画を立て、重要なことに集中する"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ウェブアプリを開く"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android用ダウンロード"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows用ダウンロード"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="ウェブアプリを開く"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Android用ダウンロード"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Windows用ダウンロード"></a>
 
 **Okto はどのデバイスでも動作します** — iPhone および Android 、タブレット、Windows 、macOS および Linux 。必要なのはブラウザだけで、Okto は携帯電話またはコンピュータにアプリとしてインストールされます。 Android には、タスク ウィジェットを備えた専用アプリも用意されています。 [コミストア](https://github.com/komi-store/komi-store) あまりにも。
 
@@ -34,7 +34,7 @@ Android APK は、初回起動時を含め、プランナーをオフライン�
 Okto は、箱から出してすぐにデバイスのブラウザーにすべてが保存されます。携帯電話とコンピュータで同じデータを保持するには、無料の Firebase プロジェクトに接続します (Spark プラン、カードは必要ありません):
 
 1. でプロジェクトを作成します [console.firebase.google.com](https://console.firebase.google.com/).
-2. **認証→サインイン方法** — 有効にする **グーグル**。で **設定→認証済みドメイン** 追加 `sailxx.github.io`.
+2. **認証→サインイン方法** — 有効にする **グーグル**。で **設定→認証済みドメイン** 追加 `sailxx-apps.github.io`.
 3. **Firestore データベース** — データベースを作成して貼り付けます [`firestore.rules`](firestore.rules) に **ルール** タブ。
 4. **プロジェクト設定 → アプリ → Web** — アプリを登録してコピーする `apiKey`, `authDomain`, `projectId`, `appId`.
 5. GitHub リポジトリ内: **設定 → シークレットと変数 → アクション** — 秘密を追加する `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

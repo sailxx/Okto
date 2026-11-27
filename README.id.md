@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — rencanakan hari Anda, fokus pada hal yang penting"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Buka aplikasi web"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Unduh untuk Android"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Unduh untuk Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Buka aplikasi web"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Unduh untuk Android"></a>&nbsp; & nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Unduh untuk Windows"></a>
 
 **Okto berfungsi di perangkat apa pun** — iPhone dan Android, tablet, Windows, macOS dan Linux. Yang Anda butuhkan hanyalah browser, dan Okto diinstal sebagai aplikasi di ponsel atau komputer Anda. Android juga mendapat aplikasi khusus dengan widget tugas — Anda dapat menemukannya di [Toko Komi](https://github.com/komi-store/komi-store) juga.
 
@@ -34,7 +34,7 @@ Android APK membuka perencana secara offline, termasuk pada peluncuran pertama. 
 Okto siap pakai menyimpan semua yang ada di browser di perangkat Anda. Untuk mendapatkan data yang sama di ponsel dan komputer, sambungkan proyek Firebase gratis (Paket Spark, tidak perlu kartu):
 
 1. Buat proyek di [konsol.firebase.google.com](https://console.firebase.google.com/).
-2. **Otentikasi → Metode masuk** — memungkinkan **Google**. Di dalam **Pengaturan → Domain resmi** menambahkan `sailxx.github.io`.
+2. **Otentikasi → Metode masuk** — memungkinkan **Google**. Di dalam **Pengaturan → Domain resmi** menambahkan `sailxx-apps.github.io`.
 3. **Basis Data Firestore** — buat database dan tempel [`firestore.rules`](firestore.rules) ke dalam **Aturan** tab.
 4. **Pengaturan proyek → Aplikasi Anda → Web** — daftarkan aplikasi dan salin `apiKey`, `authDomain`, `projectId`, `appId`.
 5. Di repo GitHub: **Pengaturan → Rahasia dan variabel → Tindakan** — tambahkan rahasianya `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

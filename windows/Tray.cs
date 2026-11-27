@@ -18,7 +18,7 @@ using Microsoft.Win32;
 
 static class Program
 {
-    const string Site = "https://sailxx.github.io/Okto/";
+    const string Site = "https://sailxx-apps.github.io/Okto/";
     const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run", AppName = "OktoTray";
     // Sign-in, cache and the log live here, outside the exe folder, so updates keep the Google session.
     public static readonly string DataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OktoTray");

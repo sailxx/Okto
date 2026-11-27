@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — خطط ليومك، وركز على ما يهمك"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="افتح تطبيق الويب"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="تحميل Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="تحميل Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="افتح تطبيق الويب"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="تحميل Android"></a>&nbsp;&nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="تحميل Windows"></a>
 
 **يعمل Okto على أي جهاز** — iPhone وAndroid والأجهزة اللوحية وWindows وmacOS وLinux. كل ما تحتاجه هو متصفح، ويتم تثبيت Okto كتطبيق على هاتفك أو جهاز الكمبيوتر الخاص بك. تحصل Android أيضًا على تطبيق مخصص به أداة مهمة - يمكنك العثور عليها فيه [متجر كومي](https://github.com/komi-store/komi-store) أيضاً.
 
@@ -34,7 +34,7 @@
 يحتفظ Okto بكل شيء في المتصفح على جهازك. للحصول على نفس البيانات على الهاتف والكمبيوتر، قم بتوصيل مشروع Firebase مجاني (خطة Spark، لا حاجة إلى بطاقة):
 
 1. إنشاء مشروع في [console.firebase.google.com](https://console.firebase.google.com/).
-2. **المصادقة ← طريقة تسجيل الدخول** — يُمكَِن **جوجل**. في **الإعدادات → المجالات المعتمدة** يضيف `sailxx.github.io`.
+2. **المصادقة ← طريقة تسجيل الدخول** — يُمكَِن **جوجل**. في **الإعدادات → المجالات المعتمدة** يضيف `sailxx-apps.github.io`.
 3. **قاعدة بيانات فايرستور** — إنشاء قاعدة بيانات ولصقها [`firestore.rules`](firestore.rules) في **قواعد** فاتورة غير مدفوعة.
 4. **إعدادات المشروع → تطبيقاتك → الويب** — تسجيل التطبيق ونسخ `apiKey`, `authDomain`, `projectId`, `appId`.
 5. في الريبو GitHub: **الإعدادات → الأسرار والمتغيرات → الإجراءات** — أضف الأسرار `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

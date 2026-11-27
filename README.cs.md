@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — naplánujte si svůj den, zaměřte se na to, na čem záleží"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Otevřete webovou aplikaci"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Stáhnout pro Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Stáhnout pro Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="Otevřete webovou aplikaci"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="Stáhnout pro Android"></a>&nbsp; &nbsp;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="Stáhnout pro Windows"></a>
 
 **Okto funguje na jakémkoli zařízení** — iPhone a Android , tablety, Windows , macOS a Linux . Vše, co potřebujete, je prohlížeč a Okto se nainstaluje jako aplikace do vašeho telefonu nebo počítače. Android také získává speciální aplikaci s widgetem úkolu – najdete jej v [Obchod Komi](https://github.com/komi-store/komi-store) příliš.
 
@@ -34,7 +34,7 @@ Android APK otevře plánovač offline, a to i při prvním spuštění. Chcete-
 Po vybalení Okto uchovává vše v prohlížeči ve vašem zařízení. Chcete-li mít stejná data na telefonu a počítači, připojte bezplatný projekt Firebase (plán Spark, není potřeba žádná karta):
 
 1. Vytvořte projekt na [console.firebase.google.com](https://console.firebase.google.com/).
-2. **Autentizace → Způsob přihlášení** — umožnit **Google**. V **Nastavení → Autorizované domény** přidat `sailxx.github.io`.
+2. **Autentizace → Způsob přihlášení** — umožnit **Google**. V **Nastavení → Autorizované domény** přidat `sailxx-apps.github.io`.
 3. **Databáze Firestore** — vytvořit databázi a vložit [`firestore.rules`](firestore.rules) do **Pravidla** tab.
 4. **Nastavení projektu → Vaše aplikace → Web** — zaregistrujte aplikaci a zkopírujte `apiKey`, `authDomain`, `projectId`, `appId`.
 5. V repozitáři GitHub: **Nastavení → Tajemství a proměnné → Akce** — přidat tajemství `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

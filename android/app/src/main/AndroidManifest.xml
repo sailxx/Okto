@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="sailxx.github.io"
+                    android:host="sailxx-apps.github.io"
                     android:pathPrefix="/Okto"
                     android:scheme="https" />
             </intent-filter>

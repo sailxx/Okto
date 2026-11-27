@@ -361,5 +361,5 @@ describe('layoutDay', () => {
 
 ### Task 14: README, manifest, service worker, deploy
 
-- [ ] README rewritten for Okto 2.0 incl. Firebase setup (create project, enable Google sign-in, Firestore, paste config into GitHub secrets / `.env.local`, add authorized domain `sailxx.github.io`, publish rules).
+- [ ] README rewritten for Okto 2.0 incl. Firebase setup (create project, enable Google sign-in, Firestore, paste config into GitHub secrets / `.env.local`, add authorized domain `sailxx-apps.github.io`, publish rules).
 - [ ] Manifest name/description updated. Full `npm test && npm run build`. Commit.

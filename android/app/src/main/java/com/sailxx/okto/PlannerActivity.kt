@@ -191,7 +191,7 @@ class PlannerActivity : ComponentActivity() {
 
     private fun fragment(intent: Intent): String? {
         val uri = intent.data ?: return null
-        if (uri.scheme != "https" || uri.host != "sailxx.github.io" || uri.port != -1 || uri.path?.trimEnd('/') != "/Okto") return null
+        if (uri.scheme != "https" || uri.host != "sailxx-apps.github.io" || uri.port != -1 || uri.path?.trimEnd('/') != "/Okto") return null
         val route = uri.fragment.orEmpty().trimStart('/')
         return if (route in routes) "#/$route" else null
     }

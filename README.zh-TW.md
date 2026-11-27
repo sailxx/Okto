@@ -7,7 +7,7 @@
 
 <picture><source srcset="assets/readme/hero-en.svg"><img src="assets/readme/png/hero-en.png" width="100%" alt="Okto — 規劃你的一天，專注於重要的事情"></picture>
 
-<a href="https://sailxx.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="開啟網路應用程式"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="下載Android"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="下載Windows"></a>
+<a href="https://sailxx-apps.github.io/Okto/"><img src="assets/readme/btn-web-en.svg" height="52" alt="開啟網路應用程式"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/latest/download/Okto.apk"><img src="assets/readme/btn-android-en.svg" height="52" alt="下載Android"></a>&nbsp;;<a href="https://github.com/sailxx/Okto/releases/tag/tray-v1.7"><img src="assets/readme/btn-windows-en.svg" height="52" alt="下載Windows"></a>
 
 **Okto 適用於任何設備** — iPhone 和 Android、平板電腦、Windows、macOS 和 Linux。您只需要一個瀏覽器，Okto 就會作為應用程式安裝在您的手機或電腦上。 Android 還擁有一個帶有任務小部件的專用應用程式 - 您可以在 [科米店](https://github.com/komi-store/komi-store) 也。
 
@@ -34,7 +34,7 @@ Android APK 可離線開啟規劃器，包括首次啟動時。使用相同 Goog
 開箱即用的 Okto 將瀏覽器中的所有內容保留在您的裝置上。要在手機和電腦上擁有相同的數據，請連接免費的 Firebase 專案（Spark 計劃，無需卡片）:
 
 1. 創建一個專案於 [console.firebase.google.com](https://console.firebase.google.com/).
-2. **驗證 → 登入方式** — 使能夠 **Google**。在 **設定 → 授權域** 添加 `sailxx.github.io`.
+2. **驗證 → 登入方式** — 使能夠 **Google**。在 **設定 → 授權域** 添加 `sailxx-apps.github.io`.
 3. **Firestore資料庫** — 建立資料庫並貼​​上 [`firestore.rules`](firestore.rules) 進入 **規則** 選項卡。
 4. **專案設定 → 您的應用程式 → Web** — 註冊應用程式並複製 `apiKey`, `authDomain`, `projectId`, `appId`.
 5. 在 GitHub 倉庫中: **設定 → 秘密和變數 → 操作** — 添加秘密 `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_APP_ID`.

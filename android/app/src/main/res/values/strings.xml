@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Okto</string>
-    <!-- Связь с сайтом: https://sailxx.github.io/.well-known/assetlinks.json -->
+    <!-- Связь с сайтом: https://sailxx-apps.github.io/.well-known/assetlinks.json -->
     <string name="asset_statements" translatable="false">
         [{
             \"relation\": [\"delegate_permission/common.handle_all_urls\"],
-            \"target\": {\"namespace\": \"web\", \"site\": \"https://sailxx.github.io\"}
+            \"target\": {\"namespace\": \"web\", \"site\": \"https://sailxx-apps.github.io\"}
         }]
     </string>
 </resources>

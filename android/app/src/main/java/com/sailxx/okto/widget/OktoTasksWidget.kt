@@ -49,7 +49,7 @@ import com.sailxx.okto.data.Status
 import com.sailxx.okto.data.WidgetItem
 import com.sailxx.okto.data.WidgetState
 
-const val OKTO_URL = "https://sailxx.github.io/Okto/"
+const val OKTO_URL = "https://sailxx-apps.github.io/Okto/"
 
 class OktoTasksWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Exact
